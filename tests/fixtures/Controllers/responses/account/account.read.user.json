@@ -1,84 +1,84 @@
 {
-  "meta": {
-    "author": "FastyBird dev team",
-    "copyright": "FastyBird s.r.o"
+  "meta" : {
+    "author" : "FastyBird dev team",
+    "copyright" : "FastyBird s.r.o"
   },
-  "jsonapi": {
-    "version": "1.1"
+  "jsonapi" : {
+    "version" : "1.1"
   },
-  "links": {
-    "self": "/v1/me"
+  "links" : {
+    "self" : "/v1/me"
   },
-  "data": {
-    "type": "auth-module/user-account",
-    "id": "efbfbdef-bfbd-68ef-bfbd-770b40efbfbd",
-    "attributes": {
-      "state": "active",
-      "last_visit": "2019-05-29T07:38:24+02:00",
-      "registered": "2017-01-04T12:30:00+01:00",
-      "name": "Doe Jane",
-      "details": {
-        "first_name": "Jane",
-        "last_name": "Doe",
-        "middle_name": null
+  "data" : {
+    "type" : "auth-module/user-account",
+    "id" : "efbfbdef-bfbd-68ef-bfbd-770b40efbfbd",
+    "attributes" : {
+      "state" : "active",
+      "last_visit" : "2019-05-29T07:38:24+02:00",
+      "registered" : "2017-01-04T12:30:00+01:00",
+      "name" : "Doe Jane",
+      "details" : {
+        "first_name" : "Jane",
+        "last_name" : "Doe",
+        "middle_name" : null
       },
-      "language": "en",
-      "week_start": 1,
-      "datetime": {
-        "timezone": "Europe/Prague",
-        "date_format": "DD.MM.YYYY",
-        "time_format": "HH:mm"
+      "language" : "en",
+      "week_start" : 1,
+      "datetime" : {
+        "timezone" : "Europe/Prague",
+        "date_format" : "DD.MM.YYYY",
+        "time_format" : "HH:mm"
       }
     },
-    "relationships": {
-      "identities": {
-        "links": {
-          "self": "/v1/me/relationships/identities",
-          "related": {
-            "href": "/v1/me/identities",
-            "meta": {
-              "count": 1
+    "relationships" : {
+      "identities" : {
+        "links" : {
+          "self" : "/v1/me/relationships/identities",
+          "related" : {
+            "href" : "/v1/me/identities",
+            "meta" : {
+              "count" : 1
             }
           }
         },
-        "data": [
+        "data" : [
           {
-            "type": "auth-module/user-account-identity",
-            "id": "faf7a863-a49c-4428-a757-1de537773355"
+            "type" : "auth-module/user-account-identity",
+            "id" : "faf7a863-a49c-4428-a757-1de537773355"
           }
         ]
       },
-      "roles": {
-        "links": {
-          "self": "/v1/me/relationships/roles"
+      "roles" : {
+        "links" : {
+          "self" : "/v1/me/relationships/roles"
         },
-        "data": [
+        "data" : [
           {
-            "type": "auth-module/role",
-            "id": "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
+            "type" : "auth-module/role",
+            "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
           }
         ]
       },
-      "emails": {
-        "links": {
-          "self": "/v1/me/relationships/emails",
-          "related": {
-            "href": "/v1/me/emails",
-            "meta": {
-              "count": 1
+      "emails" : {
+        "links" : {
+          "self" : "/v1/me/relationships/emails",
+          "related" : {
+            "href" : "/v1/me/emails",
+            "meta" : {
+              "count" : 1
             }
           }
         },
-        "data": [
+        "data" : [
           {
-            "type": "auth-module/email",
-            "id": "73efbfbd-efbf-bd36-44ef-bfbdefbfbd7a"
+            "type" : "auth-module/email",
+            "id" : "73efbfbd-efbf-bd36-44ef-bfbdefbfbd7a"
           }
         ]
       }
     },
-    "links": {
-      "self": "/v1/me"
+    "links" : {
+      "self" : "/v1/me"
     }
   }
 }

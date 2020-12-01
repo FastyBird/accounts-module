@@ -1,74 +1,74 @@
 {
-  "meta": {
-    "author": "FastyBird dev team",
-    "copyright": "FastyBird s.r.o"
+  "meta" : {
+    "author" : "FastyBird dev team",
+    "copyright" : "FastyBird s.r.o"
   },
-  "jsonapi": {
-    "version": "1.1"
+  "jsonapi" : {
+    "version" : "1.1"
   },
-  "links": {
-    "self": "/v1/accounts"
+  "links" : {
+    "self" : "/v1/accounts"
   },
-  "data": {
-    "type": "auth-module/user-account",
-    "id": "3de0c345-ea83-4585-a7ca-7759a2e1e66e",
-    "attributes": {
-      "state": "notActivated",
-      "last_visit": null,
+  "data" : {
+    "type" : "auth-module/user-account",
+    "id" : "3de0c345-ea83-4585-a7ca-7759a2e1e66e",
+    "attributes" : {
+      "state" : "notActivated",
+      "last_visit" : null,
       "registered" : "__TIME_PLACEHOLDER__",
-      "name": "Novák Pepa",
-      "details": {
-        "first_name": "Pepa",
-        "last_name": "Novák",
-        "middle_name": null
+      "name" : "Novák Pepa",
+      "details" : {
+        "first_name" : "Pepa",
+        "last_name" : "Novák",
+        "middle_name" : null
       },
-      "language": "en",
-      "week_start": 1,
-      "datetime": {
-        "timezone": "Europe/London",
-        "date_format": "DD.MM.YYYY",
-        "time_format": "HH:mm"
+      "language" : "en",
+      "week_start" : 1,
+      "datetime" : {
+        "timezone" : "Europe/London",
+        "date_format" : "DD.MM.YYYY",
+        "time_format" : "HH:mm"
       }
     },
-    "relationships": {
-      "identities": {
-        "links": {
-          "self": "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e/relationships/identities",
-          "related": {
-            "href": "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e/identities",
-            "meta": {
-              "count": 0
+    "relationships" : {
+      "identities" : {
+        "links" : {
+          "self" : "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e/relationships/identities",
+          "related" : {
+            "href" : "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e/identities",
+            "meta" : {
+              "count" : 0
             }
           }
         },
-        "data": []
+        "data" : []
       },
-      "roles": {
-        "links": {
-          "self": "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e/relationships/roles"
+      "roles" : {
+        "links" : {
+          "self" : "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e/relationships/roles"
         },
-        "data": [
+        "data" : [
           {
-            "type": "auth-module/role",
-            "id": "89f4a14f-7f78-4216-99b8-584ab9229f1c"
+            "type" : "auth-module/role",
+            "id" : "89f4a14f-7f78-4216-99b8-584ab9229f1c"
           }
         ]
       },
-      "emails": {
-        "links": {
-          "self": "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e/relationships/emails",
-          "related": {
-            "href": "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e/emails",
-            "meta": {
-              "count": 0
+      "emails" : {
+        "links" : {
+          "self" : "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e/relationships/emails",
+          "related" : {
+            "href" : "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e/emails",
+            "meta" : {
+              "count" : 0
             }
           }
         },
-        "data": []
+        "data" : []
       }
     },
-    "links": {
-      "self": "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e"
+    "links" : {
+      "self" : "/v1/accounts/3de0c345-ea83-4585-a7ca-7759a2e1e66e"
     }
   }
 }

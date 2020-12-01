@@ -10,7 +10,6 @@ use FastyBird\AuthModule\Helpers;
 use FastyBird\AuthModule\Models;
 use FastyBird\AuthModule\Queries;
 use FastyBird\SimpleAuth;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Tester\Assert;
