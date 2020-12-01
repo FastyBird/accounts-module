@@ -1,5 +1,5 @@
 {
-  "name" : "fastybird/auth-node",
+  "name" : "fastybird/auth-module",
   "type" : "project",
   "description" : "FastyBird IOT server Auth module for user storage & basic control logic",
   "keywords" : [
