@@ -49,6 +49,77 @@
       }
     },
     {
+      "type": "auth-module/machine-account",
+      "id": "f3cce15a-f956-4c7e-a4b3-ac31a0017ac9",
+      "attributes": {
+        "state": "active",
+        "last_visit": "2019-11-07T22:30:56+01:00",
+        "registered": "2017-01-03T11:30:00+01:00",
+        "device": "other-device-name"
+      },
+      "relationships": {
+        "identities": {
+          "links": {
+            "self": "/v1/accounts/f3cce15a-f956-4c7e-a4b3-ac31a0017ac9/relationships/identities",
+            "related": {
+              "href": "/v1/accounts/f3cce15a-f956-4c7e-a4b3-ac31a0017ac9/identities",
+              "meta": {
+                "count": 0
+              }
+            }
+          },
+          "data": []
+        },
+        "roles": {
+          "links": {
+            "self": "/v1/accounts/f3cce15a-f956-4c7e-a4b3-ac31a0017ac9/relationships/roles"
+          },
+          "data": []
+        }
+      },
+      "links": {
+        "self": "/v1/accounts/f3cce15a-f956-4c7e-a4b3-ac31a0017ac9"
+      }
+    },
+    {
+      "type": "auth-module/machine-account",
+      "id": "ff32ac4e-f010-4c85-9cb3-d310f6708a4e",
+      "attributes": {
+        "state": "active",
+        "last_visit": "2019-11-07T22:30:56+01:00",
+        "registered": "2017-01-03T11:30:00+01:00",
+        "device": "machine-old-device-name"
+      },
+      "relationships": {
+        "identities": {
+          "links": {
+            "self": "/v1/accounts/ff32ac4e-f010-4c85-9cb3-d310f6708a4e/relationships/identities",
+            "related": {
+              "href": "/v1/accounts/ff32ac4e-f010-4c85-9cb3-d310f6708a4e/identities",
+              "meta": {
+                "count": 1
+              }
+            }
+          },
+          "data": [
+            {
+              "type": "auth-module/machine-account-identity",
+              "id": "540f6cfc-39d1-4175-87fb-aac729d78c0a"
+            }
+          ]
+        },
+        "roles": {
+          "links": {
+            "self": "/v1/accounts/ff32ac4e-f010-4c85-9cb3-d310f6708a4e/relationships/roles"
+          },
+          "data": []
+        }
+      },
+      "links": {
+        "self": "/v1/accounts/ff32ac4e-f010-4c85-9cb3-d310f6708a4e"
+      }
+    },
+    {
       "type": "auth-module/user-account",
       "id": "5e79efbf-bd0d-5b7c-46ef-bfbdefbfbd34",
       "attributes": {
@@ -194,39 +265,6 @@
       },
       "links": {
         "self": "/v1/accounts/efbfbdef-bfbd-68ef-bfbd-770b40efbfbd"
-      }
-    },
-    {
-      "type": "auth-module/machine-account",
-      "id": "f3cce15a-f956-4c7e-a4b3-ac31a0017ac9",
-      "attributes": {
-        "state": "active",
-        "last_visit": "2019-11-07T22:30:56+01:00",
-        "registered": "2017-01-03T11:30:00+01:00",
-        "device": "other-device-name"
-      },
-      "relationships": {
-        "identities": {
-          "links": {
-            "self": "/v1/accounts/f3cce15a-f956-4c7e-a4b3-ac31a0017ac9/relationships/identities",
-            "related": {
-              "href": "/v1/accounts/f3cce15a-f956-4c7e-a4b3-ac31a0017ac9/identities",
-              "meta": {
-                "count": 0
-              }
-            }
-          },
-          "data": []
-        },
-        "roles": {
-          "links": {
-            "self": "/v1/accounts/f3cce15a-f956-4c7e-a4b3-ac31a0017ac9/relationships/roles"
-          },
-          "data": []
-        }
-      },
-      "links": {
-        "self": "/v1/accounts/f3cce15a-f956-4c7e-a4b3-ac31a0017ac9"
       }
     },
     {
@@ -495,44 +533,6 @@
       },
       "links": {
         "self": "/v1/accounts/fe115286-8cfd-41bf-aceb-6ca95baf6fe9"
-      }
-    },
-    {
-      "type": "auth-module/machine-account",
-      "id": "ff32ac4e-f010-4c85-9cb3-d310f6708a4e",
-      "attributes": {
-        "state": "active",
-        "last_visit": "2019-11-07T22:30:56+01:00",
-        "registered": "2017-01-03T11:30:00+01:00",
-        "device": "machine-old-device-name"
-      },
-      "relationships": {
-        "identities": {
-          "links": {
-            "self": "/v1/accounts/ff32ac4e-f010-4c85-9cb3-d310f6708a4e/relationships/identities",
-            "related": {
-              "href": "/v1/accounts/ff32ac4e-f010-4c85-9cb3-d310f6708a4e/identities",
-              "meta": {
-                "count": 1
-              }
-            }
-          },
-          "data": [
-            {
-              "type": "auth-module/machine-account-identity",
-              "id": "540f6cfc-39d1-4175-87fb-aac729d78c0a"
-            }
-          ]
-        },
-        "roles": {
-          "links": {
-            "self": "/v1/accounts/ff32ac4e-f010-4c85-9cb3-d310f6708a4e/relationships/roles"
-          },
-          "data": []
-        }
-      },
-      "links": {
-        "self": "/v1/accounts/ff32ac4e-f010-4c85-9cb3-d310f6708a4e"
       }
     }
   ]
