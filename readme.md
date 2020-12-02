@@ -1,8 +1,8 @@
 # FastyBird auth module
 
-[![Build Status](https://img.shields.io/travis/FastyBird/auth-module.svg?style=flat-square)](https://travis-ci.com/FastyBird/auth-module)
+[![Build Status](https://img.shields.io/travis/com/FastyBird/auth-module.svg?style=flat-square)](https://travis-ci.com/FastyBird/auth-module)
 [![Code coverage](https://img.shields.io/coveralls/FastyBird/auth-module.svg?style=flat-square)](https://coveralls.io/r/FastyBird/auth-module)
-![PHP from Travis config](https://img.shields.io/travis/php-v/fastybird/auth-module?style=flat-square)
+![PHP](https://img.shields.io/packagist/php-v/fastybird/auth-module?style=flat-square)
 [![Licence](https://img.shields.io/packagist/l/FastyBird/auth-module.svg?style=flat-square)](https://packagist.org/packages/FastyBird/auth-module)
 [![Downloads total](https://img.shields.io/packagist/dt/FastyBird/auth-module.svg?style=flat-square)](https://packagist.org/packages/FastyBird/auth-module)
 [![Latest stable](https://img.shields.io/packagist/v/FastyBird/auth-module.svg?style=flat-square)](https://packagist.org/packages/FastyBird/auth-module)
