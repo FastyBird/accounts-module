@@ -147,8 +147,7 @@ final class IdentitiesV1Controller extends BaseV1Controller
 			$this->getOrmConnection()
 				->beginTransaction();
 
-			if ($document->getResource()
-					->getType() === Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
+			if ($document->getResource()->getType() === Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
 				$createData = $this->userAccountIdentityHydrator->hydrate($document);
 
 				$this->validateAccountRelation($createData, $account);
@@ -158,8 +157,7 @@ final class IdentitiesV1Controller extends BaseV1Controller
 				// Store item into database
 				$identity = $this->identitiesManager->create($createData);
 
-			} elseif ($document->getResource()
-					->getType() === Schemas\Identities\MachineAccountIdentitySchema::SCHEMA_TYPE) {
+			} elseif ($document->getResource()->getType() === Schemas\Identities\MachineAccountIdentitySchema::SCHEMA_TYPE) {
 				$createData = $this->machineAccountIdentityHydrator->hydrate($document);
 
 				$this->validateAccountRelation($createData, $account);

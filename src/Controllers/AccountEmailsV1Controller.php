@@ -165,8 +165,7 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 			$this->getOrmConnection()
 				->beginTransaction();
 
-			if ($document->getResource()
-					->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
+			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
 				$createData = $this->emailHydrator->hydrate($document);
 				$createData->offsetSet('account', $account);
 				$createData->offsetSet('verificationHash', $this->securityHash->createKey());
@@ -315,8 +314,7 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 			$this->getOrmConnection()
 				->beginTransaction();
 
-			if ($document->getResource()
-					->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
+			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
 				$updateEmailData = $this->emailHydrator->hydrate($document, $email);
 
 				$email = $this->emailsManager->update($email, $updateEmailData);

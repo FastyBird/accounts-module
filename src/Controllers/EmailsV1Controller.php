@@ -147,8 +147,7 @@ final class EmailsV1Controller extends BaseV1Controller
 			$this->getOrmConnection()
 				->beginTransaction();
 
-			if ($document->getResource()
-					->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
+			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
 				$createData = $this->emailHydrator->hydrate($document);
 
 				$this->validateAccountRelation($createData, $account);
@@ -299,8 +298,7 @@ final class EmailsV1Controller extends BaseV1Controller
 			$this->getOrmConnection()
 				->beginTransaction();
 
-			if ($document->getResource()
-					->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
+			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
 				$updateData = $this->emailHydrator->hydrate($document, $email);
 
 				$this->validateAccountRelation($updateData, $account);

@@ -108,8 +108,7 @@ final class PublicV1Controller extends BaseV1Controller
 		$attributes = $document->getResource()
 			->getAttributes();
 
-		if ($document->getResource()
-				->getType() !== Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
+		if ($document->getResource()->getType() !== Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 				$this->translator->translate('//module.base.messages.invalidType.heading'),

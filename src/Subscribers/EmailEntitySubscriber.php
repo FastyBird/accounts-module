@@ -72,8 +72,7 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 			if ($object instanceof Entities\Emails\IEmail) {
 				$foundEmail = $this->emailRepository->findOneByAddress($object->getAddress());
 
-				if ($foundEmail !== null && !$foundEmail->getId()
-						->equals($object->getId())) {
+				if ($foundEmail !== null && !$foundEmail->getId()->equals($object->getId())) {
 					throw new Exceptions\EmailAlreadyTakenException('Given email is already taken');
 				}
 			}
@@ -128,8 +127,7 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 	): void {
 		$property = $classMetadata->getReflectionProperty('default');
 
-		foreach ($email->getAccount()
-					 ->getEmails() as $accountEmail) {
+		foreach ($email->getAccount()->getEmails() as $accountEmail) {
 			// Deactivate all other user emails
 			if (
 				!$accountEmail->getId()

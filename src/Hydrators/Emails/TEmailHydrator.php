@@ -43,8 +43,8 @@ trait TEmailHydrator
 	 *
 	 * @return Types\EmailVisibilityType
 	 */
-	protected function hydrateVisibilityAttribute(JsonAPIDocument\Objects\IStandardObject $attributes
-	): Types\EmailVisibilityType {
+	protected function hydrateVisibilityAttribute(JsonAPIDocument\Objects\IStandardObject $attributes): Types\EmailVisibilityType
+	{
 		$isPrivate = (bool) $attributes->get('private');
 
 		return Types\EmailVisibilityType::get($isPrivate ? Types\EmailVisibilityType::VISIBILITY_PRIVATE : Types\EmailVisibilityType::VISIBILITY_PUBLIC);

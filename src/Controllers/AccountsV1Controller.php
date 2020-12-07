@@ -171,15 +171,13 @@ final class AccountsV1Controller extends BaseV1Controller
 			$this->getOrmConnection()
 				->beginTransaction();
 
-			if ($document->getResource()
-					->getType() === Schemas\Accounts\UserAccountSchema::SCHEMA_TYPE) {
+			if ($document->getResource()->getType() === Schemas\Accounts\UserAccountSchema::SCHEMA_TYPE) {
 				$createData = $this->userAccountHydrator->hydrate($document);
 
 				// Store item into database
 				$account = $this->accountsManager->create($createData);
 
-			} elseif ($document->getResource()
-					->getType() === Schemas\Accounts\MachineAccountSchema::SCHEMA_TYPE) {
+			} elseif ($document->getResource()->getType() === Schemas\Accounts\MachineAccountSchema::SCHEMA_TYPE) {
 				$createData = $this->machineAccountHydrator->hydrate($document);
 				$createData['owner'] = $this->user->getAccount();
 

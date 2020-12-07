@@ -115,9 +115,7 @@ final class AccountV1Controller extends BaseV1Controller
 
 		$document = $this->createDocument($request);
 
-		if ($account->getPlainId() !== $document->getResource()
-				->getIdentifier()
-				->getId()) {
+		if ($account->getPlainId() !== $document->getResource()->getIdentifier()->getId()) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
 				$this->translator->translate('//module.base.messages.invalidIdentifier.heading'),
@@ -130,8 +128,7 @@ final class AccountV1Controller extends BaseV1Controller
 			$this->getOrmConnection()
 				->beginTransaction();
 
-			if ($document->getResource()
-					->getType() === Schemas\Accounts\UserAccountSchema::SCHEMA_TYPE) {
+			if ($document->getResource()->getType() === Schemas\Accounts\UserAccountSchema::SCHEMA_TYPE) {
 				$account = $this->accountsManager->update(
 					$account,
 					$this->accountHydrator->hydrate($document, $account)

@@ -129,8 +129,7 @@ final class RolesV1Controller extends BaseV1Controller
 			$this->getOrmConnection()
 				->beginTransaction();
 
-			if ($document->getResource()
-					->getType() === Schemas\Roles\RoleSchema::SCHEMA_TYPE) {
+			if ($document->getResource()->getType() === Schemas\Roles\RoleSchema::SCHEMA_TYPE) {
 				$updateRoleData = $this->roleHydrator->hydrate($document, $role);
 
 			} else {
