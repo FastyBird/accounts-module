@@ -72,6 +72,18 @@ final class EmailRepository implements IEmailRepository
 	}
 
 	/**
+	 * @return Persistence\ObjectRepository<Entities\Emails\Email>
+	 */
+	private function getRepository(): Persistence\ObjectRepository
+	{
+		if ($this->repository === null) {
+			$this->repository = $this->managerRegistry->getRepository(Entities\Emails\Email::class);
+		}
+
+		return $this->repository;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 *
 	 * @throws Throwable
@@ -86,18 +98,6 @@ final class EmailRepository implements IEmailRepository
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @return Persistence\ObjectRepository<Entities\Emails\Email>
-	 */
-	private function getRepository(): Persistence\ObjectRepository
-	{
-		if ($this->repository === null) {
-			$this->repository = $this->managerRegistry->getRepository(Entities\Emails\Email::class);
-		}
-
-		return $this->repository;
 	}
 
 }

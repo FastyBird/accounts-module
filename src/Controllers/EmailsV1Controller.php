@@ -49,15 +49,6 @@ final class EmailsV1Controller extends BaseV1Controller
 	use Controllers\Finders\TAccountFinder;
 	use Controllers\Finders\TEmailFinder;
 
-	/** @var Hydrators\Emails\EmailHydrator */
-	private $emailHydrator;
-
-	/** @var Models\Emails\IEmailsManager */
-	private $emailsManager;
-
-	/** @var Helpers\SecurityHash */
-	private $securityHash;
-
 	/** @var Models\Emails\IEmailRepository */
 	protected $emailRepository;
 
@@ -66,6 +57,15 @@ final class EmailsV1Controller extends BaseV1Controller
 
 	/** @var string */
 	protected $translationDomain = 'module.emails';
+
+	/** @var Hydrators\Emails\EmailHydrator */
+	private $emailHydrator;
+
+	/** @var Models\Emails\IEmailsManager */
+	private $emailsManager;
+
+	/** @var Helpers\SecurityHash */
+	private $securityHash;
 
 	public function __construct(
 		Hydrators\Emails\EmailHydrator $emailHydrator,
@@ -144,9 +144,11 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
+			$this->getOrmConnection()
+				->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
+			if ($document->getResource()
+					->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
 				$createData = $this->emailHydrator->hydrate($document);
 
 				$this->validateAccountRelation($createData, $account);
@@ -170,7 +172,8 @@ final class EmailsV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()->commit();
+			$this->getOrmConnection()
+				->commit();
 
 		} catch (Exceptions\EmailIsNotValidException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
@@ -255,8 +258,10 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
+			if ($this->getOrmConnection()
+				->isTransactionActive()) {
+				$this->getOrmConnection()
+					->rollBack();
 			}
 		}
 
@@ -291,9 +296,11 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
+			$this->getOrmConnection()
+				->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
+			if ($document->getResource()
+					->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
 				$updateData = $this->emailHydrator->hydrate($document, $email);
 
 				$this->validateAccountRelation($updateData, $account);
@@ -312,7 +319,8 @@ final class EmailsV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()->commit();
+			$this->getOrmConnection()
+				->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -344,8 +352,10 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
+			if ($this->getOrmConnection()
+				->isTransactionActive()) {
+				$this->getOrmConnection()
+					->rollBack();
 			}
 		}
 
@@ -381,12 +391,14 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
+			$this->getOrmConnection()
+				->beginTransaction();
 
 			$this->emailsManager->delete($email);
 
 			// Commit all changes into database
-			$this->getOrmConnection()->commit();
+			$this->getOrmConnection()
+				->commit();
 
 		} catch (Throwable $ex) {
 			// Log catched exception
@@ -405,8 +417,10 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
+			if ($this->getOrmConnection()
+				->isTransactionActive()) {
+				$this->getOrmConnection()
+					->rollBack();
 			}
 		}
 

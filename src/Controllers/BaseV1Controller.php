@@ -152,7 +152,8 @@ abstract class BaseV1Controller
 	protected function createDocument(Message\ServerRequestInterface $request): JsonAPIDocument\IDocument
 	{
 		try {
-			$document = new JsonAPIDocument\Document(Utils\Json::decode($request->getBody()->getContents()));
+			$document = new JsonAPIDocument\Document(Utils\Json::decode($request->getBody()
+				->getContents()));
 
 		} catch (Utils\JsonException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
@@ -185,9 +186,14 @@ abstract class BaseV1Controller
 		JsonAPIDocument\IDocument $document
 	): bool {
 		if (
-			in_array(strtoupper($request->getMethod()), [RequestMethodInterface::METHOD_POST, RequestMethodInterface::METHOD_PATCH], true)
+			in_array(strtoupper($request->getMethod()), [
+				RequestMethodInterface::METHOD_POST,
+				RequestMethodInterface::METHOD_PATCH,
+			], true)
 			&& $request->getAttribute(Router\Router::URL_ITEM_ID, null) !== null
-			&& $request->getAttribute(Router\Router::URL_ITEM_ID) !== $document->getResource()->getIdentifier()->getId()
+			&& $request->getAttribute(Router\Router::URL_ITEM_ID) !== $document->getResource()
+				->getIdentifier()
+				->getId()
 		) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
@@ -219,7 +225,9 @@ abstract class BaseV1Controller
 				|| $data->offsetExists('account')
 			) && (
 				!$data->offsetGet('account') instanceof Entities\Accounts\IAccount
-				|| !$account->getId()->equals($data->offsetGet('account')->getId())
+				|| !$account->getId()
+					->equals($data->offsetGet('account')
+						->getId())
 			)
 		) {
 			throw new JsonApiExceptions\JsonApiErrorException(

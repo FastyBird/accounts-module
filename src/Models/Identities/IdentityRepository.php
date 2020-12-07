@@ -66,6 +66,36 @@ final class IdentityRepository implements IIdentityRepository
 	/**
 	 * {@inheritDoc}
 	 */
+	public function findOneBy(
+		Queries\FindIdentitiesQuery $queryObject,
+		string $type = Entities\Identities\Identity::class
+	): ?Entities\Identities\IIdentity {
+		/** @var Entities\Identities\IIdentity|null $identity */
+		$identity = $queryObject->fetchOne($this->getRepository($type));
+
+		return $identity;
+	}
+
+	/**
+	 * @param string $type
+	 *
+	 * @return Persistence\ObjectRepository<Entities\Identities\Identity>
+	 *
+	 * @phpstan-template T of Entities\Identities\Identity
+	 * @phpstan-param    class-string<T> $type
+	 */
+	private function getRepository(string $type): Persistence\ObjectRepository
+	{
+		if (!isset($this->repository[$type])) {
+			$this->repository[$type] = $this->managerRegistry->getRepository($type);
+		}
+
+		return $this->repository[$type];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function findOneByUid(
 		string $uid,
 		string $type = Entities\Identities\Identity::class
@@ -75,19 +105,6 @@ final class IdentityRepository implements IIdentityRepository
 		$findQuery->inState(Types\IdentityStateType::STATE_ACTIVE);
 
 		return $this->findOneBy($findQuery, $type);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function findOneBy(
-		Queries\FindIdentitiesQuery $queryObject,
-		string $type = Entities\Identities\Identity::class
-	): ?Entities\Identities\IIdentity {
-		/** @var Entities\Identities\IIdentity|null $identity */
-		$identity = $queryObject->fetchOne($this->getRepository($type));
-
-		return $identity;
 	}
 
 	/**
@@ -106,23 +123,6 @@ final class IdentityRepository implements IIdentityRepository
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @param string $type
-	 *
-	 * @return Persistence\ObjectRepository<Entities\Identities\Identity>
-	 *
-	 * @phpstan-template T of Entities\Identities\Identity
-	 * @phpstan-param    class-string<T> $type
-	 */
-	private function getRepository(string $type): Persistence\ObjectRepository
-	{
-		if (!isset($this->repository[$type])) {
-			$this->repository[$type] = $this->managerRegistry->getRepository($type);
-		}
-
-		return $this->repository[$type];
 	}
 
 }

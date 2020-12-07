@@ -73,9 +73,12 @@ final class UserAccountSchema extends AccountSchema
 			'name' => $account->getName(),
 
 			'details' => [
-				'first_name'  => $account->getDetails()->getFirstName(),
-				'last_name'   => $account->getDetails()->getLastName(),
-				'middle_name' => $account->getDetails()->getMiddleName(),
+				'first_name'  => $account->getDetails()
+					->getFirstName(),
+				'last_name'   => $account->getDetails()
+					->getLastName(),
+				'middle_name' => $account->getDetails()
+					->getMiddleName(),
 			],
 
 			'language' => $account->getLanguage(),

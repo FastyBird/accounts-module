@@ -15,10 +15,8 @@
 
 namespace FastyBird\AuthModule\Entities\Identities;
 
-use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Helpers;
-use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use Ramsey\Uuid;
 use Throwable;
 
@@ -70,6 +68,25 @@ class UserAccountIdentity extends Identity implements IUserAccountIdentity
 	/**
 	 * {@inheritDoc}
 	 */
+	public function verifyPassword(string $rawPassword): bool
+	{
+		return $this->getPassword()
+			->isEqual($rawPassword, $this->getSalt());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getPassword(): Helpers\Password
+	{
+		return $this->plainPassword !== null ?
+			new Helpers\Password(null, $this->plainPassword, $this->getSalt()) :
+			new Helpers\Password($this->password, null, $this->getSalt());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function setPassword($password): void
 	{
 		if ($password instanceof Helpers\Password) {
@@ -88,20 +105,9 @@ class UserAccountIdentity extends Identity implements IUserAccountIdentity
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getPassword(): Helpers\Password
+	public function getSalt(): ?string
 	{
-		return $this->plainPassword !== null ?
-			new Helpers\Password(null, $this->plainPassword, $this->getSalt()) :
-			new Helpers\Password($this->password, null, $this->getSalt());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function verifyPassword(string $rawPassword): bool
-	{
-		return $this->getPassword()
-			->isEqual($rawPassword, $this->getSalt());
+		return $this->getParam('salt', null);
 	}
 
 	/**
@@ -110,14 +116,6 @@ class UserAccountIdentity extends Identity implements IUserAccountIdentity
 	public function setSalt(string $salt): void
 	{
 		$this->setParam('salt', $salt);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getSalt(): ?string
-	{
-		return $this->getParam('salt', null);
 	}
 
 	/**

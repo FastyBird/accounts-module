@@ -20,10 +20,12 @@ final class EmailEntitySubscriberTest extends DbTestCase
 	public function testChangeDefault(): void
 	{
 		/** @var Models\Emails\IEmailRepository $repository */
-		$repository = $this->getContainer()->getByType(Models\Emails\EmailRepository::class);
+		$repository = $this->getContainer()
+			->getByType(Models\Emails\EmailRepository::class);
 
 		/** @var Models\Emails\IEmailsManager $manager */
-		$manager = $this->getContainer()->getByType(Models\Emails\EmailsManager::class);
+		$manager = $this->getContainer()
+			->getByType(Models\Emails\EmailsManager::class);
 
 		$defaultEmail = $repository->findOneByAddress('john.doe@fastybird.com');
 
@@ -43,11 +45,14 @@ final class EmailEntitySubscriberTest extends DbTestCase
 		$findEntityQuery->forAccount($defaultEmail->getAccount());
 
 		/** @var Models\Identities\IIdentityRepository $repository */
-		$repository = $this->getContainer()->getByType(Models\Identities\IdentityRepository::class);
+		$repository = $this->getContainer()
+			->getByType(Models\Identities\IdentityRepository::class);
 
 		$identity = $repository->findOneBy($findEntityQuery, Entities\Identities\UserAccountIdentity::class);
 
-		Assert::same('john.doe@fastybird.ovh', $identity->getAccount()->getEmail()->getAddress());
+		Assert::same('john.doe@fastybird.ovh', $identity->getAccount()
+			->getEmail()
+			->getAddress());
 		Assert::same('john.doe@fastybird.com', $identity->getUid());
 	}
 

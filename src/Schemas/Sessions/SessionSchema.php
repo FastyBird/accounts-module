@@ -83,9 +83,11 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 	{
 		return [
 			'token'      => $accessToken->getToken(),
-			'expiration' => $accessToken->getValidTill() !== null ? $accessToken->getValidTill()->format(DATE_ATOM) : null,
+			'expiration' => $accessToken->getValidTill() !== null ? $accessToken->getValidTill()
+				->format(DATE_ATOM) : null,
 			'token_type' => 'Bearer',
-			'refresh'    => $accessToken->getRefreshToken() !== null ? $accessToken->getRefreshToken()->getToken() : null,
+			'refresh'    => $accessToken->getRefreshToken() !== null ? $accessToken->getRefreshToken()
+				->getToken() : null,
 		];
 	}
 
@@ -117,7 +119,8 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 	{
 		return [
 			self::RELATIONSHIPS_ACCOUNT => [
-				self::RELATIONSHIP_DATA          => $accessToken->getIdentity()->getAccount(),
+				self::RELATIONSHIP_DATA          => $accessToken->getIdentity()
+					->getAccount(),
 				self::RELATIONSHIP_LINKS_SELF    => true,
 				self::RELATIONSHIP_LINKS_RELATED => true,
 			],
@@ -140,7 +143,9 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ACCOUNT,
 					[
-						Router\Router::URL_ITEM_ID => $accessToken->getIdentity()->getAccount()->getPlainId(),
+						Router\Router::URL_ITEM_ID => $accessToken->getIdentity()
+							->getAccount()
+							->getPlainId(),
 					]
 				),
 				false

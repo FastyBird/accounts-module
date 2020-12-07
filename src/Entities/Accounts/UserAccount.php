@@ -16,9 +16,7 @@
 namespace FastyBird\AuthModule\Entities\Accounts;
 
 use Doctrine\Common;
-use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
-use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use Ramsey\Uuid;
 use Throwable;
 
@@ -79,22 +77,6 @@ class UserAccount extends Account implements IUserAccount
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDetails(): Entities\Details\IDetails
-	{
-		return $this->details;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setRequestHash(string $requestHash): void
-	{
-		$this->requestHash = $requestHash;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getRequestHash(): ?string
 	{
 		return $this->requestHash;
@@ -103,18 +85,9 @@ class UserAccount extends Account implements IUserAccount
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setEmails(array $emails): void
+	public function setRequestHash(string $requestHash): void
 	{
-		$this->emails = new Common\Collections\ArrayCollection();
-
-		// Process all passed entities...
-		/** @var Entities\Emails\IEmail $entity */
-		foreach ($emails as $entity) {
-			if (!$this->emails->contains($entity)) {
-				// ...and assign them to collection
-				$this->emails->add($entity);
-			}
-		}
+		$this->requestHash = $requestHash;
 	}
 
 	/**
@@ -140,6 +113,23 @@ class UserAccount extends Account implements IUserAccount
 	/**
 	 * {@inheritDoc}
 	 */
+	public function setEmails(array $emails): void
+	{
+		$this->emails = new Common\Collections\ArrayCollection();
+
+		// Process all passed entities...
+		/** @var Entities\Emails\IEmail $entity */
+		foreach ($emails as $entity) {
+			if (!$this->emails->contains($entity)) {
+				// ...and assign them to collection
+				$this->emails->add($entity);
+			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function removeEmail(Entities\Emails\IEmail $email): void
 	{
 		// Check if collection contain removing entity...
@@ -152,12 +142,48 @@ class UserAccount extends Account implements IUserAccount
 	/**
 	 * {@inheritDoc}
 	 */
+	public function getName(): string
+	{
+		return $this->details->getLastName() . ' ' . $this->details->getFirstName();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function toArray(): array
+	{
+		return array_merge(parent::toArray(), [
+			'type'        => 'user',
+			'first_name'  => $this->getDetails()
+				->getFirstName(),
+			'last_name'   => $this->getDetails()
+				->getLastName(),
+			'middle_name' => $this->getDetails()
+				->getMiddleName(),
+			'email'       => $this->getEmail() !== null ? $this->getEmail()
+				->getAddress() : null,
+			'language'    => $this->getLanguage(),
+		]);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDetails(): Entities\Details\IDetails
+	{
+		return $this->details;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getEmail(?string $id = null): ?Entities\Emails\IEmail
 	{
 		if ($this->emails !== null) {
 			$email = $this->emails
 				->filter(function (Entities\Emails\IEmail $row) use ($id): bool {
-					return $id !== null ? $row->getId()->equals(Uuid\Uuid::fromString($id)) : $row->isDefault();
+					return $id !== null ? $row->getId()
+						->equals(Uuid\Uuid::fromString($id)) : $row->isDefault();
 				})
 				->first();
 
@@ -169,35 +195,12 @@ class UserAccount extends Account implements IUserAccount
 
 	/**
 	 * {@inheritDoc}
-	 */
-	public function getName(): string
-	{
-		return $this->details->getLastName() . ' ' . $this->details->getFirstName();
-	}
-
-	/**
-	 * {@inheritDoc}
 	 *
 	 * TODO: Should be refactored
 	 */
 	public function getLanguage(): string
 	{
 		return 'en';
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function toArray(): array
-	{
-		return array_merge(parent::toArray(), [
-			'type'        => 'user',
-			'first_name'  => $this->getDetails()->getFirstName(),
-			'last_name'   => $this->getDetails()->getLastName(),
-			'middle_name' => $this->getDetails()->getMiddleName(),
-			'email'       => $this->getEmail() !== null ? $this->getEmail()->getAddress() : null,
-			'language'    => $this->getLanguage(),
-		]);
 	}
 
 }

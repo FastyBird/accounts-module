@@ -51,7 +51,8 @@ class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 	public function byId(Uuid\UuidInterface $id): void
 	{
 		$this->filter[] = function (ORM\QueryBuilder $qb) use ($id): void {
-			$qb->andWhere('i.id = :id')->setParameter('id', $id->getBytes());
+			$qb->andWhere('i.id = :id')
+				->setParameter('id', $id->getBytes());
 		};
 	}
 
@@ -63,7 +64,8 @@ class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 	public function byUid(string $uid): void
 	{
 		$this->filter[] = function (ORM\QueryBuilder $qb) use ($uid): void {
-			$qb->andWhere('i.uid = :uid')->setParameter('uid', $uid);
+			$qb->andWhere('i.uid = :uid')
+				->setParameter('uid', $uid);
 		};
 	}
 
@@ -79,7 +81,8 @@ class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 		};
 
 		$this->filter[] = function (ORM\QueryBuilder $qb) use ($account): void {
-			$qb->andWhere('account.id = :account')->setParameter('account', $account->getId(), Uuid\Doctrine\UuidBinaryType::NAME);
+			$qb->andWhere('account.id = :account')
+				->setParameter('account', $account->getId(), Uuid\Doctrine\UuidBinaryType::NAME);
 		};
 	}
 
@@ -97,7 +100,8 @@ class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 		}
 
 		$this->filter[] = function (ORM\QueryBuilder $qb) use ($state): void {
-			$qb->andWhere('i.state = :state')->setParameter('state', $state);
+			$qb->andWhere('i.state = :state')
+				->setParameter('state', $state);
 		};
 	}
 
@@ -120,18 +124,6 @@ class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @phpstan-param ORM\EntityRepository<T> $repository
 	 */
-	protected function doCreateCountQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
-	{
-		return $this->createBasicDql($repository)->select('COUNT(i.id)');
-	}
-
-	/**
-	 * @param ORM\EntityRepository<Entities\Identities\Identity> $repository
-	 *
-	 * @return ORM\QueryBuilder
-	 *
-	 * @phpstan-param ORM\EntityRepository<T> $repository
-	 */
 	private function createBasicDql(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
 		$qb = $repository->createQueryBuilder('i');
@@ -145,6 +137,19 @@ class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 		}
 
 		return $qb;
+	}
+
+	/**
+	 * @param ORM\EntityRepository<Entities\Identities\Identity> $repository
+	 *
+	 * @return ORM\QueryBuilder
+	 *
+	 * @phpstan-param ORM\EntityRepository<T> $repository
+	 */
+	protected function doCreateCountQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
+	{
+		return $this->createBasicDql($repository)
+			->select('COUNT(i.id)');
 	}
 
 }

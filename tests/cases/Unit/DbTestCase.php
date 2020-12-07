@@ -44,18 +44,6 @@ abstract class DbTestCase extends BaseMockeryTestCase
 	}
 
 	/**
-	 * @return Nette\DI\Container
-	 */
-	protected function getContainer(): Nette\DI\Container
-	{
-		if ($this->container === null) {
-			$this->container = $this->createContainer();
-		}
-
-		return $this->container;
-	}
-
-	/**
 	 * @param string $file
 	 */
 	protected function registerDatabaseSchemaFile(string $file): void
@@ -84,38 +72,15 @@ abstract class DbTestCase extends BaseMockeryTestCase
 	}
 
 	/**
-	 * @return NettrineORM\EntityManagerDecorator
+	 * @return Nette\DI\Container
 	 */
-	protected function getEntityManager(): NettrineORM\EntityManagerDecorator
+	protected function getContainer(): Nette\DI\Container
 	{
-		/** @var NettrineORM\EntityManagerDecorator $service */
-		$service = $this->getContainer()->getByType(NettrineORM\EntityManagerDecorator::class);
+		if ($this->container === null) {
+			$this->container = $this->createContainer();
+		}
 
-		return $service;
-	}
-
-	/**
-	 * @return DBAL\Connection
-	 */
-	protected function getDb(): DBAL\Connection
-	{
-		/** @var DBAL\Connection $service */
-		$service = $this->getContainer()->getByType(DBAL\Connection::class);
-
-		return $service;
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function tearDown(): void
-	{
-		$this->container = null; // Fatal error: Cannot redeclare class SystemContainer
-		$this->isDatabaseSetUp = false;
-
-		parent::tearDown();
-
-		Mockery::close();
+		return $this->container;
 	}
 
 	/**
@@ -143,20 +108,6 @@ abstract class DbTestCase extends BaseMockeryTestCase
 	}
 
 	/**
-	 * @param string $serviceName
-	 * @param object $service
-	 *
-	 * @return void
-	 */
-	private function replaceContainerService(string $serviceName, object $service): void
-	{
-		$container = $this->getContainer();
-
-		$container->removeService($serviceName);
-		$container->addService($serviceName, $service);
-	}
-
-	/**
 	 * @return void
 	 */
 	private function setupDatabase(): void
@@ -164,7 +115,9 @@ abstract class DbTestCase extends BaseMockeryTestCase
 		if (!$this->isDatabaseSetUp) {
 			$db = $this->getDb();
 
-			$metadatas = $this->getEntityManager()->getMetadataFactory()->getAllMetadata();
+			$metadatas = $this->getEntityManager()
+				->getMetadataFactory()
+				->getAllMetadata();
 			$schemaTool = new ORM\Tools\SchemaTool($this->getEntityManager());
 
 			$schemas = $schemaTool->getCreateSchemaSql($metadatas);
@@ -184,6 +137,30 @@ abstract class DbTestCase extends BaseMockeryTestCase
 
 			$this->isDatabaseSetUp = true;
 		}
+	}
+
+	/**
+	 * @return DBAL\Connection
+	 */
+	protected function getDb(): DBAL\Connection
+	{
+		/** @var DBAL\Connection $service */
+		$service = $this->getContainer()
+			->getByType(DBAL\Connection::class);
+
+		return $service;
+	}
+
+	/**
+	 * @return NettrineORM\EntityManagerDecorator
+	 */
+	protected function getEntityManager(): NettrineORM\EntityManagerDecorator
+	{
+		/** @var NettrineORM\EntityManagerDecorator $service */
+		$service = $this->getContainer()
+			->getByType(NettrineORM\EntityManagerDecorator::class);
+
+		return $service;
 	}
 
 	/**
@@ -246,6 +223,33 @@ abstract class DbTestCase extends BaseMockeryTestCase
 		fclose($handle);
 
 		return $count;
+	}
+
+	/**
+	 * @param string $serviceName
+	 * @param object $service
+	 *
+	 * @return void
+	 */
+	private function replaceContainerService(string $serviceName, object $service): void
+	{
+		$container = $this->getContainer();
+
+		$container->removeService($serviceName);
+		$container->addService($serviceName, $service);
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function tearDown(): void
+	{
+		$this->container = null; // Fatal error: Cannot redeclare class SystemContainer
+		$this->isDatabaseSetUp = false;
+
+		parent::tearDown();
+
+		Mockery::close();
 	}
 
 }

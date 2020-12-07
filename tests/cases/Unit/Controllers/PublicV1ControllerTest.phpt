@@ -29,7 +29,8 @@ final class PublicV1ControllerTest extends DbTestCase
 	public function testResetIdentity(string $url, string $body, int $statusCode, string $fixture): void
 	{
 		/** @var Router\Router $router */
-		$router = $this->getContainer()->getByType(Router\Router::class);
+		$router = $this->getContainer()
+			->getByType(Router\Router::class);
 
 		$request = new ServerRequest(
 			RequestMethodInterface::METHOD_POST,

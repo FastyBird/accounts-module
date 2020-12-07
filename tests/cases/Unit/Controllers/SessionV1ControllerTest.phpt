@@ -30,7 +30,8 @@ final class SessionV1ControllerTest extends DbTestCase
 	public function testRead(string $url, ?string $token, int $statusCode, string $fixture): void
 	{
 		/** @var Router\Router $router */
-		$router = $this->getContainer()->getByType(Router\Router::class);
+		$router = $this->getContainer()
+			->getByType(Router\Router::class);
 
 		$headers = [];
 
@@ -65,7 +66,8 @@ final class SessionV1ControllerTest extends DbTestCase
 	public function testCreate(string $url, ?string $token, string $body, int $statusCode, string $fixture): void
 	{
 		/** @var Router\Router $router */
-		$router = $this->getContainer()->getByType(Router\Router::class);
+		$router = $this->getContainer()
+			->getByType(Router\Router::class);
 
 		$headers = [];
 
@@ -115,7 +117,8 @@ final class SessionV1ControllerTest extends DbTestCase
 	public function testUpdate(string $url, ?string $token, string $body, int $statusCode, string $fixture): void
 	{
 		/** @var Router\Router $router */
-		$router = $this->getContainer()->getByType(Router\Router::class);
+		$router = $this->getContainer()
+			->getByType(Router\Router::class);
 
 		$headers = [];
 
@@ -164,7 +167,8 @@ final class SessionV1ControllerTest extends DbTestCase
 	public function testDelete(string $url, ?string $token, int $statusCode, string $fixture): void
 	{
 		/** @var Router\Router $router */
-		$router = $this->getContainer()->getByType(Router\Router::class);
+		$router = $this->getContainer()
+			->getByType(Router\Router::class);
 
 		$headers = [];
 

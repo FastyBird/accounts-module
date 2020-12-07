@@ -42,17 +42,17 @@ final class PublicV1Controller extends BaseV1Controller
 
 	use Controllers\Finders\TIdentityFinder;
 
-	/** @var Models\Accounts\IAccountsManager */
-	private $accountsManager;
-
-	/** @var Helpers\SecurityHash */
-	private $securityHash;
-
 	/** @var Models\Identities\IIdentityRepository */
 	protected $identityRepository;
 
 	/** @var string */
 	protected $translationDomain = 'module.public';
+
+	/** @var Models\Accounts\IAccountsManager */
+	private $accountsManager;
+
+	/** @var Helpers\SecurityHash */
+	private $securityHash;
 
 	public function __construct(
 		Models\Identities\IIdentityRepository $identityRepository,
@@ -105,9 +105,11 @@ final class PublicV1Controller extends BaseV1Controller
 	): WebServerHttp\Response {
 		$document = $this->createDocument($request);
 
-		$attributes = $document->getResource()->getAttributes();
+		$attributes = $document->getResource()
+			->getAttributes();
 
-		if ($document->getResource()->getType() !== Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
+		if ($document->getResource()
+				->getType() !== Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 				$this->translator->translate('//module.base.messages.invalidType.heading'),
@@ -193,7 +195,8 @@ final class PublicV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
+			$this->getOrmConnection()
+				->beginTransaction();
 
 			// Update entity
 			$this->accountsManager->update($account, Utils\ArrayHash::from([
@@ -203,7 +206,8 @@ final class PublicV1Controller extends BaseV1Controller
 			// TODO: Send reset password email
 
 			// Commit all changes into database
-			$this->getOrmConnection()->commit();
+			$this->getOrmConnection()
+				->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -228,8 +232,10 @@ final class PublicV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
+			if ($this->getOrmConnection()
+				->isTransactionActive()) {
+				$this->getOrmConnection()
+					->rollBack();
 			}
 		}
 

@@ -102,7 +102,8 @@ final class EmailSchema extends JsonApiSchemas\JsonApiSchema
 			$this->router->urlFor(
 				AuthModule\Constants::ROUTE_NAME_ACCOUNT_EMAIL,
 				[
-					Router\Router::URL_ACCOUNT_ID => $email->getAccount()->getPlainId(),
+					Router\Router::URL_ACCOUNT_ID => $email->getAccount()
+						->getPlainId(),
 					Router\Router::URL_ITEM_ID    => $email->getPlainId(),
 				]
 			),
@@ -145,7 +146,8 @@ final class EmailSchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ACCOUNT,
 					[
-						Router\Router::URL_ITEM_ID => $email->getAccount()->getPlainId(),
+						Router\Router::URL_ITEM_ID => $email->getAccount()
+							->getPlainId(),
 					]
 				),
 				false
@@ -171,7 +173,8 @@ final class EmailSchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ACCOUNT_EMAIL_RELATIONSHIP,
 					[
-						Router\Router::URL_ACCOUNT_ID  => $email->getAccount()->getPlainId(),
+						Router\Router::URL_ACCOUNT_ID  => $email->getAccount()
+							->getPlainId(),
 						Router\Router::URL_ITEM_ID     => $email->getPlainId(),
 						Router\Router::RELATION_ENTITY => $name,
 					]

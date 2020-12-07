@@ -174,7 +174,11 @@ class CreateCommand extends Console\Command\Command
 
 		$repeat = true;
 
-		if ($input->hasArgument('role') && in_array($input->getArgument('role'), [SimpleAuth\Constants::ROLE_USER, SimpleAuth\Constants::ROLE_MANAGER, SimpleAuth\Constants::ROLE_ADMINISTRATOR], true)) {
+		if ($input->hasArgument('role') && in_array($input->getArgument('role'), [
+				SimpleAuth\Constants::ROLE_USER,
+				SimpleAuth\Constants::ROLE_MANAGER,
+				SimpleAuth\Constants::ROLE_ADMINISTRATOR,
+			], true)) {
 			$findRole = new Queries\FindRolesQuery();
 			$findRole->byName($input->getArgument('role'));
 
@@ -232,7 +236,8 @@ class CreateCommand extends Console\Command\Command
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
+			$this->getOrmConnection()
+				->beginTransaction();
 
 			$create = new Utils\ArrayHash();
 			$create->offsetSet('entity', Entities\Accounts\UserAccount::class);
@@ -259,12 +264,15 @@ class CreateCommand extends Console\Command\Command
 			$this->emailsManager->create($create);
 
 			// Commit all changes into database
-			$this->getOrmConnection()->commit();
+			$this->getOrmConnection()
+				->commit();
 
 		} catch (Throwable $ex) {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
+			if ($this->getOrmConnection()
+				->isTransactionActive()) {
+				$this->getOrmConnection()
+					->rollBack();
 			}
 
 			$io->error($ex->getMessage());
@@ -293,25 +301,30 @@ class CreateCommand extends Console\Command\Command
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
+			$this->getOrmConnection()
+				->beginTransaction();
 
 			// Create new email entity for user
 			$create = new Utils\ArrayHash();
 			$create->offsetSet('entity', Entities\Identities\UserAccountIdentity::class);
 			$create->offsetSet('account', $account);
-			$create->offsetSet('uid', $account->getEmail()->getAddress());
+			$create->offsetSet('uid', $account->getEmail()
+				->getAddress());
 			$create->offsetSet('password', $password);
 			$create->offsetSet('state', Types\IdentityStateType::get(Types\IdentityStateType::STATE_ACTIVE));
 
 			$this->identitiesManager->create($create);
 
 			// Commit all changes into database
-			$this->getOrmConnection()->commit();
+			$this->getOrmConnection()
+				->commit();
 
 		} catch (Throwable $ex) {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
+			if ($this->getOrmConnection()
+				->isTransactionActive()) {
+				$this->getOrmConnection()
+					->rollBack();
 			}
 
 			$io->error($ex->getMessage());

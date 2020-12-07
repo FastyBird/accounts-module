@@ -68,8 +68,10 @@ final class UrlFormatMiddleware implements MiddlewareInterface
 		if (
 			$this->user->isLoggedIn()
 			&& (
-				Utils\Strings::startsWith($request->getUri()->getPath(), '/v1/session')
-				|| Utils\Strings::startsWith($request->getUri()->getPath(), '/v1/me')
+				Utils\Strings::startsWith($request->getUri()
+					->getPath(), '/v1/session')
+				|| Utils\Strings::startsWith($request->getUri()
+					->getPath(), '/v1/me')
 			)
 		) {
 			if ($this->user->getAccount() === null) {
@@ -86,7 +88,8 @@ final class UrlFormatMiddleware implements MiddlewareInterface
 			$content = $body->getContents();
 			$content = str_replace('\/v1\/emails', '\/v1\/me\/emails', $content);
 			$content = str_replace('\/v1\/identities', '\/v1\/me\/identities', $content);
-			$content = str_replace('\/v1\/accounts\/' . $this->user->getAccount()->getPlainId(), '\/v1\/me', $content);
+			$content = str_replace('\/v1\/accounts\/' . $this->user->getAccount()
+					->getPlainId(), '\/v1\/me', $content);
 
 			$response = $response->withBody(Http\Stream::fromBodyString($content));
 		}

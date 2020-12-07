@@ -45,6 +45,24 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 {
 
 	/**
+	 * @param Nette\Configurator $config
+	 * @param string $extensionName
+	 *
+	 * @return void
+	 */
+	public static function register(
+		Nette\Configurator $config,
+		string $extensionName = 'fbAuthModule'
+	): void {
+		$config->onCompile[] = function (
+			Nette\Configurator $config,
+			DI\Compiler $compiler
+		) use ($extensionName): void {
+			$compiler->addExtension($extensionName, new AuthModuleExtension());
+		};
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function loadConfiguration(): void
@@ -232,7 +250,10 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 		$ormAnnotationDriverChainService = $builder->getDefinitionByType(Persistence\Mapping\Driver\MappingDriverChain::class);
 
 		if ($ormAnnotationDriverChainService instanceof DI\Definitions\ServiceDefinition) {
-			$ormAnnotationDriverChainService->addSetup('addDriver', [$ormAnnotationDriverService, 'FastyBird\AuthModule\Entities']);
+			$ormAnnotationDriverChainService->addSetup('addDriver', [
+				$ormAnnotationDriverService,
+				'FastyBird\AuthModule\Entities',
+			]);
 		}
 	}
 
@@ -267,24 +288,6 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 		return [
 			__DIR__ . '/../Translations',
 		];
-	}
-
-	/**
-	 * @param Nette\Configurator $config
-	 * @param string $extensionName
-	 *
-	 * @return void
-	 */
-	public static function register(
-		Nette\Configurator $config,
-		string $extensionName = 'fbAuthModule'
-	): void {
-		$config->onCompile[] = function (
-			Nette\Configurator $config,
-			DI\Compiler $compiler
-		) use ($extensionName): void {
-			$compiler->addExtension($extensionName, new AuthModuleExtension());
-		};
 	}
 
 }

@@ -35,21 +35,8 @@ class User extends SimpleAuthSecurity\User
 	 */
 	public function getId(): ?Uuid\UuidInterface
 	{
-		return $this->getAccount() !== null ? $this->getAccount()->getId() : null;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getName(): string
-	{
-		if ($this->isLoggedIn()) {
-			$account = $this->getAccount();
-
-			return $account !== null ? ($account instanceof Entities\Accounts\IUserAccount ? $account->getName() : 'Machine') : 'Registered';
-		}
-
-		return 'Guest';
+		return $this->getAccount() !== null ? $this->getAccount()
+			->getId() : null;
 	}
 
 	/**
@@ -66,6 +53,20 @@ class User extends SimpleAuthSecurity\User
 		}
 
 		return null;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getName(): string
+	{
+		if ($this->isLoggedIn()) {
+			$account = $this->getAccount();
+
+			return $account !== null ? ($account instanceof Entities\Accounts\IUserAccount ? $account->getName() : 'Machine') : 'Registered';
+		}
+
+		return 'Guest';
 	}
 
 }

@@ -152,6 +152,19 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 
 	/**
 	 * @param Entities\Roles\IRole $role
+	 *
+	 * @return Entities\Roles\IRole[]
+	 */
+	private function getChildren(Entities\Roles\IRole $role): array
+	{
+		$findQuery = new Queries\FindRolesQuery();
+		$findQuery->forParent($role);
+
+		return $this->roleRepository->findAllBy($findQuery);
+	}
+
+	/**
+	 * @param Entities\Roles\IRole $role
 	 * @param string $name
 	 *
 	 * @return JsonApi\Contracts\Schema\LinkInterface
@@ -222,19 +235,6 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 		}
 
 		return parent::getRelationshipSelfLink($role, $name);
-	}
-
-	/**
-	 * @param Entities\Roles\IRole $role
-	 *
-	 * @return Entities\Roles\IRole[]
-	 */
-	private function getChildren(Entities\Roles\IRole $role): array
-	{
-		$findQuery = new Queries\FindRolesQuery();
-		$findQuery->forParent($role);
-
-		return $this->roleRepository->findAllBy($findQuery);
 	}
 
 }

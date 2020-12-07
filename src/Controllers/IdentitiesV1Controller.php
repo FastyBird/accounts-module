@@ -48,15 +48,6 @@ final class IdentitiesV1Controller extends BaseV1Controller
 	use Controllers\Finders\TAccountFinder;
 	use Controllers\Finders\TIdentityFinder;
 
-	/** @var Hydrators\Identities\UserAccountIdentityHydrator */
-	private $userAccountIdentityHydrator;
-
-	/** @var Hydrators\Identities\MachineAccountIdentityHydrator */
-	private $machineAccountIdentityHydrator;
-
-	/** @var Models\Identities\IIdentitiesManager */
-	private $identitiesManager;
-
 	/** @var Models\Identities\IIdentityRepository */
 	protected $identityRepository;
 
@@ -65,6 +56,15 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 	/** @var string */
 	protected $translationDomain = 'module.identities';
+
+	/** @var Hydrators\Identities\UserAccountIdentityHydrator */
+	private $userAccountIdentityHydrator;
+
+	/** @var Hydrators\Identities\MachineAccountIdentityHydrator */
+	private $machineAccountIdentityHydrator;
+
+	/** @var Models\Identities\IIdentitiesManager */
+	private $identitiesManager;
 
 	public function __construct(
 		Hydrators\Identities\UserAccountIdentityHydrator $userAccountIdentityHydrator,
@@ -144,9 +144,11 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
+			$this->getOrmConnection()
+				->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
+			if ($document->getResource()
+					->getType() === Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
 				$createData = $this->userAccountIdentityHydrator->hydrate($document);
 
 				$this->validateAccountRelation($createData, $account);
@@ -156,7 +158,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 				// Store item into database
 				$identity = $this->identitiesManager->create($createData);
 
-			} elseif ($document->getResource()->getType() === Schemas\Identities\MachineAccountIdentitySchema::SCHEMA_TYPE) {
+			} elseif ($document->getResource()
+					->getType() === Schemas\Identities\MachineAccountIdentitySchema::SCHEMA_TYPE) {
 				$createData = $this->machineAccountIdentityHydrator->hydrate($document);
 
 				$this->validateAccountRelation($createData, $account);
@@ -178,7 +181,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()->commit();
+			$this->getOrmConnection()
+				->commit();
 
 		} catch (DoctrineCrudExceptions\EntityCreationException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
@@ -243,8 +247,10 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
+			if ($this->getOrmConnection()
+				->isTransactionActive()) {
+				$this->getOrmConnection()
+					->rollBack();
 			}
 		}
 
@@ -279,10 +285,12 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
+			$this->getOrmConnection()
+				->beginTransaction();
 
 			if (
-				$document->getResource()->getType() === Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE
+				$document->getResource()
+					->getType() === Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE
 				&& $identity instanceof Entities\Identities\IUserAccountIdentity
 			) {
 				$updateData = $this->userAccountIdentityHydrator->hydrate($document, $identity);
@@ -293,7 +301,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 				$identity = $this->identitiesManager->update($identity, $updateData);
 
 			} elseif (
-				$document->getResource()->getType() === Schemas\Identities\MachineAccountIdentitySchema::SCHEMA_TYPE
+				$document->getResource()
+					->getType() === Schemas\Identities\MachineAccountIdentitySchema::SCHEMA_TYPE
 				&& $identity instanceof Entities\Identities\IMachineAccountIdentity
 			) {
 				$updateData = $this->machineAccountIdentityHydrator->hydrate($document, $identity);
@@ -315,7 +324,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()->commit();
+			$this->getOrmConnection()
+				->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -337,8 +347,10 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
+			if ($this->getOrmConnection()
+				->isTransactionActive()) {
+				$this->getOrmConnection()
+					->rollBack();
 			}
 		}
 

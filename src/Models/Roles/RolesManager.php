@@ -51,7 +51,8 @@ class RolesManager implements IRolesManager
 		Utils\ArrayHash $values
 	): Entities\Roles\IRole {
 		/** @var Entities\Roles\IRole $entity */
-		$entity = $this->entityCrud->getEntityCreator()->create($values);
+		$entity = $this->entityCrud->getEntityCreator()
+			->create($values);
 
 		return $entity;
 	}
@@ -64,7 +65,8 @@ class RolesManager implements IRolesManager
 		Utils\ArrayHash $values
 	): Entities\Roles\IRole {
 		/** @var Entities\Roles\IRole $entity */
-		$entity = $this->entityCrud->getEntityUpdater()->update($values, $entity);
+		$entity = $this->entityCrud->getEntityUpdater()
+			->update($values, $entity);
 
 		return $entity;
 	}
@@ -76,7 +78,8 @@ class RolesManager implements IRolesManager
 		Entities\Roles\IRole $entity
 	): bool {
 		// Delete entity from database
-		return $this->entityCrud->getEntityDeleter()->delete($entity);
+		return $this->entityCrud->getEntityDeleter()
+			->delete($entity);
 	}
 
 }

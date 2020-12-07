@@ -2,14 +2,7 @@ language: php
 
 php:
   - 7.4
-  - nightly
-
-services:
-  - mysql
-
-before_script:
-  # Additional PHP config
-  - phpenv config-add ./tests/travis.php.ini
+  - 8.0
 
 before_install:
   # Turn off XDebug
@@ -51,7 +44,7 @@ jobs:
 
   allow_failures:
     - stage: Test Coverage
-    - php: nightly
+    - php: 8.0
 
 sudo: false
 

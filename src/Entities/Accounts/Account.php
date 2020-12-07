@@ -15,14 +15,11 @@
 
 namespace FastyBird\AuthModule\Entities\Accounts;
 
-use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
 use DateTimeInterface;
 use Doctrine\Common;
-use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Types;
 use FastyBird\Database\Entities as DatabaseEntities;
-use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
 use Throwable;
@@ -123,22 +120,6 @@ abstract class Account implements IAccount
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setState(Types\AccountStateType $state): void
-	{
-		$this->state = $state;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getState(): Types\AccountStateType
-	{
-		return $this->state;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isActivated(): bool
 	{
 		return $this->state->equalsValue(Types\AccountStateType::STATE_ACTIVE);
@@ -179,50 +160,9 @@ abstract class Account implements IAccount
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setLastVisit(DateTimeInterface $lastVisit): void
-	{
-		$this->lastVisit = $lastVisit;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getLastVisit(): ?DateTimeInterface
-	{
-		return $this->lastVisit;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getIdentities(): array
 	{
 		return $this->identities->toArray();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setRoles(array $roles): void
-	{
-		$this->roles = new Common\Collections\ArrayCollection();
-
-		// Process all passed entities...
-		/** @var Entities\Roles\IRole $entity */
-		foreach ($roles as $entity) {
-			if (!$this->roles->contains($entity)) {
-				// ...and assign them to collection
-				$this->roles->add($entity);
-			}
-		}
-
-		/** @var Entities\Roles\IRole $entity */
-		foreach ($this->roles as $entity) {
-			if (!in_array($entity, $roles, true)) {
-				// ...and remove it from collection
-				$this->roles->removeElement($entity);
-			}
-		}
 	}
 
 	/**
@@ -235,14 +175,6 @@ abstract class Account implements IAccount
 			// ...and assign it to collection
 			$this->roles->add($role);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getRoles(): array
-	{
-		return $this->roles->toArray();
 	}
 
 	/**
@@ -282,13 +214,81 @@ abstract class Account implements IAccount
 	{
 		return [
 			'id'         => $this->getPlainId(),
-			'state'      => $this->getState()->getValue(),
-			'registered' => $this->getCreatedAt() !== null ? $this->getCreatedAt()->format(DATE_ATOM) : null,
-			'last_visit' => $this->getLastVisit() !== null ? $this->getLastVisit()->format(DATE_ATOM) : null,
+			'state'      => $this->getState()
+				->getValue(),
+			'registered' => $this->getCreatedAt() !== null ? $this->getCreatedAt()
+				->format(DATE_ATOM) : null,
+			'last_visit' => $this->getLastVisit() !== null ? $this->getLastVisit()
+				->format(DATE_ATOM) : null,
 			'roles'      => array_map(function (Entities\Roles\IRole $role): string {
 				return $role->getName();
 			}, $this->getRoles()),
 		];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getState(): Types\AccountStateType
+	{
+		return $this->state;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setState(Types\AccountStateType $state): void
+	{
+		$this->state = $state;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getLastVisit(): ?DateTimeInterface
+	{
+		return $this->lastVisit;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setLastVisit(DateTimeInterface $lastVisit): void
+	{
+		$this->lastVisit = $lastVisit;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getRoles(): array
+	{
+		return $this->roles->toArray();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setRoles(array $roles): void
+	{
+		$this->roles = new Common\Collections\ArrayCollection();
+
+		// Process all passed entities...
+		/** @var Entities\Roles\IRole $entity */
+		foreach ($roles as $entity) {
+			if (!$this->roles->contains($entity)) {
+				// ...and assign them to collection
+				$this->roles->add($entity);
+			}
+		}
+
+		/** @var Entities\Roles\IRole $entity */
+		foreach ($this->roles as $entity) {
+			if (!in_array($entity, $roles, true)) {
+				// ...and remove it from collection
+				$this->roles->removeElement($entity);
+			}
+		}
 	}
 
 }

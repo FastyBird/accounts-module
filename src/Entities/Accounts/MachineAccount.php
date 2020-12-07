@@ -15,9 +15,7 @@
 
 namespace FastyBird\AuthModule\Entities\Accounts;
 
-use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
-use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use Ramsey\Uuid;
 use Throwable;
 
@@ -76,9 +74,14 @@ class MachineAccount extends Account implements IMachineAccount
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getOwner(): IUserAccount
+	public function toArray(): array
 	{
-		return $this->owner;
+		return array_merge(parent::toArray(), [
+			'type'   => 'machine',
+			'device' => $this->getDevice(),
+			'owner'  => $this->getOwner()
+				->getPlainId(),
+		]);
 	}
 
 	/**
@@ -92,13 +95,9 @@ class MachineAccount extends Account implements IMachineAccount
 	/**
 	 * {@inheritDoc}
 	 */
-	public function toArray(): array
+	public function getOwner(): IUserAccount
 	{
-		return array_merge(parent::toArray(), [
-			'type'   => 'machine',
-			'device' => $this->getDevice(),
-			'owner'  => $this->getOwner()->getPlainId(),
-		]);
+		return $this->owner;
 	}
 
 }

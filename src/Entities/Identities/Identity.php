@@ -15,12 +15,9 @@
 
 namespace FastyBird\AuthModule\Entities\Identities;
 
-use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
-use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Types;
 use FastyBird\Database\Entities as DatabaseEntities;
-use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Nette\Utils;
 use Ramsey\Uuid;
@@ -118,38 +115,6 @@ abstract class Identity implements IIdentity
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getAccount(): Entities\Accounts\IAccount
-	{
-		return $this->account;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getUid(): string
-	{
-		return $this->uid;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setState(Types\IdentityStateType $state): void
-	{
-		$this->state = $state;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getState(): Types\IdentityStateType
-	{
-		return $this->state;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isActive(): bool
 	{
 		return $this->state === Types\IdentityStateType::get(Types\IdentityStateType::STATE_ACTIVE);
@@ -204,10 +169,44 @@ abstract class Identity implements IIdentity
 	{
 		return [
 			'id'      => $this->getPlainId(),
-			'account' => $this->getAccount()->getPlainId(),
+			'account' => $this->getAccount()
+				->getPlainId(),
 			'uid'     => $this->getUid(),
-			'state'   => $this->getState()->getValue(),
+			'state'   => $this->getState()
+				->getValue(),
 		];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getAccount(): Entities\Accounts\IAccount
+	{
+		return $this->account;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getUid(): string
+	{
+		return $this->uid;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getState(): Types\IdentityStateType
+	{
+		return $this->state;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setState(Types\IdentityStateType $state): void
+	{
+		$this->state = $state;
 	}
 
 	/**

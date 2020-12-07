@@ -15,10 +15,8 @@
 
 namespace FastyBird\AuthModule\Entities\Details;
 
-use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
 use FastyBird\Database\Entities as DatabaseEntities;
-use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
 use Throwable;
@@ -107,14 +105,6 @@ class Details implements IDetails
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setFirstName(string $firstName): void
-	{
-		$this->firstName = $firstName;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getFirstName(): string
 	{
 		return $this->firstName;
@@ -123,9 +113,9 @@ class Details implements IDetails
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setLastName(string $lastName): void
+	public function setFirstName(string $firstName): void
 	{
-		$this->lastName = $lastName;
+		$this->firstName = $firstName;
 	}
 
 	/**
@@ -139,9 +129,9 @@ class Details implements IDetails
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setMiddleName(?string $middleName): void
+	public function setLastName(string $lastName): void
 	{
-		$this->middleName = $middleName;
+		$this->lastName = $lastName;
 	}
 
 	/**
@@ -150,6 +140,14 @@ class Details implements IDetails
 	public function getMiddleName(): ?string
 	{
 		return $this->middleName;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setMiddleName(?string $middleName): void
+	{
+		$this->middleName = $middleName;
 	}
 
 	/**

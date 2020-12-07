@@ -38,6 +38,12 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 	/** @var Models\Emails\IEmailRepository */
 	private $emailRepository;
 
+	public function __construct(
+		Models\Emails\IEmailRepository $emailRepository
+	) {
+		$this->emailRepository = $emailRepository;
+	}
+
 	/**
 	 * Register events
 	 *
@@ -49,12 +55,6 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 			ORM\Events::prePersist,
 			ORM\Events::onFlush,
 		];
-	}
-
-	public function __construct(
-		Models\Emails\IEmailRepository $emailRepository
-	) {
-		$this->emailRepository = $emailRepository;
 	}
 
 	/**
@@ -72,7 +72,8 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 			if ($object instanceof Entities\Emails\IEmail) {
 				$foundEmail = $this->emailRepository->findOneByAddress($object->getAddress());
 
-				if ($foundEmail !== null && !$foundEmail->getId()->equals($object->getId())) {
+				if ($foundEmail !== null && !$foundEmail->getId()
+						->equals($object->getId())) {
 					throw new Exceptions\EmailAlreadyTakenException('Given email is already taken');
 				}
 			}
@@ -127,10 +128,12 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 	): void {
 		$property = $classMetadata->getReflectionProperty('default');
 
-		foreach ($email->getAccount()->getEmails() as $accountEmail) {
+		foreach ($email->getAccount()
+					 ->getEmails() as $accountEmail) {
 			// Deactivate all other user emails
 			if (
-				!$accountEmail->getId()->equals($email->getId())
+				!$accountEmail->getId()
+					->equals($email->getId())
 				&& $accountEmail->isDefault()
 			) {
 				$accountEmail->setDefault(false);

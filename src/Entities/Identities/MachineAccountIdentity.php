@@ -15,9 +15,7 @@
 
 namespace FastyBird\AuthModule\Entities\Identities;
 
-use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
-use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use Ramsey\Uuid;
 use Throwable;
 
@@ -66,22 +64,6 @@ class MachineAccountIdentity extends Identity implements IMachineAccountIdentity
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setPassword(string $password): void
-	{
-		$this->password = $password;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getPassword(): string
-	{
-		return $this->password;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function verifyPassword(string $password): bool
 	{
 		return $this->password === $password;
@@ -96,6 +78,22 @@ class MachineAccountIdentity extends Identity implements IMachineAccountIdentity
 			'type'     => 'machine',
 			'password' => $this->getPassword(),
 		]);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getPassword(): string
+	{
+		return $this->password;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setPassword(string $password): void
+	{
+		$this->password = $password;
 	}
 
 }

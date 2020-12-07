@@ -51,7 +51,8 @@ class FindAccountsQuery extends DoctrineOrmQuery\QueryObject
 	public function byId(Uuid\UuidInterface $id): void
 	{
 		$this->filter[] = function (ORM\QueryBuilder $qb) use ($id): void {
-			$qb->andWhere('a.id = :id')->setParameter('id', $id->getBytes());
+			$qb->andWhere('a.id = :id')
+				->setParameter('id', $id->getBytes());
 		};
 	}
 
@@ -69,7 +70,8 @@ class FindAccountsQuery extends DoctrineOrmQuery\QueryObject
 		}
 
 		$this->filter[] = function (ORM\QueryBuilder $qb) use ($state): void {
-			$qb->andWhere('a.state = :state')->setParameter('state', $state);
+			$qb->andWhere('a.state = :state')
+				->setParameter('state', $state);
 		};
 	}
 
@@ -85,7 +87,8 @@ class FindAccountsQuery extends DoctrineOrmQuery\QueryObject
 		};
 
 		$this->filter[] = function (ORM\QueryBuilder $qb) use ($role): void {
-			$qb->andWhere('roles.id = :role')->setParameter('role', $role->getId(), Uuid\Doctrine\UuidBinaryType::NAME);
+			$qb->andWhere('roles.id = :role')
+				->setParameter('role', $role->getId(), Uuid\Doctrine\UuidBinaryType::NAME);
 		};
 	}
 
@@ -108,18 +111,6 @@ class FindAccountsQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @phpstan-param ORM\EntityRepository<T> $repository
 	 */
-	protected function doCreateCountQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
-	{
-		return $this->createBasicDql($repository)->select('COUNT(a.id)');
-	}
-
-	/**
-	 * @param ORM\EntityRepository<Entities\Accounts\Account> $repository
-	 *
-	 * @return ORM\QueryBuilder
-	 *
-	 * @phpstan-param ORM\EntityRepository<T> $repository
-	 */
 	private function createBasicDql(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
 		$qb = $repository->createQueryBuilder('a');
@@ -133,6 +124,19 @@ class FindAccountsQuery extends DoctrineOrmQuery\QueryObject
 		}
 
 		return $qb;
+	}
+
+	/**
+	 * @param ORM\EntityRepository<Entities\Accounts\Account> $repository
+	 *
+	 * @return ORM\QueryBuilder
+	 *
+	 * @phpstan-param ORM\EntityRepository<T> $repository
+	 */
+	protected function doCreateCountQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
+	{
+		return $this->createBasicDql($repository)
+			->select('COUNT(a.id)');
 	}
 
 }

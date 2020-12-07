@@ -71,73 +71,11 @@ final class Password
 	}
 
 	/**
-	 * @param string $salt
-	 *
-	 * @return void
-	 */
-	public function setSalt(string $salt): void
-	{
-		$this->salt = $salt;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSalt(): string
-	{
-		return $this->salt;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function createSalt(): string
 	{
 		return $this->salt = Utils\Random::generate(5);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getHash(): string
-	{
-		return $this->hash;
-	}
-
-	/**
-	 * @param string $password
-	 * @param string|null $salt
-	 *
-	 * @return void
-	 */
-	public function setPassword(string $password, ?string $salt = null): void
-	{
-		$this->password = $password;
-		$this->salt = $salt ?? $this->createSalt();
-		$this->hash = $this->hashPassword($password, $this->salt);
-	}
-
-	/**
-	 * @return string|null
-	 */
-	public function getPassword(): ?string
-	{
-		return $this->password;
-	}
-
-	/**
-	 * @param string $password
-	 * @param string|null $salt
-	 *
-	 * @return bool
-	 */
-	public function isEqual(string $password, ?string $salt = null): bool
-	{
-		if ($salt !== null) {
-			$this->salt = $salt;
-		}
-
-		return $this->hash === $this->hashPassword($password, $this->salt);
 	}
 
 	/**
@@ -163,9 +101,63 @@ final class Password
 	/**
 	 * @return string
 	 */
-	public function __toString(): string
+	public function getSalt(): string
+	{
+		return $this->salt;
+	}
+
+	/**
+	 * @param string $salt
+	 *
+	 * @return void
+	 */
+	public function setSalt(string $salt): void
+	{
+		$this->salt = $salt;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getHash(): string
 	{
 		return $this->hash;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getPassword(): ?string
+	{
+		return $this->password;
+	}
+
+	/**
+	 * @param string $password
+	 * @param string|null $salt
+	 *
+	 * @return void
+	 */
+	public function setPassword(string $password, ?string $salt = null): void
+	{
+		$this->password = $password;
+		$this->salt = $salt ?? $this->createSalt();
+		$this->hash = $this->hashPassword($password, $this->salt);
+	}
+
+	/**
+	 * @param string $password
+	 * @param string|null $salt
+	 *
+	 * @return bool
+	 */
+	public function isEqual(string $password, ?string $salt = null): bool
+	{
+		if ($salt !== null) {
+			$this->salt = $salt;
+		}
+
+		return $this->hash === $this->hashPassword($password, $this->salt);
 	}
 
 	/**
@@ -177,6 +169,14 @@ final class Password
 	private function hashPassword(string $password, ?string $salt = null): string
 	{
 		return hash('sha512', $salt . self::SEPARATOR . $password);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString(): string
+	{
+		return $this->hash;
 	}
 
 }

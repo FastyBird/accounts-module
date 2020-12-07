@@ -16,11 +16,9 @@
 namespace FastyBird\AuthModule\Entities\Tokens;
 
 use DateTimeInterface;
-use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
 use FastyBird\Database\Entities as DatabaseEntities;
 use FastyBird\SimpleAuth\Entities as SimpleAuthEntities;
-use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
 use Throwable;

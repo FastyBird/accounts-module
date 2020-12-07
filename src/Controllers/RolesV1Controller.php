@@ -44,6 +44,9 @@ final class RolesV1Controller extends BaseV1Controller
 
 	use Controllers\Finders\TRoleFinder;
 
+	/** @var string */
+	protected $translationDomain = 'module.roles';
+
 	/** @var Hydrators\Roles\RoleHydrator */
 	private $roleHydrator;
 
@@ -52,9 +55,6 @@ final class RolesV1Controller extends BaseV1Controller
 
 	/** @var Models\Roles\IRolesManager */
 	private $rolesManager;
-
-	/** @var string */
-	protected $translationDomain = 'module.roles';
 
 	public function __construct(
 		Models\Roles\IRoleRepository $roleRepository,
@@ -126,9 +126,11 @@ final class RolesV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
+			$this->getOrmConnection()
+				->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Roles\RoleSchema::SCHEMA_TYPE) {
+			if ($document->getResource()
+					->getType() === Schemas\Roles\RoleSchema::SCHEMA_TYPE) {
 				$updateRoleData = $this->roleHydrator->hydrate($document, $role);
 
 			} else {
@@ -145,7 +147,8 @@ final class RolesV1Controller extends BaseV1Controller
 			$role = $this->rolesManager->update($role, $updateRoleData);
 
 			// Commit all changes into database
-			$this->getOrmConnection()->commit();
+			$this->getOrmConnection()
+				->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -167,8 +170,10 @@ final class RolesV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
+			if ($this->getOrmConnection()
+				->isTransactionActive()) {
+				$this->getOrmConnection()
+					->rollBack();
 			}
 		}
 

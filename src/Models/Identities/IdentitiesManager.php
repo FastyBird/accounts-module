@@ -51,7 +51,8 @@ class IdentitiesManager implements IIdentitiesManager
 		Utils\ArrayHash $values
 	): Entities\Identities\IIdentity {
 		/** @var Entities\Identities\IIdentity $entity */
-		$entity = $this->entityCrud->getEntityCreator()->create($values);
+		$entity = $this->entityCrud->getEntityCreator()
+			->create($values);
 
 		return $entity;
 	}
@@ -64,7 +65,8 @@ class IdentitiesManager implements IIdentitiesManager
 		Utils\ArrayHash $values
 	): Entities\Identities\IIdentity {
 		/** @var Entities\Identities\IIdentity $entity */
-		$entity = $this->entityCrud->getEntityUpdater()->update($values, $entity);
+		$entity = $this->entityCrud->getEntityUpdater()
+			->update($values, $entity);
 
 		return $entity;
 	}
@@ -76,7 +78,8 @@ class IdentitiesManager implements IIdentitiesManager
 		Entities\Identities\IIdentity $entity
 	): bool {
 		// Delete entity from database
-		return $this->entityCrud->getEntityDeleter()->delete($entity);
+		return $this->entityCrud->getEntityDeleter()
+			->delete($entity);
 	}
 
 }

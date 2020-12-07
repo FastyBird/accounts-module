@@ -81,7 +81,8 @@ final class EmailsManager implements IEmailsManager
 		Entities\Emails\IEmail $entity
 	): bool {
 		// Delete entity from database
-		return $this->entityCrud->getEntityDeleter()->delete($entity);
+		return $this->entityCrud->getEntityDeleter()
+			->delete($entity);
 	}
 
 }

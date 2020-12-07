@@ -15,14 +15,11 @@
 
 namespace FastyBird\AuthModule\Entities\Emails;
 
-use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
 use DateTimeInterface;
-use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Exceptions;
 use FastyBird\AuthModule\Types;
 use FastyBird\Database\Entities as DatabaseEntities;
-use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Nette\Utils;
 use Ramsey\Uuid;
@@ -152,9 +149,82 @@ class Email implements IEmail
 	/**
 	 * {@inheritDoc}
 	 */
+	public function getVerificationHash(): ?string
+	{
+		return $this->verificationHash;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setVerificationHash(string $verificationHash): void
+	{
+		$this->verificationHash = $verificationHash;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getVerificationCreated(): ?DateTimeInterface
+	{
+		return $this->verificationCreated;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setVerificationCreated(DateTimeInterface $verificationCreated): void
+	{
+		$this->verificationCreated = $verificationCreated;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getVerificationCompleted(): ?DateTimeInterface
+	{
+		return $this->verificationCompleted;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setVerificationCompleted(?DateTimeInterface $verificationCompleted = null): void
+	{
+		$this->verificationCompleted = $verificationCompleted;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function toArray(): array
+	{
+		return [
+			'id'       => $this->getPlainId(),
+			'account'  => $this->getAccount()
+				->getPlainId(),
+			'address'  => $this->getAddress(),
+			'default'  => $this->isDefault(),
+			'verified' => $this->isVerified(),
+			'private'  => $this->isPrivate(),
+			'public'   => $this->isPublic(),
+		];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getAccount(): Entities\Accounts\IUserAccount
 	{
 		return $this->account;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getAddress(): string
+	{
+		return $this->address;
 	}
 
 	/**
@@ -172,9 +242,9 @@ class Email implements IEmail
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getAddress(): string
+	public function isDefault(): bool
 	{
-		return $this->address;
+		return $this->default;
 	}
 
 	/**
@@ -188,9 +258,9 @@ class Email implements IEmail
 	/**
 	 * {@inheritDoc}
 	 */
-	public function isDefault(): bool
+	public function isVerified(): bool
 	{
-		return $this->default;
+		return $this->verified;
 	}
 
 	/**
@@ -204,65 +274,10 @@ class Email implements IEmail
 	/**
 	 * {@inheritDoc}
 	 */
-	public function isVerified(): bool
+	public function isPrivate(): bool
 	{
-		return $this->verified;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setVerificationHash(string $verificationHash): void
-	{
-		$this->verificationHash = $verificationHash;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getVerificationHash(): ?string
-	{
-		return $this->verificationHash;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setVerificationCreated(DateTimeInterface $verificationCreated): void
-	{
-		$this->verificationCreated = $verificationCreated;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getVerificationCreated(): ?DateTimeInterface
-	{
-		return $this->verificationCreated;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setVerificationCompleted(?DateTimeInterface $verificationCompleted = null): void
-	{
-		$this->verificationCompleted = $verificationCompleted;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getVerificationCompleted(): ?DateTimeInterface
-	{
-		return $this->verificationCompleted;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setVisibility(Types\EmailVisibilityType $visibility): void
-	{
-		$this->visibility = $visibility;
+		return $this->getVisibility()
+			->equalsValue(Types\EmailVisibilityType::VISIBILITY_PRIVATE);
 	}
 
 	/**
@@ -276,33 +291,18 @@ class Email implements IEmail
 	/**
 	 * {@inheritDoc}
 	 */
+	public function setVisibility(Types\EmailVisibilityType $visibility): void
+	{
+		$this->visibility = $visibility;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function isPublic(): bool
 	{
-		return $this->getVisibility()->equalsValue(Types\EmailVisibilityType::VISIBILITY_PUBLIC);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function isPrivate(): bool
-	{
-		return $this->getVisibility()->equalsValue(Types\EmailVisibilityType::VISIBILITY_PRIVATE);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function toArray(): array
-	{
-		return [
-			'id'       => $this->getPlainId(),
-			'account'  => $this->getAccount()->getPlainId(),
-			'address'  => $this->getAddress(),
-			'default'  => $this->isDefault(),
-			'verified' => $this->isVerified(),
-			'private'  => $this->isPrivate(),
-			'public'   => $this->isPublic(),
-		];
+		return $this->getVisibility()
+			->equalsValue(Types\EmailVisibilityType::VISIBILITY_PUBLIC);
 	}
 
 	/**

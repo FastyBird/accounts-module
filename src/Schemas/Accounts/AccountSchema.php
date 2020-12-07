@@ -62,10 +62,13 @@ abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
 	public function getAttributes($account, JsonApi\Contracts\Schema\ContextInterface $context): iterable
 	{
 		return [
-			'state' => $account->getState()->getValue(),
+			'state' => $account->getState()
+				->getValue(),
 
-			'last_visit' => $account->getLastVisit() !== null ? $account->getLastVisit()->format(DATE_ATOM) : null,
-			'registered' => $account->getCreatedAt() !== null ? $account->getCreatedAt()->format(DATE_ATOM) : null,
+			'last_visit' => $account->getLastVisit() !== null ? $account->getLastVisit()
+				->format(DATE_ATOM) : null,
+			'registered' => $account->getCreatedAt() !== null ? $account->getCreatedAt()
+				->format(DATE_ATOM) : null,
 		];
 	}
 

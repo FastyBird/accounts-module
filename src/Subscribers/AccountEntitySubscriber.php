@@ -57,6 +57,14 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 	/** @var Models\Roles\IRoleRepository */
 	private $roleRepository;
 
+	public function __construct(
+		Models\Accounts\IAccountRepository $accountRepository,
+		Models\Roles\IRoleRepository $roleRepository
+	) {
+		$this->accountRepository = $accountRepository;
+		$this->roleRepository = $roleRepository;
+	}
+
 	/**
 	 * Register events
 	 *
@@ -68,14 +76,6 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 			ORM\Events::prePersist,
 			ORM\Events::onFlush,
 		];
-	}
-
-	public function __construct(
-		Models\Accounts\IAccountRepository $accountRepository,
-		Models\Roles\IRoleRepository $roleRepository
-	) {
-		$this->accountRepository = $accountRepository;
-		$this->roleRepository = $roleRepository;
 	}
 
 	/**
@@ -99,6 +99,31 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 				throw new Exceptions\InvalidStateException('First account have to be an administrator account');
 			}
 		}
+	}
+
+	/**
+	 * @return Entities\Accounts\IUserAccount|null
+	 *
+	 * @throws Throwable
+	 */
+	private function getAdministrator(): ?Entities\Accounts\IUserAccount
+	{
+		$findRole = new Queries\FindRolesQuery();
+		$findRole->byName(SimpleAuth\Constants::ROLE_ADMINISTRATOR);
+
+		$role = $this->roleRepository->findOneBy($findRole);
+
+		if ($role === null) {
+			throw new Exceptions\InvalidStateException(sprintf('Role %s is not created', SimpleAuth\Constants::ROLE_ADMINISTRATOR));
+		}
+
+		$findAccount = new Queries\FindAccountsQuery();
+		$findAccount->inRole($role);
+
+		/** @var Entities\Accounts\IUserAccount|null $account */
+		$account = $this->accountRepository->findOneBy($findAccount, Entities\Accounts\UserAccount::class);
+
+		return $account;
 	}
 
 	/**
@@ -153,31 +178,6 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 				$object->setRoles($this->getDefaultRoles(AuthModule\Constants::MACHINE_ACCOUNT_DEFAULT_ROLES));
 			}
 		}
-	}
-
-	/**
-	 * @return Entities\Accounts\IUserAccount|null
-	 *
-	 * @throws Throwable
-	 */
-	private function getAdministrator(): ?Entities\Accounts\IUserAccount
-	{
-		$findRole = new Queries\FindRolesQuery();
-		$findRole->byName(SimpleAuth\Constants::ROLE_ADMINISTRATOR);
-
-		$role = $this->roleRepository->findOneBy($findRole);
-
-		if ($role === null) {
-			throw new Exceptions\InvalidStateException(sprintf('Role %s is not created', SimpleAuth\Constants::ROLE_ADMINISTRATOR));
-		}
-
-		$findAccount = new Queries\FindAccountsQuery();
-		$findAccount->inRole($role);
-
-		/** @var Entities\Accounts\IUserAccount|null $account */
-		$account = $this->accountRepository->findOneBy($findAccount, Entities\Accounts\UserAccount::class);
-
-		return $account;
 	}
 
 	/**

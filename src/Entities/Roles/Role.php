@@ -16,10 +16,8 @@
 namespace FastyBird\AuthModule\Entities\Roles;
 
 use Doctrine\Common;
-use Doctrine\ORM\Mapping as ORM;
 use FastyBird\Database\Entities as DatabaseEntities;
 use FastyBird\SimpleAuth\Constants as SimpleAuthConstants;
-use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
 use Throwable;
@@ -109,17 +107,9 @@ class Role implements IRole
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setName(string $name): void
+	public function getDescription(): string
 	{
-		$this->name = $name;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getName(): string
-	{
-		return $this->name;
+		return $this->description;
 	}
 
 	/**
@@ -133,9 +123,9 @@ class Role implements IRole
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDescription(): string
+	public function getParent(): ?IRole
 	{
-		return $this->description;
+		return $this->parent;
 	}
 
 	/**
@@ -153,9 +143,21 @@ class Role implements IRole
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getParent(): ?IRole
+	public function addChild(IRole $child): void
 	{
-		return $this->parent;
+		// Check if collection does not contain inserting entity
+		if (!$this->children->contains($child)) {
+			// ...and assign it to collection
+			$this->children->add($child);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getChildren(): array
+	{
+		return $this->children->toArray();
 	}
 
 	/**
@@ -181,26 +183,6 @@ class Role implements IRole
 				$this->children->removeElement($entity);
 			}
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function addChild(IRole $child): void
-	{
-		// Check if collection does not contain inserting entity
-		if (!$this->children->contains($child)) {
-			// ...and assign it to collection
-			$this->children->add($child);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getChildren(): array
-	{
-		return $this->children->toArray();
 	}
 
 	/**
@@ -239,6 +221,22 @@ class Role implements IRole
 	public function __toString(): string
 	{
 		return $this->getName();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setName(string $name): void
+	{
+		$this->name = $name;
 	}
 
 }

@@ -26,31 +26,40 @@ final class CreateAccountTest extends DbTestCase
 	public function testExecute(): void
 	{
 		/** @var Models\Accounts\IAccountsManager $accountsManager */
-		$accountsManager = $this->getContainer()->getByType(Models\Accounts\AccountsManager::class);
+		$accountsManager = $this->getContainer()
+			->getByType(Models\Accounts\AccountsManager::class);
 
 		/** @var Models\Emails\IEmailRepository $emailRepository */
-		$emailRepository = $this->getContainer()->getByType(Models\Emails\EmailRepository::class);
+		$emailRepository = $this->getContainer()
+			->getByType(Models\Emails\EmailRepository::class);
 
 		/** @var Models\Emails\IEmailsManager $emailsManager */
-		$emailsManager = $this->getContainer()->getByType(Models\Emails\EmailsManager::class);
+		$emailsManager = $this->getContainer()
+			->getByType(Models\Emails\EmailsManager::class);
 
 		/** @var Models\Identities\IIdentitiesManager $identitiesManager */
-		$identitiesManager = $this->getContainer()->getByType(Models\Identities\IdentitiesManager::class);
+		$identitiesManager = $this->getContainer()
+			->getByType(Models\Identities\IdentitiesManager::class);
 
 		/** @var Models\Roles\IRoleRepository $roleRepository */
-		$roleRepository = $this->getContainer()->getByType(Models\Roles\RoleRepository::class);
+		$roleRepository = $this->getContainer()
+			->getByType(Models\Roles\RoleRepository::class);
 
 		/** @var Models\Emails\IEmailRepository $emailRepository */
-		$emailRepository = $this->getContainer()->getByType(Models\Emails\EmailRepository::class);
+		$emailRepository = $this->getContainer()
+			->getByType(Models\Emails\EmailRepository::class);
 
 		/** @var Models\Identities\IIdentityRepository $identityRepository */
-		$identityRepository = $this->getContainer()->getByType(Models\Identities\IdentityRepository::class);
+		$identityRepository = $this->getContainer()
+			->getByType(Models\Identities\IdentityRepository::class);
 
 		/** @var Translation\Translator $translator */
-		$translator = $this->getContainer()->getByType(Translation\Translator::class);
+		$translator = $this->getContainer()
+			->getByType(Translation\Translator::class);
 
 		/** @var Common\Persistence\ManagerRegistry $managerRegistry */
-		$managerRegistry = $this->getContainer()->getByType(Common\Persistence\ManagerRegistry::class);
+		$managerRegistry = $this->getContainer()
+			->getByType(Common\Persistence\ManagerRegistry::class);
 
 		$application = new Application();
 		$application->add(new Commands\Accounts\CreateCommand(
@@ -80,7 +89,8 @@ final class CreateAccountTest extends DbTestCase
 		$email = $emailRepository->findOneBy($findEmail);
 
 		Assert::type(Entities\Emails\Email::class, $email);
-		Assert::same('Balboa Rocky', $email->getAccount()->getName());
+		Assert::same('Balboa Rocky', $email->getAccount()
+			->getName());
 
 		$findIdentity = new Queries\FindIdentitiesQuery();
 		$findIdentity->byUid('rocky@balboa.com');
@@ -96,7 +106,8 @@ final class CreateAccountTest extends DbTestCase
 				$identity->getSalt()
 			);
 
-			Assert::same($password->getHash(), $identity->getPassword()->getHash());
+			Assert::same($password->getHash(), $identity->getPassword()
+				->getHash());
 		}
 	}
 

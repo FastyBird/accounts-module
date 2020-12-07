@@ -27,10 +27,17 @@ final class AccessMiddlewareTest extends DbTestCase
 	 *
 	 * @dataProvider ./../../../fixtures/Middleware/permissionAnnotation.php
 	 */
-	public function testPermissionAnnotation(string $url, string $method, string $body, string $token, int $statusCode, string $fixture): void
-	{
+	public function testPermissionAnnotation(
+		string $url,
+		string $method,
+		string $body,
+		string $token,
+		int $statusCode,
+		string $fixture
+	): void {
 		/** @var Router\Router $router */
-		$router = $this->getContainer()->getByType(Router\Router::class);
+		$router = $this->getContainer()
+			->getByType(Router\Router::class);
 
 		$request = new ServerRequest(
 			$method,

@@ -38,14 +38,14 @@ use Throwable;
 final class AccountV1Controller extends BaseV1Controller
 {
 
+	/** @var string */
+	protected $translationDomain = 'module.account';
+
 	/** @var Hydrators\Accounts\ProfileAccountHydrator */
 	private $accountHydrator;
 
 	/** @var Models\Accounts\IAccountsManager */
 	private $accountsManager;
-
-	/** @var string */
-	protected $translationDomain = 'module.account';
 
 	public function __construct(
 		Hydrators\Accounts\ProfileAccountHydrator $accountHydrator,
@@ -78,6 +78,24 @@ final class AccountV1Controller extends BaseV1Controller
 	}
 
 	/**
+	 * @return Entities\Accounts\IAccount
+	 *
+	 * @throws JsonApiExceptions\JsonApiErrorException
+	 */
+	private function findAccount(): Entities\Accounts\IAccount
+	{
+		if ($this->user->getAccount() === null) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_FORBIDDEN,
+				$this->translator->translate('//module.base.messages.forbidden.heading'),
+				$this->translator->translate('//module.base.messages.forbidden.message')
+			);
+		}
+
+		return $this->user->getAccount();
+	}
+
+	/**
 	 * @param Message\ServerRequestInterface $request
 	 * @param WebServerHttp\Response $response
 	 *
@@ -97,7 +115,9 @@ final class AccountV1Controller extends BaseV1Controller
 
 		$document = $this->createDocument($request);
 
-		if ($account->getPlainId() !== $document->getResource()->getIdentifier()->getId()) {
+		if ($account->getPlainId() !== $document->getResource()
+				->getIdentifier()
+				->getId()) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
 				$this->translator->translate('//module.base.messages.invalidIdentifier.heading'),
@@ -107,9 +127,11 @@ final class AccountV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
+			$this->getOrmConnection()
+				->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Accounts\UserAccountSchema::SCHEMA_TYPE) {
+			if ($document->getResource()
+					->getType() === Schemas\Accounts\UserAccountSchema::SCHEMA_TYPE) {
 				$account = $this->accountsManager->update(
 					$account,
 					$this->accountHydrator->hydrate($document, $account)
@@ -127,7 +149,8 @@ final class AccountV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()->commit();
+			$this->getOrmConnection()
+				->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -149,8 +172,10 @@ final class AccountV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
+			if ($this->getOrmConnection()
+				->isTransactionActive()) {
+				$this->getOrmConnection()
+					->rollBack();
 			}
 		}
 
@@ -223,24 +248,6 @@ final class AccountV1Controller extends BaseV1Controller
 		}
 
 		return parent::readRelationship($request, $response);
-	}
-
-	/**
-	 * @return Entities\Accounts\IAccount
-	 *
-	 * @throws JsonApiExceptions\JsonApiErrorException
-	 */
-	private function findAccount(): Entities\Accounts\IAccount
-	{
-		if ($this->user->getAccount() === null) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//module.base.messages.forbidden.heading'),
-				$this->translator->translate('//module.base.messages.forbidden.message')
-			);
-		}
-
-		return $this->user->getAccount();
 	}
 
 }

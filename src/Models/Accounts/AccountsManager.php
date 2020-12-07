@@ -50,7 +50,8 @@ final class AccountsManager implements IAccountsManager
 		Utils\ArrayHash $values
 	): Entities\Accounts\IAccount {
 		/** @var Entities\Accounts\IAccount $entity */
-		$entity = $this->entityCrud->getEntityCreator()->create($values);
+		$entity = $this->entityCrud->getEntityCreator()
+			->create($values);
 
 		return $entity;
 	}
@@ -63,7 +64,8 @@ final class AccountsManager implements IAccountsManager
 		Utils\ArrayHash $values
 	): Entities\Accounts\IAccount {
 		/** @var Entities\Accounts\IAccount $entity */
-		$entity = $this->entityCrud->getEntityUpdater()->update($values, $entity);
+		$entity = $this->entityCrud->getEntityUpdater()
+			->update($values, $entity);
 
 		return $entity;
 	}
@@ -75,7 +77,8 @@ final class AccountsManager implements IAccountsManager
 		Entities\Accounts\IAccount $entity
 	): bool {
 		// Delete entity from database
-		return $this->entityCrud->getEntityDeleter()->delete($entity);
+		return $this->entityCrud->getEntityDeleter()
+			->delete($entity);
 	}
 
 }

@@ -38,14 +38,6 @@ class AccountStateType extends Consistence\Enum\Enum
 	public const STATE_APPROVAL_WAITING = 'approvalWaiting';
 
 	/**
-	 * @return string
-	 */
-	public function __toString(): string
-	{
-		return (string) self::getValue();
-	}
-
-	/**
 	 * List of allowed states
 	 *
 	 * @var string[]
@@ -55,5 +47,13 @@ class AccountStateType extends Consistence\Enum\Enum
 		self::STATE_BLOCKED,
 		self::STATE_DELETED,
 	];
+
+	/**
+	 * @return string
+	 */
+	public function __toString(): string
+	{
+		return (string) self::getValue();
+	}
 
 }
