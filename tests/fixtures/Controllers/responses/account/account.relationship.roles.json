@@ -12,7 +12,7 @@
     "self" : "/v1/me/relationships/roles"
   },
   "meta" : {
-    "author" : "FastyBird dev team",
+    "author" : "FastyBird team",
     "copyright" : "FastyBird s.r.o"
   }
 }

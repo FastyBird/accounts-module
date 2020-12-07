@@ -11,7 +11,7 @@
     "self" : "/v1/session/relationships/account"
   },
   "meta" : {
-    "author" : "FastyBird dev team",
+    "author" : "FastyBird team",
     "copyright" : "FastyBird s.r.o"
   }
 }
