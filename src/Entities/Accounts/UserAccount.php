@@ -16,7 +16,9 @@
 namespace FastyBird\AuthModule\Entities\Accounts;
 
 use Doctrine\Common;
+use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
+use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use Ramsey\Uuid;
 use Throwable;
 

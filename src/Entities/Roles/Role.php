@@ -16,8 +16,10 @@
 namespace FastyBird\AuthModule\Entities\Roles;
 
 use Doctrine\Common;
+use Doctrine\ORM\Mapping as ORM;
 use FastyBird\Database\Entities as DatabaseEntities;
 use FastyBird\SimpleAuth\Constants as SimpleAuthConstants;
+use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
 use Throwable;

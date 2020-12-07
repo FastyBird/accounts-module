@@ -15,8 +15,10 @@
 
 namespace FastyBird\AuthModule\Entities\Details;
 
+use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
 use FastyBird\Database\Entities as DatabaseEntities;
+use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
 use Throwable;
