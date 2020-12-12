@@ -171,16 +171,10 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 			->setType(Schemas\Accounts\UserAccountSchema::class);
 
 		$builder->addDefinition(null)
-			->setType(Schemas\Accounts\MachineAccountSchema::class);
-
-		$builder->addDefinition(null)
 			->setType(Schemas\Emails\EmailSchema::class);
 
 		$builder->addDefinition(null)
 			->setType(Schemas\Identities\UserAccountIdentitySchema::class);
-
-		$builder->addDefinition(null)
-			->setType(Schemas\Identities\MachineAccountIdentitySchema::class);
 
 		$builder->addDefinition(null)
 			->setType(Schemas\Roles\RoleSchema::class);
@@ -196,9 +190,6 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 			->setType(Hydrators\Accounts\UserAccountHydrator::class);
 
 		$builder->addDefinition(null)
-			->setType(Hydrators\Accounts\MachineAccountHydrator::class);
-
-		$builder->addDefinition(null)
 			->setType(Hydrators\Emails\ProfileEmailHydrator::class);
 
 		$builder->addDefinition(null)
@@ -206,9 +197,6 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 
 		$builder->addDefinition(null)
 			->setType(Hydrators\Identities\UserAccountIdentityHydrator::class);
-
-		$builder->addDefinition(null)
-			->setType(Hydrators\Identities\MachineAccountIdentityHydrator::class);
 
 		$builder->addDefinition(null)
 			->setType(Hydrators\Roles\RoleHydrator::class);

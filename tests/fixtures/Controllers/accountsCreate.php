@@ -24,20 +24,6 @@ return [
 		StatusCodeInterface::STATUS_CREATED,
 		__DIR__ . '/responses/accounts/accounts.create.userWithRoles.json',
 	],
-	'createMachine'          => [
-		'/v1/accounts',
-		'Bearer ' . ADMINISTRATOR_TOKEN,
-		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.machine.json'),
-		StatusCodeInterface::STATUS_CREATED,
-		__DIR__ . '/responses/accounts/accounts.create.machine.json',
-	],
-	'createMachineWithRoles' => [
-		'/v1/accounts',
-		'Bearer ' . ADMINISTRATOR_TOKEN,
-		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.machineWithRoles.json'),
-		StatusCodeInterface::STATUS_CREATED,
-		__DIR__ . '/responses/accounts/accounts.create.machine.json',
-	],
 
 	// Invalid responses
 	////////////////////

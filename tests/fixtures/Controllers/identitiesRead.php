@@ -10,10 +10,8 @@ const USER_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uZmFzdHl
 
 const ADMINISTRATOR_ACCOUNT_ID = '5e79efbf-bd0d-5b7c-46ef-bfbdefbfbd34';
 const USER_ACCOUNT_ID = 'efbfbdef-bfbd-68ef-bfbd-770b40efbfbd';
-const MACHINE_ACCOUNT_ID = '16e5db29-0006-4484-ac38-5cdea5a008f5';
 const ADMINISTRATOR_IDENTITY_ID = '77331268-efbf-bd34-49ef-bfbdefbfbd04';
 const USER_IDENTITY_ID = 'faf7a863-a49c-4428-a757-1de537773355';
-const MACHINE_IDENTITY_ID = '35be5624-0160-4323-83ee-6f59000934b4';
 const UNKNOWN_ID = '83985c13-238c-46bd-aacb-2359d5c921a7';
 
 return [
@@ -36,12 +34,6 @@ return [
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		StatusCodeInterface::STATUS_OK,
 		__DIR__ . '/responses/identities/identities.read.user.json',
-	],
-	'readOneMachine'           => [
-		'/v1/accounts/' . MACHINE_ACCOUNT_ID . '/identities/' . MACHINE_IDENTITY_ID,
-		'Bearer ' . ADMINISTRATOR_TOKEN,
-		StatusCodeInterface::STATUS_OK,
-		__DIR__ . '/responses/identities/identities.read.machine.json',
 	],
 	'readRelationshipsAccount' => [
 		'/v1/accounts/' . ADMINISTRATOR_ACCOUNT_ID . '/identities/' . ADMINISTRATOR_IDENTITY_ID . '/relationships/' . Schemas\Identities\IdentitySchema::RELATIONSHIPS_ACCOUNT,

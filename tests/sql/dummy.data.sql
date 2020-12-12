@@ -17,13 +17,7 @@ VALUES (_binary 0x5E79EFBFBD0D5B7C46EFBFBDEFBFBD34, 'user', 'active', '2019-11-0
         '2017-01-04 12:30:00', '2017-01-04 12:30:00'),
        (_binary 0xFE1152868CFD41BFACEB6CA95BAF6FE9, 'user', 'blocked', '2019-05-29 07:38:24',
         '{"datetime": {"zone": "Europe/Prague", "format": {"date": "DD.MM.YYYY", "time": "HH:mm"}, "week_start": 1}}',
-        '2017-01-04 12:30:00', '2017-01-04 12:30:00'),
-       (_binary 0x16E5DB2900064484AC385CDEA5A008F5, 'machine', 'active', '2019-11-07 22:30:56', '[]',
-        '2017-01-03 11:30:00', '2017-01-03 11:30:00'),
-       (_binary 0xFF32AC4EF0104C859CB3D310F6708A4E, 'machine', 'active', '2019-11-07 22:30:56', '[]',
-        '2017-01-03 11:30:00', '2017-01-03 11:30:00'),
-       (_binary 0xF3CCE15AF9564C7EA4B3AC31A0017AC9, 'machine', 'active', '2019-11-07 22:30:56', '[]',
-        '2017-01-03 11:30:00', '2017-01-03 11:30:00');
+        '2017-01-04 12:30:00', '2017-01-04 12:30:00');
 
 INSERT IGNORE INTO `fb_accounts_users` (`account_id`, `account_request_hash`)
 VALUES (_binary 0x5E79EFBFBD0D5B7C46EFBFBDEFBFBD34, 'NGZqMmVxdnhubjJpIyMxNTc0NDUwNDAz'),
@@ -32,13 +26,6 @@ VALUES (_binary 0x5E79EFBFBD0D5B7C46EFBFBDEFBFBD34, 'NGZqMmVxdnhubjJpIyMxNTc0NDU
        (_binary 0xFD23CCB48D874EB394DA638AB4E10AE3, 'YjRqZXFoZGw1Z3ZzIyMxNTc0MjA3NDQ1'),
        (_binary 0xFDBE2CE23B1841F1AAABC3C56D286EB4, 'YjRqZXFoZGw1Z3ZzIyMxNTc0MjA3NDQ1'),
        (_binary 0xFE1152868CFD41BFACEB6CA95BAF6FE9, 'YjRqZXFoZGw1Z3ZzIyMxNTc0MjA3NDQ1');
-
-INSERT IGNORE INTO `fb_accounts_machines` (`account_device`, `account_id`, `owner_id`)
-VALUES ('machine-first-device-name', _binary 0x16E5DB2900064484AC385CDEA5A008F5,
-        _binary 0x5E79EFBFBD0D5B7C46EFBFBDEFBFBD34),
-       ('machine-old-device-name', _binary 0xFF32AC4EF0104C859CB3D310F6708A4E,
-        _binary 0x5E79EFBFBD0D5B7C46EFBFBDEFBFBD34),
-       ('other-device-name', _binary 0xF3CCE15AF9564C7EA4B3AC31A0017AC9, _binary 0xEFBFBDEFBFBD68EFBFBD770B40EFBFBD);
 
 INSERT IGNORE INTO `fb_accounts_details` (`detail_id`, `account_id`, `detail_first_name`, `detail_last_name`,
                                           `detail_middle_name`, `created_at`, `updated_at`)
@@ -105,11 +92,7 @@ VALUES (_binary 0x77331268EFBFBD3449EFBFBDEFBFBD04, _binary 0x5E79EFBFBD0D5B7C46
        (_binary 0xFF99F3C470B943F99EF6C9B33B43ABCB, _binary 0xFAE8D7817E2C43189C8543BA637D14C5,
         'clark.kent@fastybird.com', 'active', '2017-05-03 11:27:34', '2019-05-29 07:14:00', 'user',
         '11b9174dbbc8f3f5ce3b3d270a3c73eedbe33832489aaa70fe0f370566bcd2f12a1a15041b318b57fd6ce6bb82471d9e2d7bc753064491bf418f9f9c3de21fcf',
-        '{"salt": "89bwo"}'),
-       (_binary 0x540F6CFC39D1417587FBAAC729D78C0A, _binary 0xFF32AC4EF0104C859CB3D310F6708A4E, 'deviceUsername',
-        'active', '2017-05-03 11:27:34', '2019-05-29 07:14:00', 'machine', 'unsecuredDevicePassword', '[]'),
-       (_binary 0x35BE56240160432383EE6F59000934B4, _binary 0x16E5DB2900064484AC385CDEA5A008F5, 'oldDeviceUsername',
-        'active', '2017-05-03 11:27:34', '2019-05-29 07:14:00', 'machine', 'unsecuredDevicePassword', '[]');
+        '{"salt": "89bwo"}');
 
 INSERT IGNORE INTO `fb_security_tokens` (`token_id`, `parent_id`, `token_token`, `token_state`, `token_type`)
 VALUES (_binary 0x4F6710A138AA42649C0CB45285181270, NULL,

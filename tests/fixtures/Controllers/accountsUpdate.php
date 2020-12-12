@@ -9,7 +9,6 @@ const USER_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uZmFzdHl
 
 const ADMINISTRATOR_ACCOUNT_ID = '5e79efbf-bd0d-5b7c-46ef-bfbdefbfbd34';
 const CHILD_USER_ACCOUNT_ID = 'efbfbdef-bfbd-68ef-bfbd-770b40efbfbd';
-const MACHINE_ACCOUNT_ID = '16e5db29-0006-4484-ac38-5cdea5a008f5';
 const UNKNOWN_ID = '83985c13-238c-46bd-aacb-2359d5c921a7';
 
 return [
@@ -28,13 +27,6 @@ return [
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.update.userWithRoles.json'),
 		StatusCodeInterface::STATUS_OK,
 		__DIR__ . '/responses/accounts/accounts.update.userWithRoles.json',
-	],
-	'updateMachine'           => [
-		'/v1/accounts/' . MACHINE_ACCOUNT_ID,
-		'Bearer ' . ADMINISTRATOR_TOKEN,
-		file_get_contents(__DIR__ . '/requests/accounts/accounts.update.machine.json'),
-		StatusCodeInterface::STATUS_OK,
-		__DIR__ . '/responses/accounts/accounts.update.machine.json',
 	],
 
 	// Invalid responses

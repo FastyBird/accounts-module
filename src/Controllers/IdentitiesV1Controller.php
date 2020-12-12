@@ -60,21 +60,16 @@ final class IdentitiesV1Controller extends BaseV1Controller
 	/** @var Hydrators\Identities\UserAccountIdentityHydrator */
 	private $userAccountIdentityHydrator;
 
-	/** @var Hydrators\Identities\MachineAccountIdentityHydrator */
-	private $machineAccountIdentityHydrator;
-
 	/** @var Models\Identities\IIdentitiesManager */
 	private $identitiesManager;
 
 	public function __construct(
 		Hydrators\Identities\UserAccountIdentityHydrator $userAccountIdentityHydrator,
-		Hydrators\Identities\MachineAccountIdentityHydrator $machineAccountIdentityHydrator,
 		Models\Identities\IIdentityRepository $identityRepository,
 		Models\Identities\IIdentitiesManager $identitiesManager,
 		Models\Accounts\IAccountRepository $accountRepository
 	) {
 		$this->userAccountIdentityHydrator = $userAccountIdentityHydrator;
-		$this->machineAccountIdentityHydrator = $machineAccountIdentityHydrator;
 		$this->identityRepository = $identityRepository;
 		$this->identitiesManager = $identitiesManager;
 
@@ -149,16 +144,6 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 			if ($document->getResource()->getType() === Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
 				$createData = $this->userAccountIdentityHydrator->hydrate($document);
-
-				$this->validateAccountRelation($createData, $account);
-
-				$createData->offsetSet('account', $account);
-
-				// Store item into database
-				$identity = $this->identitiesManager->create($createData);
-
-			} elseif ($document->getResource()->getType() === Schemas\Identities\MachineAccountIdentitySchema::SCHEMA_TYPE) {
-				$createData = $this->machineAccountIdentityHydrator->hydrate($document);
 
 				$this->validateAccountRelation($createData, $account);
 
@@ -292,18 +277,6 @@ final class IdentitiesV1Controller extends BaseV1Controller
 				&& $identity instanceof Entities\Identities\IUserAccountIdentity
 			) {
 				$updateData = $this->userAccountIdentityHydrator->hydrate($document, $identity);
-
-				$this->validateAccountRelation($updateData, $account);
-
-				// Update item in database
-				$identity = $this->identitiesManager->update($identity, $updateData);
-
-			} elseif (
-				$document->getResource()
-					->getType() === Schemas\Identities\MachineAccountIdentitySchema::SCHEMA_TYPE
-				&& $identity instanceof Entities\Identities\IMachineAccountIdentity
-			) {
-				$updateData = $this->machineAccountIdentityHydrator->hydrate($document, $identity);
 
 				$this->validateAccountRelation($updateData, $account);
 

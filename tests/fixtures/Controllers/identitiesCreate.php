@@ -8,7 +8,6 @@ const INVALID_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uZmFz
 const USER_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uZmFzdHliaXJkLmF1dGgtbW9kdWxlIiwianRpIjoiYTVkMTliNDktNjI3Mi00ZGJkLWI3YWItNTJhY2QwMzY3MWE5IiwiaWF0IjoxNTg1NzQyNDAwLCJleHAiOjE1ODU3NDk2MDAsInVzZXIiOiJlZmJmYmRlZi1iZmJkLTY4ZWYtYmZiZC03NzBiNDBlZmJmYmQiLCJyb2xlcyI6WyJ1c2VyIl19.wi_KC5aDT-y6wKbA4wG29KPHUqFyEcNTI-TUvwIH5yc';
 
 const ADMINISTRATOR_ACCOUNT_ID = '5e79efbf-bd0d-5b7c-46ef-bfbdefbfbd34';
-const MACHINE_ACCOUNT_ID = '16e5db29-0006-4484-ac38-5cdea5a008f5';
 
 return [
 	// Valid responses
@@ -19,13 +18,6 @@ return [
 		file_get_contents(__DIR__ . '/requests/identities/identities.create.user.json'),
 		StatusCodeInterface::STATUS_CREATED,
 		__DIR__ . '/responses/identities/identities.create.user.json',
-	],
-	'createMachine'       => [
-		'/v1/accounts/' . MACHINE_ACCOUNT_ID . '/identities',
-		'Bearer ' . ADMINISTRATOR_TOKEN,
-		file_get_contents(__DIR__ . '/requests/identities/identities.create.machine.json'),
-		StatusCodeInterface::STATUS_CREATED,
-		__DIR__ . '/responses/identities/identities.create.machine.json',
 	],
 
 	// Invalid responses

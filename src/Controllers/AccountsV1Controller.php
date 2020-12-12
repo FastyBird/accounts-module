@@ -53,9 +53,6 @@ final class AccountsV1Controller extends BaseV1Controller
 	/** @var Hydrators\Accounts\UserAccountHydrator */
 	private $userAccountHydrator;
 
-	/** @var Hydrators\Accounts\MachineAccountHydrator */
-	private $machineAccountHydrator;
-
 	/** @var Models\Accounts\IAccountRepository */
 	private $accountRepository;
 
@@ -67,13 +64,11 @@ final class AccountsV1Controller extends BaseV1Controller
 
 	public function __construct(
 		Hydrators\Accounts\UserAccountHydrator $userAccountHydrator,
-		Hydrators\Accounts\MachineAccountHydrator $machineAccountHydrator,
 		Models\Accounts\IAccountRepository $accountRepository,
 		Models\Accounts\IAccountsManager $accountsManager,
 		Models\Identities\IIdentitiesManager $identitiesManager
 	) {
 		$this->userAccountHydrator = $userAccountHydrator;
-		$this->machineAccountHydrator = $machineAccountHydrator;
 
 		$this->accountRepository = $accountRepository;
 		$this->accountsManager = $accountsManager;
@@ -173,13 +168,6 @@ final class AccountsV1Controller extends BaseV1Controller
 
 			if ($document->getResource()->getType() === Schemas\Accounts\UserAccountSchema::SCHEMA_TYPE) {
 				$createData = $this->userAccountHydrator->hydrate($document);
-
-				// Store item into database
-				$account = $this->accountsManager->create($createData);
-
-			} elseif ($document->getResource()->getType() === Schemas\Accounts\MachineAccountSchema::SCHEMA_TYPE) {
-				$createData = $this->machineAccountHydrator->hydrate($document);
-				$createData['owner'] = $this->user->getAccount();
 
 				// Store item into database
 				$account = $this->accountsManager->create($createData);
@@ -317,15 +305,6 @@ final class AccountsV1Controller extends BaseV1Controller
 				&& $account instanceof Entities\Accounts\IUserAccount
 			) {
 				$updateAccountData = $this->userAccountHydrator->hydrate($document, $account);
-
-				$account = $this->accountsManager->update($account, $updateAccountData);
-
-			} elseif (
-				$document->getResource()
-					->getType() === Schemas\Accounts\MachineAccountSchema::SCHEMA_TYPE
-				&& $account instanceof Entities\Accounts\IMachineAccount
-			) {
-				$updateAccountData = $this->machineAccountHydrator->hydrate($document, $account);
 
 				$account = $this->accountsManager->update($account, $updateAccountData);
 

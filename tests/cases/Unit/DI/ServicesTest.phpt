@@ -56,7 +56,6 @@ final class ServicesTest extends BaseTestCase
 		Assert::notNull($container->getByType(Controllers\RoleChildrenV1Controller::class));
 
 		Assert::notNull($container->getByType(Schemas\Accounts\UserAccountSchema::class));
-		Assert::notNull($container->getByType(Schemas\Accounts\MachineAccountSchema::class));
 		Assert::notNull($container->getByType(Schemas\Emails\EmailSchema::class));
 		Assert::notNull($container->getByType(Schemas\Sessions\SessionSchema::class));
 		Assert::notNull($container->getByType(Schemas\Identities\UserAccountIdentitySchema::class));
@@ -64,9 +63,7 @@ final class ServicesTest extends BaseTestCase
 
 		Assert::notNull($container->getByType(Hydrators\Accounts\ProfileAccountHydrator::class));
 		Assert::notNull($container->getByType(Hydrators\Accounts\UserAccountHydrator::class));
-		Assert::notNull($container->getByType(Hydrators\Accounts\MachineAccountHydrator::class));
 		Assert::notNull($container->getByType(Hydrators\Identities\UserAccountIdentityHydrator::class));
-		Assert::notNull($container->getByType(Hydrators\Identities\MachineAccountIdentityHydrator::class));
 		Assert::notNull($container->getByType(Hydrators\Emails\ProfileEmailHydrator::class));
 		Assert::notNull($container->getByType(Hydrators\Emails\EmailHydrator::class));
 		Assert::notNull($container->getByType(Hydrators\Roles\RoleHydrator::class));

@@ -63,7 +63,7 @@ class User extends SimpleAuthSecurity\User
 		if ($this->isLoggedIn()) {
 			$account = $this->getAccount();
 
-			return $account !== null ? ($account instanceof Entities\Accounts\IUserAccount ? $account->getName() : 'Machine') : 'Registered';
+			return $account !== null && $account instanceof Entities\Accounts\IUserAccount ? $account->getName() : 'Registered';
 		}
 
 		return 'Guest';

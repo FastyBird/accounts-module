@@ -47,8 +47,7 @@ use Throwable;
  * @ORM\DiscriminatorColumn(name="identity_type", type="string", length=15)
  * @ORM\DiscriminatorMap({
  *      "identity"   = "FastyBird\AuthModule\Entities\Identities\Identity",
- *      "user"       = "FastyBird\AuthModule\Entities\Identities\UserAccountIdentity",
- *      "machine"    = "FastyBird\AuthModule\Entities\Identities\MachineAccountIdentity"
+ *      "user"       = "FastyBird\AuthModule\Entities\Identities\UserAccountIdentity"
  * })
  * @ORM\MappedSuperclass
  */

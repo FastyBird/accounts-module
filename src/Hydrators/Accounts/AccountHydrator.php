@@ -22,7 +22,7 @@ use Fig\Http\Message\StatusCodeInterface;
 use IPub\JsonAPIDocument;
 
 /**
- * Machine account entity hydrator
+ * Account entity hydrator
  *
  * @package        FastyBird:AuthModule!
  * @subpackage     Hydrators

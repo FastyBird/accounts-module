@@ -67,10 +67,6 @@ final class Constants
 		SimpleAuth\Constants::ROLE_USER,
 	];
 
-	public const MACHINE_ACCOUNT_DEFAULT_ROLES = [
-		SimpleAuth\Constants::ROLE_USER,
-	];
-
 	public const MODULE_ACCOUNT_DEFAULT_ROLES = [
 		SimpleAuth\Constants::ROLE_USER,
 	];

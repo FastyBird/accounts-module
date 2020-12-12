@@ -170,13 +170,6 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 					}
 				}
 			}
-
-			if ($object instanceof Entities\Accounts\IMachineAccount) {
-				/**
-				 * Machine account has always only defined roles
-				 */
-				$object->setRoles($this->getDefaultRoles(AuthModule\Constants::MACHINE_ACCOUNT_DEFAULT_ROLES));
-			}
 		}
 	}
 

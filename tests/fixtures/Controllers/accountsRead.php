@@ -10,7 +10,6 @@ const USER_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uZmFzdHl
 
 const ADMINISTRATOR_ACCOUNT_ID = '5e79efbf-bd0d-5b7c-46ef-bfbdefbfbd34';
 const CHILD_USER_ACCOUNT_ID = 'efbfbdef-bfbd-68ef-bfbd-770b40efbfbd';
-const MACHINE_ACCOUNT_ID = '16e5db29-0006-4484-ac38-5cdea5a008f5';
 const UNKNOWN_ID = '83985c13-238c-46bd-aacb-2359d5c921a7';
 
 return [
@@ -33,12 +32,6 @@ return [
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		StatusCodeInterface::STATUS_OK,
 		__DIR__ . '/responses/accounts/accounts.read.user.json',
-	],
-	'readOneMachine'                 => [
-		'/v1/accounts/' . MACHINE_ACCOUNT_ID,
-		'Bearer ' . ADMINISTRATOR_TOKEN,
-		StatusCodeInterface::STATUS_OK,
-		__DIR__ . '/responses/accounts/accounts.read.machine.json',
 	],
 	'readRelationshipsIdentities'    => [
 		'/v1/accounts/' . ADMINISTRATOR_ACCOUNT_ID . '/relationships/' . Schemas\Accounts\AccountSchema::RELATIONSHIPS_IDENTITIES,
@@ -85,20 +78,8 @@ return [
 		StatusCodeInterface::STATUS_FORBIDDEN,
 		__DIR__ . '/responses/generic/forbidden.json',
 	],
-	'readOneNoToken'                 => [
-		'/v1/accounts/' . MACHINE_ACCOUNT_ID,
-		null,
-		StatusCodeInterface::STATUS_FORBIDDEN,
-		__DIR__ . '/responses/generic/forbidden.json',
-	],
 	'readAllEmptyToken'              => [
 		'/v1/accounts',
-		'',
-		StatusCodeInterface::STATUS_FORBIDDEN,
-		__DIR__ . '/responses/generic/forbidden.json',
-	],
-	'readOneEmptyToken'              => [
-		'/v1/accounts/' . MACHINE_ACCOUNT_ID,
 		'',
 		StatusCodeInterface::STATUS_FORBIDDEN,
 		__DIR__ . '/responses/generic/forbidden.json',
@@ -109,32 +90,14 @@ return [
 		StatusCodeInterface::STATUS_FORBIDDEN,
 		__DIR__ . '/responses/generic/forbidden.json',
 	],
-	'readOneUserToken'               => [
-		'/v1/accounts/' . MACHINE_ACCOUNT_ID,
-		'Bearer ' . USER_TOKEN,
-		StatusCodeInterface::STATUS_FORBIDDEN,
-		__DIR__ . '/responses/generic/forbidden.json',
-	],
 	'readAllInvalidToken'            => [
 		'/v1/accounts',
 		'Bearer ' . INVALID_TOKEN,
 		StatusCodeInterface::STATUS_UNAUTHORIZED,
 		__DIR__ . '/responses/generic/unauthorized.json',
 	],
-	'readOneInvalidToken'            => [
-		'/v1/accounts/' . MACHINE_ACCOUNT_ID,
-		'Bearer ' . INVALID_TOKEN,
-		StatusCodeInterface::STATUS_UNAUTHORIZED,
-		__DIR__ . '/responses/generic/unauthorized.json',
-	],
 	'readAllExpiredToken'            => [
 		'/v1/accounts',
-		'Bearer ' . EXPIRED_TOKEN,
-		StatusCodeInterface::STATUS_UNAUTHORIZED,
-		__DIR__ . '/responses/generic/unauthorized.json',
-	],
-	'readOneExpiredToken'            => [
-		'/v1/accounts/' . MACHINE_ACCOUNT_ID,
 		'Bearer ' . EXPIRED_TOKEN,
 		StatusCodeInterface::STATUS_UNAUTHORIZED,
 		__DIR__ . '/responses/generic/unauthorized.json',
