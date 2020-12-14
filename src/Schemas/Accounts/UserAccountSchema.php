@@ -127,7 +127,7 @@ final class UserAccountSchema extends AccountSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ACCOUNT_EMAILS,
 					[
-						Router\Router::URL_ACCOUNT_ID => $account->getPlainId(),
+						Router\Routes::URL_ACCOUNT_ID => $account->getPlainId(),
 					]
 				),
 				true,
@@ -158,8 +158,8 @@ final class UserAccountSchema extends AccountSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ACCOUNT_RELATIONSHIP,
 					[
-						Router\Router::URL_ITEM_ID     => $account->getPlainId(),
-						Router\Router::RELATION_ENTITY => $name,
+						Router\Routes::URL_ITEM_ID     => $account->getPlainId(),
+						Router\Routes::RELATION_ENTITY => $name,
 					]
 				),
 				false

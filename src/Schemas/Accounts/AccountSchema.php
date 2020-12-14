@@ -86,7 +86,7 @@ abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
 			$this->router->urlFor(
 				AuthModule\Constants::ROUTE_NAME_ACCOUNT,
 				[
-					Router\Router::URL_ITEM_ID => $account->getPlainId(),
+					Router\Routes::URL_ITEM_ID => $account->getPlainId(),
 				]
 			),
 			false
@@ -133,7 +133,7 @@ abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITIES,
 					[
-						Router\Router::URL_ACCOUNT_ID => $account->getPlainId(),
+						Router\Routes::URL_ACCOUNT_ID => $account->getPlainId(),
 					]
 				),
 				true,
@@ -165,8 +165,8 @@ abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ACCOUNT_RELATIONSHIP,
 					[
-						Router\Router::URL_ITEM_ID     => $account->getPlainId(),
-						Router\Router::RELATION_ENTITY => $name,
+						Router\Routes::URL_ITEM_ID     => $account->getPlainId(),
+						Router\Routes::RELATION_ENTITY => $name,
 					]
 				),
 				false

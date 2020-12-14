@@ -143,7 +143,7 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ACCOUNT,
 					[
-						Router\Router::URL_ITEM_ID => $accessToken->getIdentity()
+						Router\Routes::URL_ITEM_ID => $accessToken->getIdentity()
 							->getAccount()
 							->getPlainId(),
 					]
@@ -171,7 +171,7 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_SESSION_RELATIONSHIP,
 					[
-						Router\Router::RELATION_ENTITY => $name,
+						Router\Routes::RELATION_ENTITY => $name,
 					]
 				),
 				false

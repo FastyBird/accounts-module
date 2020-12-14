@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * RouterFactory.php
+ * Routes.php
  *
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
@@ -19,8 +19,8 @@ use FastyBird\AuthModule;
 use FastyBird\AuthModule\Controllers;
 use FastyBird\AuthModule\Middleware;
 use FastyBird\SimpleAuth\Middleware as SimpleAuthMiddleware;
+use FastyBird\WebServer\Router as WebServerRouter;
 use IPub\SlimRouter\Routing;
-use Psr\Http\Message\ResponseFactoryInterface;
 
 /**
  * Module router configuration
@@ -30,7 +30,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-class Router extends Routing\Router
+class Routes implements WebServerRouter\IRoutes
 {
 
 	public const URL_ITEM_ID = 'id';
@@ -91,11 +91,8 @@ class Router extends Routing\Router
 		Controllers\RoleChildrenV1Controller $roleChildrenV1Controller,
 		Middleware\AccessMiddleware $authAccessControlMiddleware,
 		SimpleAuthMiddleware\AccessMiddleware $accessControlMiddleware,
-		SimpleAuthMiddleware\UserMiddleware $userMiddleware,
-		?ResponseFactoryInterface $responseFactory = null
+		SimpleAuthMiddleware\UserMiddleware $userMiddleware
 	) {
-		parent::__construct($responseFactory, null);
-
 		$this->publicV1Controller = $publicV1Controller;
 
 		$this->sessionV1Controller = $sessionV1Controller;
@@ -118,9 +115,9 @@ class Router extends Routing\Router
 	/**
 	 * @return void
 	 */
-	public function registerRoutes(): void
+	public function registerRoutes(Routing\IRouter $router): void
 	{
-		$routes = $this->group('/v1', function (Routing\RouteCollector $group): void {
+		$routes = $router->group('/v1', function (Routing\RouteCollector $group): void {
 			$group->post('/reset-identity', [$this->publicV1Controller, 'resetIdentity']);
 
 			$group->post('/register', [$this->publicV1Controller, 'register']);

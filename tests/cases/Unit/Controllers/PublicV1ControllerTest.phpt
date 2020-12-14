@@ -2,9 +2,9 @@
 
 namespace Tests\Cases;
 
-use FastyBird\AuthModule\Router;
 use FastyBird\WebServer\Http;
 use Fig\Http\Message\RequestMethodInterface;
+use IPub\SlimRouter;
 use React\Http\Message\ServerRequest;
 use Tester\Assert;
 use Tests\Tools;
@@ -28,9 +28,9 @@ final class PublicV1ControllerTest extends DbTestCase
 	 */
 	public function testResetIdentity(string $url, string $body, int $statusCode, string $fixture): void
 	{
-		/** @var Router\Router $router */
+		/** @var SlimRouter\Routing\IRouter $router */
 		$router = $this->getContainer()
-			->getByType(Router\Router::class);
+			->getByType(SlimRouter\Routing\IRouter::class);
 
 		$request = new ServerRequest(
 			RequestMethodInterface::METHOD_POST,

@@ -122,7 +122,7 @@ final class AccountsV1Controller extends BaseV1Controller
 	private function findAccount(
 		Message\ServerRequestInterface $request
 	): Entities\Accounts\IAccount {
-		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Router::URL_ITEM_ID, null))) {
+		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Routes::URL_ITEM_ID, null))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
 				$this->translator->translate('//module.base.messages.notFound.heading'),
@@ -131,7 +131,7 @@ final class AccountsV1Controller extends BaseV1Controller
 		}
 
 		$findQuery = new Queries\FindAccountsQuery();
-		$findQuery->byId(Uuid\Uuid::fromString($request->getAttribute(Router\Router::URL_ITEM_ID, null)));
+		$findQuery->byId(Uuid\Uuid::fromString($request->getAttribute(Router\Routes::URL_ITEM_ID, null)));
 
 		$account = $this->accountRepository->findOneBy($findQuery);
 
@@ -465,7 +465,7 @@ final class AccountsV1Controller extends BaseV1Controller
 		$account = $this->findAccount($request);
 
 		// & relation entity name
-		$relationEntity = strtolower($request->getAttribute(Router\Router::RELATION_ENTITY));
+		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if ($relationEntity === Schemas\Accounts\AccountSchema::RELATIONSHIPS_IDENTITIES) {
 			return $response

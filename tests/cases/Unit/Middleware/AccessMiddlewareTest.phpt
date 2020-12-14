@@ -2,8 +2,8 @@
 
 namespace Tests\Cases;
 
-use FastyBird\AuthModule\Router;
 use FastyBird\WebServer\Http;
+use IPub\SlimRouter;
 use React\Http\Message\ServerRequest;
 use Tester\Assert;
 use Tests\Tools;
@@ -35,9 +35,9 @@ final class AccessMiddlewareTest extends DbTestCase
 		int $statusCode,
 		string $fixture
 	): void {
-		/** @var Router\Router $router */
+		/** @var SlimRouter\Routing\IRouter $router */
 		$router = $this->getContainer()
-			->getByType(Router\Router::class);
+			->getByType(SlimRouter\Routing\IRouter::class);
 
 		$request = new ServerRequest(
 			$method,

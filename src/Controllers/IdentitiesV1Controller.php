@@ -347,7 +347,7 @@ final class IdentitiesV1Controller extends BaseV1Controller
 		$identity = $this->findIdentity($request, $this->findAccount($request));
 
 		// & relation entity name
-		$relationEntity = strtolower($request->getAttribute(Router\Router::RELATION_ENTITY));
+		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if ($relationEntity === Schemas\Identities\IdentitySchema::RELATIONSHIPS_ACCOUNT) {
 			return $response

@@ -546,7 +546,7 @@ final class SessionV1Controller extends BaseV1Controller
 		Message\ServerRequestInterface $request,
 		WebServerHttp\Response $response
 	): WebServerHttp\Response {
-		$relationEntity = strtolower($request->getAttribute(Router\Router::RELATION_ENTITY));
+		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if ($relationEntity === Schemas\Sessions\SessionSchema::RELATIONSHIPS_ACCOUNT) {
 			return $response

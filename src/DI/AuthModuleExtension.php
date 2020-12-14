@@ -78,8 +78,7 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 			->addTag('middleware', ['priority' => 150]);
 
 		$builder->addDefinition(null)
-			->setType(Router\Router::class)
-			->addSetup('registerRoutes');
+			->setType(Router\Routes::class);
 
 		// Console commands
 		$builder->addDefinition(null)

@@ -2,9 +2,9 @@
 
 namespace Tests\Cases;
 
-use FastyBird\AuthModule\Router;
 use FastyBird\WebServer\Http;
 use Fig\Http\Message\RequestMethodInterface;
+use IPub\SlimRouter;
 use React\Http\Message\ServerRequest;
 use Tester\Assert;
 use Tests\Tools;
@@ -28,9 +28,9 @@ final class IdentitiesV1ControllerTest extends DbTestCase
 	 */
 	public function testRead(string $url, ?string $token, int $statusCode, string $fixture): void
 	{
-		/** @var Router\Router $router */
+		/** @var SlimRouter\Routing\IRouter $router */
 		$router = $this->getContainer()
-			->getByType(Router\Router::class);
+			->getByType(SlimRouter\Routing\IRouter::class);
 
 		$headers = [];
 
@@ -65,9 +65,9 @@ final class IdentitiesV1ControllerTest extends DbTestCase
 	 */
 	public function testCreate(string $url, ?string $token, string $body, int $statusCode, string $fixture): void
 	{
-		/** @var Router\Router $router */
+		/** @var SlimRouter\Routing\IRouter $router */
 		$router = $this->getContainer()
-			->getByType(Router\Router::class);
+			->getByType(SlimRouter\Routing\IRouter::class);
 
 		$headers = [];
 

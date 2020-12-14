@@ -42,7 +42,7 @@ trait TRoleFinder
 	protected function findRole(
 		Message\ServerRequestInterface $request
 	): Entities\Roles\IRole {
-		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Router::URL_ITEM_ID, null))) {
+		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Routes::URL_ITEM_ID, null))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
 				$this->translator->translate('//module.base.messages.notFound.heading'),
@@ -51,7 +51,7 @@ trait TRoleFinder
 		}
 
 		$findQuery = new Queries\FindRolesQuery();
-		$findQuery->byId(Uuid\Uuid::fromString($request->getAttribute(Router\Router::URL_ITEM_ID, null)));
+		$findQuery->byId(Uuid\Uuid::fromString($request->getAttribute(Router\Routes::URL_ITEM_ID, null)));
 
 		$role = $this->roleRepository->findOneBy($findQuery);
 

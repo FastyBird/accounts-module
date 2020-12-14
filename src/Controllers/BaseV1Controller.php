@@ -125,7 +125,7 @@ abstract class BaseV1Controller
 		WebServerHttp\Response $response
 	): WebServerHttp\Response {
 		// & relation entity name
-		$relationEntity = strtolower($request->getAttribute(Router\Router::RELATION_ENTITY));
+		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if ($relationEntity !== '') {
 			throw new JsonApiExceptions\JsonApiErrorException(
@@ -190,8 +190,8 @@ abstract class BaseV1Controller
 				RequestMethodInterface::METHOD_POST,
 				RequestMethodInterface::METHOD_PATCH,
 			], true)
-			&& $request->getAttribute(Router\Router::URL_ITEM_ID, null) !== null
-			&& $request->getAttribute(Router\Router::URL_ITEM_ID) !== $document->getResource()
+			&& $request->getAttribute(Router\Routes::URL_ITEM_ID, null) !== null
+			&& $request->getAttribute(Router\Routes::URL_ITEM_ID) !== $document->getResource()
 				->getIdentifier()
 				->getId()
 		) {

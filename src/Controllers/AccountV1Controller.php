@@ -226,7 +226,7 @@ final class AccountV1Controller extends BaseV1Controller
 	): WebServerHttp\Response {
 		$account = $this->findAccount();
 
-		$relationEntity = strtolower($request->getAttribute(Router\Router::RELATION_ENTITY));
+		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if (
 			$relationEntity === Schemas\Accounts\UserAccountSchema::RELATIONSHIPS_EMAILS

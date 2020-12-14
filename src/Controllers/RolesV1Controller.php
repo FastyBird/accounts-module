@@ -194,7 +194,7 @@ final class RolesV1Controller extends BaseV1Controller
 	): WebServerHttp\Response {
 		$role = $this->findRole($request);
 
-		$relationEntity = strtolower($request->getAttribute(Router\Router::RELATION_ENTITY));
+		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if ($relationEntity === Schemas\Roles\RoleSchema::RELATIONSHIPS_PARENT) {
 			return $response

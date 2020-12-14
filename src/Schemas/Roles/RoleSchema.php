@@ -114,7 +114,7 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 			$this->router->urlFor(
 				AuthModule\Constants::ROUTE_NAME_ROLE,
 				[
-					Router\Router::URL_ITEM_ID => $role->getPlainId(),
+					Router\Routes::URL_ITEM_ID => $role->getPlainId(),
 				]
 			),
 			false
@@ -179,7 +179,7 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ROLE,
 					[
-						Router\Router::URL_ITEM_ID => $role->getPlainId(),
+						Router\Routes::URL_ITEM_ID => $role->getPlainId(),
 					]
 				),
 				false
@@ -191,7 +191,7 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ROLE_CHILDREN,
 					[
-						Router\Router::URL_ITEM_ID => $role->getPlainId(),
+						Router\Routes::URL_ITEM_ID => $role->getPlainId(),
 					]
 				),
 				true,
@@ -225,8 +225,8 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ROLE_RELATIONSHIP,
 					[
-						Router\Router::URL_ITEM_ID     => $role->getPlainId(),
-						Router\Router::RELATION_ENTITY => $name,
+						Router\Routes::URL_ITEM_ID     => $role->getPlainId(),
+						Router\Routes::RELATION_ENTITY => $name,
 
 					]
 				),
