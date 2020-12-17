@@ -42,7 +42,7 @@ final class RoleHydrator extends JsonApiHydrators\Hydrator
 	];
 
 	/** @var string */
-	protected string $translationDomain = 'module.roles';
+	protected string $translationDomain = 'auth-module.roles';
 
 	/**
 	 * {@inheritDoc}

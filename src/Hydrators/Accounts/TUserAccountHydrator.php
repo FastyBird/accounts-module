@@ -56,8 +56,8 @@ trait TUserAccountHydrator
 		if (!$attributes->has('first_name')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.missingAttribute.heading'),
-				$this->translator->translate('//module.base.messages.missingAttribute.message'),
+				$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
+				$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
 				[
 					'pointer' => '/data/attributes/details/first_name',
 				]
@@ -80,8 +80,8 @@ trait TUserAccountHydrator
 		if (!$attributes->has('last_name')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.missingAttribute.heading'),
-				$this->translator->translate('//module.base.messages.missingAttribute.message'),
+				$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
+				$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
 				[
 					'pointer' => '/data/attributes/details/last_name',
 				]
@@ -124,8 +124,8 @@ trait TUserAccountHydrator
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//module.base.messages.missingAttribute.heading'),
-					$this->translator->translate('//module.base.messages.missingAttribute.message'),
+					$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
+					$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
 					[
 						'pointer' => '/data/attributes/details/first_name',
 					]
@@ -138,8 +138,8 @@ trait TUserAccountHydrator
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//module.base.messages.missingAttribute.heading'),
-					$this->translator->translate('//module.base.messages.missingAttribute.message'),
+					$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
+					$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
 					[
 						'pointer' => '/data/attributes/details/last_name',
 					]

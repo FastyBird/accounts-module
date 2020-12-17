@@ -46,7 +46,7 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 	protected Models\Identities\IIdentityRepository $identityRepository;
 
 	/** @var string */
-	protected string $translationDomain = 'module.identities';
+	protected string $translationDomain = 'auth-module.identities';
 
 	/** @var Models\Identities\IIdentitiesManager */
 	private Models\Identities\IIdentitiesManager $identitiesManager;
@@ -93,8 +93,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 		if ($this->user->getAccount() === null) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//module.base.messages.forbidden.heading'),
-				$this->translator->translate('//module.base.messages.forbidden.message')
+				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//auth-module.base.messages.forbidden.message')
 			);
 		}
 
@@ -165,8 +165,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 				) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-						$this->translator->translate('//module.base.messages.missingAttribute.heading'),
-						$this->translator->translate('//module.base.messages.missingAttribute.message'),
+						$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
+						$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
 						[
 							'pointer' => '/data/attributes/password/current',
 						]
@@ -180,8 +180,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 				) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-						$this->translator->translate('//module.base.messages.missingAttribute.heading'),
-						$this->translator->translate('//module.base.messages.missingAttribute.message'),
+						$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
+						$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
 						[
 							'pointer' => '/data/attributes/password/new',
 						]
@@ -192,8 +192,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 					->get('current'))) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-						$this->translator->translate('//module.base.messages.invalidAttribute.heading'),
-						$this->translator->translate('//module.base.messages.invalidAttribute.message'),
+						$this->translator->translate('//auth-module.base.messages.invalidAttribute.heading'),
+						$this->translator->translate('//auth-module.base.messages.invalidAttribute.message'),
 						[
 							'pointer' => '/data/attributes/password/current',
 						]
@@ -210,8 +210,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//module.base.messages.invalidType.heading'),
-					$this->translator->translate('//module.base.messages.invalidType.message'),
+					$this->translator->translate('//auth-module.base.messages.invalidType.heading'),
+					$this->translator->translate('//auth-module.base.messages.invalidType.message'),
 					[
 						'pointer' => '/data/type',
 					]
@@ -236,8 +236,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.notUpdated.heading'),
-				$this->translator->translate('//module.base.messages.notUpdated.message')
+				$this->translator->translate('//auth-module.base.messages.notUpdated.heading'),
+				$this->translator->translate('//auth-module.base.messages.notUpdated.message')
 			);
 
 		} finally {

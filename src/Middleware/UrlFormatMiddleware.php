@@ -77,8 +77,8 @@ final class UrlFormatMiddleware implements MiddlewareInterface
 			if ($this->user->getAccount() === null) {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_BAD_REQUEST,
-					$this->translator->translate('//module.base.messages.failed.heading'),
-					$this->translator->translate('//module.base.messages.failed.message')
+					$this->translator->translate('//auth-module.base.messages.failed.heading'),
+					$this->translator->translate('//auth-module.base.messages.failed.message')
 				);
 			}
 

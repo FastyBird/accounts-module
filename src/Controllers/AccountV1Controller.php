@@ -39,7 +39,7 @@ final class AccountV1Controller extends BaseV1Controller
 {
 
 	/** @var string */
-	protected string $translationDomain = 'module.account';
+	protected string $translationDomain = 'auth-module.account';
 
 	/** @var Hydrators\Accounts\ProfileAccountHydrator */
 	private Hydrators\Accounts\ProfileAccountHydrator $accountHydrator;
@@ -87,8 +87,8 @@ final class AccountV1Controller extends BaseV1Controller
 		if ($this->user->getAccount() === null) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//module.base.messages.forbidden.heading'),
-				$this->translator->translate('//module.base.messages.forbidden.message')
+				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//auth-module.base.messages.forbidden.message')
 			);
 		}
 
@@ -118,8 +118,8 @@ final class AccountV1Controller extends BaseV1Controller
 		if ($account->getPlainId() !== $document->getResource()->getIdentifier()->getId()) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
-				$this->translator->translate('//module.base.messages.invalidIdentifier.heading'),
-				$this->translator->translate('//module.base.messages.invalidIdentifier.message')
+				$this->translator->translate('//auth-module.base.messages.invalidIdentifier.heading'),
+				$this->translator->translate('//auth-module.base.messages.invalidIdentifier.message')
 			);
 		}
 
@@ -137,8 +137,8 @@ final class AccountV1Controller extends BaseV1Controller
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//module.base.messages.invalidType.heading'),
-					$this->translator->translate('//module.base.messages.invalidType.message'),
+					$this->translator->translate('//auth-module.base.messages.invalidType.heading'),
+					$this->translator->translate('//auth-module.base.messages.invalidType.message'),
 					[
 						'pointer' => '/data/type',
 					]
@@ -163,8 +163,8 @@ final class AccountV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.notUpdated.heading'),
-				$this->translator->translate('//module.base.messages.notUpdated.message')
+				$this->translator->translate('//auth-module.base.messages.notUpdated.heading'),
+				$this->translator->translate('//auth-module.base.messages.notUpdated.message')
 			);
 
 		} finally {

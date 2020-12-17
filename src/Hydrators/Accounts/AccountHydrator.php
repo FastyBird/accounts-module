@@ -38,7 +38,7 @@ abstract class AccountHydrator extends JsonApiHydrators\Hydrator
 	];
 
 	/** @var string */
-	protected string $translationDomain = 'module.accounts';
+	protected string $translationDomain = 'auth-module.accounts';
 
 	/**
 	 * @param JsonAPIDocument\Objects\IStandardObject<mixed> $attributes
@@ -51,8 +51,8 @@ abstract class AccountHydrator extends JsonApiHydrators\Hydrator
 		if (!Types\AccountStateType::isValidValue((string) $attributes->get('state'))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.invalidAttribute.heading'),
-				$this->translator->translate('//module.base.messages.invalidAttribute.message'),
+				$this->translator->translate('//auth-module.base.messages.invalidAttribute.heading'),
+				$this->translator->translate('//auth-module.base.messages.invalidAttribute.message'),
 				[
 					'pointer' => '/data/attributes/state',
 				]

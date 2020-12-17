@@ -45,8 +45,8 @@ trait TRoleFinder
 		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Routes::URL_ITEM_ID, null))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//module.base.messages.notFound.heading'),
-				$this->translator->translate('//module.base.messages.notFound.message')
+				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
+				$this->translator->translate('//auth-module.base.messages.notFound.message')
 			);
 		}
 
@@ -58,8 +58,8 @@ trait TRoleFinder
 		if ($role === null) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//module.base.messages.notFound.heading'),
-				$this->translator->translate('//module.base.messages.notFound.message')
+				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
+				$this->translator->translate('//auth-module.base.messages.notFound.message')
 			);
 		}
 

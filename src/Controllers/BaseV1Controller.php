@@ -130,15 +130,15 @@ abstract class BaseV1Controller
 		if ($relationEntity !== '') {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//module.base.messages.relationNotFound.heading'),
-				$this->translator->translate('//module.base.messages.relationNotFound.message', ['relation' => $relationEntity])
+				$this->translator->translate('//auth-module.base.messages.relationNotFound.heading'),
+				$this->translator->translate('//auth-module.base.messages.relationNotFound.message', ['relation' => $relationEntity])
 			);
 		}
 
 		throw new JsonApiExceptions\JsonApiErrorException(
 			StatusCodeInterface::STATUS_NOT_FOUND,
-			$this->translator->translate('//module.base.messages.unknownRelation.heading'),
-			$this->translator->translate('//module.base.messages.unknownRelation.message')
+			$this->translator->translate('//auth-module.base.messages.unknownRelation.heading'),
+			$this->translator->translate('//auth-module.base.messages.unknownRelation.message')
 		);
 	}
 
@@ -158,15 +158,15 @@ abstract class BaseV1Controller
 		} catch (Utils\JsonException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
-				$this->translator->translate('//module.base.messages.notValidJson.heading'),
-				$this->translator->translate('//module.base.messages.notValidJson.message')
+				$this->translator->translate('//auth-module.base.messages.notValidJson.heading'),
+				$this->translator->translate('//auth-module.base.messages.notValidJson.message')
 			);
 
 		} catch (JsonAPIDocument\Exceptions\RuntimeException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
-				$this->translator->translate('//module.base.messages.notValidJsonApi.heading'),
-				$this->translator->translate('//module.base.messages.notValidJsonApi.message')
+				$this->translator->translate('//auth-module.base.messages.notValidJsonApi.heading'),
+				$this->translator->translate('//auth-module.base.messages.notValidJsonApi.message')
 			);
 		}
 
@@ -197,8 +197,8 @@ abstract class BaseV1Controller
 		) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
-				$this->translator->translate('//module.base.messages.invalidIdentifier.heading'),
-				$this->translator->translate('//module.base.messages.invalidIdentifier.message')
+				$this->translator->translate('//auth-module.base.messages.invalidIdentifier.heading'),
+				$this->translator->translate('//auth-module.base.messages.invalidIdentifier.message')
 			);
 		}
 
@@ -232,8 +232,8 @@ abstract class BaseV1Controller
 		) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.invalidRelation.heading'),
-				$this->translator->translate('//module.base.messages.invalidRelation.message'),
+				$this->translator->translate('//auth-module.base.messages.invalidRelation.heading'),
+				$this->translator->translate('//auth-module.base.messages.invalidRelation.message'),
 				[
 					'pointer' => '/data/relationships/account/data/id',
 				]

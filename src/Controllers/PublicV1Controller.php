@@ -46,7 +46,7 @@ final class PublicV1Controller extends BaseV1Controller
 	protected Models\Identities\IIdentityRepository $identityRepository;
 
 	/** @var string */
-	protected string $translationDomain = 'module.public';
+	protected string $translationDomain = 'auth-module.public';
 
 	/** @var Models\Accounts\IAccountsManager */
 	private Models\Accounts\IAccountsManager $accountsManager;
@@ -111,8 +111,8 @@ final class PublicV1Controller extends BaseV1Controller
 		if ($document->getResource()->getType() !== Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.invalidType.heading'),
-				$this->translator->translate('//module.base.messages.invalidType.message'),
+				$this->translator->translate('//auth-module.base.messages.invalidType.heading'),
+				$this->translator->translate('//auth-module.base.messages.invalidType.message'),
 				[
 					'pointer' => '/data/type',
 				]
@@ -122,8 +122,8 @@ final class PublicV1Controller extends BaseV1Controller
 		if (!$attributes->has('uid')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.missingAttribute.heading'),
-				$this->translator->translate('//module.base.messages.missingAttribute.message'),
+				$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
+				$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
 				[
 					'pointer' => '/data/attributes/uid',
 				]
@@ -138,8 +138,8 @@ final class PublicV1Controller extends BaseV1Controller
 		if ($identity === null) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//module.base.messages.notFound.heading'),
-				$this->translator->translate('//module.base.messages.notFound.message')
+				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
+				$this->translator->translate('//auth-module.base.messages.notFound.message')
 			);
 		}
 
@@ -148,16 +148,16 @@ final class PublicV1Controller extends BaseV1Controller
 		if (!$account instanceof Entities\Accounts\IUserAccount) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//module.base.messages.notFound.heading'),
-				$this->translator->translate('//module.base.messages.notFound.message')
+				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
+				$this->translator->translate('//auth-module.base.messages.notFound.message')
 			);
 		}
 
 		if ($account->isDeleted()) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//module.base.messages.notFound.heading'),
-				$this->translator->translate('//module.base.messages.notFound.message')
+				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
+				$this->translator->translate('//auth-module.base.messages.notFound.message')
 			);
 
 		} elseif ($account->isNotActivated()) {

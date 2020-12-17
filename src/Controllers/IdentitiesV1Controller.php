@@ -55,7 +55,7 @@ final class IdentitiesV1Controller extends BaseV1Controller
 	protected Models\Accounts\IAccountRepository $accountRepository;
 
 	/** @var string */
-	protected string $translationDomain = 'module.identities';
+	protected string $translationDomain = 'auth-module.identities';
 
 	/** @var Hydrators\Identities\UserAccountIdentityHydrator */
 	private Hydrators\Identities\UserAccountIdentityHydrator $userAccountIdentityHydrator;
@@ -155,8 +155,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//module.base.messages.invalidType.heading'),
-					$this->translator->translate('//module.base.messages.invalidType.message'),
+					$this->translator->translate('//auth-module.base.messages.invalidType.heading'),
+					$this->translator->translate('//auth-module.base.messages.invalidType.message'),
 					[
 						'pointer' => '/data/type',
 					]
@@ -170,8 +170,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 		} catch (DoctrineCrudExceptions\EntityCreationException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.missingAttribute.heading'),
-				$this->translator->translate('//module.base.messages.missingAttribute.message'),
+				$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
+				$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
 				[
 					'pointer' => 'data/attributes/' . $ex->getField(),
 				]
@@ -184,8 +184,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 			if (preg_match("%PRIMARY'%", $ex->getMessage(), $match) === 1) {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//module.base.messages.uniqueIdentifier.heading'),
-					$this->translator->translate('//module.base.messages.uniqueIdentifier.message'),
+					$this->translator->translate('//auth-module.base.messages.uniqueIdentifier.heading'),
+					$this->translator->translate('//auth-module.base.messages.uniqueIdentifier.message'),
 					[
 						'pointer' => '/data/id',
 					]
@@ -198,8 +198,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 				if (is_string($columnKey) && Utils\Strings::startsWith($columnKey, 'identity_')) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-						$this->translator->translate('//module.base.messages.uniqueAttribute.heading'),
-						$this->translator->translate('//module.base.messages.uniqueAttribute.message'),
+						$this->translator->translate('//auth-module.base.messages.uniqueAttribute.heading'),
+						$this->translator->translate('//auth-module.base.messages.uniqueAttribute.message'),
 						[
 							'pointer' => '/data/attributes/' . Utils\Strings::substring($columnKey, 9),
 						]
@@ -209,8 +209,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.uniqueAttribute.heading'),
-				$this->translator->translate('//module.base.messages.uniqueAttribute.message')
+				$this->translator->translate('//auth-module.base.messages.uniqueAttribute.heading'),
+				$this->translator->translate('//auth-module.base.messages.uniqueAttribute.message')
 			);
 
 		} catch (Throwable $ex) {
@@ -224,8 +224,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.notCreated.heading'),
-				$this->translator->translate('//module.base.messages.notCreated.message')
+				$this->translator->translate('//auth-module.base.messages.notCreated.heading'),
+				$this->translator->translate('//auth-module.base.messages.notCreated.message')
 			);
 
 		} finally {
@@ -286,8 +286,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//module.base.messages.invalidType.heading'),
-					$this->translator->translate('//module.base.messages.invalidType.message'),
+					$this->translator->translate('//auth-module.base.messages.invalidType.heading'),
+					$this->translator->translate('//auth-module.base.messages.invalidType.message'),
 					[
 						'pointer' => '/data/type',
 					]
@@ -312,8 +312,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.notUpdated.heading'),
-				$this->translator->translate('//module.base.messages.notUpdated.message')
+				$this->translator->translate('//auth-module.base.messages.notUpdated.heading'),
+				$this->translator->translate('//auth-module.base.messages.notUpdated.message')
 			);
 
 		} finally {

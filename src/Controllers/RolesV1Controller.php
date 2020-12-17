@@ -45,7 +45,7 @@ final class RolesV1Controller extends BaseV1Controller
 	use Controllers\Finders\TRoleFinder;
 
 	/** @var string */
-	protected string $translationDomain = 'module.roles';
+	protected string $translationDomain = 'auth-module.roles';
 
 	/** @var Hydrators\Roles\RoleHydrator */
 	private Hydrators\Roles\RoleHydrator $roleHydrator;
@@ -135,8 +135,8 @@ final class RolesV1Controller extends BaseV1Controller
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//module.base.messages.invalidType.heading'),
-					$this->translator->translate('//module.base.messages.invalidType.message'),
+					$this->translator->translate('//auth-module.base.messages.invalidType.heading'),
+					$this->translator->translate('//auth-module.base.messages.invalidType.message'),
 					[
 						'pointer' => '/data/type',
 					]
@@ -163,8 +163,8 @@ final class RolesV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//module.base.messages.notUpdated.heading'),
-				$this->translator->translate('//module.base.messages.notUpdated.message')
+				$this->translator->translate('//auth-module.base.messages.notUpdated.heading'),
+				$this->translator->translate('//auth-module.base.messages.notUpdated.message')
 			);
 
 		} finally {

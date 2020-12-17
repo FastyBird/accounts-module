@@ -39,6 +39,6 @@ final class ProfileEmailHydrator extends JsonApiHydrators\Hydrator
 	];
 
 	/** @var string */
-	protected string $translationDomain = 'module.emails';
+	protected string $translationDomain = 'auth-module.emails';
 
 }

@@ -40,6 +40,6 @@ abstract class IdentityHydrator extends JsonApiHydrators\Hydrator
 	];
 
 	/** @var string */
-	protected string $translationDomain = 'module.identities';
+	protected string $translationDomain = 'auth-module.identities';
 
 }
