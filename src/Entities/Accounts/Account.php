@@ -60,7 +60,7 @@ abstract class Account implements IAccount
 	 * @ORM\Column(type="uuid_binary", name="account_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
-	protected $id;
+	protected Uuid\UuidInterface $id;
 
 	/**
 	 * @var Types\AccountStateType
@@ -77,7 +77,7 @@ abstract class Account implements IAccount
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="datetime", name="account_last_visit", nullable=true, options={"default": null})
 	 */
-	protected $lastVisit = null;
+	protected ?DateTimeInterface $lastVisit = null;
 
 	/**
 	 * @var Common\Collections\Collection<int, Entities\Identities\IIdentity>
@@ -85,7 +85,7 @@ abstract class Account implements IAccount
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\OneToMany(targetEntity="FastyBird\AuthModule\Entities\Identities\Identity", mappedBy="account")
 	 */
-	protected $identities;
+	protected Common\Collections\Collection $identities;
 
 	/**
 	 * @var Common\Collections\Collection<int, Entities\Roles\IRole>
@@ -101,7 +101,7 @@ abstract class Account implements IAccount
 	 *    }
 	 * )
 	 */
-	protected $roles;
+	protected Common\Collections\Collection $roles;
 
 	/**
 	 * @param Uuid\UuidInterface|null $id
@@ -196,17 +196,13 @@ abstract class Account implements IAccount
 	 */
 	public function hasRole(string $role): bool
 	{
-		if ($this->roles !== null) {
-			$role = $this->roles
-				->filter(function (Entities\Roles\IRole $row) use ($role): bool {
-					return $role === $row->getName();
-				})
-				->first();
+		$role = $this->roles
+			->filter(function (Entities\Roles\IRole $row) use ($role): bool {
+				return $role === $row->getName();
+			})
+			->first();
 
-			return $role !== false;
-		}
-
-		return false;
+		return $role !== false;
 	}
 
 	/**

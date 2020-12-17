@@ -31,7 +31,7 @@ final class UserAccountIdentityHydrator extends IdentityHydrator
 {
 
 	/** @var string[] */
-	protected $attributes = [
+	protected array $attributes = [
 		'uid',
 		'password',
 	];

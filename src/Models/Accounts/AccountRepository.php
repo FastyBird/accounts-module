@@ -38,10 +38,10 @@ final class AccountRepository implements IAccountRepository
 	use Nette\SmartObject;
 
 	/** @var Common\Persistence\ManagerRegistry */
-	private $managerRegistry;
+	private Common\Persistence\ManagerRegistry $managerRegistry;
 
 	/** @var Persistence\ObjectRepository<Entities\Accounts\Account>[] */
-	private $repository = [];
+	private array $repository = [];
 
 	public function __construct(
 		Common\Persistence\ManagerRegistry $managerRegistry

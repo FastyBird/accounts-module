@@ -46,19 +46,19 @@ final class SessionV1Controller extends BaseV1Controller
 {
 
 	/** @var string */
-	protected $translationDomain = 'module.session';
+	protected string $translationDomain = 'module.session';
 
 	/** @var SimpleAuthModels\Tokens\ITokenRepository */
-	private $tokenRepository;
+	private SimpleAuthModels\Tokens\ITokenRepository $tokenRepository;
 
 	/** @var SimpleAuthModels\Tokens\ITokensManager */
-	private $tokensManager;
+	private SimpleAuthModels\Tokens\ITokensManager $tokensManager;
 
 	/** @var SimpleAuthSecurity\TokenReader */
-	private $tokenReader;
+	private SimpleAuthSecurity\TokenReader $tokenReader;
 
 	/** @var SimpleAuthSecurity\TokenBuilder */
-	private $tokenBuilder;
+	private SimpleAuthSecurity\TokenBuilder $tokenBuilder;
 
 	public function __construct(
 		SimpleAuthModels\Tokens\ITokenRepository $tokenRepository,
@@ -212,7 +212,7 @@ final class SessionV1Controller extends BaseV1Controller
 
 			} else {
 				// Log catched exception
-				$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+				$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 					'exception' => [
 						'message' => $ex->getMessage(),
 						'code'    => $ex->getCode(),
@@ -266,7 +266,7 @@ final class SessionV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),
@@ -435,7 +435,7 @@ final class SessionV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),
@@ -502,7 +502,7 @@ final class SessionV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),

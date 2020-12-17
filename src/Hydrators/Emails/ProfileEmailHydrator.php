@@ -30,11 +30,8 @@ final class ProfileEmailHydrator extends JsonApiHydrators\Hydrator
 
 	use TEmailHydrator;
 
-	/** @var string */
-	protected $entityIdentifier = self::IDENTIFIER_KEY;
-
 	/** @var string[] */
-	protected $attributes = [
+	protected array $attributes = [
 		0 => 'address',
 
 		'default' => 'default',
@@ -42,6 +39,6 @@ final class ProfileEmailHydrator extends JsonApiHydrators\Hydrator
 	];
 
 	/** @var string */
-	protected $translationDomain = 'module.emails';
+	protected string $translationDomain = 'module.emails';
 
 }

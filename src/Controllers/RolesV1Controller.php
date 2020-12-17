@@ -45,16 +45,16 @@ final class RolesV1Controller extends BaseV1Controller
 	use Controllers\Finders\TRoleFinder;
 
 	/** @var string */
-	protected $translationDomain = 'module.roles';
+	protected string $translationDomain = 'module.roles';
 
 	/** @var Hydrators\Roles\RoleHydrator */
-	private $roleHydrator;
+	private Hydrators\Roles\RoleHydrator $roleHydrator;
 
 	/** @var Models\Roles\IRoleRepository */
-	private $roleRepository;
+	private Models\Roles\IRoleRepository $roleRepository;
 
 	/** @var Models\Roles\IRolesManager */
-	private $rolesManager;
+	private Models\Roles\IRolesManager $rolesManager;
 
 	public function __construct(
 		Models\Roles\IRoleRepository $roleRepository,
@@ -154,7 +154,7 @@ final class RolesV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),

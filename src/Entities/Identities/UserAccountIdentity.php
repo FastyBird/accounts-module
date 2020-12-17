@@ -43,10 +43,10 @@ class UserAccountIdentity extends Identity implements IUserAccountIdentity
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="text", name="identity_token", nullable=false)
 	 */
-	private $password;
+	private string $password;
 
 	/** @var string|null */
-	private $plainPassword = null;
+	private ?string $plainPassword = null;
 
 	/**
 	 * @param Entities\Accounts\IUserAccount $account

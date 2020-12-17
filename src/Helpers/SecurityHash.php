@@ -36,7 +36,7 @@ final class SecurityHash
 	private const SEPARATOR = '##';
 
 	/** @var DateTimeFactory\DateTimeFactory */
-	private $dateTimeFactory;
+	private DateTimeFactory\DateTimeFactory $dateTimeFactory;
 
 	public function __construct(
 		DateTimeFactory\DateTimeFactory $dateTimeFactory

@@ -39,10 +39,10 @@ final class RoleChildrenV1Controller extends BaseV1Controller
 	use Controllers\Finders\TRoleFinder;
 
 	/** @var string */
-	protected $translationDomain = 'module.roles';
+	protected string $translationDomain = 'module.roles';
 
 	/** @var Models\Roles\IRoleRepository */
-	private $roleRepository;
+	private Models\Roles\IRoleRepository $roleRepository;
 
 	public function __construct(
 		Models\Roles\IRoleRepository $roleRepository

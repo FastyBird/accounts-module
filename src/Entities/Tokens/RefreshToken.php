@@ -50,7 +50,7 @@ class RefreshToken extends SimpleAuthEntities\Tokens\Token implements IRefreshTo
 	 * @IPubDoctrine\Crud(is={"writable"})
 	 * @ORM\Column(name="token_valid_till", type="datetime", nullable=true)
 	 */
-	private $validTill;
+	private ?DateTimeInterface $validTill = null;
 
 	/**
 	 * @param IAccessToken $accessToken

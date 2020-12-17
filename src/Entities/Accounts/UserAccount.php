@@ -45,7 +45,7 @@ class UserAccount extends Account implements IUserAccount
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\OneToOne(targetEntity="FastyBird\AuthModule\Entities\Details\Details", mappedBy="account", cascade={"persist", "remove"})
 	 */
-	private $details;
+	private Entities\Details\IDetails $details;
 
 	/**
 	 * @var string|null
@@ -53,7 +53,7 @@ class UserAccount extends Account implements IUserAccount
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="string", name="account_request_hash", nullable=true, options={"default": null})
 	 */
-	private $requestHash = null;
+	private ?string $requestHash = null;
 
 	/**
 	 * @var Common\Collections\Collection<int, Entities\Emails\IEmail>
@@ -61,7 +61,7 @@ class UserAccount extends Account implements IUserAccount
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\OneToMany(targetEntity="FastyBird\AuthModule\Entities\Emails\Email", mappedBy="account", cascade={"persist", "remove"}, orphanRemoval=true)
 	 */
-	private $emails;
+	private Common\Collections\Collection $emails;
 
 	/**
 	 * @param Uuid\UuidInterface|null $id
@@ -181,18 +181,14 @@ class UserAccount extends Account implements IUserAccount
 	 */
 	public function getEmail(?string $id = null): ?Entities\Emails\IEmail
 	{
-		if ($this->emails !== null) {
-			$email = $this->emails
-				->filter(function (Entities\Emails\IEmail $row) use ($id): bool {
-					return $id !== null ? $row->getId()
-						->equals(Uuid\Uuid::fromString($id)) : $row->isDefault();
-				})
-				->first();
+		$email = $this->emails
+			->filter(function (Entities\Emails\IEmail $row) use ($id): bool {
+				return $id !== null ? $row->getId()
+					->equals(Uuid\Uuid::fromString($id)) : $row->isDefault();
+			})
+			->first();
 
-			return $email !== false ? $email : null;
-		}
-
-		return null;
+		return $email !== false ? $email : null;
 	}
 
 	/**

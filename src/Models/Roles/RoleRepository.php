@@ -38,10 +38,10 @@ final class RoleRepository implements IRoleRepository
 	use Nette\SmartObject;
 
 	/** @var Common\Persistence\ManagerRegistry */
-	private $managerRegistry;
+	private Common\Persistence\ManagerRegistry $managerRegistry;
 
 	/** @var Persistence\ObjectRepository<Entities\Roles\Role>|null */
-	private $repository;
+	private ?Persistence\ObjectRepository $repository = null;
 
 	public function __construct(
 		Common\Persistence\ManagerRegistry $managerRegistry

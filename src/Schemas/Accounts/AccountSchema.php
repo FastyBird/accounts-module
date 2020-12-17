@@ -43,7 +43,7 @@ abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
 	public const RELATIONSHIPS_ROLES = 'roles';
 
 	/** @var Routing\IRouter */
-	protected $router;
+	protected Routing\IRouter $router;
 
 	public function __construct(
 		Routing\IRouter $router

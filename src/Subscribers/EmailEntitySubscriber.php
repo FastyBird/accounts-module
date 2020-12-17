@@ -36,7 +36,7 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 	use Nette\SmartObject;
 
 	/** @var Models\Emails\IEmailRepository */
-	private $emailRepository;
+	private Models\Emails\IEmailRepository $emailRepository;
 
 	public function __construct(
 		Models\Emails\IEmailRepository $emailRepository

@@ -51,7 +51,7 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 	 * @ORM\ManyToOne(targetEntity="FastyBird\AuthModule\Entities\Identities\Identity")
 	 * @ORM\JoinColumn(name="identity_id", referencedColumnName="identity_id", onDelete="cascade", nullable=false)
 	 */
-	private $identity;
+	private Entities\Identities\IIdentity $identity;
 
 	/**
 	 * @var DateTimeInterface|null
@@ -59,7 +59,7 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 	 * @IPubDoctrine\Crud(is={"writable"})
 	 * @ORM\Column(name="token_valid_till", type="datetime", nullable=true)
 	 */
-	private $validTill;
+	private ?DateTimeInterface $validTill = null;
 
 	/**
 	 * @param Entities\Identities\IIdentity $identity

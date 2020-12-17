@@ -31,21 +31,18 @@ use IPub\JsonAPIDocument;
 final class RoleHydrator extends JsonApiHydrators\Hydrator
 {
 
-	/** @var string */
-	protected $entityIdentifier = self::IDENTIFIER_KEY;
-
 	/** @var string[] */
-	protected $attributes = [
+	protected array $attributes = [
 		'description',
 	];
 
 	/** @var string[] */
-	protected $relationships = [
+	protected array $relationships = [
 		Schemas\Roles\RoleSchema::RELATIONSHIPS_PARENT,
 	];
 
 	/** @var string */
-	protected $translationDomain = 'module.roles';
+	protected string $translationDomain = 'module.roles';
 
 	/**
 	 * {@inheritDoc}

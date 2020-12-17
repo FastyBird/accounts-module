@@ -42,19 +42,19 @@ class InitializeCommand extends Console\Command\Command
 {
 
 	/** @var Models\Accounts\IAccountRepository */
-	private $accountRepository;
+	private Models\Accounts\IAccountRepository $accountRepository;
 
 	/** @var Models\Roles\IRoleRepository */
-	private $roleRepository;
+	private Models\Roles\IRoleRepository $roleRepository;
 
 	/** @var Models\Roles\IRolesManager */
-	private $rolesManager;
+	private Models\Roles\IRolesManager $rolesManager;
 
 	/** @var Common\Persistence\ManagerRegistry */
-	private $managerRegistry;
+	private Common\Persistence\ManagerRegistry $managerRegistry;
 
 	/** @var Database\Helpers\Database */
-	private $database;
+	private Database\Helpers\Database $database;
 
 	public function __construct(
 		Models\Accounts\IAccountRepository $accountRepository,

@@ -40,43 +40,43 @@ class Routes implements WebServerRouter\IRoutes
 	public const RELATION_ENTITY = 'relationEntity';
 
 	/** @var Controllers\PublicV1Controller */
-	private $publicV1Controller;
+	private Controllers\PublicV1Controller $publicV1Controller;
 
 	/** @var Controllers\SessionV1Controller */
-	private $sessionV1Controller;
+	private Controllers\SessionV1Controller $sessionV1Controller;
 
 	/** @var Controllers\AccountV1Controller */
-	private $accountV1Controller;
+	private Controllers\AccountV1Controller $accountV1Controller;
 
 	/** @var Controllers\AccountEmailsV1Controller */
-	private $accountEmailsV1Controller;
+	private Controllers\AccountEmailsV1Controller $accountEmailsV1Controller;
 
 	/** @var Controllers\AccountIdentitiesV1Controller */
-	private $accountIdentitiesV1Controller;
+	private Controllers\AccountIdentitiesV1Controller $accountIdentitiesV1Controller;
 
 	/** @var Controllers\RolesV1Controller */
-	private $rolesV1Controller;
+	private Controllers\RolesV1Controller $rolesV1Controller;
 
 	/** @var Controllers\RoleChildrenV1Controller */
-	private $roleChildrenV1Controller;
+	private Controllers\RoleChildrenV1Controller $roleChildrenV1Controller;
 
 	/** @var Controllers\AccountsV1Controller */
-	private $accountsV1Controller;
+	private Controllers\AccountsV1Controller $accountsV1Controller;
 
 	/** @var Controllers\EmailsV1Controller */
-	private $emailsV1Controller;
+	private Controllers\EmailsV1Controller $emailsV1Controller;
 
 	/** @var Controllers\IdentitiesV1Controller */
-	private $identitiesV1Controller;
+	private Controllers\IdentitiesV1Controller $identitiesV1Controller;
 
 	/** @var Middleware\AccessMiddleware */
-	private $authAccessControlMiddleware;
+	private Middleware\AccessMiddleware $authAccessControlMiddleware;
 
 	/** @var SimpleAuthMiddleware\AccessMiddleware */
-	private $accessControlMiddleware;
+	private SimpleAuthMiddleware\AccessMiddleware $accessControlMiddleware;
 
 	/** @var SimpleAuthMiddleware\UserMiddleware */
-	private $userMiddleware;
+	private SimpleAuthMiddleware\UserMiddleware $userMiddleware;
 
 	public function __construct(
 		Controllers\PublicV1Controller $publicV1Controller,

@@ -33,7 +33,7 @@ class IdentityFactory implements SimpleAuthSecurity\IIdentityFactory
 {
 
 	/** @var SimpleAuthModels\Tokens\ITokenRepository */
-	private $tokenRepository;
+	private SimpleAuthModels\Tokens\ITokenRepository $tokenRepository;
 
 	public function __construct(
 		SimpleAuthModels\Tokens\ITokenRepository $tokenRepository

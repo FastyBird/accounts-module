@@ -52,14 +52,14 @@ class Role implements IRole
 	 * @ORM\Column(type="uuid_binary", name="role_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
-	protected $id;
+	protected Uuid\UuidInterface $id;
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(type="string", name="role_name", length=100, nullable=false)
 	 */
-	private $name;
+	private string $name;
 
 	/**
 	 * @var string
@@ -67,7 +67,7 @@ class Role implements IRole
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="text", name="role_description", nullable=false)
 	 */
-	private $description;
+	private string $description;
 
 	/**
 	 * @var IRole|null
@@ -76,7 +76,7 @@ class Role implements IRole
 	 * @ORM\ManyToOne(targetEntity="FastyBird\AuthModule\Entities\Roles\Role", inversedBy="children")
 	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="role_id", nullable=true, onDelete="set null")
 	 */
-	private $parent;
+	private ?IRole $parent = null;
 
 	/**
 	 * @var Common\Collections\Collection<int, IRole>
@@ -84,7 +84,7 @@ class Role implements IRole
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\OneToMany(targetEntity="FastyBird\AuthModule\Entities\Roles\Role", mappedBy="parent")
 	 */
-	private $children;
+	private Common\Collections\Collection $children;
 
 	/**
 	 * @param string $name

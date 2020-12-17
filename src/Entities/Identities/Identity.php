@@ -66,7 +66,7 @@ abstract class Identity implements IIdentity
 	 * @ORM\Column(type="uuid_binary", name="identity_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
-	protected $id;
+	protected Uuid\UuidInterface $id;
 
 	/**
 	 * @var Entities\Accounts\IAccount
@@ -75,7 +75,7 @@ abstract class Identity implements IIdentity
 	 * @ORM\ManyToOne(targetEntity="FastyBird\AuthModule\Entities\Accounts\Account", inversedBy="identities", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id", onDelete="cascade", nullable=false)
 	 */
-	protected $account;
+	protected Entities\Accounts\IAccount $account;
 
 	/**
 	 * @var string
@@ -83,7 +83,7 @@ abstract class Identity implements IIdentity
 	 * @IPubDoctrine\Crud(is="required")
 	 * @ORM\Column(type="string", name="identity_uid", length=50, nullable=false)
 	 */
-	protected $uid;
+	protected string $uid;
 
 	/**
 	 * @var Types\IdentityStateType

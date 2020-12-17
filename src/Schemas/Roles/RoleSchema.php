@@ -50,10 +50,10 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 	public const RELATIONSHIPS_CHILDREN = 'children';
 
 	/** @var Models\Roles\IRoleRepository */
-	private $roleRepository;
+	private Models\Roles\IRoleRepository $roleRepository;
 
 	/** @var Routing\IRouter */
-	private $router;
+	private Routing\IRouter $router;
 
 	public function __construct(
 		Models\Roles\IRoleRepository $roleRepository,

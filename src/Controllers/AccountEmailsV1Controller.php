@@ -47,19 +47,19 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 	use Controllers\Finders\TEmailFinder;
 
 	/** @var Models\Emails\IEmailRepository */
-	protected $emailRepository;
+	protected Models\Emails\IEmailRepository $emailRepository;
 
 	/** @var string */
-	protected $translationDomain = 'module.emails';
+	protected string $translationDomain = 'module.emails';
 
 	/** @var Hydrators\Emails\ProfileEmailHydrator */
-	private $emailHydrator;
+	private Hydrators\Emails\ProfileEmailHydrator $emailHydrator;
 
 	/** @var Models\Emails\IEmailsManager */
-	private $emailsManager;
+	private Models\Emails\IEmailsManager $emailsManager;
 
 	/** @var Helpers\SecurityHash */
-	private $securityHash;
+	private Helpers\SecurityHash $securityHash;
 
 	public function __construct(
 		Hydrators\Emails\ProfileEmailHydrator $emailHydrator,
@@ -257,7 +257,7 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),
@@ -339,7 +339,7 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),
@@ -407,7 +407,7 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),

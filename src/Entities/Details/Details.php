@@ -48,7 +48,7 @@ class Details implements IDetails
 	 * @ORM\Column(type="uuid_binary", name="detail_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
-	protected $id;
+	protected Uuid\UuidInterface $id;
 
 	/**
 	 * @var Entities\Accounts\IAccount
@@ -58,7 +58,7 @@ class Details implements IDetails
 	 *
 	 * @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.WriteOnlyProperty
 	 */
-	private $account;
+	private Entities\Accounts\IAccount $account;
 
 	/**
 	 * @var string
@@ -66,7 +66,7 @@ class Details implements IDetails
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="detail_first_name", length=100, nullable=false)
 	 */
-	private $firstName;
+	private string $firstName;
 
 	/**
 	 * @var string
@@ -74,7 +74,7 @@ class Details implements IDetails
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="detail_last_name", length=100, nullable=false)
 	 */
-	private $lastName;
+	private string $lastName;
 
 	/**
 	 * @var string|null
@@ -82,7 +82,7 @@ class Details implements IDetails
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="string", name="detail_middle_name", length=100, nullable=true, options={"default": null})
 	 */
-	private $middleName = null;
+	private ?string $middleName = null;
 
 	/**
 	 * @param Entities\Accounts\IAccount $account

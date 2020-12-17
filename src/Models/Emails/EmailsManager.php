@@ -34,7 +34,7 @@ final class EmailsManager implements IEmailsManager
 	use Nette\SmartObject;
 
 	/** @var Crud\IEntityCrud */
-	private $entityCrud;
+	private Crud\IEntityCrud $entityCrud;
 
 	public function __construct(
 		Crud\IEntityCrud $entityCrud

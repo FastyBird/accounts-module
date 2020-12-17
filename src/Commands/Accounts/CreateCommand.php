@@ -43,28 +43,28 @@ class CreateCommand extends Console\Command\Command
 {
 
 	/** @var Models\Accounts\IAccountsManager */
-	private $accountsManager;
+	private Models\Accounts\IAccountsManager $accountsManager;
 
 	/** @var Models\Emails\IEmailRepository */
-	private $emailRepository;
+	private Models\Emails\IEmailRepository $emailRepository;
 
 	/** @var Models\Emails\IEmailsManager */
-	private $emailsManager;
+	private Models\Emails\IEmailsManager $emailsManager;
 
 	/** @var Models\Identities\IIdentitiesManager */
-	private $identitiesManager;
+	private Models\Identities\IIdentitiesManager $identitiesManager;
 
 	/** @var Models\Roles\IRoleRepository */
-	private $roleRepository;
+	private Models\Roles\IRoleRepository $roleRepository;
 
 	/** @var Common\Persistence\ManagerRegistry */
-	private $managerRegistry;
+	private Common\Persistence\ManagerRegistry $managerRegistry;
 
 	/** @var Translation\PrefixedTranslator */
-	private $translator;
+	private Translation\PrefixedTranslator $translator;
 
 	/** @var string */
-	private $translationDomain = 'commands.accountCreate';
+	private string $translationDomain = 'commands.accountCreate';
 
 	public function __construct(
 		Models\Accounts\IAccountsManager $accountsManager,

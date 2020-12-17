@@ -43,16 +43,16 @@ final class PublicV1Controller extends BaseV1Controller
 	use Controllers\Finders\TIdentityFinder;
 
 	/** @var Models\Identities\IIdentityRepository */
-	protected $identityRepository;
+	protected Models\Identities\IIdentityRepository $identityRepository;
 
 	/** @var string */
-	protected $translationDomain = 'module.public';
+	protected string $translationDomain = 'module.public';
 
 	/** @var Models\Accounts\IAccountsManager */
-	private $accountsManager;
+	private Models\Accounts\IAccountsManager $accountsManager;
 
 	/** @var Helpers\SecurityHash */
-	private $securityHash;
+	private Helpers\SecurityHash $securityHash;
 
 	public function __construct(
 		Models\Identities\IIdentityRepository $identityRepository,
@@ -213,7 +213,7 @@ final class PublicV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),

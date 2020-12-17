@@ -40,22 +40,22 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 	use Nette\SmartObject;
 
 	/** @var string[] */
-	private $singleRoles = [
+	private array $singleRoles = [
 		SimpleAuth\Constants::ROLE_ADMINISTRATOR,
 		SimpleAuth\Constants::ROLE_USER,
 	];
 
 	/** @var string[] */
-	private $notAssignableRoles = [
+	private array $notAssignableRoles = [
 		SimpleAuth\Constants::ROLE_VISITOR,
 		SimpleAuth\Constants::ROLE_ANONYMOUS,
 	];
 
 	/** @var Models\Accounts\IAccountRepository */
-	private $accountRepository;
+	private Models\Accounts\IAccountRepository $accountRepository;
 
 	/** @var Models\Roles\IRoleRepository */
-	private $roleRepository;
+	private Models\Roles\IRoleRepository $roleRepository;
 
 	public function __construct(
 		Models\Accounts\IAccountRepository $accountRepository,

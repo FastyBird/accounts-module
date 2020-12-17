@@ -31,11 +31,8 @@ final class EmailHydrator extends JsonApiHydrators\Hydrator
 
 	use TEmailHydrator;
 
-	/** @var string */
-	protected $entityIdentifier = self::IDENTIFIER_KEY;
-
 	/** @var string[] */
-	protected $attributes = [
+	protected array $attributes = [
 		0 => 'address',
 		1 => 'default',
 		2 => 'verified',
@@ -44,11 +41,11 @@ final class EmailHydrator extends JsonApiHydrators\Hydrator
 	];
 
 	/** @var string[] */
-	protected $relationships = [
+	protected array $relationships = [
 		Schemas\Emails\EmailSchema::RELATIONSHIPS_ACCOUNT,
 	];
 
 	/** @var string */
-	protected $translationDomain = 'module.emails';
+	protected string $translationDomain = 'module.emails';
 
 }

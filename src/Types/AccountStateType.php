@@ -42,7 +42,7 @@ class AccountStateType extends Consistence\Enum\Enum
 	 *
 	 * @var string[]
 	 */
-	public static $allowedStates = [
+	public static array $allowedStates = [
 		self::STATE_ACTIVE,
 		self::STATE_BLOCKED,
 		self::STATE_DELETED,

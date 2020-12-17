@@ -42,7 +42,7 @@ abstract class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 	public const RELATIONSHIPS_ACCOUNT = 'account';
 
 	/** @var Routing\IRouter */
-	private $router;
+	private Routing\IRouter $router;
 
 	public function __construct(
 		Routing\IRouter $router

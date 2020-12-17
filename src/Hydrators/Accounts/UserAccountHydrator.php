@@ -31,7 +31,7 @@ class UserAccountHydrator extends AccountHydrator
 	use TUserAccountHydrator;
 
 	/** @var string[] */
-	protected $attributes = [
+	protected array $attributes = [
 		0 => 'details',
 		1 => 'state',
 
@@ -41,12 +41,12 @@ class UserAccountHydrator extends AccountHydrator
 	];
 
 	/** @var string[] */
-	protected $compositedAttributes = [
+	protected array $compositedAttributes = [
 		'params',
 	];
 
 	/** @var string[] */
-	protected $relationships = [
+	protected array $relationships = [
 		Schemas\Accounts\UserAccountSchema::RELATIONSHIPS_ROLES,
 	];
 

@@ -35,13 +35,13 @@ final class Password
 	private const SEPARATOR = '##';
 
 	/** @var string */
-	private $hash;
+	private string $hash;
 
 	/** @var string */
-	private $salt;
+	private string $salt;
 
 	/** @var string */
-	private $password;
+	private string $password;
 
 	public function __construct(
 		?string $hash = null,

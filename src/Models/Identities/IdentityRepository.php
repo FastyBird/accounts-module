@@ -39,10 +39,10 @@ final class IdentityRepository implements IIdentityRepository
 	use Nette\SmartObject;
 
 	/** @var Common\Persistence\ManagerRegistry */
-	private $managerRegistry;
+	private Common\Persistence\ManagerRegistry $managerRegistry;
 
 	/** @var Persistence\ObjectRepository<Entities\Identities\Identity>[] */
-	private $repository = [];
+	private array $repository = [];
 
 	public function __construct(Common\Persistence\ManagerRegistry $managerRegistry)
 	{

@@ -29,7 +29,7 @@ final class ProfileAccountHydrator extends AccountHydrator
 	use TUserAccountHydrator;
 
 	/** @var string[] */
-	protected $attributes = [
+	protected array $attributes = [
 		0 => 'details',
 
 		'first_name'  => 'firstName',
@@ -38,7 +38,7 @@ final class ProfileAccountHydrator extends AccountHydrator
 	];
 
 	/** @var string[] */
-	protected $compositedAttributes = [
+	protected array $compositedAttributes = [
 		'params',
 	];
 

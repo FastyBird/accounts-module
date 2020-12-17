@@ -38,10 +38,10 @@ final class UrlFormatMiddleware implements MiddlewareInterface
 {
 
 	/** @var Security\User */
-	private $user;
+	private Security\User $user;
 
 	/** @var Translation\Translator */
-	private $translator;
+	private Translation\Translator $translator;
 
 	public function __construct(
 		Security\User $user,

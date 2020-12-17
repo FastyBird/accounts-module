@@ -59,7 +59,7 @@ class Email implements IEmail
 	 * @ORM\Column(type="uuid_binary", name="email_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
-	protected $id;
+	protected Uuid\UuidInterface $id;
 
 	/**
 	 * @var Entities\Accounts\IUserAccount
@@ -68,7 +68,7 @@ class Email implements IEmail
 	 * @ORM\ManyToOne(targetEntity="FastyBird\AuthModule\Entities\Accounts\UserAccount", inversedBy="emails")
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id", onDelete="cascade", nullable=false)
 	 */
-	private $account;
+	private Entities\Accounts\IUserAccount $account;
 
 	/**
 	 * @var string
@@ -76,7 +76,7 @@ class Email implements IEmail
 	 * @IPubDoctrine\Crud(is="required")
 	 * @ORM\Column(type="string", name="email_address", unique=true, length=150, nullable=false)
 	 */
-	private $address;
+	private string $address;
 
 	/**
 	 * @var bool
@@ -84,7 +84,7 @@ class Email implements IEmail
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="boolean", name="email_default", length=1, nullable=false, options={"default": false})
 	 */
-	private $default = false;
+	private bool $default = false;
 
 	/**
 	 * @var bool
@@ -92,7 +92,7 @@ class Email implements IEmail
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="boolean", name="email_verified", length=1, nullable=false, options={"default": false})
 	 */
-	private $verified = false;
+	private bool $verified = false;
 
 	/**
 	 * @var string
@@ -100,7 +100,7 @@ class Email implements IEmail
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="string", name="email_verification_hash", length=150, nullable=true, options={"default": null})
 	 */
-	private $verificationHash = null;
+	private ?string $verificationHash = null;
 
 	/**
 	 * @var DateTimeInterface|null
@@ -108,7 +108,7 @@ class Email implements IEmail
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="datetime", name="email_verification_created", nullable=true, options={"default": null})
 	 */
-	private $verificationCreated = null;
+	private ?DateTimeInterface $verificationCreated = null;
 
 	/**
 	 * @var DateTimeInterface|null
@@ -116,7 +116,7 @@ class Email implements IEmail
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="datetime", name="email_verification_completed", nullable=true, options={"default": null})
 	 */
-	private $verificationCompleted = null;
+	private ?DateTimeInterface $verificationCompleted = null;
 
 	/**
 	 * @var Types\EmailVisibilityType

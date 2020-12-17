@@ -39,13 +39,13 @@ final class AccountV1Controller extends BaseV1Controller
 {
 
 	/** @var string */
-	protected $translationDomain = 'module.account';
+	protected string $translationDomain = 'module.account';
 
 	/** @var Hydrators\Accounts\ProfileAccountHydrator */
-	private $accountHydrator;
+	private Hydrators\Accounts\ProfileAccountHydrator $accountHydrator;
 
 	/** @var Models\Accounts\IAccountsManager */
-	private $accountsManager;
+	private Models\Accounts\IAccountsManager $accountsManager;
 
 	public function __construct(
 		Hydrators\Accounts\ProfileAccountHydrator $accountHydrator,
@@ -154,7 +154,7 @@ final class AccountV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),

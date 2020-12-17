@@ -48,19 +48,19 @@ final class AccountsV1Controller extends BaseV1Controller
 {
 
 	/** @var string */
-	protected $translationDomain = 'module.accounts';
+	protected string $translationDomain = 'module.accounts';
 
 	/** @var Hydrators\Accounts\UserAccountHydrator */
-	private $userAccountHydrator;
+	private Hydrators\Accounts\UserAccountHydrator $userAccountHydrator;
 
 	/** @var Models\Accounts\IAccountRepository */
-	private $accountRepository;
+	private Models\Accounts\IAccountRepository $accountRepository;
 
 	/** @var Models\Accounts\IAccountsManager */
-	private $accountsManager;
+	private Models\Accounts\IAccountsManager $accountsManager;
 
 	/** @var Models\Identities\IIdentitiesManager */
-	private $identitiesManager;
+	private Models\Identities\IIdentitiesManager $identitiesManager;
 
 	public function __construct(
 		Hydrators\Accounts\UserAccountHydrator $userAccountHydrator,
@@ -245,7 +245,7 @@ final class AccountsV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),
@@ -338,7 +338,7 @@ final class AccountsV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),
@@ -420,7 +420,7 @@ final class AccountsV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log catched exception
-			$this->logger->error('[CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),

@@ -47,22 +47,22 @@ abstract class BaseV1Controller
 	use Nette\SmartObject;
 
 	/** @var Security\User */
-	protected $user;
+	protected Security\User $user;
 
 	/** @var DateTimeFactory\DateTimeFactory */
-	protected $dateFactory;
+	protected DateTimeFactory\DateTimeFactory $dateFactory;
 
 	/** @var Translation\PrefixedTranslator */
-	protected $translator;
+	protected Translation\PrefixedTranslator $translator;
 
 	/** @var ORM\ManagerRegistry */
-	protected $managerRegistry;
+	protected ORM\ManagerRegistry $managerRegistry;
 
 	/** @var Log\LoggerInterface */
-	protected $logger;
+	protected Log\LoggerInterface $logger;
 
 	/** @var string */
-	protected $translationDomain = '';
+	protected string $translationDomain = '';
 
 	/**
 	 * @param Security\User $user

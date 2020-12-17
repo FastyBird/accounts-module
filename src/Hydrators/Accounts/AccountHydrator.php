@@ -32,16 +32,13 @@ use IPub\JsonAPIDocument;
 abstract class AccountHydrator extends JsonApiHydrators\Hydrator
 {
 
-	/** @var string */
-	protected $entityIdentifier = self::IDENTIFIER_KEY;
-
 	/** @var string[] */
-	protected $attributes = [
+	protected array $attributes = [
 		'state',
 	];
 
 	/** @var string */
-	protected $translationDomain = 'module.accounts';
+	protected string $translationDomain = 'module.accounts';
 
 	/**
 	 * @param JsonAPIDocument\Objects\IStandardObject<mixed> $attributes

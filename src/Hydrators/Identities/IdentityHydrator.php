@@ -29,20 +29,17 @@ use FastyBird\JsonApi\Hydrators as JsonApiHydrators;
 abstract class IdentityHydrator extends JsonApiHydrators\Hydrator
 {
 
-	/** @var string */
-	protected $entityIdentifier = self::IDENTIFIER_KEY;
-
 	/** @var string[] */
-	protected $attributes = [
+	protected array $attributes = [
 		'uid',
 	];
 
 	/** @var string[] */
-	protected $relationships = [
+	protected array $relationships = [
 		Schemas\Identities\IdentitySchema::RELATIONSHIPS_ACCOUNT,
 	];
 
 	/** @var string */
-	protected $translationDomain = 'module.identities';
+	protected string $translationDomain = 'module.identities';
 
 }

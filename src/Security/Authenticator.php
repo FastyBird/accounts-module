@@ -41,7 +41,7 @@ final class Authenticator implements SimpleAuthSecurity\IAuthenticator
 	public const ACCOUNT_PROFILE_OTHER_ERROR = 230;
 
 	/** @var Models\Identities\IIdentityRepository */
-	private $identityRepository;
+	private Models\Identities\IIdentityRepository $identityRepository;
 
 	public function __construct(
 		Models\Identities\IIdentityRepository $identityRepository
