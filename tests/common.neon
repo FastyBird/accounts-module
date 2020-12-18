@@ -34,7 +34,7 @@ extensions:
 	fbWebServer							: FastyBird\WebServer\DI\WebServerExtension
 
 contributteConsole:
-	name: FastyBird:Libraries!
+	name: FastyBird:AuthModule!
 	version: '1.0'
 	catchExceptions: true
 	autoExit: true
