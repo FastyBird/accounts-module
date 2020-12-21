@@ -77,14 +77,14 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 			->setType(Middleware\UrlFormatMiddleware::class)
 			->addTag('middleware', ['priority' => 150]);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('router.routes'))
 			->setType(Router\Routes::class);
 
 		// Console commands
 		$builder->addDefinition($this->prefix('commands.create'))
 			->setType(Commands\Accounts\CreateCommand::class);
 
-		$builder->addDefinition($this->prefix('middleware.initialize'))
+		$builder->addDefinition($this->prefix('commands.initialize'))
 			->setType(Commands\InitializeCommand::class);
 
 		// Database repositories

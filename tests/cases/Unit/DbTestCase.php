@@ -18,13 +18,16 @@ abstract class DbTestCase extends BaseMockeryTestCase
 {
 
 	/** @var Nette\DI\Container|null */
-	private $container;
+	private ?Nette\DI\Container $container = null;
 
 	/** @var bool */
-	private $isDatabaseSetUp = false;
+	private bool $isDatabaseSetUp = false;
 
 	/** @var string[] */
-	private $sqlFiles = [];
+	private array $sqlFiles = [];
+
+	/** @var string[] */
+	private array $neonFiles = [];
 
 	public function setUp(): void
 	{
@@ -50,6 +53,16 @@ abstract class DbTestCase extends BaseMockeryTestCase
 	{
 		if (!in_array($file, $this->sqlFiles, true)) {
 			$this->sqlFiles[] = $file;
+		}
+	}
+
+	/**
+	 * @param string $file
+	 */
+	protected function registerNeonConfigurationFile(string $file): void
+	{
+		if (!in_array($file, $this->neonFiles, true)) {
+			$this->neonFiles[] = $file;
 		}
 	}
 
@@ -98,6 +111,10 @@ abstract class DbTestCase extends BaseMockeryTestCase
 
 		$config->addConfig(__DIR__ . '/../../common.neon');
 
+		foreach ($this->neonFiles as $neonFile) {
+			$config->addConfig($neonFile);
+		}
+
 		DI\AuthModuleExtension::register($config);
 
 		$this->container = $config->createContainer();
@@ -115,9 +132,7 @@ abstract class DbTestCase extends BaseMockeryTestCase
 		if (!$this->isDatabaseSetUp) {
 			$db = $this->getDb();
 
-			$metadatas = $this->getEntityManager()
-				->getMetadataFactory()
-				->getAllMetadata();
+			$metadatas = $this->getEntityManager()->getMetadataFactory()->getAllMetadata();
 			$schemaTool = new ORM\Tools\SchemaTool($this->getEntityManager());
 
 			$schemas = $schemaTool->getCreateSchemaSql($metadatas);
@@ -145,8 +160,7 @@ abstract class DbTestCase extends BaseMockeryTestCase
 	protected function getDb(): DBAL\Connection
 	{
 		/** @var DBAL\Connection $service */
-		$service = $this->getContainer()
-			->getByType(DBAL\Connection::class);
+		$service = $this->getContainer()->getByType(DBAL\Connection::class);
 
 		return $service;
 	}
@@ -157,8 +171,7 @@ abstract class DbTestCase extends BaseMockeryTestCase
 	protected function getEntityManager(): NettrineORM\EntityManagerDecorator
 	{
 		/** @var NettrineORM\EntityManagerDecorator $service */
-		$service = $this->getContainer()
-			->getByType(NettrineORM\EntityManagerDecorator::class);
+		$service = $this->getContainer()->getByType(NettrineORM\EntityManagerDecorator::class);
 
 		return $service;
 	}
