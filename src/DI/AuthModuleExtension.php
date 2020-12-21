@@ -70,10 +70,10 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 		$builder = $this->getContainerBuilder();
 
 		// Http router
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('middleware.access'))
 			->setType(Middleware\AccessMiddleware::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('middleware.urlFormat'))
 			->setType(Middleware\UrlFormatMiddleware::class)
 			->addTag('middleware', ['priority' => 150]);
 
@@ -81,133 +81,133 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 			->setType(Router\Routes::class);
 
 		// Console commands
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('commands.create'))
 			->setType(Commands\Accounts\CreateCommand::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('middleware.initialize'))
 			->setType(Commands\InitializeCommand::class);
 
 		// Database repositories
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('models.accountRepository'))
 			->setType(Models\Accounts\AccountRepository::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('models.emailRepository'))
 			->setType(Models\Emails\EmailRepository::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('models.identityRepository'))
 			->setType(Models\Identities\IdentityRepository::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('models.roleRepository'))
 			->setType(Models\Roles\RoleRepository::class);
 
 		// Database managers
-		$builder->addDefinition($this->prefix('doctrine.accountsManager'))
+		$builder->addDefinition($this->prefix('models.accountsManager'))
 			->setType(Models\Accounts\AccountsManager::class)
 			->setArgument('entityCrud', '__placeholder__');
 
-		$builder->addDefinition($this->prefix('doctrine.emailsManager'))
+		$builder->addDefinition($this->prefix('models.emailsManager'))
 			->setType(Models\Emails\EmailsManager::class)
 			->setArgument('entityCrud', '__placeholder__');
 
-		$builder->addDefinition($this->prefix('doctrine.identitiesManager'))
+		$builder->addDefinition($this->prefix('models.identitiesManager'))
 			->setType(Models\Identities\IdentitiesManager::class)
 			->setArgument('entityCrud', '__placeholder__');
 
-		$builder->addDefinition($this->prefix('doctrine.rolesManager'))
+		$builder->addDefinition($this->prefix('models.rolesManager'))
 			->setType(Models\Roles\RolesManager::class)
 			->setArgument('entityCrud', '__placeholder__');
 
 		// Events subscribers
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('subscribers.accountEntity'))
 			->setType(Subscribers\AccountEntitySubscriber::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('subscribers.emailEntity'))
 			->setType(Subscribers\EmailEntitySubscriber::class);
 
 		// API controllers
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('controllers.session'))
 			->setType(Controllers\SessionV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('controllers.account'))
 			->setType(Controllers\AccountV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('controllers.accountEmails'))
 			->setType(Controllers\AccountEmailsV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('controllers.accountIdentities'))
 			->setType(Controllers\AccountIdentitiesV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('controllers.accounts'))
 			->setType(Controllers\AccountsV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('controllers.emails'))
 			->setType(Controllers\EmailsV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('controllers.identities'))
 			->setType(Controllers\IdentitiesV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('controllers.roles'))
 			->setType(Controllers\RolesV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('controllers.roleChildren'))
 			->setType(Controllers\RoleChildrenV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('controllers.public'))
 			->setType(Controllers\PublicV1Controller::class)
 			->addTag('nette.inject');
 
 		// API schemas
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('schemas.useAccount'))
 			->setType(Schemas\Accounts\UserAccountSchema::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('schemas.email'))
 			->setType(Schemas\Emails\EmailSchema::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('schemas.useAccountIdentity'))
 			->setType(Schemas\Identities\UserAccountIdentitySchema::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('schemas.role'))
 			->setType(Schemas\Roles\RoleSchema::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('schemas.session'))
 			->setType(Schemas\Sessions\SessionSchema::class);
 
 		// API hydrators
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('hydrators.accounts.profile'))
 			->setType(Hydrators\Accounts\ProfileAccountHydrator::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('hydrators.accounts.user'))
 			->setType(Hydrators\Accounts\UserAccountHydrator::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('hydrators.emails.profile'))
 			->setType(Hydrators\Emails\ProfileEmailHydrator::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('hydrators.emails.email'))
 			->setType(Hydrators\Emails\EmailHydrator::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('hydrators.identities.profile'))
 			->setType(Hydrators\Identities\UserAccountIdentityHydrator::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('hydrators.role'))
 			->setType(Hydrators\Roles\RoleHydrator::class);
 
 		// Security
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('security.hash'))
 			->setType(Helpers\SecurityHash::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('security.identityFactory'))
 			->setType(Security\IdentityFactory::class);
 
-		$builder->addDefinition(null)
+		$builder->addDefinition($this->prefix('security.authenticator'))
 			->setType(Security\Authenticator::class);
 
 		// Nette services overwrite
@@ -254,16 +254,16 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 
 		$entityFactoryServiceName = $builder->getByType(DoctrineCrud\Crud\IEntityCrudFactory::class, true);
 
-		$accountsManagerService = $class->getMethod('createService' . ucfirst($this->name) . '__doctrine__accountsManager');
+		$accountsManagerService = $class->getMethod('createService' . ucfirst($this->name) . '__models__accountsManager');
 		$accountsManagerService->setBody('return new ' . Models\Accounts\AccountsManager::class . '($this->getService(\'' . $entityFactoryServiceName . '\')->create(\'' . Entities\Accounts\Account::class . '\'));');
 
-		$emailsManagerService = $class->getMethod('createService' . ucfirst($this->name) . '__doctrine__emailsManager');
+		$emailsManagerService = $class->getMethod('createService' . ucfirst($this->name) . '__models__emailsManager');
 		$emailsManagerService->setBody('return new ' . Models\Emails\EmailsManager::class . '($this->getService(\'' . $entityFactoryServiceName . '\')->create(\'' . Entities\Emails\Email::class . '\'));');
 
-		$identitiesManagerService = $class->getMethod('createService' . ucfirst($this->name) . '__doctrine__identitiesManager');
+		$identitiesManagerService = $class->getMethod('createService' . ucfirst($this->name) . '__models__identitiesManager');
 		$identitiesManagerService->setBody('return new ' . Models\Identities\IdentitiesManager::class . '($this->getService(\'' . $entityFactoryServiceName . '\')->create(\'' . Entities\Identities\Identity::class . '\'));');
 
-		$rolesManagerService = $class->getMethod('createService' . ucfirst($this->name) . '__doctrine__rolesManager');
+		$rolesManagerService = $class->getMethod('createService' . ucfirst($this->name) . '__models__rolesManager');
 		$rolesManagerService->setBody('return new ' . Models\Roles\RolesManager::class . '($this->getService(\'' . $entityFactoryServiceName . '\')->create(\'' . Entities\Roles\Role::class . '\'));');
 	}
 

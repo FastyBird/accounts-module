@@ -228,12 +228,6 @@ class CreateCommand extends Console\Command\Command
 			} while ($repeat);
 		}
 
-		if ($role === null) {
-			$io->error('Role could\'t be loaded.');
-
-			return 1;
-		}
-
 		try {
 			// Start transaction connection to the database
 			$this->getOrmConnection()
