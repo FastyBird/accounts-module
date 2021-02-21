@@ -2,7 +2,6 @@
 
 namespace Tests\Cases;
 
-use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Models;
 use FastyBird\AuthModule\Queries;
 use Nette\Utils;
