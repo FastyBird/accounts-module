@@ -44,7 +44,7 @@ class ConnectionWrapper extends DBAL\Connection
 			// drop on shutdown
 			register_shutdown_function(
 				function (): void {
-					$this->exec(sprintf('DROP DATABASE IF EXISTS `%s`', $this->dbName));
+					//$this->exec(sprintf('DROP DATABASE IF EXISTS `%s`', $this->dbName));
 				}
 			);
 

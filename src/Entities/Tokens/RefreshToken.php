@@ -27,14 +27,6 @@ use Throwable;
 
 /**
  * @ORM\Entity
- * @ORM\Table(
- *     name="fb_security_tokens_refresh",
- *     options={
- *       "collate"="utf8mb4_general_ci",
- *       "charset"="utf8mb4",
- *       "comment"="Account refresh tokens"
- *     }
- * )
  */
 class RefreshToken extends SimpleAuthEntities\Tokens\Token implements IRefreshToken
 {

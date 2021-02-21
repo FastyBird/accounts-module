@@ -27,14 +27,6 @@ use Throwable;
 
 /**
  * @ORM\Entity
- * @ORM\Table(
- *     name="fb_security_tokens_access",
- *     options={
- *       "collate"="utf8mb4_general_ci",
- *       "charset"="utf8mb4",
- *       "comment"="Account access tokens"
- *     }
- * )
  */
 class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToken
 {
@@ -49,7 +41,7 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 	 *
 	 * @IPubDoctrine\Crud(is="required")
 	 * @ORM\ManyToOne(targetEntity="FastyBird\AuthModule\Entities\Identities\Identity")
-	 * @ORM\JoinColumn(name="identity_id", referencedColumnName="identity_id", onDelete="cascade", nullable=false)
+	 * @ORM\JoinColumn(name="identity_id", referencedColumnName="identity_id", onDelete="cascade", nullable=true)
 	 */
 	private Entities\Identities\IIdentity $identity;
 
