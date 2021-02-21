@@ -33,7 +33,7 @@ return [
 		'/v1/accounts/' . ADMINISTRATOR_ACCOUNT_ID . '/identities',
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		file_get_contents(__DIR__ . '/requests/identities/identities.create.missing.relation.json'),
-		StatusCodeInterface::STATUS_BAD_REQUEST,
+		StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 		__DIR__ . '/responses/identities/identities.create.missing.relation.json',
 	],
 	'invalidType'         => [

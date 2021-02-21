@@ -16,6 +16,7 @@ php:
 extensions:
 	contributteConsole					: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
 	contributteTranslation				: Contributte\Translation\DI\TranslationExtension
+	contributteEvents					: Contributte\EventDispatcher\DI\EventDispatcherExtension
 	nettrineAnnotations					: Nettrine\Annotations\DI\AnnotationsExtension
 	nettrineCache						: Nettrine\Cache\DI\CacheExtension
 	nettrineDbal						: Nettrine\DBAL\DI\DbalExtension
@@ -27,6 +28,7 @@ extensions:
 	ipubDoctrineCrud					: IPub\DoctrineCrud\DI\DoctrineCrudExtension
 	ipubDoctrineTimestampable			: IPub\DoctrineTimestampable\DI\DoctrineTimestampableExtension
 	ipubDoctrineDynamicDiscriminatorMap	: IPub\DoctrineDynamicDiscriminatorMap\DI\DoctrineDynamicDiscriminatorMapExtension
+	fbApplicationExchange				: FastyBird\ApplicationExchange\DI\ApplicationExchangeExtension
 	fbDatabase							: FastyBird\Database\DI\DatabaseExtension
 	fbDateTimeFactory					: FastyBird\DateTimeFactory\DI\DateTimeFactoryExtension
 	fbJsonApi							: FastyBird\JsonApi\DI\JsonApiExtension
@@ -34,7 +36,7 @@ extensions:
 	fbWebServer							: FastyBird\WebServer\DI\WebServerExtension
 
 contributteConsole:
-	name: FastyBird:AuthModule!
+	name: FastyBird:Libraries!
 	version: '1.0'
 	catchExceptions: true
 	autoExit: true
@@ -58,9 +60,9 @@ nettrineDbal:
 		port: 3306
 		driver: pdo_mysql
 		memory: false
-		dbname: auth_module
+		dbname: testdb
 		user: root
-		password:
+		password: root
 		charset: utf8
 		wrapperClass: \Tests\Tools\ConnectionWrapper
 

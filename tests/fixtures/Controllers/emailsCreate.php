@@ -34,7 +34,7 @@ return [
 		'/v1/accounts/' . ADMINISTRATOR_ACCOUNT_ID . '/emails',
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		file_get_contents(__DIR__ . '/requests/emails/emails.create.missing.relation.json'),
-		StatusCodeInterface::STATUS_BAD_REQUEST,
+		StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 		__DIR__ . '/responses/emails/emails.create.missing.relation.json',
 	],
 	'invalidRelation'     => [

@@ -1,8 +1,8 @@
 {
   "errors" : [
     {
-      "status" : "400",
-      "code" : "400",
+      "status" : "422",
+      "code" : "422",
       "title" : "Missing required relation",
       "detail" : "Provided request is missing required relation",
       "source" : {
