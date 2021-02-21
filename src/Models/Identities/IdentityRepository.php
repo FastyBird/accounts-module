@@ -41,8 +41,8 @@ final class IdentityRepository implements IIdentityRepository
 	/** @var Common\Persistence\ManagerRegistry */
 	private Common\Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var Persistence\ObjectRepository<Entities\Identities\Identity>[] */
-	private array $repository = [];
+	/** @var Persistence\ObjectRepository<Entities\Identities\Identity>|null */
+	private ?Persistence\ObjectRepository $repository = null;
 
 	public function __construct(Common\Persistence\ManagerRegistry $managerRegistry)
 	{
@@ -53,58 +53,38 @@ final class IdentityRepository implements IIdentityRepository
 	 * {@inheritDoc}
 	 */
 	public function findOneForAccount(
-		Entities\Accounts\IAccount $account,
-		string $type = Entities\Identities\Identity::class
+		Entities\Accounts\IAccount $account
 	): ?Entities\Identities\IIdentity {
 		$findQuery = new Queries\FindIdentitiesQuery();
 		$findQuery->forAccount($account);
 		$findQuery->inState(Types\IdentityStateType::STATE_ACTIVE);
 
-		return $this->findOneBy($findQuery, $type);
+		return $this->findOneBy($findQuery);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function findOneBy(
-		Queries\FindIdentitiesQuery $queryObject,
-		string $type = Entities\Identities\Identity::class
+		Queries\FindIdentitiesQuery $queryObject
 	): ?Entities\Identities\IIdentity {
 		/** @var Entities\Identities\IIdentity|null $identity */
-		$identity = $queryObject->fetchOne($this->getRepository($type));
+		$identity = $queryObject->fetchOne($this->getRepository());
 
 		return $identity;
-	}
-
-	/**
-	 * @param string $type
-	 *
-	 * @return Persistence\ObjectRepository<Entities\Identities\Identity>
-	 *
-	 * @phpstan-template T of Entities\Identities\Identity
-	 * @phpstan-param    class-string<T> $type
-	 */
-	private function getRepository(string $type): Persistence\ObjectRepository
-	{
-		if (!isset($this->repository[$type])) {
-			$this->repository[$type] = $this->managerRegistry->getRepository($type);
-		}
-
-		return $this->repository[$type];
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function findOneByUid(
-		string $uid,
-		string $type = Entities\Identities\Identity::class
+		string $uid
 	): ?Entities\Identities\IIdentity {
 		$findQuery = new Queries\FindIdentitiesQuery();
 		$findQuery->byUid($uid);
 		$findQuery->inState(Types\IdentityStateType::STATE_ACTIVE);
 
-		return $this->findOneBy($findQuery, $type);
+		return $this->findOneBy($findQuery);
 	}
 
 	/**
@@ -116,13 +96,25 @@ final class IdentityRepository implements IIdentityRepository
 		Queries\FindIdentitiesQuery $queryObject,
 		string $type = Entities\Identities\Identity::class
 	): DoctrineOrmQuery\ResultSet {
-		$result = $queryObject->fetch($this->getRepository($type));
+		$result = $queryObject->fetch($this->getRepository());
 
 		if (!$result instanceof DoctrineOrmQuery\ResultSet) {
 			throw new Exceptions\InvalidStateException('Result set for given query could not be loaded.');
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @return Persistence\ObjectRepository<Entities\Identities\Identity>
+	 */
+	private function getRepository(): Persistence\ObjectRepository
+	{
+		if ($this->repository === null) {
+			$this->repository = $this->managerRegistry->getRepository(Entities\Identities\Identity::class);
+		}
+
+		return $this->repository;
 	}
 
 }

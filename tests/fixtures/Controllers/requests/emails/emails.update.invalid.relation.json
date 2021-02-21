@@ -10,7 +10,7 @@
     "relationships" : {
       "account" : {
         "data" : {
-          "type" : "auth-module/user-account",
+          "type" : "auth-module/account",
           "id" : "fae8d781-7e2c-4318-9c85-43ba637d14c5"
         }
       }

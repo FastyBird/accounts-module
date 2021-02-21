@@ -36,18 +36,6 @@ interface IAccount extends DatabaseEntities\IEntity,
 {
 
 	/**
-	 * @param Types\AccountStateType $state
-	 *
-	 * @return void
-	 */
-	public function setState(Types\AccountStateType $state): void;
-
-	/**
-	 * @return Types\AccountStateType
-	 */
-	public function getState(): Types\AccountStateType;
-
-	/**
 	 * @return bool
 	 */
 	public function isActivated(): bool;
@@ -73,11 +61,16 @@ interface IAccount extends DatabaseEntities\IEntity,
 	public function isApprovalRequired(): bool;
 
 	/**
-	 * @param DateTimeInterface $lastVisit
+	 * @return Types\AccountStateType
+	 */
+	public function getState(): Types\AccountStateType;
+
+	/**
+	 * @param Types\AccountStateType $state
 	 *
 	 * @return void
 	 */
-	public function setLastVisit(DateTimeInterface $lastVisit): void;
+	public function setState(Types\AccountStateType $state): void;
 
 	/**
 	 * @return DateTimeInterface|null
@@ -85,9 +78,71 @@ interface IAccount extends DatabaseEntities\IEntity,
 	public function getLastVisit(): ?DateTimeInterface;
 
 	/**
+	 * @param DateTimeInterface $lastVisit
+	 *
+	 * @return void
+	 */
+	public function setLastVisit(DateTimeInterface $lastVisit): void;
+
+	/**
+	 * @return string|null
+	 */
+	public function getRequestHash(): ?string;
+
+	/**
+	 * @param string $requestHash
+	 *
+	 * @return void
+	 */
+	public function setRequestHash(string $requestHash): void;
+
+	/**
+	 * @return Entities\Details\IDetails
+	 */
+	public function getDetails(): Entities\Details\IDetails;
+
+	/**
 	 * @return Entities\Identities\IIdentity[]
 	 */
 	public function getIdentities(): array;
+
+	/**
+	 * @return Entities\Emails\IEmail[]
+	 */
+	public function getEmails(): array;
+
+	/**
+	 * @param string|null $id
+	 *
+	 * @return Entities\Emails\IEmail|null
+	 */
+	public function getEmail(?string $id = null): ?Entities\Emails\IEmail;
+
+	/**
+	 * @param Entities\Emails\IEmail[] $emails
+	 *
+	 * @return void
+	 */
+	public function setEmails(array $emails): void;
+
+	/**
+	 * @param Entities\Emails\IEmail $email
+	 *
+	 * @return void
+	 */
+	public function addEmail(Entities\Emails\IEmail $email): void;
+
+	/**
+	 * @param Entities\Emails\IEmail $email
+	 *
+	 * @return void
+	 */
+	public function removeEmail(Entities\Emails\IEmail $email): void;
+
+	/**
+	 * @return Entities\Roles\IRole[]
+	 */
+	public function getRoles(): array;
 
 	/**
 	 * @param Entities\Roles\IRole[] $roles
@@ -104,11 +159,6 @@ interface IAccount extends DatabaseEntities\IEntity,
 	public function addRole(Entities\Roles\IRole $role): void;
 
 	/**
-	 * @return Entities\Roles\IRole[]
-	 */
-	public function getRoles(): array;
-
-	/**
 	 * @param Entities\Roles\IRole $role
 	 *
 	 * @return void
@@ -121,6 +171,16 @@ interface IAccount extends DatabaseEntities\IEntity,
 	 * @return bool
 	 */
 	public function hasRole(string $role): bool;
+
+	/**
+	 * @return string
+	 */
+	public function getName(): string;
+
+	/**
+	 * @return string
+	 */
+	public function getLanguage(): string;
 
 	/**
 	 * @return mixed[]

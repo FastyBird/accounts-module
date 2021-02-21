@@ -15,18 +15,21 @@
 
 namespace FastyBird\AuthModule\Hydrators\Accounts;
 
+use FastyBird\AuthModule\Schemas;
+use FastyBird\JsonApi\Hydrators as JsonApiHydrators;
+
 /**
- * User account entity hydrator
+ * Profile account entity hydrator
  *
  * @package        FastyBird:AuthModule!
  * @subpackage     Hydrators
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-final class ProfileAccountHydrator extends AccountHydrator
+final class ProfileAccountHydrator extends JsonApiHydrators\Hydrator
 {
 
-	use TUserAccountHydrator;
+	use TAccountHydrator;
 
 	/** @var string[] */
 	protected array $attributes = [
@@ -41,5 +44,13 @@ final class ProfileAccountHydrator extends AccountHydrator
 	protected array $compositedAttributes = [
 		'params',
 	];
+
+	/** @var string[] */
+	protected array $relationships = [
+		Schemas\Accounts\AccountSchema::RELATIONSHIPS_ROLES,
+	];
+
+	/** @var string */
+	protected string $translationDomain = 'auth-module.accounts';
 
 }

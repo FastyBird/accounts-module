@@ -37,15 +37,8 @@ use Throwable;
  *       "comment"="Application accounts"
  *     }
  * )
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="account_type", type="string", length=20)
- * @ORM\DiscriminatorMap({
- *      "account"   = "FastyBird\AuthModule\Entities\Accounts\Account",
- *      "user"      = "FastyBird\AuthModule\Entities\Accounts\UserAccount"
- * })
- * @ORM\MappedSuperclass
  */
-abstract class Account implements IAccount
+class Account implements IAccount
 {
 
 	use DatabaseEntities\TEntity;
@@ -72,6 +65,14 @@ abstract class Account implements IAccount
 	protected $state;
 
 	/**
+	 * @var string|null
+	 *
+	 * @IPubDoctrine\Crud(is="writable")
+	 * @ORM\Column(type="string", name="account_request_hash", nullable=true, options={"default": null})
+	 */
+	protected ?string $requestHash = null;
+
+	/**
 	 * @var DateTimeInterface
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
@@ -80,12 +81,28 @@ abstract class Account implements IAccount
 	protected ?DateTimeInterface $lastVisit = null;
 
 	/**
+	 * @var Entities\Details\IDetails
+	 *
+	 * @IPubDoctrine\Crud(is={"required", "writable"})
+	 * @ORM\OneToOne(targetEntity="FastyBird\AuthModule\Entities\Details\Details", mappedBy="account", cascade={"persist", "remove"})
+	 */
+	protected Entities\Details\IDetails $details;
+
+	/**
 	 * @var Common\Collections\Collection<int, Entities\Identities\IIdentity>
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\OneToMany(targetEntity="FastyBird\AuthModule\Entities\Identities\Identity", mappedBy="account")
 	 */
 	protected Common\Collections\Collection $identities;
+
+	/**
+	 * @var Common\Collections\Collection<int, Entities\Emails\IEmail>
+	 *
+	 * @IPubDoctrine\Crud(is="writable")
+	 * @ORM\OneToMany(targetEntity="FastyBird\AuthModule\Entities\Emails\Email", mappedBy="account", cascade={"persist", "remove"}, orphanRemoval=true)
+	 */
+	protected Common\Collections\Collection $emails;
 
 	/**
 	 * @var Common\Collections\Collection<int, Entities\Roles\IRole>
@@ -115,6 +132,7 @@ abstract class Account implements IAccount
 
 		$this->state = Types\AccountStateType::get(Types\AccountStateType::STATE_NOT_ACTIVATED);
 
+		$this->emails = new Common\Collections\ArrayCollection();
 		$this->identities = new Common\Collections\ArrayCollection();
 		$this->roles = new Common\Collections\ArrayCollection();
 	}
@@ -162,9 +180,162 @@ abstract class Account implements IAccount
 	/**
 	 * {@inheritDoc}
 	 */
+	public function getState(): Types\AccountStateType
+	{
+		return $this->state;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setState(Types\AccountStateType $state): void
+	{
+		$this->state = $state;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getLastVisit(): ?DateTimeInterface
+	{
+		return $this->lastVisit;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setLastVisit(DateTimeInterface $lastVisit): void
+	{
+		$this->lastVisit = $lastVisit;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getRequestHash(): ?string
+	{
+		return $this->requestHash;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setRequestHash(string $requestHash): void
+	{
+		$this->requestHash = $requestHash;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDetails(): Entities\Details\IDetails
+	{
+		return $this->details;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getIdentities(): array
 	{
 		return $this->identities->toArray();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getEmails(): array
+	{
+		return $this->emails->toArray();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getEmail(?string $id = null): ?Entities\Emails\IEmail
+	{
+		$email = $this->emails
+			->filter(function (Entities\Emails\IEmail $row) use ($id): bool {
+				return $id !== null ? $row->getId()
+					->equals(Uuid\Uuid::fromString($id)) : $row->isDefault();
+			})
+			->first();
+
+		return $email !== false ? $email : null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setEmails(array $emails): void
+	{
+		$this->emails = new Common\Collections\ArrayCollection();
+
+		// Process all passed entities...
+		/** @var Entities\Emails\IEmail $entity */
+		foreach ($emails as $entity) {
+			if (!$this->emails->contains($entity)) {
+				// ...and assign them to collection
+				$this->emails->add($entity);
+			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function addEmail(Entities\Emails\IEmail $email): void
+	{
+		// Check if collection does not contain inserting entity
+		if (!$this->emails->contains($email)) {
+			// ...and assign it to collection
+			$this->emails->add($email);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function removeEmail(Entities\Emails\IEmail $email): void
+	{
+		// Check if collection contain removing entity...
+		if ($this->emails->contains($email)) {
+			// ...and remove it from collection
+			$this->emails->removeElement($email);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getRoles(): array
+	{
+		return $this->roles->toArray();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setRoles(array $roles): void
+	{
+		$this->roles = new Common\Collections\ArrayCollection();
+
+		// Process all passed entities...
+		/** @var Entities\Roles\IRole $entity */
+		foreach ($roles as $entity) {
+			if (!$this->roles->contains($entity)) {
+				// ...and assign them to collection
+				$this->roles->add($entity);
+			}
+		}
+
+		/** @var Entities\Roles\IRole $entity */
+		foreach ($this->roles as $entity) {
+			if (!in_array($entity, $roles, true)) {
+				// ...and remove it from collection
+				$this->roles->removeElement($entity);
+			}
+		}
 	}
 
 	/**
@@ -208,85 +379,40 @@ abstract class Account implements IAccount
 	/**
 	 * {@inheritDoc}
 	 */
+	public function getName(): string
+	{
+		return $this->details->getLastName() . ' ' . $this->details->getFirstName();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * TODO: Should be refactored
+	 */
+	public function getLanguage(): string
+	{
+		return 'en';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function toArray(): array
 	{
 		return [
-			'id'         => $this->getPlainId(),
-			'state'      => $this->getState()
-				->getValue(),
-			'registered' => $this->getCreatedAt() !== null ? $this->getCreatedAt()
-				->format(DATE_ATOM) : null,
-			'last_visit' => $this->getLastVisit() !== null ? $this->getLastVisit()
-				->format(DATE_ATOM) : null,
-			'roles'      => array_map(function (Entities\Roles\IRole $role): string {
+			'id'          => $this->getPlainId(),
+			'first_name'  => $this->getDetails()->getFirstName(),
+			'last_name'   => $this->getDetails()->getLastName(),
+			'middle_name' => $this->getDetails()->getMiddleName(),
+			'email'       => $this->getEmail() !== null ? $this->getEmail()->getAddress() : null,
+			'state'       => $this->getState()->getValue(),
+			'registered'  => $this->getCreatedAt() !== null ? $this->getCreatedAt()->format(DATE_ATOM) : null,
+			'last_visit'  => $this->getLastVisit() !== null ? $this->getLastVisit()->format(DATE_ATOM) : null,
+			'roles'       => array_map(function (Entities\Roles\IRole $role): string {
 				return $role->getName();
 			}, $this->getRoles()),
+			'language'    => $this->getLanguage(),
 		];
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getState(): Types\AccountStateType
-	{
-		return $this->state;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setState(Types\AccountStateType $state): void
-	{
-		$this->state = $state;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getLastVisit(): ?DateTimeInterface
-	{
-		return $this->lastVisit;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setLastVisit(DateTimeInterface $lastVisit): void
-	{
-		$this->lastVisit = $lastVisit;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getRoles(): array
-	{
-		return $this->roles->toArray();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setRoles(array $roles): void
-	{
-		$this->roles = new Common\Collections\ArrayCollection();
-
-		// Process all passed entities...
-		/** @var Entities\Roles\IRole $entity */
-		foreach ($roles as $entity) {
-			if (!$this->roles->contains($entity)) {
-				// ...and assign them to collection
-				$this->roles->add($entity);
-			}
-		}
-
-		/** @var Entities\Roles\IRole $entity */
-		foreach ($this->roles as $entity) {
-			if (!in_array($entity, $roles, true)) {
-				// ...and remove it from collection
-				$this->roles->removeElement($entity);
-			}
-		}
 	}
 
 }

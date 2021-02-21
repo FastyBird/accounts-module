@@ -32,48 +32,39 @@ interface IAccountRepository
 
 	/**
 	 * @param Queries\FindAccountsQuery $queryObject
-	 * @param string $type
 	 *
 	 * @return Entities\Accounts\IAccount|null
 	 *
 	 * @phpstan-template T of Entities\Accounts\Account
 	 * @phpstan-param    Queries\FindAccountsQuery<T> $queryObject
-	 * @phpstan-param    class-string<T> $type
 	 */
 	public function findOneBy(
-		Queries\FindAccountsQuery $queryObject,
-		string $type = Entities\Accounts\Account::class
+		Queries\FindAccountsQuery $queryObject
 	): ?Entities\Accounts\IAccount;
 
 	/**
 	 * @param Queries\FindAccountsQuery $queryObject
-	 * @param string $type
 	 *
 	 * @return Entities\Accounts\IAccount[]
 	 *
 	 * @phpstan-template T of Entities\Accounts\Account
 	 * @phpstan-param    Queries\FindAccountsQuery<T> $queryObject
-	 * @phpstan-param    class-string<T> $type
 	 */
 	public function findAllBy(
-		Queries\FindAccountsQuery $queryObject,
-		string $type = Entities\Accounts\Account::class
+		Queries\FindAccountsQuery $queryObject
 	): array;
 
 	/**
 	 * @param Queries\FindAccountsQuery $queryObject
-	 * @param string $type
 	 *
 	 * @return DoctrineOrmQuery\ResultSet
 	 *
 	 * @phpstan-template T of Entities\Accounts\Account
 	 * @phpstan-param    Queries\FindAccountsQuery<T> $queryObject
-	 * @phpstan-param    class-string<T> $type
 	 * @phpstan-return   DoctrineOrmQuery\ResultSet<T>
 	 */
 	public function getResultSet(
-		Queries\FindAccountsQuery $queryObject,
-		string $type = Entities\Accounts\Account::class
+		Queries\FindAccountsQuery $queryObject
 	): DoctrineOrmQuery\ResultSet;
 
 }

@@ -30,11 +30,15 @@ use Neomerx\JsonApi;
  *
  * @author          Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @phpstan-template T of Entities\Identities\IIdentity
- * @phpstan-extends  JsonApiSchemas\JsonApiSchema<T>
+ * @phpstan-extends IdentitySchema<Entities\Identities\IIdentity>
  */
-abstract class IdentitySchema extends JsonApiSchemas\JsonApiSchema
+final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 {
+
+	/**
+	 * Define entity schema type string
+	 */
+	public const SCHEMA_TYPE = 'auth-module/identity';
 
 	/**
 	 * Define relationships names
@@ -51,12 +55,26 @@ abstract class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public function getEntityClass(): string
+	{
+		return Entities\Identities\Identity::class;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getType(): string
+	{
+		return self::SCHEMA_TYPE;
+	}
+
+	/**
 	 * @param Entities\Identities\IIdentity $identity
 	 * @param JsonApi\Contracts\Schema\ContextInterface $context
 	 *
 	 * @return iterable<string, string>
-	 *
-	 * @phpstan-param T $identity
 	 *
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */
@@ -73,8 +91,6 @@ abstract class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 	 * @param Entities\Identities\IIdentity $identity
 	 *
 	 * @return JsonApi\Contracts\Schema\LinkInterface
-	 *
-	 * @phpstan-param T $identity
 	 *
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */
@@ -99,8 +115,6 @@ abstract class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 	 * @param JsonApi\Contracts\Schema\ContextInterface $context
 	 *
 	 * @return iterable<string, mixed>
-	 *
-	 * @phpstan-param T $identity
 	 *
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */
@@ -147,8 +161,6 @@ abstract class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 	 * @param string $name
 	 *
 	 * @return JsonApi\Contracts\Schema\LinkInterface
-	 *
-	 * @phpstan-param T $identity
 	 *
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */

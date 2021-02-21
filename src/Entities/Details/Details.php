@@ -53,7 +53,7 @@ class Details implements IDetails
 	/**
 	 * @var Entities\Accounts\IAccount
 	 *
-	 * @ORM\OneToOne(targetEntity="FastyBird\AuthModule\Entities\Accounts\UserAccount", inversedBy="details")
+	 * @ORM\OneToOne(targetEntity="FastyBird\AuthModule\Entities\Accounts\Account", inversedBy="details")
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id", unique=true, onDelete="cascade", nullable=false)
 	 *
 	 * @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.WriteOnlyProperty

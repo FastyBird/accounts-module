@@ -166,14 +166,14 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 			->addTag('nette.inject');
 
 		// API schemas
-		$builder->addDefinition($this->prefix('schemas.useAccount'))
-			->setType(Schemas\Accounts\UserAccountSchema::class);
+		$builder->addDefinition($this->prefix('schemas.account'))
+			->setType(Schemas\Accounts\AccountSchema::class);
 
 		$builder->addDefinition($this->prefix('schemas.email'))
 			->setType(Schemas\Emails\EmailSchema::class);
 
-		$builder->addDefinition($this->prefix('schemas.useAccountIdentity'))
-			->setType(Schemas\Identities\UserAccountIdentitySchema::class);
+		$builder->addDefinition($this->prefix('schemas.accountIdentity'))
+			->setType(Schemas\Identities\IdentitySchema::class);
 
 		$builder->addDefinition($this->prefix('schemas.role'))
 			->setType(Schemas\Roles\RoleSchema::class);
@@ -185,8 +185,8 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 		$builder->addDefinition($this->prefix('hydrators.accounts.profile'))
 			->setType(Hydrators\Accounts\ProfileAccountHydrator::class);
 
-		$builder->addDefinition($this->prefix('hydrators.accounts.user'))
-			->setType(Hydrators\Accounts\UserAccountHydrator::class);
+		$builder->addDefinition($this->prefix('hydrators.accounts'))
+			->setType(Hydrators\Accounts\AccountHydrator::class);
 
 		$builder->addDefinition($this->prefix('hydrators.emails.profile'))
 			->setType(Hydrators\Emails\ProfileEmailHydrator::class);
@@ -195,7 +195,7 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 			->setType(Hydrators\Emails\EmailHydrator::class);
 
 		$builder->addDefinition($this->prefix('hydrators.identities.profile'))
-			->setType(Hydrators\Identities\UserAccountIdentityHydrator::class);
+			->setType(Hydrators\Identities\IdentityHydrator::class);
 
 		$builder->addDefinition($this->prefix('hydrators.role'))
 			->setType(Hydrators\Roles\RoleHydrator::class);

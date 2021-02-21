@@ -89,7 +89,7 @@ class InitializeCommand extends Console\Command\Command
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute(Input\InputInterface $input, Output\OutputInterface $output)
+	protected function execute(Input\InputInterface $input, Output\OutputInterface $output): int
 	{
 		$symfonyApp = $this->getApplication();
 
@@ -124,6 +124,7 @@ class InitializeCommand extends Console\Command\Command
 
 				return 1;
 			}
+
 		} catch (Throwable $ex) {
 			$io->error('Something went wrong, initialization could not be finished.');
 
@@ -170,8 +171,7 @@ class InitializeCommand extends Console\Command\Command
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			$parent = null;
 
@@ -193,15 +193,12 @@ class InitializeCommand extends Console\Command\Command
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 
 			$io->error($ex->getMessage());

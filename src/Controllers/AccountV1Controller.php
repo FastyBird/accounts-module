@@ -38,14 +38,14 @@ use Throwable;
 final class AccountV1Controller extends BaseV1Controller
 {
 
-	/** @var string */
-	protected string $translationDomain = 'auth-module.account';
-
 	/** @var Hydrators\Accounts\ProfileAccountHydrator */
 	private Hydrators\Accounts\ProfileAccountHydrator $accountHydrator;
 
 	/** @var Models\Accounts\IAccountsManager */
 	private Models\Accounts\IAccountsManager $accountsManager;
+
+	/** @var string */
+	protected string $translationDomain = 'auth-module.account';
 
 	public function __construct(
 		Hydrators\Accounts\ProfileAccountHydrator $accountHydrator,
@@ -78,24 +78,6 @@ final class AccountV1Controller extends BaseV1Controller
 	}
 
 	/**
-	 * @return Entities\Accounts\IAccount
-	 *
-	 * @throws JsonApiExceptions\JsonApiErrorException
-	 */
-	private function findAccount(): Entities\Accounts\IAccount
-	{
-		if ($this->user->getAccount() === null) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-				$this->translator->translate('//auth-module.base.messages.forbidden.message')
-			);
-		}
-
-		return $this->user->getAccount();
-	}
-
-	/**
 	 * @param Message\ServerRequestInterface $request
 	 * @param WebServerHttp\Response $response
 	 *
@@ -125,10 +107,9 @@ final class AccountV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Accounts\UserAccountSchema::SCHEMA_TYPE) {
+			if ($document->getResource()->getType() === Schemas\Accounts\AccountSchema::SCHEMA_TYPE) {
 				$account = $this->accountsManager->update(
 					$account,
 					$this->accountHydrator->hydrate($document, $account)
@@ -146,8 +127,7 @@ final class AccountV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -169,10 +149,8 @@ final class AccountV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -229,22 +207,40 @@ final class AccountV1Controller extends BaseV1Controller
 		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if (
-			$relationEntity === Schemas\Accounts\UserAccountSchema::RELATIONSHIPS_EMAILS
-			&& $account instanceof Entities\Accounts\IUserAccount
+			$relationEntity === Schemas\Accounts\AccountSchema::RELATIONSHIPS_EMAILS
+			&& $account instanceof Entities\Accounts\IAccount
 		) {
 			return $response
 				->withEntity(WebServerHttp\ScalarEntity::from($account->getEmails()));
 
-		} elseif ($relationEntity === Schemas\Accounts\UserAccountSchema::RELATIONSHIPS_IDENTITIES) {
+		} elseif ($relationEntity === Schemas\Accounts\AccountSchema::RELATIONSHIPS_IDENTITIES) {
 			return $response
 				->withEntity(WebServerHttp\ScalarEntity::from($account->getIdentities()));
 
-		} elseif ($relationEntity === Schemas\Accounts\UserAccountSchema::RELATIONSHIPS_ROLES) {
+		} elseif ($relationEntity === Schemas\Accounts\AccountSchema::RELATIONSHIPS_ROLES) {
 			return $response
 				->withEntity(WebServerHttp\ScalarEntity::from($account->getRoles()));
 		}
 
 		return parent::readRelationship($request, $response);
+	}
+
+	/**
+	 * @return Entities\Accounts\IAccount
+	 *
+	 * @throws JsonApiExceptions\JsonApiErrorException
+	 */
+	private function findAccount(): Entities\Accounts\IAccount
+	{
+		if ($this->user->getAccount() === null) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_FORBIDDEN,
+				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//auth-module.base.messages.forbidden.message')
+			);
+		}
+
+		return $this->user->getAccount();
 	}
 
 }

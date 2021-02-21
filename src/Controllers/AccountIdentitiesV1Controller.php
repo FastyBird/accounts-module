@@ -45,11 +45,11 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 	/** @var Models\Identities\IIdentityRepository */
 	protected Models\Identities\IIdentityRepository $identityRepository;
 
-	/** @var string */
-	protected string $translationDomain = 'auth-module.identities';
-
 	/** @var Models\Identities\IIdentitiesManager */
 	private Models\Identities\IIdentitiesManager $identitiesManager;
+
+	/** @var string */
+	protected string $translationDomain = 'auth-module.identities';
 
 	public function __construct(
 		Models\Identities\IIdentityRepository $identityRepository,
@@ -81,24 +81,6 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 
 		return $response
 			->withEntity(WebServerHttp\ScalarEntity::from($identities));
-	}
-
-	/**
-	 * @return Entities\Accounts\IAccount
-	 *
-	 * @throws JsonApiExceptions\JsonApiErrorException
-	 */
-	private function findAccount(): Entities\Accounts\IAccount
-	{
-		if ($this->user->getAccount() === null) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-				$this->translator->translate('//auth-module.base.messages.forbidden.message')
-			);
-		}
-
-		return $this->user->getAccount();
 	}
 
 	/**
@@ -147,21 +129,17 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			if (
-				$document->getResource()
-					->getType() === Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE
-				&& $identity instanceof Entities\Identities\IUserAccountIdentity
+				$document->getResource()->getType() === Schemas\Identities\IdentitySchema::SCHEMA_TYPE
+				&& $identity instanceof Entities\Identities\IIdentity
 			) {
-				$attributes = $document->getResource()
-					->getAttributes();
+				$attributes = $document->getResource()->getAttributes();
 
 				if (
 					!$attributes->has('password')
-					|| !$attributes->get('password')
-						->has('current')
+					|| !$attributes->get('password')->has('current')
 				) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
@@ -175,8 +153,7 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 
 				if (
 					!$attributes->has('password')
-					|| !$attributes->get('password')
-						->has('new')
+					|| !$attributes->get('password')->has('new')
 				) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
@@ -201,8 +178,7 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 				}
 
 				$update = new Utils\ArrayHash();
-				$update->offsetSet('password', (string) $attributes->get('password')
-					->get('new'));
+				$update->offsetSet('password', (string) $attributes->get('password')->get('new'));
 
 				// Update item in database
 				$this->identitiesManager->update($identity, $update);
@@ -219,8 +195,7 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -242,10 +217,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -282,6 +255,24 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 		}
 
 		return parent::readRelationship($request, $response);
+	}
+
+	/**
+	 * @return Entities\Accounts\IAccount
+	 *
+	 * @throws JsonApiExceptions\JsonApiErrorException
+	 */
+	private function findAccount(): Entities\Accounts\IAccount
+	{
+		if ($this->user->getAccount() === null) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_FORBIDDEN,
+				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//auth-module.base.messages.forbidden.message')
+			);
+		}
+
+		return $this->user->getAccount();
 	}
 
 }

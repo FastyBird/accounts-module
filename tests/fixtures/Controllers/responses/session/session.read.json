@@ -25,7 +25,7 @@
           "related" : "/v1/me"
         },
         "data" : {
-          "type" : "auth-module/user-account",
+          "type" : "auth-module/account",
           "id" : "5e79efbf-bd0d-5b7c-46ef-bfbdefbfbd34"
         }
       }

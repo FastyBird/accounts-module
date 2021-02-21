@@ -18,6 +18,7 @@ namespace FastyBird\AuthModule\Entities\Identities;
 use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
+use FastyBird\AuthModule\Helpers;
 use FastyBird\AuthModule\Types;
 use FastyBird\Database\Entities as DatabaseEntities;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
@@ -43,15 +44,8 @@ use Throwable;
  *       @ORM\Index(name="identity_state_idx", columns={"identity_state"})
  *     }
  * )
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="identity_type", type="string", length=15)
- * @ORM\DiscriminatorMap({
- *      "identity"   = "FastyBird\AuthModule\Entities\Identities\Identity",
- *      "user"       = "FastyBird\AuthModule\Entities\Identities\UserAccountIdentity"
- * })
- * @ORM\MappedSuperclass
  */
-abstract class Identity implements IIdentity
+class Identity implements IIdentity
 {
 
 	use DatabaseEntities\TEntity;
@@ -86,6 +80,17 @@ abstract class Identity implements IIdentity
 	protected string $uid;
 
 	/**
+	 * @var string
+	 *
+	 * @IPubDoctrine\Crud(is={"required", "writable"})
+	 * @ORM\Column(type="text", name="identity_token", nullable=false)
+	 */
+	protected string $password;
+
+	/** @var string|null */
+	protected ?string $plainPassword = null;
+
+	/**
 	 * @var Types\IdentityStateType
 	 *
 	 * @Enum(class=Types\IdentityStateType::class)
@@ -97,6 +102,7 @@ abstract class Identity implements IIdentity
 	/**
 	 * @param Entities\Accounts\IAccount $account
 	 * @param string $uid
+	 * @param string $password
 	 * @param Uuid\UuidInterface|null $id
 	 *
 	 * @throws Throwable
@@ -104,6 +110,7 @@ abstract class Identity implements IIdentity
 	public function __construct(
 		Entities\Accounts\IAccount $account,
 		string $uid,
+		string $password,
 		?Uuid\UuidInterface $id = null
 	) {
 		$this->id = $id ?? Uuid\Uuid::uuid4();
@@ -112,6 +119,61 @@ abstract class Identity implements IIdentity
 		$this->uid = $uid;
 
 		$this->state = Types\IdentityStateType::get(Types\IdentityStateType::STATE_ACTIVE);
+
+		$this->setPassword($password);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function verifyPassword(string $rawPassword): bool
+	{
+		return $this->getPassword()
+			->isEqual($rawPassword, $this->getSalt());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getPassword(): Helpers\Password
+	{
+		return $this->plainPassword !== null ?
+			new Helpers\Password(null, $this->plainPassword, $this->getSalt()) :
+			new Helpers\Password($this->password, null, $this->getSalt());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setPassword($password): void
+	{
+		if ($password instanceof Helpers\Password) {
+			$this->password = $password->getHash();
+
+		} else {
+			$password = Helpers\Password::createFromString($password);
+
+			$this->password = $password->getHash();
+			$this->plainPassword = $password->getPassword();
+		}
+
+		$this->setSalt($password->getSalt());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getSalt(): ?string
+	{
+		return $this->getParam('salt', null);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setSalt(string $salt): void
+	{
+		$this->setParam('salt', $salt);
 	}
 
 	/**
@@ -171,11 +233,9 @@ abstract class Identity implements IIdentity
 	{
 		return [
 			'id'      => $this->getPlainId(),
-			'account' => $this->getAccount()
-				->getPlainId(),
+			'account' => $this->getAccount()->getPlainId(),
 			'uid'     => $this->getUid(),
-			'state'   => $this->getState()
-				->getValue(),
+			'state'   => $this->getState()->getValue(),
 		];
 	}
 

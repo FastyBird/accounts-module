@@ -102,11 +102,11 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 	}
 
 	/**
-	 * @return Entities\Accounts\IUserAccount|null
+	 * @return Entities\Accounts\IAccount|null
 	 *
 	 * @throws Throwable
 	 */
-	private function getAdministrator(): ?Entities\Accounts\IUserAccount
+	private function getAdministrator(): ?Entities\Accounts\IAccount
 	{
 		$findRole = new Queries\FindRolesQuery();
 		$findRole->byName(SimpleAuth\Constants::ROLE_ADMINISTRATOR);
@@ -120,8 +120,8 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 		$findAccount = new Queries\FindAccountsQuery();
 		$findAccount->inRole($role);
 
-		/** @var Entities\Accounts\IUserAccount|null $account */
-		$account = $this->accountRepository->findOneBy($findAccount, Entities\Accounts\UserAccount::class);
+		/** @var Entities\Accounts\IAccount|null $account */
+		$account = $this->accountRepository->findOneBy($findAccount, Entities\Accounts\Account::class);
 
 		return $account;
 	}
@@ -140,7 +140,7 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 
 		// Check all scheduled updates
 		foreach (array_merge($uow->getScheduledEntityInsertions(), $uow->getScheduledEntityUpdates()) as $object) {
-			if ($object instanceof Entities\Accounts\IUserAccount) {
+			if ($object instanceof Entities\Accounts\IAccount) {
 				/**
 				 * If new account is without any role
 				 * we have to assign default roles

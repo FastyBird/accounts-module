@@ -33,63 +33,45 @@ interface IIdentityRepository
 
 	/**
 	 * @param Entities\Accounts\IAccount $account
-	 * @param string $type
 	 *
 	 * @return Entities\Identities\IIdentity|null
-	 *
-	 * @phpstan-template T of Entities\Identities\Identity
-	 * @phpstan-param    Entities\Accounts\IAccount $account
-	 * @phpstan-param    class-string<T> $type
 	 */
 	public function findOneForAccount(
-		Entities\Accounts\IAccount $account,
-		string $type = Entities\Identities\Identity::class
+		Entities\Accounts\IAccount $account
 	): ?Entities\Identities\IIdentity;
 
 	/**
 	 * @param string $uid
-	 * @param string $type
 	 *
 	 * @return Entities\Identities\IIdentity|null
-	 *
-	 * @phpstan-template T of Entities\Identities\Identity
-	 * @phpstan-param    string $uid
-	 * @phpstan-param    class-string<T> $type
 	 */
 	public function findOneByUid(
-		string $uid,
-		string $type = Entities\Identities\Identity::class
+		string $uid
 	): ?Entities\Identities\IIdentity;
 
 	/**
 	 * @param Queries\FindIdentitiesQuery $queryObject
-	 * @param string $type
 	 *
 	 * @return Entities\Identities\IIdentity|null
 	 *
 	 * @phpstan-template T of Entities\Identities\Identity
 	 * @phpstan-param    Queries\FindIdentitiesQuery<T> $queryObject
-	 * @phpstan-param    class-string<T> $type
 	 */
 	public function findOneBy(
-		Queries\FindIdentitiesQuery $queryObject,
-		string $type = Entities\Identities\Identity::class
+		Queries\FindIdentitiesQuery $queryObject
 	): ?Entities\Identities\IIdentity;
 
 	/**
 	 * @param Queries\FindIdentitiesQuery $queryObject
-	 * @param string $type
 	 *
 	 * @return DoctrineOrmQuery\ResultSet
 	 *
 	 * @phpstan-template T of Entities\Identities\Identity
 	 * @phpstan-param    Queries\FindIdentitiesQuery<T> $queryObject
-	 * @phpstan-param    class-string<T> $type
 	 * @phpstan-return   DoctrineOrmQuery\ResultSet<T>
 	 */
 	public function getResultSet(
-		Queries\FindIdentitiesQuery $queryObject,
-		string $type = Entities\Identities\Identity::class
+		Queries\FindIdentitiesQuery $queryObject
 	): DoctrineOrmQuery\ResultSet;
 
 }

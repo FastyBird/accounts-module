@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "auth-module/user-account-identity",
+    "type" : "auth-module/identity",
     "id" : "83985c13-238c-46bd-aacb-2359d5c921a7",
     "attributes" : {
       "password" : {

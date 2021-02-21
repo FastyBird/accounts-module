@@ -62,13 +62,13 @@ class Email implements IEmail
 	protected Uuid\UuidInterface $id;
 
 	/**
-	 * @var Entities\Accounts\IUserAccount
+	 * @var Entities\Accounts\IAccount
 	 *
 	 * @IPubDoctrine\Crud(is="required")
-	 * @ORM\ManyToOne(targetEntity="FastyBird\AuthModule\Entities\Accounts\UserAccount", inversedBy="emails")
+	 * @ORM\ManyToOne(targetEntity="FastyBird\AuthModule\Entities\Accounts\Account", inversedBy="emails")
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id", onDelete="cascade", nullable=false)
 	 */
-	private Entities\Accounts\IUserAccount $account;
+	private Entities\Accounts\IAccount $account;
 
 	/**
 	 * @var string
@@ -128,14 +128,14 @@ class Email implements IEmail
 	private $visibility;
 
 	/**
-	 * @param Entities\Accounts\IUserAccount $account
+	 * @param Entities\Accounts\IAccount $account
 	 * @param string $address
 	 * @param Uuid\UuidInterface|null $id
 	 *
 	 * @throws Throwable
 	 */
 	public function __construct(
-		Entities\Accounts\IUserAccount $account,
+		Entities\Accounts\IAccount $account,
 		string $address,
 		?Uuid\UuidInterface $id = null
 	) {
@@ -204,8 +204,7 @@ class Email implements IEmail
 	{
 		return [
 			'id'       => $this->getPlainId(),
-			'account'  => $this->getAccount()
-				->getPlainId(),
+			'account'  => $this->getAccount()->getPlainId(),
 			'address'  => $this->getAddress(),
 			'default'  => $this->isDefault(),
 			'verified' => $this->isVerified(),
@@ -217,7 +216,7 @@ class Email implements IEmail
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getAccount(): Entities\Accounts\IUserAccount
+	public function getAccount(): Entities\Accounts\IAccount
 	{
 		return $this->account;
 	}

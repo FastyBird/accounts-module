@@ -97,9 +97,9 @@ final class CreateAccountTest extends DbTestCase
 
 		$identity = $identityRepository->findOneBy($findIdentity);
 
-		Assert::type(Entities\Identities\IUserAccountIdentity::class, $identity);
+		Assert::type(Entities\Identities\IIdentity::class, $identity);
 
-		if ($identity instanceof Entities\Identities\IUserAccountIdentity) {
+		if ($identity instanceof Entities\Identities\IIdentity) {
 			$password = new Helpers\Password(
 				null,
 				'someRandomPassword',

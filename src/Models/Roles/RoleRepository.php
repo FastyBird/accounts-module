@@ -72,18 +72,6 @@ final class RoleRepository implements IRoleRepository
 	}
 
 	/**
-	 * @return Persistence\ObjectRepository<Entities\Roles\Role>
-	 */
-	private function getRepository(): Persistence\ObjectRepository
-	{
-		if ($this->repository === null) {
-			$this->repository = $this->managerRegistry->getRepository(Entities\Roles\Role::class);
-		}
-
-		return $this->repository;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 *
 	 * @throws Throwable
@@ -110,6 +98,18 @@ final class RoleRepository implements IRoleRepository
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @return Persistence\ObjectRepository<Entities\Roles\Role>
+	 */
+	private function getRepository(): Persistence\ObjectRepository
+	{
+		if ($this->repository === null) {
+			$this->repository = $this->managerRegistry->getRepository(Entities\Roles\Role::class);
+		}
+
+		return $this->repository;
 	}
 
 }

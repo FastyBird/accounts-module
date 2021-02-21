@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * TUserAccountHydrator.php
+ * TAccountHydrator.php
  *
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
@@ -17,13 +17,15 @@ namespace FastyBird\AuthModule\Hydrators\Accounts;
 
 use Contributte\Translation;
 use FastyBird\AuthModule\Entities;
+use FastyBird\AuthModule\Schemas;
+use FastyBird\AuthModule\Types;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use Fig\Http\Message\StatusCodeInterface;
 use IPub\JsonAPIDocument;
 use Nette\Utils;
 
 /**
- * User account entity hydrator trait
+ * Account entity hydrator trait
  *
  * @package        FastyBird:AuthModule!
  * @subpackage     Hydrators
@@ -32,7 +34,7 @@ use Nette\Utils;
  *
  * @property-read Translation\Translator $translator
  */
-trait TUserAccountHydrator
+trait TAccountHydrator
 {
 
 	/**
@@ -40,7 +42,7 @@ trait TUserAccountHydrator
 	 */
 	protected function getEntityName(): string
 	{
-		return Entities\Accounts\UserAccount::class;
+		return Entities\Accounts\Account::class;
 	}
 
 	/**
@@ -197,6 +199,28 @@ trait TUserAccountHydrator
 		}
 
 		return $params;
+	}
+
+	/**
+	 * @param JsonAPIDocument\Objects\IStandardObject<mixed> $attributes
+	 *
+	 * @return Types\AccountStateType
+	 */
+	protected function hydrateStateAttribute(
+		JsonAPIDocument\Objects\IStandardObject $attributes
+	): Types\AccountStateType {
+		if (!Types\AccountStateType::isValidValue((string) $attributes->get('state'))) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
+				$this->translator->translate('//auth-module.base.messages.invalidAttribute.heading'),
+				$this->translator->translate('//auth-module.base.messages.invalidAttribute.message'),
+				[
+					'pointer' => '/data/attributes/state',
+				]
+			);
+		}
+
+		return Types\AccountStateType::get((string) $attributes->get('state'));
 	}
 
 }

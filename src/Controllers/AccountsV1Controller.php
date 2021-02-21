@@ -47,11 +47,8 @@ use Throwable;
 final class AccountsV1Controller extends BaseV1Controller
 {
 
-	/** @var string */
-	protected string $translationDomain = 'auth-module.accounts';
-
-	/** @var Hydrators\Accounts\UserAccountHydrator */
-	private Hydrators\Accounts\UserAccountHydrator $userAccountHydrator;
+	/** @var Hydrators\Accounts\AccountHydrator */
+	private Hydrators\Accounts\AccountHydrator $accountHydrator;
 
 	/** @var Models\Accounts\IAccountRepository */
 	private Models\Accounts\IAccountRepository $accountRepository;
@@ -62,13 +59,16 @@ final class AccountsV1Controller extends BaseV1Controller
 	/** @var Models\Identities\IIdentitiesManager */
 	private Models\Identities\IIdentitiesManager $identitiesManager;
 
+	/** @var string */
+	protected string $translationDomain = 'auth-module.accounts';
+
 	public function __construct(
-		Hydrators\Accounts\UserAccountHydrator $userAccountHydrator,
+		Hydrators\Accounts\AccountHydrator $accountHydrator,
 		Models\Accounts\IAccountRepository $accountRepository,
 		Models\Accounts\IAccountsManager $accountsManager,
 		Models\Identities\IIdentitiesManager $identitiesManager
 	) {
-		$this->userAccountHydrator = $userAccountHydrator;
+		$this->accountHydrator = $accountHydrator;
 
 		$this->accountRepository = $accountRepository;
 		$this->accountsManager = $accountsManager;
@@ -114,40 +114,6 @@ final class AccountsV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 *
-	 * @return Entities\Accounts\IAccount
-	 *
-	 * @throws JsonApiExceptions\IJsonApiException
-	 */
-	private function findAccount(
-		Message\ServerRequestInterface $request
-	): Entities\Accounts\IAccount {
-		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Routes::URL_ITEM_ID, null))) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
-				$this->translator->translate('//auth-module.base.messages.notFound.message')
-			);
-		}
-
-		$findQuery = new Queries\FindAccountsQuery();
-		$findQuery->byId(Uuid\Uuid::fromString($request->getAttribute(Router\Routes::URL_ITEM_ID, null)));
-
-		$account = $this->accountRepository->findOneBy($findQuery);
-
-		if ($account === null) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
-				$this->translator->translate('//auth-module.base.messages.notFound.message')
-			);
-		}
-
-		return $account;
-	}
-
-	/**
-	 * @param Message\ServerRequestInterface $request
 	 * @param WebServerHttp\Response $response
 	 *
 	 * @return WebServerHttp\Response
@@ -163,11 +129,10 @@ final class AccountsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Accounts\UserAccountSchema::SCHEMA_TYPE) {
-				$createData = $this->userAccountHydrator->hydrate($document);
+			if ($document->getResource()->getType() === Schemas\Accounts\AccountSchema::SCHEMA_TYPE) {
+				$createData = $this->accountHydrator->hydrate($document);
 
 				// Store item into database
 				$account = $this->accountsManager->create($createData);
@@ -184,8 +149,7 @@ final class AccountsV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -260,10 +224,8 @@ final class AccountsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -296,15 +258,13 @@ final class AccountsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			if (
-				$document->getResource()
-					->getType() === Schemas\Accounts\UserAccountSchema::SCHEMA_TYPE
-				&& $account instanceof Entities\Accounts\IUserAccount
+				$document->getResource()->getType() === Schemas\Accounts\AccountSchema::SCHEMA_TYPE
+				&& $account instanceof Entities\Accounts\IAccount
 			) {
-				$updateAccountData = $this->userAccountHydrator->hydrate($document, $account);
+				$updateAccountData = $this->accountHydrator->hydrate($document, $account);
 
 				$account = $this->accountsManager->update($account, $updateAccountData);
 
@@ -320,8 +280,7 @@ final class AccountsV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -353,10 +312,8 @@ final class AccountsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -384,9 +341,7 @@ final class AccountsV1Controller extends BaseV1Controller
 
 		if (
 			$this->user->getAccount() !== null
-			&& $account->getId()
-				->equals($this->user->getAccount()
-					->getId())
+			&& $account->getId()->equals($this->user->getAccount()->getId())
 		) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
@@ -397,8 +352,7 @@ final class AccountsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			$updateData = Utils\ArrayHash::from([
 				'state' => Types\AccountStateType::get(Types\AccountStateType::STATE_DELETED),
@@ -415,8 +369,7 @@ final class AccountsV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
 			// Log catched exception
@@ -435,10 +388,8 @@ final class AccountsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -476,14 +427,48 @@ final class AccountsV1Controller extends BaseV1Controller
 				->withEntity(WebServerHttp\ScalarEntity::from($account->getRoles()));
 		}
 
-		if ($account instanceof Entities\Accounts\IUserAccount) {
-			if ($relationEntity === Schemas\Accounts\UserAccountSchema::RELATIONSHIPS_EMAILS) {
+		if ($account instanceof Entities\Accounts\IAccount) {
+			if ($relationEntity === Schemas\Accounts\AccountSchema::RELATIONSHIPS_EMAILS) {
 				return $response
 					->withEntity(WebServerHttp\ScalarEntity::from($account->getEmails()));
 			}
 		}
 
 		return parent::readRelationship($request, $response);
+	}
+
+	/**
+	 * @param Message\ServerRequestInterface $request
+	 *
+	 * @return Entities\Accounts\IAccount
+	 *
+	 * @throws JsonApiExceptions\IJsonApiException
+	 */
+	private function findAccount(
+		Message\ServerRequestInterface $request
+	): Entities\Accounts\IAccount {
+		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Routes::URL_ITEM_ID, null))) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_NOT_FOUND,
+				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
+				$this->translator->translate('//auth-module.base.messages.notFound.message')
+			);
+		}
+
+		$findQuery = new Queries\FindAccountsQuery();
+		$findQuery->byId(Uuid\Uuid::fromString($request->getAttribute(Router\Routes::URL_ITEM_ID, null)));
+
+		$account = $this->accountRepository->findOneBy($findQuery);
+
+		if ($account === null) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_NOT_FOUND,
+				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
+				$this->translator->translate('//auth-module.base.messages.notFound.message')
+			);
+		}
+
+		return $account;
 	}
 
 }

@@ -46,7 +46,7 @@ return [
 		__DIR__ . '/responses/accounts/accounts.relationships.roles.json',
 	],
 	'readRelationshipsEmails'        => [
-		'/v1/accounts/' . ADMINISTRATOR_ACCOUNT_ID . '/relationships/' . Schemas\Accounts\UserAccountSchema::RELATIONSHIPS_EMAILS,
+		'/v1/accounts/' . ADMINISTRATOR_ACCOUNT_ID . '/relationships/' . Schemas\Accounts\AccountSchema::RELATIONSHIPS_EMAILS,
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		StatusCodeInterface::STATUS_OK,
 		__DIR__ . '/responses/accounts/accounts.relationships.emails.json',
@@ -67,7 +67,7 @@ return [
 		__DIR__ . '/responses/generic/relation.unknown.json',
 	],
 	'readRelationshipsUnknownEntity' => [
-		'/v1/accounts/' . UNKNOWN_ID . '/relationships/' . Schemas\Accounts\UserAccountSchema::RELATIONSHIPS_EMAILS,
+		'/v1/accounts/' . UNKNOWN_ID . '/relationships/' . Schemas\Accounts\AccountSchema::RELATIONSHIPS_EMAILS,
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		StatusCodeInterface::STATUS_NOT_FOUND,
 		__DIR__ . '/responses/generic/notFound.json',

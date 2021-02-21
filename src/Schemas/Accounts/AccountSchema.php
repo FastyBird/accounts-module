@@ -30,17 +30,22 @@ use Neomerx\JsonApi;
  *
  * @author          Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @phpstan-template T of Entities\Accounts\IAccount
- * @phpstan-extends  JsonApiSchemas\JsonApiSchema<T>
+ * @phpstan-extends AccountSchema<Entities\Accounts\IAccount>
  */
-abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
+final class AccountSchema extends JsonApiSchemas\JsonApiSchema
 {
+
+	/**
+	 * Define entity schema type string
+	 */
+	public const SCHEMA_TYPE = 'auth-module/account';
 
 	/**
 	 * Define relationships names
 	 */
 	public const RELATIONSHIPS_IDENTITIES = 'identities';
 	public const RELATIONSHIPS_ROLES = 'roles';
+	public const RELATIONSHIPS_EMAILS = 'emails';
 
 	/** @var Routing\IRouter */
 	protected Routing\IRouter $router;
@@ -49,6 +54,22 @@ abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
 		Routing\IRouter $router
 	) {
 		$this->router = $router;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getEntityClass(): string
+	{
+		return Entities\Accounts\Account::class;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getType(): string
+	{
+		return self::SCHEMA_TYPE;
 	}
 
 	/**
@@ -62,13 +83,27 @@ abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
 	public function getAttributes($account, JsonApi\Contracts\Schema\ContextInterface $context): iterable
 	{
 		return [
-			'state' => $account->getState()
-				->getValue(),
+			'name' => $account->getName(),
 
-			'last_visit' => $account->getLastVisit() !== null ? $account->getLastVisit()
-				->format(DATE_ATOM) : null,
-			'registered' => $account->getCreatedAt() !== null ? $account->getCreatedAt()
-				->format(DATE_ATOM) : null,
+			'details' => [
+				'first_name'  => $account->getDetails()->getFirstName(),
+				'last_name'   => $account->getDetails()->getLastName(),
+				'middle_name' => $account->getDetails()->getMiddleName(),
+			],
+
+			'language' => $account->getLanguage(),
+
+			'week_start' => $account->getParam('datetime.week_start', 1),
+			'datetime'   => [
+				'timezone'    => $account->getParam('datetime.zone', 'Europe/London'),
+				'date_format' => $account->getParam('datetime.format.date', 'DD.MM.YYYY'),
+				'time_format' => $account->getParam('datetime.format.time', 'HH:mm'),
+			],
+
+			'state' => $account->getState()->getValue(),
+
+			'last_visit' => $account->getLastVisit() !== null ? $account->getLastVisit()->format(DATE_ATOM) : null,
+			'registered' => $account->getCreatedAt() !== null ? $account->getCreatedAt()->format(DATE_ATOM) : null,
 		];
 	}
 
@@ -114,6 +149,11 @@ abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
 				self::RELATIONSHIP_LINKS_SELF    => true,
 				self::RELATIONSHIP_LINKS_RELATED => false,
 			],
+			self::RELATIONSHIPS_EMAILS => [
+				self::RELATIONSHIP_DATA          => $account->getEmails(),
+				self::RELATIONSHIP_LINKS_SELF    => true,
+				self::RELATIONSHIP_LINKS_RELATED => true,
+			],
 		];
 	}
 
@@ -141,6 +181,21 @@ abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
 					'count' => count($account->getIdentities()),
 				]
 			);
+
+		} elseif ($name === self::RELATIONSHIPS_EMAILS) {
+			return new JsonApi\Schema\Link(
+				false,
+				$this->router->urlFor(
+					AuthModule\Constants::ROUTE_NAME_ACCOUNT_EMAILS,
+					[
+						Router\Routes::URL_ACCOUNT_ID => $account->getPlainId(),
+					]
+				),
+				true,
+				[
+					'count' => count($account->getEmails()),
+				]
+			);
 		}
 
 		return parent::getRelationshipRelatedLink($account, $name);
@@ -160,6 +215,19 @@ abstract class AccountSchema extends JsonApiSchemas\JsonApiSchema
 			$name === self::RELATIONSHIPS_IDENTITIES
 			|| $name === self::RELATIONSHIPS_ROLES
 		) {
+			return new JsonApi\Schema\Link(
+				false,
+				$this->router->urlFor(
+					AuthModule\Constants::ROUTE_NAME_ACCOUNT_RELATIONSHIP,
+					[
+						Router\Routes::URL_ITEM_ID     => $account->getPlainId(),
+						Router\Routes::RELATION_ENTITY => $name,
+					]
+				),
+				false
+			);
+
+		} elseif ($name === self::RELATIONSHIPS_EMAILS) {
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(

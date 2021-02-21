@@ -40,8 +40,8 @@ final class AccountRepository implements IAccountRepository
 	/** @var Common\Persistence\ManagerRegistry */
 	private Common\Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var Persistence\ObjectRepository<Entities\Accounts\Account>[] */
-	private array $repository = [];
+	/** @var Persistence\ObjectRepository<Entities\Accounts\Account>|null */
+	private ?Persistence\ObjectRepository $repository = null;
 
 	public function __construct(
 		Common\Persistence\ManagerRegistry $managerRegistry
@@ -53,30 +53,12 @@ final class AccountRepository implements IAccountRepository
 	 * {@inheritDoc}
 	 */
 	public function findOneBy(
-		Queries\FindAccountsQuery $queryObject,
-		string $type = Entities\Accounts\Account::class
+		Queries\FindAccountsQuery $queryObject
 	): ?Entities\Accounts\IAccount {
 		/** @var Entities\Accounts\IAccount|null $account */
-		$account = $queryObject->fetchOne($this->getRepository($type));
+		$account = $queryObject->fetchOne($this->getRepository());
 
 		return $account;
-	}
-
-	/**
-	 * @param string $type
-	 *
-	 * @return Persistence\ObjectRepository<Entities\Accounts\Account>
-	 *
-	 * @phpstan-template T of Entities\Accounts\Account
-	 * @phpstan-param    class-string<T> $type
-	 */
-	private function getRepository(string $type): Persistence\ObjectRepository
-	{
-		if (!isset($this->repository[$type])) {
-			$this->repository[$type] = $this->managerRegistry->getRepository($type);
-		}
-
-		return $this->repository[$type];
 	}
 
 	/**
@@ -85,10 +67,9 @@ final class AccountRepository implements IAccountRepository
 	 * @throws Throwable
 	 */
 	public function findAllBy(
-		Queries\FindAccountsQuery $queryObject,
-		string $type = Entities\Accounts\Account::class
+		Queries\FindAccountsQuery $queryObject
 	): array {
-		$result = $queryObject->fetch($this->getRepository($type));
+		$result = $queryObject->fetch($this->getRepository());
 
 		return is_array($result) ? $result : $result->toArray();
 	}
@@ -99,16 +80,27 @@ final class AccountRepository implements IAccountRepository
 	 * @throws Throwable
 	 */
 	public function getResultSet(
-		Queries\FindAccountsQuery $queryObject,
-		string $type = Entities\Accounts\Account::class
+		Queries\FindAccountsQuery $queryObject
 	): DoctrineOrmQuery\ResultSet {
-		$result = $queryObject->fetch($this->getRepository($type));
+		$result = $queryObject->fetch($this->getRepository());
 
 		if (!$result instanceof DoctrineOrmQuery\ResultSet) {
 			throw new Exceptions\InvalidStateException('Result set for given query could not be loaded.');
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @return Persistence\ObjectRepository<Entities\Accounts\Account>
+	 */
+	private function getRepository(): Persistence\ObjectRepository
+	{
+		if ($this->repository === null) {
+			$this->repository = $this->managerRegistry->getRepository(Entities\Accounts\Account::class);
+		}
+
+		return $this->repository;
 	}
 
 }

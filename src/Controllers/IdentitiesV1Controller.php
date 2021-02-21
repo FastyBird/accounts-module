@@ -54,22 +54,22 @@ final class IdentitiesV1Controller extends BaseV1Controller
 	/** @var Models\Accounts\IAccountRepository */
 	protected Models\Accounts\IAccountRepository $accountRepository;
 
-	/** @var string */
-	protected string $translationDomain = 'auth-module.identities';
-
-	/** @var Hydrators\Identities\UserAccountIdentityHydrator */
-	private Hydrators\Identities\UserAccountIdentityHydrator $userAccountIdentityHydrator;
-
 	/** @var Models\Identities\IIdentitiesManager */
 	private Models\Identities\IIdentitiesManager $identitiesManager;
 
+	/** @var Hydrators\Identities\IdentityHydrator */
+	private Hydrators\Identities\IdentityHydrator $identityHydrator;
+
+	/** @var string */
+	protected string $translationDomain = 'auth-module.identities';
+
 	public function __construct(
-		Hydrators\Identities\UserAccountIdentityHydrator $userAccountIdentityHydrator,
+		Hydrators\Identities\IdentityHydrator $identityHydrator,
 		Models\Identities\IIdentityRepository $identityRepository,
 		Models\Identities\IIdentitiesManager $identitiesManager,
 		Models\Accounts\IAccountRepository $accountRepository
 	) {
-		$this->userAccountIdentityHydrator = $userAccountIdentityHydrator;
+		$this->identityHydrator = $identityHydrator;
 		$this->identityRepository = $identityRepository;
 		$this->identitiesManager = $identitiesManager;
 
@@ -139,11 +139,10 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE) {
-				$createData = $this->userAccountIdentityHydrator->hydrate($document);
+			if ($document->getResource()->getType() === Schemas\Identities\IdentitySchema::SCHEMA_TYPE) {
+				$createData = $this->identityHydrator->hydrate($document);
 
 				$this->validateAccountRelation($createData, $account);
 
@@ -164,8 +163,7 @@ final class IdentitiesV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (DoctrineCrudExceptions\EntityCreationException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
@@ -230,10 +228,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -268,15 +264,13 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			if (
-				$document->getResource()
-					->getType() === Schemas\Identities\UserAccountIdentitySchema::SCHEMA_TYPE
-				&& $identity instanceof Entities\Identities\IUserAccountIdentity
+				$document->getResource()->getType() === Schemas\Identities\IdentitySchema::SCHEMA_TYPE
+				&& $identity instanceof Entities\Identities\IIdentity
 			) {
-				$updateData = $this->userAccountIdentityHydrator->hydrate($document, $identity);
+				$updateData = $this->identityHydrator->hydrate($document, $identity);
 
 				$this->validateAccountRelation($updateData, $account);
 
@@ -295,8 +289,7 @@ final class IdentitiesV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -318,10 +311,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 

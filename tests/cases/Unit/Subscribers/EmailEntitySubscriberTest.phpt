@@ -48,7 +48,7 @@ final class EmailEntitySubscriberTest extends DbTestCase
 		$repository = $this->getContainer()
 			->getByType(Models\Identities\IdentityRepository::class);
 
-		$identity = $repository->findOneBy($findEntityQuery, Entities\Identities\UserAccountIdentity::class);
+		$identity = $repository->findOneBy($findEntityQuery);
 
 		Assert::same('john.doe@fastybird.ovh', $identity->getAccount()
 			->getEmail()

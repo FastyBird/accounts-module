@@ -55,17 +55,17 @@ final class EmailsV1Controller extends BaseV1Controller
 	/** @var Models\Accounts\IAccountRepository */
 	protected Models\Accounts\IAccountRepository $accountRepository;
 
-	/** @var string */
-	protected string $translationDomain = 'auth-module.emails';
+	/** @var Models\Emails\IEmailsManager */
+	private Models\Emails\IEmailsManager $emailsManager;
 
 	/** @var Hydrators\Emails\EmailHydrator */
 	private Hydrators\Emails\EmailHydrator $emailHydrator;
 
-	/** @var Models\Emails\IEmailsManager */
-	private Models\Emails\IEmailsManager $emailsManager;
-
 	/** @var Helpers\SecurityHash */
 	private Helpers\SecurityHash $securityHash;
+
+	/** @var string */
+	protected string $translationDomain = 'auth-module.emails';
 
 	public function __construct(
 		Hydrators\Emails\EmailHydrator $emailHydrator,
@@ -144,8 +144,7 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
 				$createData = $this->emailHydrator->hydrate($document);
@@ -257,10 +256,8 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -295,8 +292,7 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
 				$updateData = $this->emailHydrator->hydrate($document, $email);
@@ -317,8 +313,7 @@ final class EmailsV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -350,10 +345,8 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -389,14 +382,12 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			$this->emailsManager->delete($email);
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
 			// Log catched exception
@@ -415,10 +406,8 @@ final class EmailsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 

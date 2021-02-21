@@ -10,12 +10,9 @@
     "self" : "/v1/me"
   },
   "data" : {
-    "type" : "auth-module/user-account",
+    "type" : "auth-module/account",
     "id" : "efbfbdef-bfbd-68ef-bfbd-770b40efbfbd",
     "attributes" : {
-      "state" : "active",
-      "last_visit" : "2019-05-29T07:38:24+02:00",
-      "registered" : "2017-01-04T12:30:00+01:00",
       "name" : "Smith Jane",
       "details" : {
         "first_name" : "Jane",
@@ -28,7 +25,10 @@
         "timezone" : "Europe/Prague",
         "date_format" : "YYYY/DD/MM",
         "time_format" : "HH:mm"
-      }
+      },
+      "state" : "active",
+      "last_visit" : "2019-05-29T07:38:24+02:00",
+      "registered" : "2017-01-04T12:30:00+01:00"
     },
     "relationships" : {
       "identities" : {
@@ -43,7 +43,7 @@
         },
         "data" : [
           {
-            "type" : "auth-module/user-account-identity",
+            "type" : "auth-module/identity",
             "id" : "faf7a863-a49c-4428-a757-1de537773355"
           }
         ]
@@ -55,7 +55,7 @@
         "data" : [
           {
             "type" : "auth-module/role",
-            "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
+            "id" : "89f4a14f-7f78-4216-99b8-584ab9229f1c"
           }
         ]
       },

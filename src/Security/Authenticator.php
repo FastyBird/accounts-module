@@ -54,7 +54,7 @@ final class Authenticator implements SimpleAuthSecurity\IAuthenticator
 	 *
 	 * @param mixed[] $credentials
 	 *
-	 * @return Entities\Identities\UserAccountIdentity
+	 * @return Entities\Identities\Identity
 	 *
 	 * @throws Exceptions\AccountNotFoundException
 	 * @throws Exceptions\AuthenticationFailedException
@@ -63,8 +63,8 @@ final class Authenticator implements SimpleAuthSecurity\IAuthenticator
 	{
 		[$username, $password] = $credentials + [null, null];
 
-		/** @var Entities\Identities\UserAccountIdentity|null $identity */
-		$identity = $this->identityRepository->findOneByUid($username, Entities\Identities\UserAccountIdentity::class);
+		/** @var Entities\Identities\Identity|null $identity */
+		$identity = $this->identityRepository->findOneByUid($username);
 
 		if ($identity === null) {
 			throw new Exceptions\AccountNotFoundException('The identity identifier is incorrect', self::IDENTITY_UID_NOT_FOUND);

@@ -49,17 +49,17 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 	/** @var Models\Emails\IEmailRepository */
 	protected Models\Emails\IEmailRepository $emailRepository;
 
-	/** @var string */
-	protected string $translationDomain = 'auth-module.emails';
+	/** @var Models\Emails\IEmailsManager */
+	private Models\Emails\IEmailsManager $emailsManager;
 
 	/** @var Hydrators\Emails\ProfileEmailHydrator */
 	private Hydrators\Emails\ProfileEmailHydrator $emailHydrator;
 
-	/** @var Models\Emails\IEmailsManager */
-	private Models\Emails\IEmailsManager $emailsManager;
-
 	/** @var Helpers\SecurityHash */
 	private Helpers\SecurityHash $securityHash;
+
+	/** @var string */
+	protected string $translationDomain = 'auth-module.emails';
 
 	public function __construct(
 		Hydrators\Emails\ProfileEmailHydrator $emailHydrator,
@@ -97,24 +97,6 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 		return $response
 			->withEntity(WebServerHttp\ScalarEntity::from($emails));
-	}
-
-	/**
-	 * @return Entities\Accounts\IAccount
-	 *
-	 * @throws JsonApiExceptions\JsonApiErrorException
-	 */
-	private function findAccount(): Entities\Accounts\IAccount
-	{
-		if ($this->user->getAccount() === null) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-				$this->translator->translate('//auth-module.base.messages.forbidden.message')
-			);
-		}
-
-		return $this->user->getAccount();
 	}
 
 	/**
@@ -162,8 +144,7 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
 				$createData = $this->emailHydrator->hydrate($document);
@@ -186,8 +167,7 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (Exceptions\EmailIsNotValidException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
@@ -272,10 +252,8 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -311,8 +289,7 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
 				$updateEmailData = $this->emailHydrator->hydrate($document, $email);
@@ -331,8 +308,7 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 			}
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (JsonApiExceptions\IJsonApiException $ex) {
 			throw $ex;
@@ -354,10 +330,8 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -396,14 +370,12 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			$this->emailsManager->delete($email);
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
 			// Log catched exception
@@ -422,10 +394,8 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -463,6 +433,24 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 		}
 
 		return parent::readRelationship($request, $response);
+	}
+
+	/**
+	 * @return Entities\Accounts\IAccount
+	 *
+	 * @throws JsonApiExceptions\JsonApiErrorException
+	 */
+	private function findAccount(): Entities\Accounts\IAccount
+	{
+		if ($this->user->getAccount() === null) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_FORBIDDEN,
+				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//auth-module.base.messages.forbidden.message')
+			);
+		}
+
+		return $this->user->getAccount();
 	}
 
 }

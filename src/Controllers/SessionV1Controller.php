@@ -45,9 +45,6 @@ use Throwable;
 final class SessionV1Controller extends BaseV1Controller
 {
 
-	/** @var string */
-	protected string $translationDomain = 'auth-module.session';
-
 	/** @var SimpleAuthModels\Tokens\ITokenRepository */
 	private SimpleAuthModels\Tokens\ITokenRepository $tokenRepository;
 
@@ -59,6 +56,9 @@ final class SessionV1Controller extends BaseV1Controller
 
 	/** @var SimpleAuthSecurity\TokenBuilder */
 	private SimpleAuthSecurity\TokenBuilder $tokenBuilder;
+
+	/** @var string */
+	protected string $translationDomain = 'auth-module.session';
 
 	public function __construct(
 		SimpleAuthModels\Tokens\ITokenRepository $tokenRepository,
@@ -96,49 +96,6 @@ final class SessionV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 *
-	 * @return Entities\Tokens\IAccessToken
-	 *
-	 * @throws JsonApiExceptions\IJsonApiException
-	 */
-	private function getToken(Message\ServerRequestInterface $request): Entities\Tokens\IAccessToken
-	{
-		$token = $this->tokenReader->read($request);
-
-		if ($token === null) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-				$this->translator->translate('//auth-module.base.messages.forbidden.message')
-			);
-		}
-
-		$findToken = new SimpleAuthQueries\FindTokensQuery();
-		$findToken->byToken($token->toString());
-
-		$accessToken = $this->tokenRepository->findOneBy($findToken, Entities\Tokens\AccessToken::class);
-
-		if (
-			$this->user->getAccount() !== null
-			&& $accessToken instanceof Entities\Tokens\IAccessToken
-			&& $accessToken->getIdentity()
-				->getAccount()
-				->getId()
-				->equals($this->user->getAccount()
-					->getId())
-		) {
-			return $accessToken;
-		}
-
-		throw new JsonApiExceptions\JsonApiErrorException(
-			StatusCodeInterface::STATUS_FORBIDDEN,
-			$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-			$this->translator->translate('//auth-module.base.messages.forbidden.message')
-		);
-	}
-
-	/**
-	 * @param Message\ServerRequestInterface $request
 	 * @param WebServerHttp\Response $response
 	 *
 	 * @return WebServerHttp\Response
@@ -155,8 +112,7 @@ final class SessionV1Controller extends BaseV1Controller
 	): WebServerHttp\Response {
 		$document = $this->createDocument($request);
 
-		$attributes = $document->getResource()
-			->getAttributes();
+		$attributes = $document->getResource()->getAttributes();
 
 		if (!$attributes->has('uid')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
@@ -229,11 +185,9 @@ final class SessionV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
-			$validTill = $this->getNow()
-				->modify(Entities\Tokens\IAccessToken::TOKEN_EXPIRATION);
+			$validTill = $this->getNow()->modify(Entities\Tokens\IAccessToken::TOKEN_EXPIRATION);
 
 			$values = Utils\ArrayHash::from([
 				'id'        => Uuid\Uuid::uuid4(),
@@ -246,8 +200,7 @@ final class SessionV1Controller extends BaseV1Controller
 
 			$accessToken = $this->tokensManager->create($values);
 
-			$validTill = $this->getNow()
-				->modify(Entities\Tokens\IRefreshToken::TOKEN_EXPIRATION);
+			$validTill = $this->getNow()->modify(Entities\Tokens\IRefreshToken::TOKEN_EXPIRATION);
 
 			$values = Utils\ArrayHash::from([
 				'id'          => Uuid\Uuid::uuid4(),
@@ -261,8 +214,7 @@ final class SessionV1Controller extends BaseV1Controller
 			$this->tokensManager->create($values);
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
 			// Log catched exception
@@ -281,10 +233,8 @@ final class SessionV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -294,35 +244,6 @@ final class SessionV1Controller extends BaseV1Controller
 			->withStatus(StatusCodeInterface::STATUS_CREATED);
 
 		return $response;
-	}
-
-	/**
-	 * @return DateTimeImmutable
-	 */
-	private function getNow(): DateTimeImmutable
-	{
-		/** @var DateTimeImmutable $now */
-		$now = $this->dateFactory->getNow();
-
-		return $now;
-	}
-
-	/**
-	 * @param Uuid\UuidInterface $userId
-	 * @param string[] $roles
-	 * @param DateTimeImmutable|null $validTill
-	 *
-	 * @return string
-	 *
-	 * @throws Throwable
-	 */
-	private function createToken(
-		Uuid\UuidInterface $userId,
-		array $roles,
-		?DateTimeImmutable $validTill
-	): string {
-		return $this->tokenBuilder->build($userId->toString(), $roles, $validTill)
-			->toString();
 	}
 
 	/**
@@ -343,8 +264,7 @@ final class SessionV1Controller extends BaseV1Controller
 	): WebServerHttp\Response {
 		$document = $this->createDocument($request);
 
-		$attributes = $document->getResource()
-			->getAttributes();
+		$attributes = $document->getResource()->getAttributes();
 
 		if (!$attributes->has('refresh')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
@@ -392,14 +312,12 @@ final class SessionV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			// Auto-login user
 			$this->user->login($accessToken->getIdentity());
 
-			$validTill = $this->getNow()
-				->modify(Entities\Tokens\IAccessToken::TOKEN_EXPIRATION);
+			$validTill = $this->getNow()->modify(Entities\Tokens\IAccessToken::TOKEN_EXPIRATION);
 
 			$values = Utils\ArrayHash::from([
 				'id'        => Uuid\Uuid::uuid4(),
@@ -412,8 +330,7 @@ final class SessionV1Controller extends BaseV1Controller
 
 			$newAccessToken = $this->tokensManager->create($values);
 
-			$validTill = $this->getNow()
-				->modify(Entities\Tokens\IRefreshToken::TOKEN_EXPIRATION);
+			$validTill = $this->getNow()->modify(Entities\Tokens\IRefreshToken::TOKEN_EXPIRATION);
 
 			$values = Utils\ArrayHash::from([
 				'id'          => Uuid\Uuid::uuid4(),
@@ -430,8 +347,7 @@ final class SessionV1Controller extends BaseV1Controller
 			$this->tokensManager->delete($accessToken);
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
 			// Log catched exception
@@ -450,10 +366,8 @@ final class SessionV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -485,8 +399,7 @@ final class SessionV1Controller extends BaseV1Controller
 
 		try {
 			// Start transaction connection to the database
-			$this->getOrmConnection()
-				->beginTransaction();
+			$this->getOrmConnection()->beginTransaction();
 
 			if ($accessToken->getRefreshToken() !== null) {
 				$this->tokensManager->delete($accessToken->getRefreshToken());
@@ -497,8 +410,7 @@ final class SessionV1Controller extends BaseV1Controller
 			$this->user->logout();
 
 			// Commit all changes into database
-			$this->getOrmConnection()
-				->commit();
+			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
 			// Log catched exception
@@ -517,10 +429,8 @@ final class SessionV1Controller extends BaseV1Controller
 
 		} finally {
 			// Revert all changes when error occur
-			if ($this->getOrmConnection()
-				->isTransactionActive()) {
-				$this->getOrmConnection()
-					->rollBack();
+			if ($this->getOrmConnection()->isTransactionActive()) {
+				$this->getOrmConnection()->rollBack();
 			}
 		}
 
@@ -554,6 +464,76 @@ final class SessionV1Controller extends BaseV1Controller
 		}
 
 		return parent::readRelationship($request, $response);
+	}
+
+	/**
+	 * @return DateTimeImmutable
+	 */
+	private function getNow(): DateTimeImmutable
+	{
+		/** @var DateTimeImmutable $now */
+		$now = $this->dateFactory->getNow();
+
+		return $now;
+	}
+
+	/**
+	 * @param Uuid\UuidInterface $userId
+	 * @param string[] $roles
+	 * @param DateTimeImmutable|null $validTill
+	 *
+	 * @return string
+	 *
+	 * @throws Throwable
+	 */
+	private function createToken(
+		Uuid\UuidInterface $userId,
+		array $roles,
+		?DateTimeImmutable $validTill
+	): string {
+		return $this->tokenBuilder->build($userId->toString(), $roles, $validTill)->toString();
+	}
+
+	/**
+	 * @param Message\ServerRequestInterface $request
+	 *
+	 * @return Entities\Tokens\IAccessToken
+	 *
+	 * @throws JsonApiExceptions\IJsonApiException
+	 */
+	private function getToken(Message\ServerRequestInterface $request): Entities\Tokens\IAccessToken
+	{
+		$token = $this->tokenReader->read($request);
+
+		if ($token === null) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_FORBIDDEN,
+				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//auth-module.base.messages.forbidden.message')
+			);
+		}
+
+		$findToken = new SimpleAuthQueries\FindTokensQuery();
+		$findToken->byToken($token->toString());
+
+		$accessToken = $this->tokenRepository->findOneBy($findToken, Entities\Tokens\AccessToken::class);
+
+		if (
+			$this->user->getAccount() !== null
+			&& $accessToken instanceof Entities\Tokens\IAccessToken
+			&& $accessToken->getIdentity()
+				->getAccount()
+				->getId()
+				->equals($this->user->getAccount()->getId())
+		) {
+			return $accessToken;
+		}
+
+		throw new JsonApiExceptions\JsonApiErrorException(
+			StatusCodeInterface::STATUS_FORBIDDEN,
+			$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
+			$this->translator->translate('//auth-module.base.messages.forbidden.message')
+		);
 	}
 
 }

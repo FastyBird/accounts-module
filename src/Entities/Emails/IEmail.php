@@ -35,9 +35,9 @@ interface IEmail extends DatabaseEntities\IEntity,
 {
 
 	/**
-	 * @return Entities\Accounts\IUserAccount
+	 * @return Entities\Accounts\IAccount
 	 */
-	public function getAccount(): Entities\Accounts\IUserAccount;
+	public function getAccount(): Entities\Accounts\IAccount;
 
 	/**
 	 * @param string $address
