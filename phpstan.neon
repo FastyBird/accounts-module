@@ -8,3 +8,6 @@ parameters:
 		- tests/PHPStan/stubs/Neomerx/JsonApi/Contracts/Schema/ContextInterface.php
 		- tests/PHPStan/stubs/Neomerx/JsonApi/Contracts/Schema/LinkInterface.php
 		- tests/PHPStan/stubs/Neomerx/JsonApi/Contracts/Schema/SchemaInterface.php
+	parallel:
+		maximumNumberOfProcesses: 1
+		processTimeout: 3000.0
