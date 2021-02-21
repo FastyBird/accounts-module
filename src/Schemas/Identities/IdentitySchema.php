@@ -30,7 +30,7 @@ use Neomerx\JsonApi;
  *
  * @author          Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @phpstan-extends IdentitySchema<Entities\Identities\IIdentity>
+ * @phpstan-extends JsonApiSchemas\JsonApiSchema<Entities\Identities\IIdentity>
  */
 final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 {
@@ -82,8 +82,7 @@ final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 	{
 		return [
 			'uid'   => $identity->getUid(),
-			'state' => $identity->getState()
-				->getValue(),
+			'state' => $identity->getState()->getValue(),
 		];
 	}
 
@@ -101,8 +100,7 @@ final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 			$this->router->urlFor(
 				AuthModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITY,
 				[
-					Router\Routes::URL_ACCOUNT_ID => $identity->getAccount()
-						->getPlainId(),
+					Router\Routes::URL_ACCOUNT_ID => $identity->getAccount()->getPlainId(),
 					Router\Routes::URL_ITEM_ID    => $identity->getPlainId(),
 				]
 			),
@@ -145,8 +143,7 @@ final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ACCOUNT,
 					[
-						Router\Routes::URL_ITEM_ID => $identity->getAccount()
-							->getPlainId(),
+						Router\Routes::URL_ITEM_ID => $identity->getAccount()->getPlainId(),
 					]
 				),
 				false
@@ -172,8 +169,7 @@ final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 				$this->router->urlFor(
 					AuthModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITY_RELATIONSHIP,
 					[
-						Router\Routes::URL_ACCOUNT_ID  => $identity->getAccount()
-							->getPlainId(),
+						Router\Routes::URL_ACCOUNT_ID  => $identity->getAccount()->getPlainId(),
 						Router\Routes::URL_ITEM_ID     => $identity->getPlainId(),
 						Router\Routes::RELATION_ENTITY => $name,
 					]

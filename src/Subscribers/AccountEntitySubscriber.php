@@ -121,7 +121,7 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 		$findAccount->inRole($role);
 
 		/** @var Entities\Accounts\IAccount|null $account */
-		$account = $this->accountRepository->findOneBy($findAccount, Entities\Accounts\Account::class);
+		$account = $this->accountRepository->findOneBy($findAccount);
 
 		return $account;
 	}

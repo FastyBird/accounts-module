@@ -1,5 +1,5 @@
 parameters:
-	level: 1
+	level: max
 	stubFiles:
 		- tests/PHPStan/stubs/Doctrine/ORM/Query.php
 		- tests/PHPStan/stubs/Doctrine/ORM/QueryBuilder.php
@@ -8,6 +8,3 @@ parameters:
 		- tests/PHPStan/stubs/Neomerx/JsonApi/Contracts/Schema/ContextInterface.php
 		- tests/PHPStan/stubs/Neomerx/JsonApi/Contracts/Schema/LinkInterface.php
 		- tests/PHPStan/stubs/Neomerx/JsonApi/Contracts/Schema/SchemaInterface.php
-	parallel:
-		maximumNumberOfProcesses: 1
-		processTimeout: 3000.0

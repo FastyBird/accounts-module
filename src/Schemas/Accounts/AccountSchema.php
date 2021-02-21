@@ -30,7 +30,7 @@ use Neomerx\JsonApi;
  *
  * @author          Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @phpstan-extends AccountSchema<Entities\Accounts\IAccount>
+ * @phpstan-extends JsonApiSchemas\JsonApiSchema<Entities\Accounts\IAccount>
  */
 final class AccountSchema extends JsonApiSchemas\JsonApiSchema
 {
