@@ -18,7 +18,7 @@ csf: vendor
 	vendor/bin/codefixer src tests
 
 phpstan: vendor
-	vendor/bin/phpstan analyse -c phpstan.neon src --memory-limit=8G
+	vendor/bin/phpstan analyse -c phpstan.neon src --memory-limit=-1
 
 tests: vendor
 	vendor/bin/tester -s -p php --colors 1 -C tests/cases
