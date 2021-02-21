@@ -1,6 +1,6 @@
 # FastyBird auth module
 
-[![Build Status](https://badgen.net/github/checks/FastyBird/auth-module/master?cache=300&style=flast-square)](https://travis-ci.com/FastyBird/auth-module)
+[![Build Status](https://badgen.net/github/checks/FastyBird/auth-module/master?cache=300&style=flast-square)](https://github.com/FastyBird/auth-module/actions)
 [![Code coverage](https://badgen.net/coveralls/c/github/FastyBird/auth-module?cache=300&style=flast-square)](https://coveralls.io/r/FastyBird/auth-module)
 ![PHP](https://badgen.net/packagist/php/FastyBird/auth-module?cache=300&style=flast-square)
 [![Licence](https://badgen.net/packagist/license/FastyBird/auth-module?cache=300&style=flast-square)](https://packagist.org/packages/FastyBird/auth-module)
