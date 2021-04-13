@@ -32,8 +32,7 @@ use Neomerx\JsonApi;
  *
  * @author           Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @phpstan-template T of Entities\Roles\IRole
- * @phpstan-extends  JsonApiSchemas\JsonApiSchema<T>
+ * @phpstan-extends  JsonApiSchemas\JsonApiSchema<Entities\Roles\IRole>
  */
 final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 {
@@ -209,8 +208,6 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 	 * @param string $name
 	 *
 	 * @return JsonApi\Contracts\Schema\LinkInterface
-	 *
-	 * @phpstan-param T $role
 	 *
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */

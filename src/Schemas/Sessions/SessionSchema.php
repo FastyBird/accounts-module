@@ -30,8 +30,7 @@ use Neomerx\JsonApi;
  *
  * @author             Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @phpstan-template   T of Entities\Tokens\IAccessToken
- * @phpstan-extends    JsonApiSchemas\JsonApiSchema<T>
+ * @phpstan-extends    JsonApiSchemas\JsonApiSchema<Entities\Tokens\IAccessToken>
  */
 final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 {

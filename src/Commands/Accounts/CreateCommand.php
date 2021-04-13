@@ -282,7 +282,9 @@ class CreateCommand extends Console\Command\Command
 			$password = $io->askHidden($this->translator->translate('inputs.password.title'));
 		}
 
-		if ($account->getEmail() === null) {
+		$email = $account->getEmail();
+
+		if ($email === null) {
 			$io->warning($this->translator->translate('validation.identity.noEmail'));
 
 			return 0;
@@ -296,7 +298,7 @@ class CreateCommand extends Console\Command\Command
 			$create = new Utils\ArrayHash();
 			$create->offsetSet('entity', Entities\Identities\Identity::class);
 			$create->offsetSet('account', $account);
-			$create->offsetSet('uid', $account->getEmail()->getAddress());
+			$create->offsetSet('uid', $email->getAddress());
 			$create->offsetSet('password', $password);
 			$create->offsetSet('state', Types\IdentityStateType::get(Types\IdentityStateType::STATE_ACTIVE));
 
