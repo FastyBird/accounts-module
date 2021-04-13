@@ -69,12 +69,14 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 
 		// Check all scheduled updates
 		foreach ($uow->getScheduledEntityInsertions() as $object) {
-			if ($object instanceof Entities\Emails\IEmail) {
-				$foundEmail = $this->emailRepository->findOneByAddress($object->getAddress());
+			if (!$object instanceof Entities\Emails\IEmail) {
+				continue;
+			}
 
-				if ($foundEmail !== null && !$foundEmail->getId()->equals($object->getId())) {
-					throw new Exceptions\EmailAlreadyTakenException('Given email is already taken');
-				}
+			$foundEmail = $this->emailRepository->findOneByAddress($object->getAddress());
+
+			if ($foundEmail !== null && !$foundEmail->getId()->equals($object->getId())) {
+				throw new Exceptions\EmailAlreadyTakenException('Given email is already taken');
 			}
 		}
 	}

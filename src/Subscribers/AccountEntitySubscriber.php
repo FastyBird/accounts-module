@@ -93,7 +93,8 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 		// Check all scheduled updates
 		foreach ($uow->getScheduledEntityInsertions() as $object) {
 			if (
-				$this->getAdministrator() === null
+				$object instanceof Entities\Accounts\IAccount
+				&& $this->getAdministrator() === null
 				&& !$object->hasRole(SimpleAuth\Constants::ROLE_ADMINISTRATOR)
 			) {
 				throw new Exceptions\InvalidStateException('First account have to be an administrator account');
@@ -140,34 +141,36 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 
 		// Check all scheduled updates
 		foreach (array_merge($uow->getScheduledEntityInsertions(), $uow->getScheduledEntityUpdates()) as $object) {
-			if ($object instanceof Entities\Accounts\IAccount) {
+			if (!$object instanceof Entities\Accounts\IAccount) {
+				continue;
+			}
+
+			/**
+			 * If new account is without any role
+			 * we have to assign default roles
+			 */
+			if (count($object->getRoles()) === 0) {
+				$object->setRoles($this->getDefaultRoles(AuthModule\Constants::USER_ACCOUNT_DEFAULT_ROLES));
+			}
+
+			foreach ($object->getRoles() as $role) {
 				/**
-				 * If new account is without any role
-				 * we have to assign default roles
+				 * Special roles like administrator or user
+				 * can not be assigned to account with other roles
 				 */
-				if (count($object->getRoles()) === 0) {
-					$object->setRoles($this->getDefaultRoles(AuthModule\Constants::USER_ACCOUNT_DEFAULT_ROLES));
+				if (
+					in_array($role->getName(), $this->singleRoles, true)
+					&& count($object->getRoles()) > 1
+				) {
+					throw new Exceptions\AccountRoleInvalidException(sprintf('Role %s could not be combined with other roles', $role->getName()));
 				}
 
-				foreach ($object->getRoles() as $role) {
-					/**
-					 * Special roles like administrator or user
-					 * can not be assigned to account with other roles
-					 */
-					if (
-						in_array($role->getName(), $this->singleRoles, true)
-						&& count($object->getRoles()) > 1
-					) {
-						throw new Exceptions\AccountRoleInvalidException(sprintf('Role %s could not be combined with other roles', $role->getName()));
-					}
-
-					/**
-					 * Special roles like visitor or guest
-					 * can not be assigned to account
-					 */
-					if (in_array($role->getName(), $this->notAssignableRoles, true)) {
-						throw new Exceptions\AccountRoleInvalidException(sprintf('Role %s could not be assigned to account', $role->getName()));
-					}
+				/**
+				 * Special roles like visitor or guest
+				 * can not be assigned to account
+				 */
+				if (in_array($role->getName(), $this->notAssignableRoles, true)) {
+					throw new Exceptions\AccountRoleInvalidException(sprintf('Role %s could not be assigned to account', $role->getName()));
 				}
 			}
 		}
