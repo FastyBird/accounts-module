@@ -19,7 +19,7 @@ use Closure;
 use Doctrine\ORM;
 use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Exceptions;
-use FastyBird\AuthModule\Types;
+use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use IPub\DoctrineOrmQuery;
 use Ramsey\Uuid;
 
@@ -65,7 +65,7 @@ class FindAccountsQuery extends DoctrineOrmQuery\QueryObject
 	 */
 	public function inState(string $state): void
 	{
-		if (!Types\AccountStateType::isValidValue($state)) {
+		if (!ModulesMetadataTypes\AccountStateType::isValidValue($state)) {
 			throw new Exceptions\InvalidArgumentException('Invalid account state given');
 		}
 

@@ -17,8 +17,8 @@ namespace FastyBird\AuthModule\Entities\Accounts;
 
 use DateTimeInterface;
 use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Types;
 use FastyBird\Database\Entities as DatabaseEntities;
+use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use IPub\DoctrineTimestampable;
 
 /**
@@ -61,16 +61,16 @@ interface IAccount extends DatabaseEntities\IEntity,
 	public function isApprovalRequired(): bool;
 
 	/**
-	 * @return Types\AccountStateType
+	 * @return ModulesMetadataTypes\AccountStateType
 	 */
-	public function getState(): Types\AccountStateType;
+	public function getState(): ModulesMetadataTypes\AccountStateType;
 
 	/**
-	 * @param Types\AccountStateType $state
+	 * @param ModulesMetadataTypes\AccountStateType $state
 	 *
 	 * @return void
 	 */
-	public function setState(Types\AccountStateType $state): void;
+	public function setState(ModulesMetadataTypes\AccountStateType $state): void;
 
 	/**
 	 * @return DateTimeInterface|null

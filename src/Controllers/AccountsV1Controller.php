@@ -23,8 +23,8 @@ use FastyBird\AuthModule\Models;
 use FastyBird\AuthModule\Queries;
 use FastyBird\AuthModule\Router;
 use FastyBird\AuthModule\Schemas;
-use FastyBird\AuthModule\Types;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
+use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
 use IPub\DoctrineCrud\Exceptions as DoctrineCrudExceptions;
@@ -355,14 +355,14 @@ final class AccountsV1Controller extends BaseV1Controller
 			$this->getOrmConnection()->beginTransaction();
 
 			$updateData = Utils\ArrayHash::from([
-				'state' => Types\AccountStateType::get(Types\AccountStateType::STATE_DELETED),
+				'state' => ModulesMetadataTypes\AccountStateType::get(ModulesMetadataTypes\AccountStateType::STATE_DELETED),
 			]);
 
 			$this->accountsManager->update($account, $updateData);
 
 			foreach ($account->getIdentities() as $identity) {
 				$updateIdentity = Utils\ArrayHash::from([
-					'state' => Types\IdentityStateType::get(Types\IdentityStateType::STATE_DELETED),
+					'state' => ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_DELETED),
 				]);
 
 				$this->identitiesManager->update($identity, $updateIdentity);

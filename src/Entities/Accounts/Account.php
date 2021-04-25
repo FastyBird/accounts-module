@@ -20,8 +20,8 @@ use DateTimeInterface;
 use Doctrine\Common;
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Types;
 use FastyBird\Database\Entities as DatabaseEntities;
+use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
@@ -56,9 +56,9 @@ class Account implements IAccount
 	protected Uuid\UuidInterface $id;
 
 	/**
-	 * @var Types\AccountStateType
+	 * @var ModulesMetadataTypes\AccountStateType
 	 *
-	 * @Enum(class=Types\AccountStateType::class)
+	 * @Enum(class=ModulesMetadataTypes\AccountStateType::class)
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="string_enum", name="account_state", nullable=false, options={"default": "notActivated"})
 	 */
@@ -130,7 +130,7 @@ class Account implements IAccount
 	) {
 		$this->id = $id ?? Uuid\Uuid::uuid4();
 
-		$this->state = Types\AccountStateType::get(Types\AccountStateType::STATE_NOT_ACTIVATED);
+		$this->state = ModulesMetadataTypes\AccountStateType::get(ModulesMetadataTypes\AccountStateType::STATE_NOT_ACTIVATED);
 
 		$this->emails = new Common\Collections\ArrayCollection();
 		$this->identities = new Common\Collections\ArrayCollection();
@@ -142,7 +142,7 @@ class Account implements IAccount
 	 */
 	public function isActivated(): bool
 	{
-		return $this->state->equalsValue(Types\AccountStateType::STATE_ACTIVE);
+		return $this->state->equalsValue(ModulesMetadataTypes\AccountStateType::STATE_ACTIVE);
 	}
 
 	/**
@@ -150,7 +150,7 @@ class Account implements IAccount
 	 */
 	public function isBlocked(): bool
 	{
-		return $this->state->equalsValue(Types\AccountStateType::STATE_BLOCKED);
+		return $this->state->equalsValue(ModulesMetadataTypes\AccountStateType::STATE_BLOCKED);
 	}
 
 	/**
@@ -158,7 +158,7 @@ class Account implements IAccount
 	 */
 	public function isDeleted(): bool
 	{
-		return $this->state->equalsValue(Types\AccountStateType::STATE_DELETED);
+		return $this->state->equalsValue(ModulesMetadataTypes\AccountStateType::STATE_DELETED);
 	}
 
 	/**
@@ -166,7 +166,7 @@ class Account implements IAccount
 	 */
 	public function isNotActivated(): bool
 	{
-		return $this->state->equalsValue(Types\AccountStateType::STATE_NOT_ACTIVATED);
+		return $this->state->equalsValue(ModulesMetadataTypes\AccountStateType::STATE_NOT_ACTIVATED);
 	}
 
 	/**
@@ -174,13 +174,13 @@ class Account implements IAccount
 	 */
 	public function isApprovalRequired(): bool
 	{
-		return $this->state->equalsValue(Types\AccountStateType::STATE_APPROVAL_WAITING);
+		return $this->state->equalsValue(ModulesMetadataTypes\AccountStateType::STATE_APPROVAL_WAITING);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getState(): Types\AccountStateType
+	public function getState(): ModulesMetadataTypes\AccountStateType
 	{
 		return $this->state;
 	}
@@ -188,7 +188,7 @@ class Account implements IAccount
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setState(Types\AccountStateType $state): void
+	public function setState(ModulesMetadataTypes\AccountStateType $state): void
 	{
 		$this->state = $state;
 	}

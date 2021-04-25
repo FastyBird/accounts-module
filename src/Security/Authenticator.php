@@ -18,7 +18,7 @@ namespace FastyBird\AuthModule\Security;
 use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Exceptions;
 use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Types;
+use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use FastyBird\SimpleAuth\Security as SimpleAuthSecurity;
 
 /**
@@ -78,16 +78,16 @@ final class Authenticator implements SimpleAuthSecurity\IAuthenticator
 		$account = $identity->getAccount();
 
 		if ($account->getState()
-			->equalsValue(Types\AccountStateType::STATE_ACTIVE)) {
+			->equalsValue(ModulesMetadataTypes\AccountStateType::STATE_ACTIVE)) {
 			return $identity;
 		}
 
 		if ($account->getState()
-			->equalsValue(Types\AccountStateType::STATE_BLOCKED)) {
+			->equalsValue(ModulesMetadataTypes\AccountStateType::STATE_BLOCKED)) {
 			throw new Exceptions\AuthenticationFailedException('Account profile is blocked', self::ACCOUNT_PROFILE_BLOCKED);
 
 		} elseif ($account->getState()
-			->equalsValue(Types\AccountStateType::STATE_DELETED)) {
+			->equalsValue(ModulesMetadataTypes\AccountStateType::STATE_DELETED)) {
 			throw new Exceptions\AuthenticationFailedException('Account profile is deleted', self::ACCOUNT_PROFILE_DELETED);
 		}
 

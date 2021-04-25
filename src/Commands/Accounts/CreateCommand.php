@@ -22,7 +22,7 @@ use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Exceptions;
 use FastyBird\AuthModule\Models;
 use FastyBird\AuthModule\Queries;
-use FastyBird\AuthModule\Types;
+use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use FastyBird\SimpleAuth;
 use Nette\Utils;
 use Symfony\Component\Console;
@@ -234,7 +234,7 @@ class CreateCommand extends Console\Command\Command
 
 			$create = new Utils\ArrayHash();
 			$create->offsetSet('entity', Entities\Accounts\Account::class);
-			$create->offsetSet('state', Types\AccountStateType::get(Types\AccountStateType::STATE_ACTIVE));
+			$create->offsetSet('state', ModulesMetadataTypes\AccountStateType::get(ModulesMetadataTypes\AccountStateType::STATE_ACTIVE));
 			$create->offsetSet('roles', [$role]);
 
 			$details = new Utils\ArrayHash();
@@ -300,7 +300,7 @@ class CreateCommand extends Console\Command\Command
 			$create->offsetSet('account', $account);
 			$create->offsetSet('uid', $email->getAddress());
 			$create->offsetSet('password', $password);
-			$create->offsetSet('state', Types\IdentityStateType::get(Types\IdentityStateType::STATE_ACTIVE));
+			$create->offsetSet('state', ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_ACTIVE));
 
 			$this->identitiesManager->create($create);
 

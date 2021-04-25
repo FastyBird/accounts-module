@@ -17,8 +17,8 @@ namespace FastyBird\AuthModule\Entities\Identities;
 
 use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Helpers;
-use FastyBird\AuthModule\Types;
 use FastyBird\Database\Entities as DatabaseEntities;
+use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use FastyBird\SimpleAuth\Security as SimpleAuthSecurity;
 use IPub\DoctrineTimestampable;
 
@@ -79,16 +79,16 @@ interface IIdentity extends DatabaseEntities\IEntity,
 	public function getSalt(): ?string;
 
 	/**
-	 * @param Types\IdentityStateType $state
+	 * @param ModulesMetadataTypes\IdentityStateType $state
 	 *
 	 * @return void
 	 */
-	public function setState(Types\IdentityStateType $state): void;
+	public function setState(ModulesMetadataTypes\IdentityStateType $state): void;
 
 	/**
-	 * @return Types\IdentityStateType
+	 * @return ModulesMetadataTypes\IdentityStateType
 	 */
-	public function getState(): Types\IdentityStateType;
+	public function getState(): ModulesMetadataTypes\IdentityStateType;
 
 	/**
 	 * @return bool

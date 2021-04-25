@@ -19,7 +19,7 @@ use Closure;
 use Doctrine\ORM;
 use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Exceptions;
-use FastyBird\AuthModule\Types;
+use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use IPub\DoctrineOrmQuery;
 use Ramsey\Uuid;
 
@@ -95,7 +95,7 @@ class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 	 */
 	public function inState(string $state): void
 	{
-		if (!Types\IdentityStateType::isValidValue($state)) {
+		if (!ModulesMetadataTypes\IdentityStateType::isValidValue($state)) {
 			throw new Exceptions\InvalidArgumentException('Invalid identity state given');
 		}
 

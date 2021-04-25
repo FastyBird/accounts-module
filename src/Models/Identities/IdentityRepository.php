@@ -20,7 +20,7 @@ use Doctrine\Persistence;
 use FastyBird\AuthModule\Entities;
 use FastyBird\AuthModule\Exceptions;
 use FastyBird\AuthModule\Queries;
-use FastyBird\AuthModule\Types;
+use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use IPub\DoctrineOrmQuery;
 use Nette;
 use Throwable;
@@ -57,7 +57,7 @@ final class IdentityRepository implements IIdentityRepository
 	): ?Entities\Identities\IIdentity {
 		$findQuery = new Queries\FindIdentitiesQuery();
 		$findQuery->forAccount($account);
-		$findQuery->inState(Types\IdentityStateType::STATE_ACTIVE);
+		$findQuery->inState(ModulesMetadataTypes\IdentityStateType::STATE_ACTIVE);
 
 		return $this->findOneBy($findQuery);
 	}
@@ -82,7 +82,7 @@ final class IdentityRepository implements IIdentityRepository
 	): ?Entities\Identities\IIdentity {
 		$findQuery = new Queries\FindIdentitiesQuery();
 		$findQuery->byUid($uid);
-		$findQuery->inState(Types\IdentityStateType::STATE_ACTIVE);
+		$findQuery->inState(ModulesMetadataTypes\IdentityStateType::STATE_ACTIVE);
 
 		return $this->findOneBy($findQuery);
 	}
