@@ -6,16 +6,16 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Security
  * @since          0.1.0
  *
  * @date           15.07.20
  */
 
-namespace FastyBird\AuthModule\Security;
+namespace FastyBird\AccountsModule\Security;
 
-use FastyBird\AuthModule\Entities;
+use FastyBird\AccountsModule\Entities;
 use FastyBird\SimpleAuth\Models as SimpleAuthModels;
 use FastyBird\SimpleAuth\Queries as SimpleAuthQueries;
 use FastyBird\SimpleAuth\Security as SimpleAuthSecurity;
@@ -24,7 +24,7 @@ use Lcobucci\JWT;
 /**
  * Application identity factory
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Security
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>

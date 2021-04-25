@@ -6,14 +6,14 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Middleware
  * @since          0.1.0
  *
  * @date           01.04.20
  */
 
-namespace FastyBird\AuthModule\Middleware;
+namespace FastyBird\AccountsModule\Middleware;
 
 use Contributte\Translation;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
@@ -27,7 +27,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * Access check middleware
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Middleware
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -61,15 +61,15 @@ final class AccessMiddleware implements MiddlewareInterface
 		} catch (SimpleAuthExceptions\UnauthorizedAccessException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNAUTHORIZED,
-				$this->translator->translate('//auth-module.base.messages.unauthorized.heading'),
-				$this->translator->translate('//auth-module.base.messages.unauthorized.message')
+				$this->translator->translate('//accounts-module.base.messages.unauthorized.heading'),
+				$this->translator->translate('//accounts-module.base.messages.unauthorized.message')
 			);
 
 		} catch (SimpleAuthExceptions\ForbiddenAccessException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-				$this->translator->translate('//auth-module.base.messages.forbidden.message')
+				$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//accounts-module.base.messages.forbidden.message')
 			);
 		}
 	}

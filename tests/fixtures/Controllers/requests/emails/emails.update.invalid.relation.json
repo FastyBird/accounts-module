@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "auth-module/email",
+    "type" : "accounts-module/email",
     "id" : "0b46d3d6-c980-494a-8b40-f19e6095e610",
     "attributes" : {
       "address" : "john@doe.com",
@@ -10,7 +10,7 @@
     "relationships" : {
       "account" : {
         "data" : {
-          "type" : "auth-module/account",
+          "type" : "accounts-module/account",
           "id" : "fae8d781-7e2c-4318-9c85-43ba637d14c5"
         }
       }

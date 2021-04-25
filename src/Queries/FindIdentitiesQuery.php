@@ -6,19 +6,19 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Queries
  * @since          0.1.0
  *
  * @date           30.03.20
  */
 
-namespace FastyBird\AuthModule\Queries;
+namespace FastyBird\AccountsModule\Queries;
 
 use Closure;
 use Doctrine\ORM;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Exceptions;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Exceptions;
 use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use IPub\DoctrineOrmQuery;
 use Ramsey\Uuid;
@@ -26,7 +26,7 @@ use Ramsey\Uuid;
 /**
  * Find identities entities query
  *
- * @package          FastyBird:AuthModule!
+ * @package          FastyBird:AccountsModule!
  * @subpackage       Queries
  *
  * @author           Adam Kadlec <adam.kadlec@fastybird.com>

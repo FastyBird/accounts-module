@@ -6,21 +6,21 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Entities
  * @since          0.1.0
  *
  * @date           30.03.20
  */
 
-namespace FastyBird\AuthModule\Types;
+namespace FastyBird\AccountsModule\Types;
 
 use Consistence;
 
 /**
  * Doctrine2 DB type for email visibility type column
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Types
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>

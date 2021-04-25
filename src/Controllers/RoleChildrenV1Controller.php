@@ -6,18 +6,18 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  * @since          0.1.0
  *
  * @date           03.06.20
  */
 
-namespace FastyBird\AuthModule\Controllers;
+namespace FastyBird\AccountsModule\Controllers;
 
-use FastyBird\AuthModule\Controllers;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
+use FastyBird\AccountsModule\Controllers;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use FastyBird\WebServer\Http as WebServerHttp;
 use Psr\Http\Message;
@@ -25,7 +25,7 @@ use Psr\Http\Message;
 /**
  * Role children API controller
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -42,7 +42,7 @@ final class RoleChildrenV1Controller extends BaseV1Controller
 	private Models\Roles\IRoleRepository $roleRepository;
 
 	/** @var string */
-	protected string $translationDomain = 'auth-module.roles';
+	protected string $translationDomain = 'accounts-module.roles';
 
 	public function __construct(
 		Models\Roles\IRoleRepository $roleRepository

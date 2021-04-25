@@ -10,7 +10,7 @@
     "self" : "/v1/session"
   },
   "data" : {
-    "type" : "auth-module/session",
+    "type" : "accounts-module/session",
     "id" : "__ENTITY_ID__",
     "attributes" : {
       "token" : "__ACCESS_TOKEN__",
@@ -25,7 +25,7 @@
           "related" : "/v1/me"
         },
         "data" : {
-          "type" : "auth-module/account",
+          "type" : "accounts-module/account",
           "id" : "5e79efbf-bd0d-5b7c-46ef-bfbdefbfbd34"
         }
       }

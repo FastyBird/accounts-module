@@ -6,26 +6,26 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Subscribers
  * @since          0.1.0
  *
  * @date           30.03.20
  */
 
-namespace FastyBird\AuthModule\Subscribers;
+namespace FastyBird\AccountsModule\Subscribers;
 
 use Doctrine\Common;
 use Doctrine\ORM;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Exceptions;
-use FastyBird\AuthModule\Models;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Exceptions;
+use FastyBird\AccountsModule\Models;
 use Nette;
 
 /**
  * Doctrine entities events
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Subscribers
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>

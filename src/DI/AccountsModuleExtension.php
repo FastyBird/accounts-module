@@ -1,33 +1,33 @@
 <?php declare(strict_types = 1);
 
 /**
- * AuthModuleExtension.php
+ * AccountsModuleExtension.php
  *
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     DI
  * @since          0.1.0
  *
  * @date           30.11.20
  */
 
-namespace FastyBird\AuthModule\DI;
+namespace FastyBird\AccountsModule\DI;
 
 use Contributte\Translation;
 use Doctrine\Persistence;
-use FastyBird\AuthModule\Commands;
-use FastyBird\AuthModule\Controllers;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Helpers;
-use FastyBird\AuthModule\Hydrators;
-use FastyBird\AuthModule\Middleware;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Router;
-use FastyBird\AuthModule\Schemas;
-use FastyBird\AuthModule\Security;
-use FastyBird\AuthModule\Subscribers;
+use FastyBird\AccountsModule\Commands;
+use FastyBird\AccountsModule\Controllers;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Helpers;
+use FastyBird\AccountsModule\Hydrators;
+use FastyBird\AccountsModule\Middleware;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Router;
+use FastyBird\AccountsModule\Schemas;
+use FastyBird\AccountsModule\Security;
+use FastyBird\AccountsModule\Subscribers;
 use IPub\DoctrineCrud;
 use Nette;
 use Nette\DI;
@@ -36,12 +36,12 @@ use Nette\PhpGenerator;
 /**
  * Auth module extension container
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     DI
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI\TranslationProviderInterface
+class AccountsModuleExtension extends DI\CompilerExtension implements Translation\DI\TranslationProviderInterface
 {
 
 	/**
@@ -52,13 +52,13 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 	 */
 	public static function register(
 		Nette\Configurator $config,
-		string $extensionName = 'fbAuthModule'
+		string $extensionName = 'fbAccountsModule'
 	): void {
 		$config->onCompile[] = function (
 			Nette\Configurator $config,
 			DI\Compiler $compiler
 		) use ($extensionName): void {
-			$compiler->addExtension($extensionName, new AuthModuleExtension());
+			$compiler->addExtension($extensionName, new AccountsModuleExtension());
 		};
 	}
 
@@ -239,7 +239,7 @@ class AuthModuleExtension extends DI\CompilerExtension implements Translation\DI
 		if ($ormAnnotationDriverChainService instanceof DI\Definitions\ServiceDefinition) {
 			$ormAnnotationDriverChainService->addSetup('addDriver', [
 				$ormAnnotationDriverService,
-				'FastyBird\AuthModule\Entities',
+				'FastyBird\AccountsModule\Entities',
 			]);
 		}
 	}

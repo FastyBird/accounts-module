@@ -6,17 +6,17 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Models
  * @since          0.1.0
  *
  * @date           30.03.20
  */
 
-namespace FastyBird\AuthModule\Models\Roles;
+namespace FastyBird\AccountsModule\Models\Roles;
 
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Models;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Models;
 use IPub\DoctrineCrud\Crud;
 use Nette;
 use Nette\Utils;
@@ -24,7 +24,7 @@ use Nette\Utils;
 /**
  * ACL roles entities manager
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Models
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>

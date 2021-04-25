@@ -6,21 +6,21 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  * @since          0.1.0
  *
  * @date           31.03.20
  */
 
-namespace FastyBird\AuthModule\Controllers;
+namespace FastyBird\AccountsModule\Controllers;
 
 use Doctrine;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Hydrators;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Router;
-use FastyBird\AuthModule\Schemas;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Hydrators;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Router;
+use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
@@ -30,7 +30,7 @@ use Throwable;
 /**
  * Account controller
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -45,7 +45,7 @@ final class AccountV1Controller extends BaseV1Controller
 	private Models\Accounts\IAccountsManager $accountsManager;
 
 	/** @var string */
-	protected string $translationDomain = 'auth-module.account';
+	protected string $translationDomain = 'accounts-module.account';
 
 	public function __construct(
 		Hydrators\Accounts\ProfileAccountHydrator $accountHydrator,
@@ -100,8 +100,8 @@ final class AccountV1Controller extends BaseV1Controller
 		if ($account->getPlainId() !== $document->getResource()->getIdentifier()->getId()) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
-				$this->translator->translate('//auth-module.base.messages.invalidIdentifier.heading'),
-				$this->translator->translate('//auth-module.base.messages.invalidIdentifier.message')
+				$this->translator->translate('//accounts-module.base.messages.invalidIdentifier.heading'),
+				$this->translator->translate('//accounts-module.base.messages.invalidIdentifier.message')
 			);
 		}
 
@@ -118,8 +118,8 @@ final class AccountV1Controller extends BaseV1Controller
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//auth-module.base.messages.invalidType.heading'),
-					$this->translator->translate('//auth-module.base.messages.invalidType.message'),
+					$this->translator->translate('//accounts-module.base.messages.invalidType.heading'),
+					$this->translator->translate('//accounts-module.base.messages.invalidType.message'),
 					[
 						'pointer' => '/data/type',
 					]
@@ -143,8 +143,8 @@ final class AccountV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.notUpdated.heading'),
-				$this->translator->translate('//auth-module.base.messages.notUpdated.message')
+				$this->translator->translate('//accounts-module.base.messages.notUpdated.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notUpdated.message')
 			);
 
 		} finally {
@@ -235,8 +235,8 @@ final class AccountV1Controller extends BaseV1Controller
 		if ($this->user->getAccount() === null) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-				$this->translator->translate('//auth-module.base.messages.forbidden.message')
+				$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//accounts-module.base.messages.forbidden.message')
 			);
 		}
 

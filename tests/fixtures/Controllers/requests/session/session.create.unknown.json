@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "auth-module/session",
+    "type" : "accounts-module/session",
     "attributes" : {
       "uid" : "unknown.doe@fastybird.com",
       "password" : "123456789"

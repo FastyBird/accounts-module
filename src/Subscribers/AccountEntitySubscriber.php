@@ -6,22 +6,22 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Subscribers
  * @since          0.1.0
  *
  * @date           18.08.20
  */
 
-namespace FastyBird\AuthModule\Subscribers;
+namespace FastyBird\AccountsModule\Subscribers;
 
 use Doctrine\Common;
 use Doctrine\ORM;
-use FastyBird\AuthModule;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Exceptions;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
+use FastyBird\AccountsModule;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Exceptions;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
 use FastyBird\SimpleAuth;
 use Nette;
 use Throwable;
@@ -29,7 +29,7 @@ use Throwable;
 /**
  * Doctrine entities events
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Subscribers
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -150,7 +150,7 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 			 * we have to assign default roles
 			 */
 			if (count($object->getRoles()) === 0) {
-				$object->setRoles($this->getDefaultRoles(AuthModule\Constants::USER_ACCOUNT_DEFAULT_ROLES));
+				$object->setRoles($this->getDefaultRoles(AccountsModule\Constants::USER_ACCOUNT_DEFAULT_ROLES));
 			}
 
 			foreach ($object->getRoles() as $role) {

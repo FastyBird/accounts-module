@@ -11,7 +11,7 @@
   },
   "data" : [
     {
-      "type" : "auth-module/role",
+      "type" : "accounts-module/role",
       "id" : "337a0518-664b-40ef-bfbd-efbfbd7914ef"
     }
   ]

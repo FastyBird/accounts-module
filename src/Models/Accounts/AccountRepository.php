@@ -6,20 +6,20 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Models
  * @since          0.1.0
  *
  * @date           30.03.20
  */
 
-namespace FastyBird\AuthModule\Models\Accounts;
+namespace FastyBird\AccountsModule\Models\Accounts;
 
 use Doctrine\Common;
 use Doctrine\Persistence;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Exceptions;
-use FastyBird\AuthModule\Queries;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Exceptions;
+use FastyBird\AccountsModule\Queries;
 use IPub\DoctrineOrmQuery;
 use Nette;
 use Throwable;
@@ -27,7 +27,7 @@ use Throwable;
 /**
  * Account repository
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Models
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>

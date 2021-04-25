@@ -6,17 +6,17 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Hydrators
  * @since          0.1.0
  *
  * @date           31.03.20
  */
 
-namespace FastyBird\AuthModule\Hydrators\Accounts;
+namespace FastyBird\AccountsModule\Hydrators\Accounts;
 
 use Contributte\Translation;
-use FastyBird\AuthModule\Entities;
+use FastyBird\AccountsModule\Entities;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use Fig\Http\Message\StatusCodeInterface;
@@ -26,7 +26,7 @@ use Nette\Utils;
 /**
  * Account entity hydrator trait
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Hydrators
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -57,8 +57,8 @@ trait TAccountHydrator
 		if (!$attributes->has('first_name')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.message'),
 				[
 					'pointer' => '/data/attributes/details/first_name',
 				]
@@ -81,8 +81,8 @@ trait TAccountHydrator
 		if (!$attributes->has('last_name')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.message'),
 				[
 					'pointer' => '/data/attributes/details/last_name',
 				]
@@ -125,8 +125,8 @@ trait TAccountHydrator
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
-					$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
+					$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
+					$this->translator->translate('//accounts-module.base.messages.missingAttribute.message'),
 					[
 						'pointer' => '/data/attributes/details/first_name',
 					]
@@ -139,8 +139,8 @@ trait TAccountHydrator
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
-					$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
+					$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
+					$this->translator->translate('//accounts-module.base.messages.missingAttribute.message'),
 					[
 						'pointer' => '/data/attributes/details/last_name',
 					]
@@ -211,8 +211,8 @@ trait TAccountHydrator
 		if (!ModulesMetadataTypes\AccountStateType::isValidValue((string) $attributes->get('state'))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.invalidAttribute.heading'),
-				$this->translator->translate('//auth-module.base.messages.invalidAttribute.message'),
+				$this->translator->translate('//accounts-module.base.messages.invalidAttribute.heading'),
+				$this->translator->translate('//accounts-module.base.messages.invalidAttribute.message'),
 				[
 					'pointer' => '/data/attributes/state',
 				]

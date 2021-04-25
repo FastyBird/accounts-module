@@ -2,14 +2,14 @@
 
 namespace Tests\Cases;
 
-use FastyBird\AuthModule\Commands;
-use FastyBird\AuthModule\Controllers;
-use FastyBird\AuthModule\DI;
-use FastyBird\AuthModule\Hydrators;
-use FastyBird\AuthModule\Middleware;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Schemas;
-use FastyBird\AuthModule\Subscribers;
+use FastyBird\AccountsModule\Commands;
+use FastyBird\AccountsModule\Controllers;
+use FastyBird\AccountsModule\DI;
+use FastyBird\AccountsModule\Hydrators;
+use FastyBird\AccountsModule\Middleware;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Schemas;
+use FastyBird\AccountsModule\Subscribers;
 use Nette;
 use Ninjify\Nunjuck\TestCase\BaseTestCase;
 use Tester\Assert;
@@ -84,7 +84,7 @@ final class ServicesTest extends BaseTestCase
 
 		$config->addConfig(__DIR__ . '/../../../common.neon');
 
-		DI\AuthModuleExtension::register($config);
+		DI\AccountsModuleExtension::register($config);
 
 		return $config->createContainer();
 	}

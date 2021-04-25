@@ -6,21 +6,21 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     common
  * @since          0.1.0
  *
  * @date           12.06.20
  */
 
-namespace FastyBird\AuthModule;
+namespace FastyBird\AccountsModule;
 
 use FastyBird\SimpleAuth;
 
 /**
  * Module constants
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     common
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>

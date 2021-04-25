@@ -2,8 +2,8 @@
 
 namespace Tests\Cases;
 
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
 use Nette\Utils;
 use Tester\Assert;
 

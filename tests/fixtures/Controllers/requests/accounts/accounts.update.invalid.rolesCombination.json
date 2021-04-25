@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "auth-module/account",
+    "type" : "accounts-module/account",
     "id" : "efbfbdef-bfbd-68ef-bfbd-770b40efbfbd",
     "attributes" : {
       "details" : {
@@ -19,11 +19,11 @@
       "roles" : {
         "data" : [
           {
-            "type" : "auth-module/role",
+            "type" : "accounts-module/role",
             "id" : "89f4a14f-7f78-4216-99b8-584ab9229f1c"
           },
           {
-            "type" : "auth-module/role",
+            "type" : "accounts-module/role",
             "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
           }
         ]

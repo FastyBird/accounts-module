@@ -6,18 +6,18 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Router
  * @since          0.1.0
  *
  * @date           31.03.20
  */
 
-namespace FastyBird\AuthModule\Router;
+namespace FastyBird\AccountsModule\Router;
 
-use FastyBird\AuthModule;
-use FastyBird\AuthModule\Controllers;
-use FastyBird\AuthModule\Middleware;
+use FastyBird\AccountsModule;
+use FastyBird\AccountsModule\Controllers;
+use FastyBird\AccountsModule\Middleware;
 use FastyBird\SimpleAuth\Middleware as SimpleAuthMiddleware;
 use FastyBird\WebServer\Router as WebServerRouter;
 use IPub\SlimRouter\Routing;
@@ -25,7 +25,7 @@ use IPub\SlimRouter\Routing;
 /**
  * Module router configuration
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Router
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -127,7 +127,7 @@ class Routes implements WebServerRouter\IRoutes
 			 */
 			$group->group('/session', function (Routing\RouteCollector $group): void {
 				$route = $group->get('', [$this->sessionV1Controller, 'read']);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_SESSION);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_SESSION);
 
 				$group->post('', [$this->sessionV1Controller, 'create']);
 
@@ -139,7 +139,7 @@ class Routes implements WebServerRouter\IRoutes
 					$this->sessionV1Controller,
 					'readRelationship',
 				]);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_SESSION_RELATIONSHIP);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_SESSION_RELATIONSHIP);
 			});
 
 			/**
@@ -147,7 +147,7 @@ class Routes implements WebServerRouter\IRoutes
 			 */
 			$group->group('/me', function (Routing\RouteCollector $group): void {
 				$route = $group->get('', [$this->accountV1Controller, 'read']);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_ME);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_ME);
 
 				$group->patch('', [$this->accountV1Controller, 'update']);
 
@@ -157,17 +157,17 @@ class Routes implements WebServerRouter\IRoutes
 					$this->accountV1Controller,
 					'readRelationship',
 				]);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_ME_RELATIONSHIP);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_ME_RELATIONSHIP);
 
 				/**
 				 * PROFILE EMAILS
 				 */
 				$group->group('/emails', function (Routing\RouteCollector $group): void {
 					$route = $group->get('', [$this->accountEmailsV1Controller, 'index']);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ME_EMAILS);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ME_EMAILS);
 
 					$route = $group->get('/{' . self::URL_ITEM_ID . '}', [$this->accountEmailsV1Controller, 'read']);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ME_EMAIL);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ME_EMAIL);
 
 					$group->post('', [$this->accountEmailsV1Controller, 'create']);
 
@@ -179,7 +179,7 @@ class Routes implements WebServerRouter\IRoutes
 						$this->accountEmailsV1Controller,
 						'readRelationship',
 					]);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ME_EMAIL_RELATIONSHIP);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ME_EMAIL_RELATIONSHIP);
 				});
 
 				/**
@@ -187,13 +187,13 @@ class Routes implements WebServerRouter\IRoutes
 				 */
 				$group->group('/identities', function (Routing\RouteCollector $group): void {
 					$route = $group->get('', [$this->accountIdentitiesV1Controller, 'index']);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ME_IDENTITIES);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ME_IDENTITIES);
 
 					$route = $group->get('/{' . self::URL_ITEM_ID . '}', [
 						$this->accountIdentitiesV1Controller,
 						'read',
 					]);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ME_IDENTITY);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ME_IDENTITY);
 
 					$group->patch('/{' . self::URL_ITEM_ID . '}', [$this->accountIdentitiesV1Controller, 'update']);
 
@@ -201,7 +201,7 @@ class Routes implements WebServerRouter\IRoutes
 						$this->accountIdentitiesV1Controller,
 						'readRelationship',
 					]);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ME_IDENTITY_RELATIONSHIP);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ME_IDENTITY_RELATIONSHIP);
 				});
 			});
 
@@ -210,10 +210,10 @@ class Routes implements WebServerRouter\IRoutes
 			 */
 			$group->group('/accounts', function (Routing\RouteCollector $group): void {
 				$route = $group->get('', [$this->accountsV1Controller, 'index']);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_ACCOUNTS);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_ACCOUNTS);
 
 				$route = $group->get('/{' . self::URL_ITEM_ID . '}', [$this->accountsV1Controller, 'read']);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_ACCOUNT);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_ACCOUNT);
 
 				$group->post('', [$this->accountsV1Controller, 'create']);
 
@@ -225,7 +225,7 @@ class Routes implements WebServerRouter\IRoutes
 					$this->accountsV1Controller,
 					'readRelationship',
 				]);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_ACCOUNT_RELATIONSHIP);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_ACCOUNT_RELATIONSHIP);
 			});
 
 			$group->group('/accounts/{' . self::URL_ACCOUNT_ID . '}', function (Routing\RouteCollector $group): void {
@@ -234,10 +234,10 @@ class Routes implements WebServerRouter\IRoutes
 				 */
 				$group->group('/identities', function (Routing\RouteCollector $group): void {
 					$route = $group->get('', [$this->identitiesV1Controller, 'index']);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITIES);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITIES);
 
 					$route = $group->get('/{' . self::URL_ITEM_ID . '}', [$this->identitiesV1Controller, 'read']);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITY);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITY);
 
 					$group->post('', [$this->identitiesV1Controller, 'create']);
 
@@ -247,7 +247,7 @@ class Routes implements WebServerRouter\IRoutes
 						$this->identitiesV1Controller,
 						'readRelationship',
 					]);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITY_RELATIONSHIP);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITY_RELATIONSHIP);
 				});
 
 				/**
@@ -255,10 +255,10 @@ class Routes implements WebServerRouter\IRoutes
 				 */
 				$group->group('/emails', function (Routing\RouteCollector $group): void {
 					$route = $group->get('', [$this->emailsV1Controller, 'index']);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ACCOUNT_EMAILS);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ACCOUNT_EMAILS);
 
 					$route = $group->get('/{' . self::URL_ITEM_ID . '}', [$this->emailsV1Controller, 'read']);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ACCOUNT_EMAIL);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ACCOUNT_EMAIL);
 
 					$group->post('', [$this->emailsV1Controller, 'create']);
 
@@ -270,7 +270,7 @@ class Routes implements WebServerRouter\IRoutes
 						$this->emailsV1Controller,
 						'readRelationship',
 					]);
-					$route->setName(AuthModule\Constants::ROUTE_NAME_ACCOUNT_EMAIL_RELATIONSHIP);
+					$route->setName(AccountsModule\Constants::ROUTE_NAME_ACCOUNT_EMAIL_RELATIONSHIP);
 				});
 			});
 
@@ -279,10 +279,10 @@ class Routes implements WebServerRouter\IRoutes
 			 */
 			$group->group('/roles', function (Routing\RouteCollector $group): void {
 				$route = $group->get('', [$this->rolesV1Controller, 'index']);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_ROLES);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_ROLES);
 
 				$route = $group->get('/{' . self::URL_ITEM_ID . '}', [$this->rolesV1Controller, 'read']);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_ROLE);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_ROLE);
 
 				$group->patch('/{' . self::URL_ITEM_ID . '}', [$this->rolesV1Controller, 'update']);
 
@@ -290,7 +290,7 @@ class Routes implements WebServerRouter\IRoutes
 					$this->rolesV1Controller,
 					'readRelationship',
 				]);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_ROLE_RELATIONSHIP);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_ROLE_RELATIONSHIP);
 
 				/**
 				 * CHILDREN
@@ -299,7 +299,7 @@ class Routes implements WebServerRouter\IRoutes
 					$this->roleChildrenV1Controller,
 					'index',
 				]);
-				$route->setName(AuthModule\Constants::ROUTE_NAME_ROLE_CHILDREN);
+				$route->setName(AccountsModule\Constants::ROUTE_NAME_ROLE_CHILDREN);
 			});
 
 			$group->group('/authenticate', function (Routing\RouteCollector $group): void {

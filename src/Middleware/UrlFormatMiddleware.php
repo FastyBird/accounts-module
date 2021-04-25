@@ -6,17 +6,17 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Middleware
  * @since          0.1.0
  *
  * @date           21.06.20
  */
 
-namespace FastyBird\AuthModule\Middleware;
+namespace FastyBird\AccountsModule\Middleware;
 
 use Contributte\Translation;
-use FastyBird\AuthModule\Security;
+use FastyBird\AccountsModule\Security;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use Fig\Http\Message\StatusCodeInterface;
 use IPub\SlimRouter\Http;
@@ -29,7 +29,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * Access token check middleware
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Middleware
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -77,8 +77,8 @@ final class UrlFormatMiddleware implements MiddlewareInterface
 			if ($this->user->getAccount() === null) {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_BAD_REQUEST,
-					$this->translator->translate('//auth-module.base.messages.failed.heading'),
-					$this->translator->translate('//auth-module.base.messages.failed.message')
+					$this->translator->translate('//accounts-module.base.messages.failed.heading'),
+					$this->translator->translate('//accounts-module.base.messages.failed.message')
 				);
 			}
 

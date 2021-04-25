@@ -6,18 +6,18 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Entities
  * @since          0.1.0
  *
  * @date           30.03.20
  */
 
-namespace FastyBird\AuthModule\Entities\Tokens;
+namespace FastyBird\AccountsModule\Entities\Tokens;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use FastyBird\AuthModule\Entities;
+use FastyBird\AccountsModule\Entities;
 use FastyBird\Database\Entities as DatabaseEntities;
 use FastyBird\SimpleAuth\Entities as SimpleAuthEntities;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
@@ -40,7 +40,7 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 	 * @var Entities\Identities\IIdentity
 	 *
 	 * @IPubDoctrine\Crud(is="required")
-	 * @ORM\ManyToOne(targetEntity="FastyBird\AuthModule\Entities\Identities\Identity")
+	 * @ORM\ManyToOne(targetEntity="FastyBird\AccountsModule\Entities\Identities\Identity")
 	 * @ORM\JoinColumn(name="identity_id", referencedColumnName="identity_id", onDelete="cascade", nullable=true)
 	 */
 	private Entities\Identities\IIdentity $identity;

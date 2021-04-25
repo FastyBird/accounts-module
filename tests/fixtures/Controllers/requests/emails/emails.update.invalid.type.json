@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "auth-module/invalid-type",
+    "type" : "accounts-module/invalid-type",
     "id" : "0b46d3d6-c980-494a-8b40-f19e6095e610",
     "attributes" : {
       "address" : "john.doe@fastybird.com",

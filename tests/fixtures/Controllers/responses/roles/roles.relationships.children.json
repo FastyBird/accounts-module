@@ -12,7 +12,7 @@
   },
   "data" : [
     {
-      "type" : "auth-module/role",
+      "type" : "accounts-module/role",
       "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
     }
   ]

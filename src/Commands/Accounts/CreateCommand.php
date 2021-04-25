@@ -6,22 +6,22 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Commands
  * @since          0.1.0
  *
  * @date           31.03.20
  */
 
-namespace FastyBird\AuthModule\Commands\Accounts;
+namespace FastyBird\AccountsModule\Commands\Accounts;
 
 use Contributte\Translation;
 use Doctrine\Common;
 use Doctrine\DBAL\Connection;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Exceptions;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Exceptions;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
 use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use FastyBird\SimpleAuth;
 use Nette\Utils;
@@ -34,7 +34,7 @@ use Throwable;
 /**
  * Account creation command
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Commands
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -95,7 +95,7 @@ class CreateCommand extends Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('fb:auth-module:create:account')
+			->setName('fb:accounts-module:create:account')
 			->addArgument('lastName', Input\InputArgument::OPTIONAL, $this->translator->translate('inputs.lastName.title'))
 			->addArgument('firstName', Input\InputArgument::OPTIONAL, $this->translator->translate('inputs.firstName.title'))
 			->addArgument('email', Input\InputArgument::OPTIONAL, $this->translator->translate('inputs.email.title'))
@@ -114,7 +114,7 @@ class CreateCommand extends Console\Command\Command
 		$io = new Style\SymfonyStyle($input, $output);
 
 		if (!$input->hasOption('injected')) {
-			$io->title('FB auth module - create account');
+			$io->title('FB accounts module - create account');
 		}
 
 		if (

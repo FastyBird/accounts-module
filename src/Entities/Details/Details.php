@@ -6,17 +6,17 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Entities
  * @since          0.1.0
  *
  * @date           30.03.20
  */
 
-namespace FastyBird\AuthModule\Entities\Details;
+namespace FastyBird\AccountsModule\Entities\Details;
 
 use Doctrine\ORM\Mapping as ORM;
-use FastyBird\AuthModule\Entities;
+use FastyBird\AccountsModule\Entities;
 use FastyBird\Database\Entities as DatabaseEntities;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
@@ -53,7 +53,7 @@ class Details implements IDetails
 	/**
 	 * @var Entities\Accounts\IAccount
 	 *
-	 * @ORM\OneToOne(targetEntity="FastyBird\AuthModule\Entities\Accounts\Account", inversedBy="details")
+	 * @ORM\OneToOne(targetEntity="FastyBird\AccountsModule\Entities\Accounts\Account", inversedBy="details")
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id", unique=true, onDelete="cascade", nullable=false)
 	 *
 	 * @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.WriteOnlyProperty

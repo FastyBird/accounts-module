@@ -11,7 +11,7 @@
   },
   "data" : [
     {
-      "type" : "auth-module/role",
+      "type" : "accounts-module/role",
       "id" : "337a0518-664b-40ef-bfbd-efbfbd7914ef",
       "attributes" : {
         "name" : "administrator",
@@ -39,7 +39,7 @@
             "related" : "/v1/roles/337a0518-664b-40ef-bfbd-efbfbd7914ef"
           },
           "data" : {
-            "type" : "auth-module/role",
+            "type" : "accounts-module/role",
             "id" : "89f4a14f-7f78-4216-99b8-584ab9229f1c"
           }
         }
@@ -49,7 +49,7 @@
       }
     },
     {
-      "type" : "auth-module/role",
+      "type" : "accounts-module/role",
       "id" : "89f4a14f-7f78-4216-99b8-584ab9229f1c",
       "attributes" : {
         "name" : "manager",
@@ -71,7 +71,7 @@
           },
           "data" : [
             {
-              "type" : "auth-module/role",
+              "type" : "accounts-module/role",
               "id" : "337a0518-664b-40ef-bfbd-efbfbd7914ef"
             }
           ]
@@ -82,7 +82,7 @@
             "related" : "/v1/roles/89f4a14f-7f78-4216-99b8-584ab9229f1c"
           },
           "data" : {
-            "type" : "auth-module/role",
+            "type" : "accounts-module/role",
             "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
           }
         }
@@ -92,7 +92,7 @@
       }
     },
     {
-      "type" : "auth-module/role",
+      "type" : "accounts-module/role",
       "id" : "efbfbd04-0158-efbf-bdef-bfbd4defbfbd",
       "attributes" : {
         "name" : "guest",
@@ -114,7 +114,7 @@
           },
           "data" : [
             {
-              "type" : "auth-module/role",
+              "type" : "accounts-module/role",
               "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
             }
           ]
@@ -125,7 +125,7 @@
       }
     },
     {
-      "type" : "auth-module/role",
+      "type" : "accounts-module/role",
       "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61",
       "attributes" : {
         "name" : "user",
@@ -147,7 +147,7 @@
           },
           "data" : [
             {
-              "type" : "auth-module/role",
+              "type" : "accounts-module/role",
               "id" : "89f4a14f-7f78-4216-99b8-584ab9229f1c"
             }
           ]
@@ -158,7 +158,7 @@
             "related" : "/v1/roles/efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
           },
           "data" : {
-            "type" : "auth-module/role",
+            "type" : "accounts-module/role",
             "id" : "efbfbd04-0158-efbf-bdef-bfbd4defbfbd"
           }
         }

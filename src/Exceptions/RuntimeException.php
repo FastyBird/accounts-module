@@ -6,14 +6,14 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Exceptions
  * @since          0.1.0
  *
  * @date           31.03.20
  */
 
-namespace FastyBird\AuthModule\Exceptions;
+namespace FastyBird\AccountsModule\Exceptions;
 
 use RuntimeException as PHPRuntimeException;
 

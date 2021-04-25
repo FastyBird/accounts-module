@@ -12,7 +12,7 @@
   },
   "data" : [
     {
-      "type" : "auth-module/identity",
+      "type" : "accounts-module/identity",
       "id" : "77331268-efbf-bd34-49ef-bfbdefbfbd04"
     }
   ]

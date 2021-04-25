@@ -6,20 +6,20 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Commands
  * @since          0.1.0
  *
  * @date           31.07.20
  */
 
-namespace FastyBird\AuthModule\Commands;
+namespace FastyBird\AccountsModule\Commands;
 
 use Doctrine\Common;
 use Doctrine\DBAL\Connection;
-use FastyBird\AuthModule\Exceptions;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
+use FastyBird\AccountsModule\Exceptions;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
 use FastyBird\Database;
 use FastyBird\SimpleAuth;
 use Nette\Utils;
@@ -33,7 +33,7 @@ use Throwable;
 /**
  * Module initialize command
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Commands
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -81,7 +81,7 @@ class InitializeCommand extends Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('fb:auth-module:initialize')
+			->setName('fb:accounts-module:initialize')
 			->addOption('noconfirm', null, Input\InputOption::VALUE_NONE, 'do not ask for any confirmation')
 			->setDescription('Initialize module.');
 	}
@@ -226,7 +226,7 @@ class InitializeCommand extends Console\Command\Command
 			$accounts = $this->accountRepository->findAllBy($findAccounts);
 
 			if (count($accounts) === 0) {
-				$accountCmd = $symfonyApp->find('fb:auth-module:create:account');
+				$accountCmd = $symfonyApp->find('fb:accounts-module:create:account');
 
 				$result = $accountCmd->run(new Input\ArrayInput([
 					'role'       => SimpleAuth\Constants::ROLE_ADMINISTRATOR,

@@ -6,14 +6,14 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Entities
  * @since          0.1.0
  *
  * @date           30.03.20
  */
 
-namespace FastyBird\AuthModule\Entities\Roles;
+namespace FastyBird\AccountsModule\Entities\Roles;
 
 use Doctrine\Common;
 use Doctrine\ORM\Mapping as ORM;
@@ -73,7 +73,7 @@ class Role implements IRole
 	 * @var IRole|null
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
-	 * @ORM\ManyToOne(targetEntity="FastyBird\AuthModule\Entities\Roles\Role", inversedBy="children")
+	 * @ORM\ManyToOne(targetEntity="FastyBird\AccountsModule\Entities\Roles\Role", inversedBy="children")
 	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="role_id", nullable=true, onDelete="set null")
 	 */
 	private ?IRole $parent = null;
@@ -82,7 +82,7 @@ class Role implements IRole
 	 * @var Common\Collections\Collection<int, IRole>
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
-	 * @ORM\OneToMany(targetEntity="FastyBird\AuthModule\Entities\Roles\Role", mappedBy="parent")
+	 * @ORM\OneToMany(targetEntity="FastyBird\AccountsModule\Entities\Roles\Role", mappedBy="parent")
 	 */
 	private Common\Collections\Collection $children;
 

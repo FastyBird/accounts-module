@@ -6,22 +6,22 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  * @since          0.1.0
  *
  * @date           02.04.20
  */
 
-namespace FastyBird\AuthModule\Controllers;
+namespace FastyBird\AccountsModule\Controllers;
 
 use Doctrine;
-use FastyBird\AuthModule\Controllers;
-use FastyBird\AuthModule\Hydrators;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
-use FastyBird\AuthModule\Router;
-use FastyBird\AuthModule\Schemas;
+use FastyBird\AccountsModule\Controllers;
+use FastyBird\AccountsModule\Hydrators;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
+use FastyBird\AccountsModule\Router;
+use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
@@ -31,7 +31,7 @@ use Throwable;
 /**
  * ACL roles controller
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -54,7 +54,7 @@ final class RolesV1Controller extends BaseV1Controller
 	private Hydrators\Roles\RoleHydrator $roleHydrator;
 
 	/** @var string */
-	protected string $translationDomain = 'auth-module.roles';
+	protected string $translationDomain = 'accounts-module.roles';
 
 	public function __construct(
 		Models\Roles\IRoleRepository $roleRepository,
@@ -134,8 +134,8 @@ final class RolesV1Controller extends BaseV1Controller
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//auth-module.base.messages.invalidType.heading'),
-					$this->translator->translate('//auth-module.base.messages.invalidType.message'),
+					$this->translator->translate('//accounts-module.base.messages.invalidType.heading'),
+					$this->translator->translate('//accounts-module.base.messages.invalidType.message'),
 					[
 						'pointer' => '/data/type',
 					]
@@ -161,8 +161,8 @@ final class RolesV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.notUpdated.heading'),
-				$this->translator->translate('//auth-module.base.messages.notUpdated.message')
+				$this->translator->translate('//accounts-module.base.messages.notUpdated.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notUpdated.message')
 			);
 
 		} finally {

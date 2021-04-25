@@ -5,8 +5,8 @@ namespace Tests\Cases;
 use DateTimeImmutable;
 use Doctrine\DBAL;
 use Doctrine\ORM;
-use FastyBird\AuthModule\DI;
-use FastyBird\AuthModule\Exceptions;
+use FastyBird\AccountsModule\DI;
+use FastyBird\AccountsModule\Exceptions;
 use FastyBird\DateTimeFactory;
 use Mockery;
 use Nette;
@@ -115,7 +115,7 @@ abstract class DbTestCase extends BaseMockeryTestCase
 			$config->addConfig($neonFile);
 		}
 
-		DI\AuthModuleExtension::register($config);
+		DI\AccountsModuleExtension::register($config);
 
 		$this->container = $config->createContainer();
 

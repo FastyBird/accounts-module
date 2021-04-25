@@ -6,18 +6,18 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Schemas
  * @since          0.1.0
  *
  * @date           19.08.20
  */
 
-namespace FastyBird\AuthModule\Schemas\Accounts;
+namespace FastyBird\AccountsModule\Schemas\Accounts;
 
-use FastyBird\AuthModule;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Router;
+use FastyBird\AccountsModule;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Router;
 use FastyBird\JsonApi\Schemas as JsonApiSchemas;
 use IPub\SlimRouter\Routing;
 use Neomerx\JsonApi;
@@ -25,7 +25,7 @@ use Neomerx\JsonApi;
 /**
  * Account entity schema
  *
- * @package         FastyBird:AuthModule!
+ * @package         FastyBird:AccountsModule!
  * @subpackage      Schemas
  *
  * @author          Adam Kadlec <adam.kadlec@fastybird.com>
@@ -38,7 +38,7 @@ final class AccountSchema extends JsonApiSchemas\JsonApiSchema
 	/**
 	 * Define entity schema type string
 	 */
-	public const SCHEMA_TYPE = 'auth-module/account';
+	public const SCHEMA_TYPE = 'accounts-module/account';
 
 	/**
 	 * Define relationships names
@@ -119,7 +119,7 @@ final class AccountSchema extends JsonApiSchemas\JsonApiSchema
 		return new JsonApi\Schema\Link(
 			false,
 			$this->router->urlFor(
-				AuthModule\Constants::ROUTE_NAME_ACCOUNT,
+				AccountsModule\Constants::ROUTE_NAME_ACCOUNT,
 				[
 					Router\Routes::URL_ITEM_ID => $account->getPlainId(),
 				]
@@ -171,7 +171,7 @@ final class AccountSchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITIES,
+					AccountsModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITIES,
 					[
 						Router\Routes::URL_ACCOUNT_ID => $account->getPlainId(),
 					]
@@ -186,7 +186,7 @@ final class AccountSchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_ACCOUNT_EMAILS,
+					AccountsModule\Constants::ROUTE_NAME_ACCOUNT_EMAILS,
 					[
 						Router\Routes::URL_ACCOUNT_ID => $account->getPlainId(),
 					]
@@ -218,7 +218,7 @@ final class AccountSchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_ACCOUNT_RELATIONSHIP,
+					AccountsModule\Constants::ROUTE_NAME_ACCOUNT_RELATIONSHIP,
 					[
 						Router\Routes::URL_ITEM_ID     => $account->getPlainId(),
 						Router\Routes::RELATION_ENTITY => $name,
@@ -231,7 +231,7 @@ final class AccountSchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_ACCOUNT_RELATIONSHIP,
+					AccountsModule\Constants::ROUTE_NAME_ACCOUNT_RELATIONSHIP,
 					[
 						Router\Routes::URL_ITEM_ID     => $account->getPlainId(),
 						Router\Routes::RELATION_ENTITY => $name,

@@ -6,20 +6,20 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Entities
  * @since          0.1.0
  *
  * @date           30.03.20
  */
 
-namespace FastyBird\AuthModule\Entities\Accounts;
+namespace FastyBird\AccountsModule\Entities\Accounts;
 
 use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
 use DateTimeInterface;
 use Doctrine\Common;
 use Doctrine\ORM\Mapping as ORM;
-use FastyBird\AuthModule\Entities;
+use FastyBird\AccountsModule\Entities;
 use FastyBird\Database\Entities as DatabaseEntities;
 use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
@@ -84,7 +84,7 @@ class Account implements IAccount
 	 * @var Entities\Details\IDetails
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
-	 * @ORM\OneToOne(targetEntity="FastyBird\AuthModule\Entities\Details\Details", mappedBy="account", cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="FastyBird\AccountsModule\Entities\Details\Details", mappedBy="account", cascade={"persist", "remove"})
 	 */
 	protected Entities\Details\IDetails $details;
 
@@ -92,7 +92,7 @@ class Account implements IAccount
 	 * @var Common\Collections\Collection<int, Entities\Identities\IIdentity>
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
-	 * @ORM\OneToMany(targetEntity="FastyBird\AuthModule\Entities\Identities\Identity", mappedBy="account")
+	 * @ORM\OneToMany(targetEntity="FastyBird\AccountsModule\Entities\Identities\Identity", mappedBy="account")
 	 */
 	protected Common\Collections\Collection $identities;
 
@@ -100,7 +100,7 @@ class Account implements IAccount
 	 * @var Common\Collections\Collection<int, Entities\Emails\IEmail>
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
-	 * @ORM\OneToMany(targetEntity="FastyBird\AuthModule\Entities\Emails\Email", mappedBy="account", cascade={"persist", "remove"}, orphanRemoval=true)
+	 * @ORM\OneToMany(targetEntity="FastyBird\AccountsModule\Entities\Emails\Email", mappedBy="account", cascade={"persist", "remove"}, orphanRemoval=true)
 	 */
 	protected Common\Collections\Collection $emails;
 
@@ -108,7 +108,7 @@ class Account implements IAccount
 	 * @var Common\Collections\Collection<int, Entities\Roles\IRole>
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
-	 * @ORM\ManyToMany(targetEntity="FastyBird\AuthModule\Entities\Roles\Role")
+	 * @ORM\ManyToMany(targetEntity="FastyBird\AccountsModule\Entities\Roles\Role")
 	 * @ORM\JoinTable(name="fb_accounts_roles",
 	 *    joinColumns={
 	 *       @ORM\JoinColumn(name="account_id", referencedColumnName="account_id", onDelete="cascade")

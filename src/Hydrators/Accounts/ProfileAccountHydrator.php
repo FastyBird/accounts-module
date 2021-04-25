@@ -6,22 +6,22 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Hydrators
  * @since          0.1.0
  *
  * @date           19.08.20
  */
 
-namespace FastyBird\AuthModule\Hydrators\Accounts;
+namespace FastyBird\AccountsModule\Hydrators\Accounts;
 
-use FastyBird\AuthModule\Schemas;
+use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Hydrators as JsonApiHydrators;
 
 /**
  * Profile account entity hydrator
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Hydrators
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -51,6 +51,6 @@ final class ProfileAccountHydrator extends JsonApiHydrators\Hydrator
 	];
 
 	/** @var string */
-	protected string $translationDomain = 'auth-module.accounts';
+	protected string $translationDomain = 'accounts-module.accounts';
 
 }

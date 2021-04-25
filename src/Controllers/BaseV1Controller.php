@@ -6,21 +6,21 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  * @since          0.1.0
  *
  * @date           31.03.20
  */
 
-namespace FastyBird\AuthModule\Controllers;
+namespace FastyBird\AccountsModule\Controllers;
 
 use Contributte\Translation;
 use Doctrine\DBAL\Connection;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Exceptions;
-use FastyBird\AuthModule\Router;
-use FastyBird\AuthModule\Security;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Exceptions;
+use FastyBird\AccountsModule\Router;
+use FastyBird\AccountsModule\Security;
 use FastyBird\DateTimeFactory;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use FastyBird\WebServer\Http as WebServerHttp;
@@ -36,7 +36,7 @@ use Psr\Log;
 /**
  * API base controller
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -130,15 +130,15 @@ abstract class BaseV1Controller
 		if ($relationEntity !== '') {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//auth-module.base.messages.relationNotFound.heading'),
-				$this->translator->translate('//auth-module.base.messages.relationNotFound.message', ['relation' => $relationEntity])
+				$this->translator->translate('//accounts-module.base.messages.relationNotFound.heading'),
+				$this->translator->translate('//accounts-module.base.messages.relationNotFound.message', ['relation' => $relationEntity])
 			);
 		}
 
 		throw new JsonApiExceptions\JsonApiErrorException(
 			StatusCodeInterface::STATUS_NOT_FOUND,
-			$this->translator->translate('//auth-module.base.messages.unknownRelation.heading'),
-			$this->translator->translate('//auth-module.base.messages.unknownRelation.message')
+			$this->translator->translate('//accounts-module.base.messages.unknownRelation.heading'),
+			$this->translator->translate('//accounts-module.base.messages.unknownRelation.message')
 		);
 	}
 
@@ -158,15 +158,15 @@ abstract class BaseV1Controller
 		} catch (Utils\JsonException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
-				$this->translator->translate('//auth-module.base.messages.notValidJson.heading'),
-				$this->translator->translate('//auth-module.base.messages.notValidJson.message')
+				$this->translator->translate('//accounts-module.base.messages.notValidJson.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notValidJson.message')
 			);
 
 		} catch (JsonAPIDocument\Exceptions\RuntimeException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
-				$this->translator->translate('//auth-module.base.messages.notValidJsonApi.heading'),
-				$this->translator->translate('//auth-module.base.messages.notValidJsonApi.message')
+				$this->translator->translate('//accounts-module.base.messages.notValidJsonApi.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notValidJsonApi.message')
 			);
 		}
 
@@ -197,8 +197,8 @@ abstract class BaseV1Controller
 		) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
-				$this->translator->translate('//auth-module.base.messages.invalidIdentifier.heading'),
-				$this->translator->translate('//auth-module.base.messages.invalidIdentifier.message')
+				$this->translator->translate('//accounts-module.base.messages.invalidIdentifier.heading'),
+				$this->translator->translate('//accounts-module.base.messages.invalidIdentifier.message')
 			);
 		}
 
@@ -232,8 +232,8 @@ abstract class BaseV1Controller
 		) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.invalidRelation.heading'),
-				$this->translator->translate('//auth-module.base.messages.invalidRelation.message'),
+				$this->translator->translate('//accounts-module.base.messages.invalidRelation.heading'),
+				$this->translator->translate('//accounts-module.base.messages.invalidRelation.message'),
 				[
 					'pointer' => '/data/relationships/account/data/id',
 				]

@@ -10,7 +10,7 @@
     "self" : "/v1/accounts"
   },
   "data" : {
-    "type" : "auth-module/account",
+    "type" : "accounts-module/account",
     "id" : "3de0c345-ea83-4585-a7ca-7759a2e1e66e",
     "attributes" : {
       "state" : "notActivated",
@@ -49,7 +49,7 @@
         },
         "data" : [
           {
-            "type" : "auth-module/role",
+            "type" : "accounts-module/role",
             "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
           }
         ]

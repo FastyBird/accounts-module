@@ -6,20 +6,20 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Schemas
  * @since          0.1.0
  *
  * @date           26.05.20
  */
 
-namespace FastyBird\AuthModule\Schemas\Roles;
+namespace FastyBird\AccountsModule\Schemas\Roles;
 
-use FastyBird\AuthModule;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
-use FastyBird\AuthModule\Router;
+use FastyBird\AccountsModule;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
+use FastyBird\AccountsModule\Router;
 use FastyBird\JsonApi\Schemas as JsonApiSchemas;
 use IPub\SlimRouter\Routing;
 use Neomerx\JsonApi;
@@ -27,7 +27,7 @@ use Neomerx\JsonApi;
 /**
  * Role entity schema
  *
- * @package          FastyBird:AuthModule!
+ * @package          FastyBird:AccountsModule!
  * @subpackage       Schemas
  *
  * @author           Adam Kadlec <adam.kadlec@fastybird.com>
@@ -40,7 +40,7 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 	/**
 	 * Define entity schema type string
 	 */
-	public const SCHEMA_TYPE = 'auth-module/role';
+	public const SCHEMA_TYPE = 'accounts-module/role';
 
 	/**
 	 * Define relationships names
@@ -111,7 +111,7 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 		return new JsonApi\Schema\Link(
 			false,
 			$this->router->urlFor(
-				AuthModule\Constants::ROUTE_NAME_ROLE,
+				AccountsModule\Constants::ROUTE_NAME_ROLE,
 				[
 					Router\Routes::URL_ITEM_ID => $role->getPlainId(),
 				]
@@ -176,7 +176,7 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_ROLE,
+					AccountsModule\Constants::ROUTE_NAME_ROLE,
 					[
 						Router\Routes::URL_ITEM_ID => $role->getPlainId(),
 					]
@@ -188,7 +188,7 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_ROLE_CHILDREN,
+					AccountsModule\Constants::ROUTE_NAME_ROLE_CHILDREN,
 					[
 						Router\Routes::URL_ITEM_ID => $role->getPlainId(),
 					]
@@ -220,7 +220,7 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_ROLE_RELATIONSHIP,
+					AccountsModule\Constants::ROUTE_NAME_ROLE_RELATIONSHIP,
 					[
 						Router\Routes::URL_ITEM_ID     => $role->getPlainId(),
 						Router\Routes::RELATION_ENTITY => $name,

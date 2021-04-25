@@ -6,22 +6,22 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  * @since          0.1.0
  *
  * @date           23.08.20
  */
 
-namespace FastyBird\AuthModule\Controllers;
+namespace FastyBird\AccountsModule\Controllers;
 
 use Doctrine;
-use FastyBird\AuthModule\Controllers;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Helpers;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
-use FastyBird\AuthModule\Schemas;
+use FastyBird\AccountsModule\Controllers;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Helpers;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
+use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
@@ -32,7 +32,7 @@ use Throwable;
 /**
  * Account identity controller
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -52,7 +52,7 @@ final class PublicV1Controller extends BaseV1Controller
 	private Helpers\SecurityHash $securityHash;
 
 	/** @var string */
-	protected string $translationDomain = 'auth-module.public';
+	protected string $translationDomain = 'accounts-module.public';
 
 	public function __construct(
 		Models\Identities\IIdentityRepository $identityRepository,
@@ -110,8 +110,8 @@ final class PublicV1Controller extends BaseV1Controller
 		if ($document->getResource()->getType() !== Schemas\Identities\IdentitySchema::SCHEMA_TYPE) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.invalidType.heading'),
-				$this->translator->translate('//auth-module.base.messages.invalidType.message'),
+				$this->translator->translate('//accounts-module.base.messages.invalidType.heading'),
+				$this->translator->translate('//accounts-module.base.messages.invalidType.message'),
 				[
 					'pointer' => '/data/type',
 				]
@@ -121,8 +121,8 @@ final class PublicV1Controller extends BaseV1Controller
 		if (!$attributes->has('uid')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.message'),
 				[
 					'pointer' => '/data/attributes/uid',
 				]
@@ -137,8 +137,8 @@ final class PublicV1Controller extends BaseV1Controller
 		if ($identity === null) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
-				$this->translator->translate('//auth-module.base.messages.notFound.message')
+				$this->translator->translate('//accounts-module.base.messages.notFound.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notFound.message')
 			);
 		}
 
@@ -147,16 +147,16 @@ final class PublicV1Controller extends BaseV1Controller
 		if (!$account instanceof Entities\Accounts\IAccount) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
-				$this->translator->translate('//auth-module.base.messages.notFound.message')
+				$this->translator->translate('//accounts-module.base.messages.notFound.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notFound.message')
 			);
 		}
 
 		if ($account->isDeleted()) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
-				$this->translator->translate('//auth-module.base.messages.notFound.message')
+				$this->translator->translate('//accounts-module.base.messages.notFound.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notFound.message')
 			);
 
 		} elseif ($account->isNotActivated()) {

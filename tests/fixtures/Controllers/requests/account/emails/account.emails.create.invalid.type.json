@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "auth-module/invalid-type",
+    "type" : "accounts-module/invalid-type",
     "id" : "66295a83-0f85-4e8f-9c3d-9d9f5a947737",
     "attributes" : {
       "address" : "john@doe.com",

@@ -6,19 +6,19 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  * @since          0.1.0
  *
  * @date           25.06.20
  */
 
-namespace FastyBird\AuthModule\Controllers\Finders;
+namespace FastyBird\AccountsModule\Controllers\Finders;
 
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
-use FastyBird\AuthModule\Router;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
+use FastyBird\AccountsModule\Router;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use Fig\Http\Message\StatusCodeInterface;
 use Nette\Localization;
@@ -47,8 +47,8 @@ trait TIdentityFinder
 		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Routes::URL_ITEM_ID, null))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
-				$this->translator->translate('//auth-module.base.messages.notFound.message')
+				$this->translator->translate('//accounts-module.base.messages.notFound.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notFound.message')
 			);
 		}
 
@@ -64,8 +64,8 @@ trait TIdentityFinder
 		if ($identity === null) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//auth-module.base.messages.notFound.heading'),
-				$this->translator->translate('//auth-module.base.messages.notFound.message')
+				$this->translator->translate('//accounts-module.base.messages.notFound.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notFound.message')
 			);
 		}
 

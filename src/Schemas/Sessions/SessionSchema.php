@@ -6,18 +6,18 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Schemas
  * @since          0.1.0
  *
  * @date           31.03.20
  */
 
-namespace FastyBird\AuthModule\Schemas\Sessions;
+namespace FastyBird\AccountsModule\Schemas\Sessions;
 
-use FastyBird\AuthModule;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Router;
+use FastyBird\AccountsModule;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Router;
 use FastyBird\JsonApi\Schemas as JsonApiSchemas;
 use IPub\SlimRouter\Routing;
 use Neomerx\JsonApi;
@@ -25,7 +25,7 @@ use Neomerx\JsonApi;
 /**
  * Session entity schema
  *
- * @package            FastyBird:AuthModule!
+ * @package            FastyBird:AccountsModule!
  * @subpackage         Schemas
  *
  * @author             Adam Kadlec <adam.kadlec@fastybird.com>
@@ -38,7 +38,7 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 	/**
 	 * Define entity schema type string
 	 */
-	public const SCHEMA_TYPE = 'auth-module/session';
+	public const SCHEMA_TYPE = 'accounts-module/session';
 
 	/**
 	 * Define relationships names
@@ -101,7 +101,7 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 	{
 		return new JsonApi\Schema\Link(
 			false,
-			$this->router->urlFor(AuthModule\Constants::ROUTE_NAME_SESSION),
+			$this->router->urlFor(AccountsModule\Constants::ROUTE_NAME_SESSION),
 			false
 		);
 	}
@@ -140,7 +140,7 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_ACCOUNT,
+					AccountsModule\Constants::ROUTE_NAME_ACCOUNT,
 					[
 						Router\Routes::URL_ITEM_ID => $accessToken->getIdentity()
 							->getAccount()
@@ -168,7 +168,7 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_SESSION_RELATIONSHIP,
+					AccountsModule\Constants::ROUTE_NAME_SESSION_RELATIONSHIP,
 					[
 						Router\Routes::RELATION_ENTITY => $name,
 					]

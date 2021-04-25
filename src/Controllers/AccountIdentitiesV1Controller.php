@@ -6,22 +6,22 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  * @since          0.1.0
  *
  * @date           31.03.20
  */
 
-namespace FastyBird\AuthModule\Controllers;
+namespace FastyBird\AccountsModule\Controllers;
 
 use Doctrine;
-use FastyBird\AuthModule\Controllers;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
-use FastyBird\AuthModule\Router;
-use FastyBird\AuthModule\Schemas;
+use FastyBird\AccountsModule\Controllers;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
+use FastyBird\AccountsModule\Router;
+use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
@@ -32,7 +32,7 @@ use Throwable;
 /**
  * Account identity controller
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -49,7 +49,7 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 	private Models\Identities\IIdentitiesManager $identitiesManager;
 
 	/** @var string */
-	protected string $translationDomain = 'auth-module.identities';
+	protected string $translationDomain = 'accounts-module.identities';
 
 	public function __construct(
 		Models\Identities\IIdentityRepository $identityRepository,
@@ -143,8 +143,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 				) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-						$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
-						$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
+						$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
+						$this->translator->translate('//accounts-module.base.messages.missingAttribute.message'),
 						[
 							'pointer' => '/data/attributes/password/current',
 						]
@@ -157,8 +157,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 				) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-						$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
-						$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
+						$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
+						$this->translator->translate('//accounts-module.base.messages.missingAttribute.message'),
 						[
 							'pointer' => '/data/attributes/password/new',
 						]
@@ -169,8 +169,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 					->get('current'))) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-						$this->translator->translate('//auth-module.base.messages.invalidAttribute.heading'),
-						$this->translator->translate('//auth-module.base.messages.invalidAttribute.message'),
+						$this->translator->translate('//accounts-module.base.messages.invalidAttribute.heading'),
+						$this->translator->translate('//accounts-module.base.messages.invalidAttribute.message'),
 						[
 							'pointer' => '/data/attributes/password/current',
 						]
@@ -186,8 +186,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 			} else {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//auth-module.base.messages.invalidType.heading'),
-					$this->translator->translate('//auth-module.base.messages.invalidType.message'),
+					$this->translator->translate('//accounts-module.base.messages.invalidType.heading'),
+					$this->translator->translate('//accounts-module.base.messages.invalidType.message'),
 					[
 						'pointer' => '/data/type',
 					]
@@ -211,8 +211,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.notUpdated.heading'),
-				$this->translator->translate('//auth-module.base.messages.notUpdated.message')
+				$this->translator->translate('//accounts-module.base.messages.notUpdated.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notUpdated.message')
 			);
 
 		} finally {
@@ -267,8 +267,8 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 		if ($this->user->getAccount() === null) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-				$this->translator->translate('//auth-module.base.messages.forbidden.message')
+				$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//accounts-module.base.messages.forbidden.message')
 			);
 		}
 

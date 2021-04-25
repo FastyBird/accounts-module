@@ -11,7 +11,7 @@
   },
   "data" : [
     {
-      "type" : "auth-module/role",
+      "type" : "accounts-module/role",
       "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61",
       "attributes" : {
         "name" : "user",
@@ -33,7 +33,7 @@
           },
           "data" : [
             {
-              "type" : "auth-module/role",
+              "type" : "accounts-module/role",
               "id" : "89f4a14f-7f78-4216-99b8-584ab9229f1c"
             }
           ]
@@ -44,7 +44,7 @@
             "related" : "/v1/roles/efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
           },
           "data" : {
-            "type" : "auth-module/role",
+            "type" : "accounts-module/role",
             "id" : "efbfbd04-0158-efbf-bdef-bfbd4defbfbd"
           }
         }

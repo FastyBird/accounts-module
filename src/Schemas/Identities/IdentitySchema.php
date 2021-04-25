@@ -6,18 +6,18 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Schemas
  * @since          0.1.0
  *
  * @date           03.04.20
  */
 
-namespace FastyBird\AuthModule\Schemas\Identities;
+namespace FastyBird\AccountsModule\Schemas\Identities;
 
-use FastyBird\AuthModule;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Router;
+use FastyBird\AccountsModule;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Router;
 use FastyBird\JsonApi\Schemas as JsonApiSchemas;
 use IPub\SlimRouter\Routing;
 use Neomerx\JsonApi;
@@ -25,7 +25,7 @@ use Neomerx\JsonApi;
 /**
  * Identity entity schema
  *
- * @package         FastyBird:AuthModule!
+ * @package         FastyBird:AccountsModule!
  * @subpackage      Schemas
  *
  * @author          Adam Kadlec <adam.kadlec@fastybird.com>
@@ -38,7 +38,7 @@ final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 	/**
 	 * Define entity schema type string
 	 */
-	public const SCHEMA_TYPE = 'auth-module/identity';
+	public const SCHEMA_TYPE = 'accounts-module/identity';
 
 	/**
 	 * Define relationships names
@@ -98,7 +98,7 @@ final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 		return new JsonApi\Schema\Link(
 			false,
 			$this->router->urlFor(
-				AuthModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITY,
+				AccountsModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITY,
 				[
 					Router\Routes::URL_ACCOUNT_ID => $identity->getAccount()->getPlainId(),
 					Router\Routes::URL_ITEM_ID    => $identity->getPlainId(),
@@ -141,7 +141,7 @@ final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_ACCOUNT,
+					AccountsModule\Constants::ROUTE_NAME_ACCOUNT,
 					[
 						Router\Routes::URL_ITEM_ID => $identity->getAccount()->getPlainId(),
 					]
@@ -167,7 +167,7 @@ final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 			return new JsonApi\Schema\Link(
 				false,
 				$this->router->urlFor(
-					AuthModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITY_RELATIONSHIP,
+					AccountsModule\Constants::ROUTE_NAME_ACCOUNT_IDENTITY_RELATIONSHIP,
 					[
 						Router\Routes::URL_ACCOUNT_ID  => $identity->getAccount()->getPlainId(),
 						Router\Routes::URL_ITEM_ID     => $identity->getPlainId(),

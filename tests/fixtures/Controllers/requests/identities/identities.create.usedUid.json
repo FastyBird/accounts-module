@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "auth-module/identity",
+    "type" : "accounts-module/identity",
     "id" : "e09fba77-f9c3-4b6f-bdc2-91d6fa2a5eaf",
     "attributes" : {
       "uid" : "john.doe@fastybird.com",
@@ -9,7 +9,7 @@
     "relationships" : {
       "account" : {
         "data" : {
-          "type" : "auth-module/account",
+          "type" : "accounts-module/account",
           "id" : "5e79efbf-bd0d-5b7c-46ef-bfbdefbfbd34"
         }
       }

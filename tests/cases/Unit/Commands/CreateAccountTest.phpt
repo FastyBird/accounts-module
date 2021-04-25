@@ -4,11 +4,11 @@ namespace Tests\Cases;
 
 use Contributte\Translation;
 use Doctrine\Common;
-use FastyBird\AuthModule\Commands;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Helpers;
-use FastyBird\AuthModule\Models;
-use FastyBird\AuthModule\Queries;
+use FastyBird\AccountsModule\Commands;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Helpers;
+use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Queries;
 use FastyBird\SimpleAuth;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -72,7 +72,7 @@ final class CreateAccountTest extends DbTestCase
 			$managerRegistry,
 		));
 
-		$command = $application->get('fb:auth-module:create:account');
+		$command = $application->get('fb:accounts-module:create:account');
 
 		$commandTester = new CommandTester($command);
 		$commandTester->execute([

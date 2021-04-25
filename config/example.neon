@@ -4,7 +4,7 @@
 # @license		More in license.md
 # @copyright	https://www.fastybird.com
 # @author		Adam Kadlec <adam.kadlec@fastybird.com>
-# @package		FastyBird:AuthModule!
+# @package		FastyBird:AccountsModule!
 # @subpackage	config
 # @since		0.1.0
 #
@@ -34,7 +34,7 @@ extensions:
 	fbWebServer							: FastyBird\WebServer\DI\WebServerExtension
 
 contributteConsole:
-	name: FastyBird:AuthModule!
+	name: FastyBird:AccountsModule!
 	version: '1.0'
 	catchExceptions: true
 	autoExit: true
@@ -95,7 +95,7 @@ nettrineOrmAnnotations:
 
 fbSimpleAuth:
 	token:
-		issuer: com.fastybird.auth-module
+		issuer: com.fastybird.accounts-module
 		signature: 'g3xHbkELpMD9LRqW4WmJkHL7kz2bdNYAQJyEuFVzR3k='
 	enable:
 		middleware: true

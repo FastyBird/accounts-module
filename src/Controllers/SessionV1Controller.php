@@ -6,22 +6,22 @@
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  * @since          0.1.0
  *
  * @date           31.03.20
  */
 
-namespace FastyBird\AuthModule\Controllers;
+namespace FastyBird\AccountsModule\Controllers;
 
 use DateTimeImmutable;
 use Doctrine;
-use FastyBird\AuthModule\Entities;
-use FastyBird\AuthModule\Exceptions;
-use FastyBird\AuthModule\Router;
-use FastyBird\AuthModule\Schemas;
-use FastyBird\AuthModule\Security;
+use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Exceptions;
+use FastyBird\AccountsModule\Router;
+use FastyBird\AccountsModule\Schemas;
+use FastyBird\AccountsModule\Security;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use FastyBird\SimpleAuth\Models as SimpleAuthModels;
 use FastyBird\SimpleAuth\Queries as SimpleAuthQueries;
@@ -37,7 +37,7 @@ use Throwable;
 /**
  * User session controller
  *
- * @package        FastyBird:AuthModule!
+ * @package        FastyBird:AccountsModule!
  * @subpackage     Controllers
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
@@ -58,7 +58,7 @@ final class SessionV1Controller extends BaseV1Controller
 	private SimpleAuthSecurity\TokenBuilder $tokenBuilder;
 
 	/** @var string */
-	protected string $translationDomain = 'auth-module.session';
+	protected string $translationDomain = 'accounts-module.session';
 
 	public function __construct(
 		SimpleAuthModels\Tokens\ITokenRepository $tokenRepository,
@@ -117,8 +117,8 @@ final class SessionV1Controller extends BaseV1Controller
 		if (!$attributes->has('uid')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.message'),
 				[
 					'pointer' => '/data/attributes/uid',
 				]
@@ -128,8 +128,8 @@ final class SessionV1Controller extends BaseV1Controller
 		if (!$attributes->has('password')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.message'),
 				[
 					'pointer' => '/data/attributes/password',
 				]
@@ -154,8 +154,8 @@ final class SessionV1Controller extends BaseV1Controller
 					case Security\Authenticator::ACCOUNT_PROFILE_DELETED:
 						throw new JsonApiExceptions\JsonApiErrorException(
 							StatusCodeInterface::STATUS_FORBIDDEN,
-							$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-							$this->translator->translate('//auth-module.base.messages.forbidden.message')
+							$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
+							$this->translator->translate('//accounts-module.base.messages.forbidden.message')
 						);
 
 					default:
@@ -168,7 +168,7 @@ final class SessionV1Controller extends BaseV1Controller
 
 			} else {
 				// Log catched exception
-				$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
+				$this->logger->error('[FB:ACCOUNTS_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 					'exception' => [
 						'message' => $ex->getMessage(),
 						'code'    => $ex->getCode(),
@@ -177,8 +177,8 @@ final class SessionV1Controller extends BaseV1Controller
 
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('//auth-module.base.messages.notCreated.heading'),
-					$this->translator->translate('//auth-module.base.messages.notCreated.message')
+					$this->translator->translate('//accounts-module.base.messages.notCreated.heading'),
+					$this->translator->translate('//accounts-module.base.messages.notCreated.message')
 				);
 			}
 		}
@@ -227,8 +227,8 @@ final class SessionV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.notCreated.heading'),
-				$this->translator->translate('//auth-module.base.messages.notCreated.message')
+				$this->translator->translate('//accounts-module.base.messages.notCreated.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notCreated.message')
 			);
 
 		} finally {
@@ -269,8 +269,8 @@ final class SessionV1Controller extends BaseV1Controller
 		if (!$attributes->has('refresh')) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.heading'),
-				$this->translator->translate('//auth-module.base.messages.missingAttribute.message'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
+				$this->translator->translate('//accounts-module.base.messages.missingAttribute.message'),
 				[
 					'pointer' => '/data/attributes/refresh',
 				]
@@ -508,8 +508,8 @@ final class SessionV1Controller extends BaseV1Controller
 		if ($token === null) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-				$this->translator->translate('//auth-module.base.messages.forbidden.message')
+				$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//accounts-module.base.messages.forbidden.message')
 			);
 		}
 
@@ -531,8 +531,8 @@ final class SessionV1Controller extends BaseV1Controller
 
 		throw new JsonApiExceptions\JsonApiErrorException(
 			StatusCodeInterface::STATUS_FORBIDDEN,
-			$this->translator->translate('//auth-module.base.messages.forbidden.heading'),
-			$this->translator->translate('//auth-module.base.messages.forbidden.message')
+			$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
+			$this->translator->translate('//accounts-module.base.messages.forbidden.message')
 		);
 	}
 

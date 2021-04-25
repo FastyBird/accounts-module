@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "auth-module/email",
+    "type" : "accounts-module/email",
     "id" : "73efbfbd-efbf-bd36-44ef-bfbdefbfbd7a",
     "attributes" : {
       "default" : false,
