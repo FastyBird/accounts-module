@@ -18,6 +18,7 @@ namespace FastyBird\AccountsModule\Router;
 use FastyBird\AccountsModule;
 use FastyBird\AccountsModule\Controllers;
 use FastyBird\AccountsModule\Middleware;
+use FastyBird\ModulesMetadata;
 use FastyBird\SimpleAuth\Middleware as SimpleAuthMiddleware;
 use FastyBird\WebServer\Router as WebServerRouter;
 use IPub\SlimRouter\Routing;
@@ -38,6 +39,9 @@ class Routes implements WebServerRouter\IRoutes
 	public const URL_ACCOUNT_ID = 'account';
 
 	public const RELATION_ENTITY = 'relationEntity';
+
+	/** @var bool */
+	private bool $usePrefix;
 
 	/** @var Controllers\PublicV1Controller */
 	private Controllers\PublicV1Controller $publicV1Controller;
@@ -79,6 +83,7 @@ class Routes implements WebServerRouter\IRoutes
 	private SimpleAuthMiddleware\UserMiddleware $userMiddleware;
 
 	public function __construct(
+		bool $usePrefix,
 		Controllers\PublicV1Controller $publicV1Controller,
 		Controllers\SessionV1Controller $sessionV1Controller,
 		Controllers\AccountV1Controller $accountV1Controller,
@@ -93,6 +98,8 @@ class Routes implements WebServerRouter\IRoutes
 		SimpleAuthMiddleware\AccessMiddleware $accessControlMiddleware,
 		SimpleAuthMiddleware\UserMiddleware $userMiddleware
 	) {
+		$this->usePrefix = $usePrefix;
+
 		$this->publicV1Controller = $publicV1Controller;
 
 		$this->sessionV1Controller = $sessionV1Controller;
@@ -113,11 +120,34 @@ class Routes implements WebServerRouter\IRoutes
 	}
 
 	/**
+	 * @param Routing\IRouter $router
+	 *
 	 * @return void
 	 */
 	public function registerRoutes(Routing\IRouter $router): void
 	{
-		$routes = $router->group('/v1', function (Routing\RouteCollector $group): void {
+		if ($this->usePrefix) {
+			$routes = $router->group('/' . ModulesMetadata\Constants::MODULE_ACCOUNTS_PREFIX, function (Routing\RouteCollector $group): void {
+				$this->buildRoutes($group);
+			});
+
+		} else {
+			$routes = $this->buildRoutes($router);
+		}
+
+		$routes->addMiddleware($this->accessControlMiddleware);
+		$routes->addMiddleware($this->userMiddleware);
+		$routes->addMiddleware($this->authAccessControlMiddleware);
+	}
+
+	/**
+	 * @param Routing\IRouter | Routing\IRouteCollector $group
+	 *
+	 * @return Routing\IRouteGroup
+	 */
+	private function buildRoutes($group): Routing\IRouteGroup
+	{
+		return $group->group('/v1', function (Routing\RouteCollector $group): void {
 			$group->post('/reset-identity', [$this->publicV1Controller, 'resetIdentity']);
 
 			$group->post('/register', [$this->publicV1Controller, 'register']);
@@ -305,10 +335,6 @@ class Routes implements WebServerRouter\IRoutes
 			$group->group('/authenticate', function (Routing\RouteCollector $group): void {
 			});
 		});
-
-		$routes->addMiddleware($this->accessControlMiddleware);
-		$routes->addMiddleware($this->userMiddleware);
-		$routes->addMiddleware($this->authAccessControlMiddleware);
 	}
 
 }
