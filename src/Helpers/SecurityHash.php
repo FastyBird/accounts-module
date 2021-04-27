@@ -16,6 +16,7 @@
 namespace FastyBird\AccountsModule\Helpers;
 
 use DateTimeImmutable;
+use Exception;
 use FastyBird\DateTimeFactory;
 use Nette;
 use Nette\Utils;
@@ -63,6 +64,8 @@ final class SecurityHash
 	 * @param string $key
 	 *
 	 * @return bool
+	 *
+	 * @throws Exception
 	 */
 	public function isValid(string $key): bool
 	{

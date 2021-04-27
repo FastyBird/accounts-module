@@ -204,6 +204,9 @@ trait TAccountHydrator
 	 * @param JsonAPIDocument\Objects\IStandardObject<mixed> $attributes
 	 *
 	 * @return ModulesMetadataTypes\AccountStateType
+	 *
+	 * @throws JsonApiExceptions\JsonApiErrorException
+	 * @throws Translation\Exceptions\InvalidArgument
 	 */
 	protected function hydrateStateAttribute(
 		JsonAPIDocument\Objects\IStandardObject $attributes

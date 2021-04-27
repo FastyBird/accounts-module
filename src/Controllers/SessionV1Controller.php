@@ -167,7 +167,7 @@ final class SessionV1Controller extends BaseV1Controller
 				}
 
 			} else {
-				// Log catched exception
+				// Log caught exception
 				$this->logger->error('[FB:ACCOUNTS_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 					'exception' => [
 						'message' => $ex->getMessage(),
@@ -217,7 +217,7 @@ final class SessionV1Controller extends BaseV1Controller
 			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
-			// Log catched exception
+			// Log caught exception
 			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
@@ -350,7 +350,7 @@ final class SessionV1Controller extends BaseV1Controller
 			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
-			// Log catched exception
+			// Log caught exception
 			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
@@ -413,7 +413,7 @@ final class SessionV1Controller extends BaseV1Controller
 			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
-			// Log catched exception
+			// Log caught exception
 			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),

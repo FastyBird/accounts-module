@@ -36,7 +36,7 @@ use Nette\Schema;
 use stdClass;
 
 /**
- * Auth module extension container
+ * Accounts module extension container
  *
  * @package        FastyBird:AccountsModule!
  * @subpackage     DI

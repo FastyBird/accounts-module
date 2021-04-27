@@ -165,7 +165,7 @@ class Identity implements IIdentity
 	 */
 	public function getSalt(): ?string
 	{
-		return $this->getParam('salt', null);
+		return $this->getParam('salt');
 	}
 
 	/**

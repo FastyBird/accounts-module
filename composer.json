@@ -1,10 +1,11 @@
 {
   "name" : "fastybird/accounts-module",
   "type" : "library",
-  "description" : "FastyBird IoT accounts module for user storage & basic control logic",
+  "description" : "FastyBird IoT accounts module for accounts management",
   "keywords" : [
     "fastybird",
     "fb",
+    "iot",
     "users",
     "accounts",
     "profiles",

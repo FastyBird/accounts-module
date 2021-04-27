@@ -95,7 +95,7 @@ class Email implements IEmail
 	private bool $verified = false;
 
 	/**
-	 * @var string
+	 * @var string|null
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="string", name="email_verification_hash", length=150, nullable=true, options={"default": null})

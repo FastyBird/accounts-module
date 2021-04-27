@@ -73,7 +73,7 @@ class Account implements IAccount
 	protected ?string $requestHash = null;
 
 	/**
-	 * @var DateTimeInterface
+	 * @var DateTimeInterface|null
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="datetime", name="account_last_visit", nullable=true, options={"default": null})

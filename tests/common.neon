@@ -1,5 +1,5 @@
 #
-# Auth module DI configuration
+# Accounts module DI configuration
 #
 # @license		More in license.md
 # @copyright	https://www.fastybird.com
@@ -16,7 +16,6 @@ php:
 extensions:
 	contributteConsole					: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
 	contributteTranslation				: Contributte\Translation\DI\TranslationExtension
-	contributteEvents					: Contributte\EventDispatcher\DI\EventDispatcherExtension
 	nettrineAnnotations					: Nettrine\Annotations\DI\AnnotationsExtension
 	nettrineCache						: Nettrine\Cache\DI\CacheExtension
 	nettrineDbal						: Nettrine\DBAL\DI\DbalExtension
@@ -28,7 +27,6 @@ extensions:
 	ipubDoctrineCrud					: IPub\DoctrineCrud\DI\DoctrineCrudExtension
 	ipubDoctrineTimestampable			: IPub\DoctrineTimestampable\DI\DoctrineTimestampableExtension
 	ipubDoctrineDynamicDiscriminatorMap	: IPub\DoctrineDynamicDiscriminatorMap\DI\DoctrineDynamicDiscriminatorMapExtension
-	fbApplicationExchange				: FastyBird\ApplicationExchange\DI\ApplicationExchangeExtension
 	fbDatabase							: FastyBird\Database\DI\DatabaseExtension
 	fbDateTimeFactory					: FastyBird\DateTimeFactory\DI\DateTimeFactoryExtension
 	fbJsonApi							: FastyBird\JsonApi\DI\JsonApiExtension
@@ -36,11 +34,11 @@ extensions:
 	fbWebServer							: FastyBird\WebServer\DI\WebServerExtension
 
 contributteConsole:
-	name: FastyBird:Libraries!
+	name: FastyBird:AccountsModule!
 	version: '1.0'
 	catchExceptions: true
 	autoExit: true
-	url: http://example.com
+	url: http://accounts-module.fastybird.com
 	lazy: false
 	helperSet: \Symfony\Component\Console\Helper\HelperSet
 	helpers: []

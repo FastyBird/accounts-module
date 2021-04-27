@@ -208,7 +208,7 @@ final class AccountsV1Controller extends BaseV1Controller
 			);
 
 		} catch (Throwable $ex) {
-			// Log catched exception
+			// Log caught exception
 			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
@@ -296,7 +296,7 @@ final class AccountsV1Controller extends BaseV1Controller
 			);
 
 		} catch (Throwable $ex) {
-			// Log catched exception
+			// Log caught exception
 			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
@@ -372,7 +372,7 @@ final class AccountsV1Controller extends BaseV1Controller
 			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
-			// Log catched exception
+			// Log caught exception
 			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [
 					'message' => $ex->getMessage(),
@@ -447,7 +447,7 @@ final class AccountsV1Controller extends BaseV1Controller
 	private function findAccount(
 		Message\ServerRequestInterface $request
 	): Entities\Accounts\IAccount {
-		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Routes::URL_ITEM_ID, null))) {
+		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Routes::URL_ITEM_ID))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_NOT_FOUND,
 				$this->translator->translate('//accounts-module.base.messages.notFound.heading'),
@@ -456,7 +456,7 @@ final class AccountsV1Controller extends BaseV1Controller
 		}
 
 		$findQuery = new Queries\FindAccountsQuery();
-		$findQuery->byId(Uuid\Uuid::fromString($request->getAttribute(Router\Routes::URL_ITEM_ID, null)));
+		$findQuery->byId(Uuid\Uuid::fromString($request->getAttribute(Router\Routes::URL_ITEM_ID)));
 
 		$account = $this->accountRepository->findOneBy($findQuery);
 

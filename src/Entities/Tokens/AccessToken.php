@@ -51,7 +51,7 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 	 * @IPubDoctrine\Crud(is={"writable"})
 	 * @ORM\Column(name="token_valid_till", type="datetime", nullable=true)
 	 */
-	private ?DateTimeInterface $validTill = null;
+	private ?DateTimeInterface $validTill;
 
 	/**
 	 * @param Entities\Identities\IIdentity $identity

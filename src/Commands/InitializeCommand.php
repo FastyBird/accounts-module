@@ -99,7 +99,7 @@ class InitializeCommand extends Console\Command\Command
 
 		$io = new Style\SymfonyStyle($input, $output);
 
-		$io->title('FB auth module - initialization');
+		$io->title('FB accounts module - initialization');
 
 		$io->note('This action will create or update node database structure, create initial data and initialize administrator account.');
 
@@ -251,7 +251,7 @@ class InitializeCommand extends Console\Command\Command
 
 		$io->newLine(3);
 
-		$io->success('Auth module has been successfully initialized and can be now started.');
+		$io->success('Accounts module has been successfully initialized and can be now started.');
 
 		return 0;
 	}

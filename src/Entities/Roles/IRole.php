@@ -45,11 +45,11 @@ interface IRole extends DatabaseEntities\IEntity,
 	public function getName(): string;
 
 	/**
-	 * @param string $comment
+	 * @param string $description
 	 *
 	 * @return void
 	 */
-	public function setDescription(string $comment): void;
+	public function setDescription(string $description): void;
 
 	/**
 	 * @return string

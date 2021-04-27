@@ -1,5 +1,5 @@
 #
-# Auth module example configuration
+# Accounts module example configuration
 #
 # @license		More in license.md
 # @copyright	https://www.fastybird.com
@@ -38,7 +38,7 @@ contributteConsole:
 	version: '1.0'
 	catchExceptions: true
 	autoExit: true
-	url: http://example.com
+	url: http://accounts-module.fastybird.com
 	lazy: false
 	helperSet: \Symfony\Component\Console\Helper\HelperSet
 	helpers: []
