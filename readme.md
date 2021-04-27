@@ -8,7 +8,7 @@
 [![Latest stable](https://badgen.net/packagist/v/FastyBird/accounts-module/latest?cache=300&style=flast-square)](https://packagist.org/packages/FastyBird/accounts-module)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
 
-## What is FastyBird accounts module?
+## What is FastyBird IoT accounts module?
 
 Accounts module is a [Nette framework](https://nette.org) extension for managing application accounts and sessions and exposing them for clients.
 
