@@ -20,17 +20,17 @@ Accounts module is a [Nette framework](https://nette.org) extension for managing
 
 ## Getting started
 
-The best way to install **fastybird/accounts-module** is using [Composer](https://getcomposer.org/). If you don't have Composer yet, [download it](https://getcomposer.org/download/) following the instructions.
-Then use command:
+The best way to install **fastybird/accounts-module** is using [Composer](https://getcomposer.org/).
+
+> If you don't have Composer yet, [download it](https://getcomposer.org/download/) following the instructions.
+> Then use command and install base Nette project. Everything required will be then installed in the provided folder.
 
 ```sh
-$ composer create-project --no-dev fastybird/accounts-module path/to/install
+$ composer create-project nette/web-project path/to/install
 $ cd path/to/install
 ```
 
-Everything required will be then installed in the provided folder `path/to/install`
-
-Or if you already have created project you could use command:
+Module could be installed with command:
 
 ```sh
 $ composer require fastybird/accounts-module
