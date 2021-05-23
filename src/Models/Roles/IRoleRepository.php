@@ -42,9 +42,6 @@ interface IRoleRepository
 	 * @param Queries\FindRolesQuery $queryObject
 	 *
 	 * @return Entities\Roles\IRole|null
-	 *
-	 * @phpstan-template T of Entities\Roles\Role
-	 * @phpstan-param    Queries\FindRolesQuery<T> $queryObject
 	 */
 	public function findOneBy(Queries\FindRolesQuery $queryObject): ?Entities\Roles\IRole;
 
@@ -52,9 +49,6 @@ interface IRoleRepository
 	 * @param Queries\FindRolesQuery $queryObject
 	 *
 	 * @return Entities\Roles\IRole[]
-	 *
-	 * @phpstan-template T of Entities\Roles\Role
-	 * @phpstan-param    Queries\FindRolesQuery<T> $queryObject
 	 */
 	public function findAllBy(Queries\FindRolesQuery $queryObject): array;
 
@@ -64,7 +58,6 @@ interface IRoleRepository
 	 * @return DoctrineOrmQuery\ResultSet
 	 *
 	 * @phpstan-template T of Entities\Roles\Role
-	 * @phpstan-param    Queries\FindRolesQuery<T> $queryObject
 	 * @phpstan-return   DoctrineOrmQuery\ResultSet<T>
 	 */
 	public function getResultSet(Queries\FindRolesQuery $queryObject): DoctrineOrmQuery\ResultSet;

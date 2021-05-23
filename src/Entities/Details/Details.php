@@ -17,7 +17,6 @@ namespace FastyBird\AccountsModule\Entities\Details;
 
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AccountsModule\Entities;
-use FastyBird\Database\Entities as DatabaseEntities;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
@@ -37,7 +36,7 @@ use Throwable;
 class Details implements IDetails
 {
 
-	use DatabaseEntities\TEntity;
+	use Entities\TEntity;
 	use DoctrineTimestampable\Entities\TEntityCreated;
 	use DoctrineTimestampable\Entities\TEntityUpdated;
 

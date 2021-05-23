@@ -16,7 +16,6 @@
 namespace FastyBird\AccountsModule\Entities\Roles;
 
 use FastyBird\AccountsModule\Entities;
-use FastyBird\Database\Entities as DatabaseEntities;
 use IPub\DoctrineTimestampable;
 
 /**
@@ -27,7 +26,7 @@ use IPub\DoctrineTimestampable;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-interface IRole extends DatabaseEntities\IEntity,
+interface IRole extends Entities\IEntity,
 	DoctrineTimestampable\Entities\IEntityCreated,
 	DoctrineTimestampable\Entities\IEntityUpdated
 {

@@ -17,7 +17,7 @@ namespace FastyBird\AccountsModule\Entities\Roles;
 
 use Doctrine\Common;
 use Doctrine\ORM\Mapping as ORM;
-use FastyBird\Database\Entities as DatabaseEntities;
+use FastyBird\AccountsModule\Entities;
 use FastyBird\SimpleAuth\Constants as SimpleAuthConstants;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
@@ -41,7 +41,7 @@ use Throwable;
 class Role implements IRole
 {
 
-	use DatabaseEntities\TEntity;
+	use Entities\TEntity;
 	use DoctrineTimestampable\Entities\TEntityCreated;
 	use DoctrineTimestampable\Entities\TEntityUpdated;
 

@@ -105,6 +105,7 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 			}
 
 			if ($object instanceof Entities\Emails\IEmail && $object->isDefault()) {
+				/** @phpstan-var ORM\Mapping\ClassMetadata<Entities\Emails\IEmail> $classMetadata */
 				$classMetadata = $em->getClassMetadata(get_class($object));
 
 				// Check if entity was set as default
@@ -121,6 +122,8 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 	 * @param Entities\Emails\IEmail $email
 	 *
 	 * @return void
+	 *
+	 * @phpstan-param ORM\Mapping\ClassMetadata<Entities\Emails\IEmail> $classMetadata
 	 */
 	private function setAsDefault(
 		ORM\UnitOfWork $uow,

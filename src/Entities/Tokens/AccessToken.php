@@ -18,7 +18,6 @@ namespace FastyBird\AccountsModule\Entities\Tokens;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AccountsModule\Entities;
-use FastyBird\Database\Entities as DatabaseEntities;
 use FastyBird\SimpleAuth\Entities as SimpleAuthEntities;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
@@ -31,8 +30,8 @@ use Throwable;
 class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToken
 {
 
-	use DatabaseEntities\TEntity;
-	use DatabaseEntities\TEntityParams;
+	use Entities\TEntity;
+	use Entities\TEntityParams;
 	use DoctrineTimestampable\Entities\TEntityCreated;
 	use DoctrineTimestampable\Entities\TEntityUpdated;
 

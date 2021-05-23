@@ -34,9 +34,6 @@ interface IAccountRepository
 	 * @param Queries\FindAccountsQuery $queryObject
 	 *
 	 * @return Entities\Accounts\IAccount|null
-	 *
-	 * @phpstan-template T of Entities\Accounts\Account
-	 * @phpstan-param    Queries\FindAccountsQuery<T> $queryObject
 	 */
 	public function findOneBy(
 		Queries\FindAccountsQuery $queryObject
@@ -46,9 +43,6 @@ interface IAccountRepository
 	 * @param Queries\FindAccountsQuery $queryObject
 	 *
 	 * @return Entities\Accounts\IAccount[]
-	 *
-	 * @phpstan-template T of Entities\Accounts\Account
-	 * @phpstan-param    Queries\FindAccountsQuery<T> $queryObject
 	 */
 	public function findAllBy(
 		Queries\FindAccountsQuery $queryObject
@@ -59,9 +53,7 @@ interface IAccountRepository
 	 *
 	 * @return DoctrineOrmQuery\ResultSet
 	 *
-	 * @phpstan-template T of Entities\Accounts\Account
-	 * @phpstan-param    Queries\FindAccountsQuery<T> $queryObject
-	 * @phpstan-return   DoctrineOrmQuery\ResultSet<T>
+	 * @phpstan-return   DoctrineOrmQuery\ResultSet<Entities\Accounts\Account>
 	 */
 	public function getResultSet(
 		Queries\FindAccountsQuery $queryObject

@@ -15,7 +15,7 @@
 
 namespace FastyBird\AccountsModule\Models\Roles;
 
-use Doctrine\Common;
+use Doctrine\ORM;
 use Doctrine\Persistence;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Exceptions;
@@ -37,14 +37,14 @@ final class RoleRepository implements IRoleRepository
 
 	use Nette\SmartObject;
 
-	/** @var Common\Persistence\ManagerRegistry */
-	private Common\Persistence\ManagerRegistry $managerRegistry;
+	/** @var Persistence\ManagerRegistry */
+	private Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var Persistence\ObjectRepository<Entities\Roles\Role>|null */
+	/** @var ORM\EntityRepository<Entities\Roles\Role>|null */
 	private ?Persistence\ObjectRepository $repository = null;
 
 	public function __construct(
-		Common\Persistence\ManagerRegistry $managerRegistry
+		Persistence\ManagerRegistry $managerRegistry
 	) {
 		$this->managerRegistry = $managerRegistry;
 	}
@@ -87,6 +87,8 @@ final class RoleRepository implements IRoleRepository
 	 * {@inheritDoc}
 	 *
 	 * @throws Throwable
+	 *
+	 * @phpstan-return DoctrineOrmQuery\ResultSet<Entities\Roles\Role>
 	 */
 	public function getResultSet(
 		Queries\FindRolesQuery $queryObject
@@ -101,12 +103,20 @@ final class RoleRepository implements IRoleRepository
 	}
 
 	/**
-	 * @return Persistence\ObjectRepository<Entities\Roles\Role>
+	 * @return ORM\EntityRepository
+	 *
+	 * @phpstan-return ORM\EntityRepository<Entities\Roles\Role>
 	 */
-	private function getRepository(): Persistence\ObjectRepository
+	private function getRepository(): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$this->repository = $this->managerRegistry->getRepository(Entities\Roles\Role::class);
+			$repository = $this->managerRegistry->getRepository(Entities\Roles\Role::class);
+
+			if (!$repository instanceof ORM\EntityRepository) {
+				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');
+			}
+
+			$this->repository = $repository;
 		}
 
 		return $this->repository;

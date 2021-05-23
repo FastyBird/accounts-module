@@ -32,9 +32,16 @@ use Lcobucci\JWT;
 class IdentityFactory implements SimpleAuthSecurity\IIdentityFactory
 {
 
-	/** @var SimpleAuthModels\Tokens\ITokenRepository */
+	/**
+	 * @var SimpleAuthModels\Tokens\ITokenRepository
+	 *
+	 * @phpstan-var SimpleAuthModels\Tokens\ITokenRepository<Entities\Tokens\AccessToken>
+	 */
 	private SimpleAuthModels\Tokens\ITokenRepository $tokenRepository;
 
+	/**
+	 * @phpstan-param SimpleAuthModels\Tokens\ITokenRepository<Entities\Tokens\AccessToken> $tokenRepository
+	 */
 	public function __construct(
 		SimpleAuthModels\Tokens\ITokenRepository $tokenRepository
 	) {
@@ -46,6 +53,7 @@ class IdentityFactory implements SimpleAuthSecurity\IIdentityFactory
 	 */
 	public function create(JWT\Token $token): ?SimpleAuthSecurity\IIdentity
 	{
+		/** @phpstan-var SimpleAuthQueries\FindTokensQuery<Entities\Tokens\AccessToken> $findToken */
 		$findToken = new SimpleAuthQueries\FindTokensQuery();
 		$findToken->byToken($token->toString());
 

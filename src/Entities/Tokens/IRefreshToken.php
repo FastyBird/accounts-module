@@ -16,7 +16,7 @@
 namespace FastyBird\AccountsModule\Entities\Tokens;
 
 use DateTimeInterface;
-use FastyBird\Database\Entities as DatabaseEntities;
+use FastyBird\AccountsModule\Entities;
 use FastyBird\SimpleAuth\Entities as SimpleAuthEntities;
 use IPub\DoctrineTimestampable;
 
@@ -29,8 +29,8 @@ use IPub\DoctrineTimestampable;
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
 interface IRefreshToken extends SimpleAuthEntities\Tokens\IToken,
-	DatabaseEntities\IEntity,
-	DatabaseEntities\IEntityParams,
+	Entities\IEntity,
+	Entities\IEntityParams,
 	DoctrineTimestampable\Entities\IEntityCreated,
 	DoctrineTimestampable\Entities\IEntityUpdated
 {

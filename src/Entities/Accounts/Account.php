@@ -20,7 +20,6 @@ use DateTimeInterface;
 use Doctrine\Common;
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AccountsModule\Entities;
-use FastyBird\Database\Entities as DatabaseEntities;
 use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
@@ -41,8 +40,8 @@ use Throwable;
 class Account implements IAccount
 {
 
-	use DatabaseEntities\TEntity;
-	use DatabaseEntities\TEntityParams;
+	use Entities\TEntity;
+	use Entities\TEntityParams;
 	use DoctrineTimestampable\Entities\TEntityCreated;
 	use DoctrineTimestampable\Entities\TEntityUpdated;
 

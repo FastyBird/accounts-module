@@ -15,7 +15,7 @@
 
 namespace FastyBird\AccountsModule\Models\Identities;
 
-use Doctrine\Common;
+use Doctrine\ORM;
 use Doctrine\Persistence;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Exceptions;
@@ -38,13 +38,13 @@ final class IdentityRepository implements IIdentityRepository
 
 	use Nette\SmartObject;
 
-	/** @var Common\Persistence\ManagerRegistry */
-	private Common\Persistence\ManagerRegistry $managerRegistry;
+	/** @var Persistence\ManagerRegistry */
+	private Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var Persistence\ObjectRepository<Entities\Identities\Identity>|null */
-	private ?Persistence\ObjectRepository $repository = null;
+	/** @var ORM\EntityRepository<Entities\Identities\Identity>|null */
+	private ?ORM\EntityRepository $repository = null;
 
-	public function __construct(Common\Persistence\ManagerRegistry $managerRegistry)
+	public function __construct(Persistence\ManagerRegistry $managerRegistry)
 	{
 		$this->managerRegistry = $managerRegistry;
 	}
@@ -106,12 +106,20 @@ final class IdentityRepository implements IIdentityRepository
 	}
 
 	/**
-	 * @return Persistence\ObjectRepository<Entities\Identities\Identity>
+	 * @return ORM\EntityRepository
+	 *
+	 * @phpstan-return ORM\EntityRepository<Entities\Identities\Identity>
 	 */
 	private function getRepository(): Persistence\ObjectRepository
 	{
 		if ($this->repository === null) {
-			$this->repository = $this->managerRegistry->getRepository(Entities\Identities\Identity::class);
+			$repository = $this->managerRegistry->getRepository(Entities\Identities\Identity::class);
+
+			if (!$repository instanceof ORM\EntityRepository) {
+				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');
+			}
+
+			$this->repository = $repository;
 		}
 
 		return $this->repository;

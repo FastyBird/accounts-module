@@ -17,7 +17,6 @@ namespace FastyBird\AccountsModule\Entities\Identities;
 
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Helpers;
-use FastyBird\Database\Entities as DatabaseEntities;
 use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use FastyBird\SimpleAuth\Security as SimpleAuthSecurity;
 use IPub\DoctrineTimestampable;
@@ -30,9 +29,9 @@ use IPub\DoctrineTimestampable;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-interface IIdentity extends DatabaseEntities\IEntity,
+interface IIdentity extends Entities\IEntity,
 	SimpleAuthSecurity\IIdentity,
-	DatabaseEntities\IEntityParams,
+	Entities\IEntityParams,
 	DoctrineTimestampable\Entities\IEntityCreated,
 	DoctrineTimestampable\Entities\IEntityUpdated
 {

@@ -31,8 +31,7 @@ use Ramsey\Uuid;
  *
  * @author           Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @phpstan-template T of Entities\Identities\Identity
- * @phpstan-extends  DoctrineOrmQuery\QueryObject<T>
+ * @phpstan-extends  DoctrineOrmQuery\QueryObject<Entities\Identities\Identity>
  */
 class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 {
@@ -106,11 +105,11 @@ class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 	}
 
 	/**
-	 * @param ORM\EntityRepository<Entities\Identities\Identity> $repository
+	 * @param ORM\EntityRepository $repository
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<T> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Identities\Identity> $repository
 	 */
 	protected function doCreateQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
@@ -118,11 +117,11 @@ class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 	}
 
 	/**
-	 * @param ORM\EntityRepository<Entities\Identities\Identity> $repository
+	 * @param ORM\EntityRepository $repository
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<T> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Identities\Identity> $repository
 	 */
 	private function createBasicDql(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
@@ -140,11 +139,11 @@ class FindIdentitiesQuery extends DoctrineOrmQuery\QueryObject
 	}
 
 	/**
-	 * @param ORM\EntityRepository<Entities\Identities\Identity> $repository
+	 * @param ORM\EntityRepository $repository
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<T> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Identities\Identity> $repository
 	 */
 	protected function doCreateCountQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{

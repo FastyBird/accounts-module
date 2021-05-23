@@ -54,7 +54,7 @@ trait TAccountHydrator
 	 */
 	protected function hydrateFirstNameAttribute(JsonAPIDocument\Objects\IStandardObject $attributes): string
 	{
-		if (!$attributes->has('first_name')) {
+		if (!$attributes->has('first_name') || !is_scalar($attributes->get('first_name'))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
@@ -78,7 +78,7 @@ trait TAccountHydrator
 	 */
 	protected function hydrateLastNameAttribute(JsonAPIDocument\Objects\IStandardObject $attributes): string
 	{
-		if (!$attributes->has('last_name')) {
+		if (!$attributes->has('last_name') || !is_scalar($attributes->get('last_name'))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
@@ -99,7 +99,7 @@ trait TAccountHydrator
 	 */
 	protected function hydrateMiddleNameAttribute(JsonAPIDocument\Objects\IStandardObject $attributes): ?string
 	{
-		return $attributes->has('middle_name') && (string) $attributes->get('middle_name') !== '' ? (string) $attributes->get('middle_name') : null;
+		return $attributes->has('middle_name') && is_scalar($attributes->get('middle_name')) && (string) $attributes->get('middle_name') !== '' ? (string) $attributes->get('middle_name') : null;
 	}
 
 	/**
@@ -113,7 +113,11 @@ trait TAccountHydrator
 	protected function hydrateDetailsAttribute(
 		JsonAPIDocument\Objects\IStandardObject $attributes
 	): ?Utils\ArrayHash {
-		if ($attributes->has('details')) {
+		if (
+			$attributes->has('details')
+			&& $attributes->get('details') instanceof JsonAPIDocument\Objects\IStandardObject
+		) {
+			/** @var JsonAPIDocument\Objects\IStandardObject $details */
 			$details = $attributes->get('details');
 
 			$update = new Utils\ArrayHash();
@@ -174,7 +178,7 @@ trait TAccountHydrator
 			],
 		]);
 
-		if ($attributes->has('week_start')) {
+		if ($attributes->has('week_start') && is_scalar($attributes->get('week_start'))) {
 			$params['datetime']->offsetSet('week_start', (int) $attributes->get('week_start'));
 		}
 
@@ -182,17 +186,18 @@ trait TAccountHydrator
 			$attributes->has('datetime')
 			&& $attributes->get('datetime') instanceof JsonAPIDocument\Objects\IStandardObject
 		) {
+			/** @var JsonAPIDocument\Objects\IStandardObject $datetime */
 			$datetime = $attributes->get('datetime');
 
-			if ($datetime->has('timezone')) {
+			if ($datetime->has('timezone') && is_scalar($datetime->get('timezone'))) {
 				$params['datetime']->offsetSet('zone', (string) $datetime->get('timezone'));
 			}
 
-			if ($datetime->has('date_format')) {
+			if ($datetime->has('date_format') && is_scalar($datetime->get('date_format'))) {
 				$params['datetime']['format']->offsetSet('date', (string) $datetime->get('date_format'));
 			}
 
-			if ($datetime->has('time_format')) {
+			if ($datetime->has('time_format') && is_scalar($datetime->get('time_format'))) {
 				$params['datetime']['format']->offsetSet('time', (string) $datetime->get('time_format'));
 			}
 		}
@@ -211,7 +216,10 @@ trait TAccountHydrator
 	protected function hydrateStateAttribute(
 		JsonAPIDocument\Objects\IStandardObject $attributes
 	): ModulesMetadataTypes\AccountStateType {
-		if (!ModulesMetadataTypes\AccountStateType::isValidValue((string) $attributes->get('state'))) {
+		if (
+			!is_scalar($attributes->get('state'))
+			|| !ModulesMetadataTypes\AccountStateType::isValidValue((string) $attributes->get('state'))
+		) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 				$this->translator->translate('//accounts-module.base.messages.invalidAttribute.heading'),

@@ -16,8 +16,8 @@
 namespace FastyBird\AccountsModule\Commands\Accounts;
 
 use Contributte\Translation;
-use Doctrine\Common;
 use Doctrine\DBAL\Connection;
+use Doctrine\Persistence;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Exceptions;
 use FastyBird\AccountsModule\Models;
@@ -57,8 +57,8 @@ class CreateCommand extends Console\Command\Command
 	/** @var Models\Roles\IRoleRepository */
 	private Models\Roles\IRoleRepository $roleRepository;
 
-	/** @var Common\Persistence\ManagerRegistry */
-	private Common\Persistence\ManagerRegistry $managerRegistry;
+	/** @var Persistence\ManagerRegistry */
+	private Persistence\ManagerRegistry $managerRegistry;
 
 	/** @var Translation\PrefixedTranslator */
 	private Translation\PrefixedTranslator $translator;
@@ -73,7 +73,7 @@ class CreateCommand extends Console\Command\Command
 		Models\Identities\IIdentitiesManager $identitiesManager,
 		Models\Roles\IRoleRepository $roleRepository,
 		Translation\Translator $translator,
-		Common\Persistence\ManagerRegistry $managerRegistry,
+		Persistence\ManagerRegistry $managerRegistry,
 		?string $name = null
 	) {
 		$this->accountsManager = $accountsManager;

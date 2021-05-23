@@ -19,7 +19,6 @@ use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Helpers;
-use FastyBird\Database\Entities as DatabaseEntities;
 use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
@@ -48,8 +47,8 @@ use Throwable;
 class Identity implements IIdentity
 {
 
-	use DatabaseEntities\TEntity;
-	use DatabaseEntities\TEntityParams;
+	use Entities\TEntity;
+	use Entities\TEntityParams;
 	use DoctrineTimestampable\Entities\TEntityCreated;
 	use DoctrineTimestampable\Entities\TEntityUpdated;
 

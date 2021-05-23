@@ -27,6 +27,8 @@ use IPub\JsonAPIDocument;
  * @subpackage     Hydrators
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
+ *
+ * @extends  JsonApiHydrators\Hydrator<Entities\Roles\IRole>
  */
 final class RoleHydrator extends JsonApiHydrators\Hydrator
 {
@@ -59,7 +61,10 @@ final class RoleHydrator extends JsonApiHydrators\Hydrator
 	 */
 	protected function hydrateDescriptionAttribute(JsonAPIDocument\Objects\IStandardObject $attributes): ?string
 	{
-		if ($attributes->get('description') === null || (string) $attributes->get('description') === '') {
+		if (
+			!is_scalar($attributes->get('description'))
+			|| (string) $attributes->get('description') === ''
+		) {
 			return null;
 		}
 

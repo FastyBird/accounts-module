@@ -15,7 +15,7 @@
 
 namespace FastyBird\AccountsModule\Models\Emails;
 
-use Doctrine\Common;
+use Doctrine\ORM;
 use Doctrine\Persistence;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Exceptions;
@@ -37,14 +37,14 @@ final class EmailRepository implements IEmailRepository
 
 	use Nette\SmartObject;
 
-	/** @var Common\Persistence\ManagerRegistry */
-	private Common\Persistence\ManagerRegistry $managerRegistry;
+	/** @var Persistence\ManagerRegistry */
+	private Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var Persistence\ObjectRepository<Entities\Emails\Email>|null */
-	private ?Persistence\ObjectRepository $repository = null;
+	/** @var ORM\EntityRepository<Entities\Emails\Email>|null */
+	private ?ORM\EntityRepository $repository = null;
 
 	public function __construct(
-		Common\Persistence\ManagerRegistry $managerRegistry
+		Persistence\ManagerRegistry $managerRegistry
 	) {
 		$this->managerRegistry = $managerRegistry;
 	}
@@ -89,12 +89,20 @@ final class EmailRepository implements IEmailRepository
 	}
 
 	/**
-	 * @return Persistence\ObjectRepository<Entities\Emails\Email>
+	 * @return ORM\EntityRepository
+	 *
+	 * @phpstan-return ORM\EntityRepository<Entities\Emails\Email>
 	 */
-	private function getRepository(): Persistence\ObjectRepository
+	private function getRepository(): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$this->repository = $this->managerRegistry->getRepository(Entities\Emails\Email::class);
+			$repository = $this->managerRegistry->getRepository(Entities\Emails\Email::class);
+
+			if (!$repository instanceof ORM\EntityRepository) {
+				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');
+			}
+
+			$this->repository = $repository;
 		}
 
 		return $this->repository;

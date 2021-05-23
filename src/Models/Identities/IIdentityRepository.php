@@ -53,9 +53,6 @@ interface IIdentityRepository
 	 * @param Queries\FindIdentitiesQuery $queryObject
 	 *
 	 * @return Entities\Identities\IIdentity|null
-	 *
-	 * @phpstan-template T of Entities\Identities\Identity
-	 * @phpstan-param    Queries\FindIdentitiesQuery<T> $queryObject
 	 */
 	public function findOneBy(
 		Queries\FindIdentitiesQuery $queryObject
@@ -66,9 +63,7 @@ interface IIdentityRepository
 	 *
 	 * @return DoctrineOrmQuery\ResultSet
 	 *
-	 * @phpstan-template T of Entities\Identities\Identity
-	 * @phpstan-param    Queries\FindIdentitiesQuery<T> $queryObject
-	 * @phpstan-return   DoctrineOrmQuery\ResultSet<T>
+	 * @phpstan-return   DoctrineOrmQuery\ResultSet<Entities\Identities\Identity>
 	 */
 	public function getResultSet(
 		Queries\FindIdentitiesQuery $queryObject

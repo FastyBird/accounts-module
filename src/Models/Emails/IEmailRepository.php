@@ -42,9 +42,6 @@ interface IEmailRepository
 	 * @param Queries\FindEmailsQuery $queryObject
 	 *
 	 * @return Entities\Emails\IEmail|null
-	 *
-	 * @phpstan-template T of Entities\Emails\Email
-	 * @phpstan-param    Queries\FindEmailsQuery<T> $queryObject
 	 */
 	public function findOneBy(Queries\FindEmailsQuery $queryObject): ?Entities\Emails\IEmail;
 
@@ -53,9 +50,7 @@ interface IEmailRepository
 	 *
 	 * @return DoctrineOrmQuery\ResultSet
 	 *
-	 * @phpstan-template T of Entities\Emails\Email
-	 * @phpstan-param    Queries\FindEmailsQuery<T> $queryObject
-	 * @phpstan-return   DoctrineOrmQuery\ResultSet<T>
+	 * @phpstan-return   DoctrineOrmQuery\ResultSet<Entities\Emails\Email>
 	 */
 	public function getResultSet(
 		Queries\FindEmailsQuery $queryObject

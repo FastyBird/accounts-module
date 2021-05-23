@@ -118,7 +118,7 @@ final class PublicV1Controller extends BaseV1Controller
 			);
 		}
 
-		if (!$attributes->has('uid')) {
+		if (!$attributes->has('uid') || !is_scalar($attributes->get('uid'))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
@@ -130,7 +130,7 @@ final class PublicV1Controller extends BaseV1Controller
 		}
 
 		$findQuery = new Queries\FindIdentitiesQuery();
-		$findQuery->byUid($attributes->get('uid'));
+		$findQuery->byUid((string) $attributes->get('uid'));
 
 		$identity = $this->identityRepository->findOneBy($findQuery);
 

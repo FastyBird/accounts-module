@@ -97,7 +97,7 @@ final class AccountV1Controller extends BaseV1Controller
 
 		$document = $this->createDocument($request);
 
-		if ($account->getPlainId() !== $document->getResource()->getIdentifier()->getId()) {
+		if ($account->getPlainId() !== $document->getResource()->getId()) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_BAD_REQUEST,
 				$this->translator->translate('//accounts-module.base.messages.invalidIdentifier.heading'),
@@ -176,7 +176,7 @@ final class AccountV1Controller extends BaseV1Controller
 		Message\ServerRequestInterface $request,
 		WebServerHttp\Response $response
 	): WebServerHttp\Response {
-		$account = $this->findAccount();
+		$this->findAccount();
 
 		// TODO: Closing account not implemented yet
 

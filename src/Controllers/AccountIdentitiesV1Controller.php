@@ -25,6 +25,7 @@ use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
 use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
+use IPub\JsonAPIDocument\Objects as JsonAPIDocumentObjects;
 use Nette\Utils;
 use Psr\Http\Message;
 use Throwable;
@@ -137,9 +138,12 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 			) {
 				$attributes = $document->getResource()->getAttributes();
 
+				$passwordAttribute = $attributes->get('password');
+
 				if (
-					!$attributes->has('password')
-					|| !$attributes->get('password')->has('current')
+					!$passwordAttribute instanceof JsonAPIDocumentObjects\IStandardObject
+					|| !$passwordAttribute->has('current')
+					|| !is_scalar($passwordAttribute->get('current'))
 				) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
@@ -152,8 +156,9 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 				}
 
 				if (
-					!$attributes->has('password')
-					|| !$attributes->get('password')->has('new')
+					!$passwordAttribute instanceof JsonAPIDocumentObjects\IStandardObject
+					|| !$passwordAttribute->has('new')
+					|| !is_scalar($passwordAttribute->get('new'))
 				) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
@@ -165,8 +170,7 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 					);
 				}
 
-				if (!$identity->verifyPassword((string) $attributes->get('password')
-					->get('current'))) {
+				if (!$identity->verifyPassword((string) $passwordAttribute->get('current'))) {
 					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 						$this->translator->translate('//accounts-module.base.messages.invalidAttribute.heading'),
@@ -178,7 +182,7 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 				}
 
 				$update = new Utils\ArrayHash();
-				$update->offsetSet('password', (string) $attributes->get('password')->get('new'));
+				$update->offsetSet('password', (string) $passwordAttribute->get('new'));
 
 				// Update item in database
 				$this->identitiesManager->update($identity, $update);

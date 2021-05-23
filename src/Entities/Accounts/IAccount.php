@@ -17,7 +17,6 @@ namespace FastyBird\AccountsModule\Entities\Accounts;
 
 use DateTimeInterface;
 use FastyBird\AccountsModule\Entities;
-use FastyBird\Database\Entities as DatabaseEntities;
 use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
 use IPub\DoctrineTimestampable;
 
@@ -29,8 +28,8 @@ use IPub\DoctrineTimestampable;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-interface IAccount extends DatabaseEntities\IEntity,
-	DatabaseEntities\IEntityParams,
+interface IAccount extends Entities\IEntity,
+	Entities\IEntityParams,
 	DoctrineTimestampable\Entities\IEntityCreated,
 	DoctrineTimestampable\Entities\IEntityUpdated
 {

@@ -23,6 +23,7 @@ use FastyBird\AccountsModule\Router;
 use FastyBird\AccountsModule\Schemas;
 use FastyBird\AccountsModule\Security;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
+use FastyBird\SimpleAuth\Entities as SimpleAuthEntities;
 use FastyBird\SimpleAuth\Models as SimpleAuthModels;
 use FastyBird\SimpleAuth\Queries as SimpleAuthQueries;
 use FastyBird\SimpleAuth\Security as SimpleAuthSecurity;
@@ -45,7 +46,11 @@ use Throwable;
 final class SessionV1Controller extends BaseV1Controller
 {
 
-	/** @var SimpleAuthModels\Tokens\ITokenRepository */
+	/**
+	 * @var SimpleAuthModels\Tokens\ITokenRepository
+	 *
+	 * @phpstan-var SimpleAuthModels\Tokens\ITokenRepository<SimpleAuthEntities\Tokens\Token>
+	 */
 	private SimpleAuthModels\Tokens\ITokenRepository $tokenRepository;
 
 	/** @var SimpleAuthModels\Tokens\ITokensManager */
@@ -60,6 +65,9 @@ final class SessionV1Controller extends BaseV1Controller
 	/** @var string */
 	protected string $translationDomain = 'accounts-module.session';
 
+	/**
+	 * @phpstan-param SimpleAuthModels\Tokens\ITokenRepository<SimpleAuthEntities\Tokens\Token> $tokenRepository
+	 */
 	public function __construct(
 		SimpleAuthModels\Tokens\ITokenRepository $tokenRepository,
 		SimpleAuthModels\Tokens\ITokensManager $tokensManager,
@@ -114,7 +122,7 @@ final class SessionV1Controller extends BaseV1Controller
 
 		$attributes = $document->getResource()->getAttributes();
 
-		if (!$attributes->has('uid')) {
+		if (!$attributes->has('uid') || !is_scalar($attributes->get('uid'))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
@@ -125,7 +133,7 @@ final class SessionV1Controller extends BaseV1Controller
 			);
 		}
 
-		if (!$attributes->has('password')) {
+		if (!$attributes->has('password') || !is_scalar($attributes->get('password'))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
@@ -266,7 +274,7 @@ final class SessionV1Controller extends BaseV1Controller
 
 		$attributes = $document->getResource()->getAttributes();
 
-		if (!$attributes->has('refresh')) {
+		if (!$attributes->has('refresh') || !is_scalar($attributes->get('refresh'))) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 				$this->translator->translate('//accounts-module.base.messages.missingAttribute.heading'),
