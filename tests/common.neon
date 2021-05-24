@@ -104,3 +104,7 @@ fbSimpleAuth:
 		doctrine:
 			mapping: true
 			models: true
+
+fbJsonApi:
+    meta:
+        copyright: FastyBird s.r.o

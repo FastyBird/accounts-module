@@ -225,6 +225,8 @@ final class SessionV1Controller extends BaseV1Controller
 			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
+			var_dump($this->user->getIdentity() !== null);
+			echo $ex->getMessage();
 			// Log caught exception
 			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
 				'exception' => [

@@ -253,7 +253,7 @@ class CreateCommand extends Console\Command\Command
 			$create->offsetSet('default', true);
 
 			// Create new email entity
-			$this->emailsManager->create($create);
+			$email = $this->emailsManager->create($create);
 
 			// Commit all changes into database
 			$this->getOrmConnection()->commit();

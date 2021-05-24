@@ -3,7 +3,7 @@
 namespace Tests\Cases;
 
 use Contributte\Translation;
-use Doctrine\Common;
+use Doctrine\Persistence;
 use FastyBird\AccountsModule\Commands;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Helpers;
@@ -57,9 +57,9 @@ final class CreateAccountTest extends DbTestCase
 		$translator = $this->getContainer()
 			->getByType(Translation\Translator::class);
 
-		/** @var Common\Persistence\ManagerRegistry $managerRegistry */
+		/** @var Persistence\ManagerRegistry $managerRegistry */
 		$managerRegistry = $this->getContainer()
-			->getByType(Common\Persistence\ManagerRegistry::class);
+			->getByType(Persistence\ManagerRegistry::class);
 
 		$application = new Application();
 		$application->add(new Commands\Accounts\CreateCommand(
@@ -75,13 +75,15 @@ final class CreateAccountTest extends DbTestCase
 		$command = $application->get('fb:accounts-module:create:account');
 
 		$commandTester = new CommandTester($command);
-		$commandTester->execute([
+		$result = $commandTester->execute([
 			'lastName'  => 'Balboa',
 			'firstName' => 'Rocky',
 			'email'     => 'rocky@balboa.com',
 			'password'  => 'someRandomPassword',
 			'role'      => SimpleAuth\Constants::ROLE_USER,
 		]);
+
+		Assert::same(0, $result);
 
 		$findEmail = new Queries\FindEmailsQuery();
 		$findEmail->byAddress('rocky@balboa.com');

@@ -18,6 +18,7 @@ namespace FastyBird\AccountsModule\Entities\Tokens;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AccountsModule\Entities;
+use FastyBird\AccountsModule\Exceptions;
 use FastyBird\SimpleAuth\Entities as SimpleAuthEntities;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
@@ -36,13 +37,13 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 	use DoctrineTimestampable\Entities\TEntityUpdated;
 
 	/**
-	 * @var Entities\Identities\IIdentity
+	 * @var Entities\Identities\IIdentity|null
 	 *
 	 * @IPubDoctrine\Crud(is="required")
 	 * @ORM\ManyToOne(targetEntity="FastyBird\AccountsModule\Entities\Identities\Identity")
 	 * @ORM\JoinColumn(name="identity_id", referencedColumnName="identity_id", onDelete="cascade", nullable=true)
 	 */
-	private Entities\Identities\IIdentity $identity;
+	private ?Entities\Identities\IIdentity $identity = null;
 
 	/**
 	 * @var DateTimeInterface|null
@@ -50,7 +51,7 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 	 * @IPubDoctrine\Crud(is={"writable"})
 	 * @ORM\Column(name="token_valid_till", type="datetime", nullable=true)
 	 */
-	private ?DateTimeInterface $validTill;
+	private ?DateTimeInterface $validTill = null;
 
 	/**
 	 * @param Entities\Identities\IIdentity $identity
@@ -99,6 +100,10 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 	 */
 	public function getIdentity(): Entities\Identities\IIdentity
 	{
+		if ($this->identity === null) {
+			throw new Exceptions\InvalidStateException('Identity is not set to token.');
+		}
+
 		return $this->identity;
 	}
 
