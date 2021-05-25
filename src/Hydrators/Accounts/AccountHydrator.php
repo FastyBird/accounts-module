@@ -27,7 +27,7 @@ use FastyBird\JsonApi\Hydrators as JsonApiHydrators;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @extends  JsonApiHydrators\Hydrator<Entities\Accounts\IAccount>
+ * @phpstan-extends JsonApiHydrators\Hydrator<Entities\Accounts\IAccount>
  */
 final class AccountHydrator extends JsonApiHydrators\Hydrator
 {

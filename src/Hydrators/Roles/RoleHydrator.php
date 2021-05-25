@@ -28,7 +28,7 @@ use IPub\JsonAPIDocument;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @extends  JsonApiHydrators\Hydrator<Entities\Roles\IRole>
+ * @phpstan-extends JsonApiHydrators\Hydrator<Entities\Roles\IRole>
  */
 final class RoleHydrator extends JsonApiHydrators\Hydrator
 {
@@ -55,7 +55,7 @@ final class RoleHydrator extends JsonApiHydrators\Hydrator
 	}
 
 	/**
-	 * @param JsonAPIDocument\Objects\IStandardObject<mixed> $attributes
+	 * @param JsonAPIDocument\Objects\IStandardObject $attributes
 	 *
 	 * @return string|null
 	 */

@@ -27,7 +27,7 @@ use FastyBird\JsonApi\Hydrators as JsonApiHydrators;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @extends  JsonApiHydrators\Hydrator<Entities\Emails\IEmail>
+ * @phpstan-extends JsonApiHydrators\Hydrator<Entities\Emails\IEmail>
  */
 final class EmailHydrator extends JsonApiHydrators\Hydrator
 {

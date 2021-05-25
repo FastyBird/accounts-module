@@ -31,7 +31,7 @@ use IPub\JsonAPIDocument;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @extends  JsonApiHydrators\Hydrator<Entities\Identities\IIdentity>
+ * @phpstan-extends JsonApiHydrators\Hydrator<Entities\Identities\IIdentity>
  */
 class IdentityHydrator extends JsonApiHydrators\Hydrator
 {
@@ -59,7 +59,7 @@ class IdentityHydrator extends JsonApiHydrators\Hydrator
 	}
 
 	/**
-	 * @param JsonAPIDocument\Objects\IStandardObject<mixed> $attributes
+	 * @param JsonAPIDocument\Objects\IStandardObject $attributes
 	 *
 	 * @return Helpers\Password
 	 *

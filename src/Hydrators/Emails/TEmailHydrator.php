@@ -39,7 +39,7 @@ trait TEmailHydrator
 	}
 
 	/**
-	 * @param JsonAPIDocument\Objects\IStandardObject<mixed> $attributes
+	 * @param JsonAPIDocument\Objects\IStandardObject $attributes
 	 *
 	 * @return Types\EmailVisibilityType
 	 */
