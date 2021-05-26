@@ -36,12 +36,12 @@ final class EmailsManager implements IEmailsManager
 	/**
 	 * @var Crud\IEntityCrud
 	 *
-	 * @phpstan-var Crud\IEntityCrud<Entities\Emails\Email>
+	 * @phpstan-var Crud\IEntityCrud<Entities\Emails\IEmail>
 	 */
 	private Crud\IEntityCrud $entityCrud;
 
 	/**
-	 * @phpstan-param Crud\IEntityCrud<Entities\Emails\Email> $entityCrud
+	 * @phpstan-param Crud\IEntityCrud<Entities\Emails\IEmail> $entityCrud
 	 */
 	public function __construct(
 		Crud\IEntityCrud $entityCrud

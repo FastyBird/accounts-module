@@ -40,7 +40,7 @@ final class RoleRepository implements IRoleRepository
 	/** @var Persistence\ManagerRegistry */
 	private Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var ORM\EntityRepository<Entities\Roles\Role>|null */
+	/** @var ORM\EntityRepository<Entities\Roles\IRole>|null */
 	private ?Persistence\ObjectRepository $repository = null;
 
 	public function __construct(
@@ -88,7 +88,7 @@ final class RoleRepository implements IRoleRepository
 	 *
 	 * @throws Throwable
 	 *
-	 * @phpstan-return DoctrineOrmQuery\ResultSet<Entities\Roles\Role>
+	 * @phpstan-return DoctrineOrmQuery\ResultSet<Entities\Roles\IRole>
 	 */
 	public function getResultSet(
 		Queries\FindRolesQuery $queryObject
@@ -105,12 +105,12 @@ final class RoleRepository implements IRoleRepository
 	/**
 	 * @return ORM\EntityRepository
 	 *
-	 * @phpstan-return ORM\EntityRepository<Entities\Roles\Role>
+	 * @phpstan-return ORM\EntityRepository<Entities\Roles\IRole>
 	 */
 	private function getRepository(): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$repository = $this->managerRegistry->getRepository(Entities\Roles\Role::class);
+			$repository = $this->managerRegistry->getRepository(Entities\Roles\IRole::class);
 
 			if (!$repository instanceof ORM\EntityRepository) {
 				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');

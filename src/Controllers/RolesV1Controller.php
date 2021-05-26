@@ -17,6 +17,7 @@ namespace FastyBird\AccountsModule\Controllers;
 
 use Doctrine;
 use FastyBird\AccountsModule\Controllers;
+use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Hydrators;
 use FastyBird\AccountsModule\Models;
 use FastyBird\AccountsModule\Queries;
@@ -128,7 +129,10 @@ final class RolesV1Controller extends BaseV1Controller
 			// Start transaction connection to the database
 			$this->getOrmConnection()->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Roles\RoleSchema::SCHEMA_TYPE) {
+			if (
+				$document->getResource()->getType() === Schemas\Roles\RoleSchema::SCHEMA_TYPE
+				&& $role instanceof Entities\Roles\IRole
+			) {
 				$updateRoleData = $this->roleHydrator->hydrate($document, $role);
 
 			} else {

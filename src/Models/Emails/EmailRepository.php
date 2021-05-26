@@ -40,7 +40,7 @@ final class EmailRepository implements IEmailRepository
 	/** @var Persistence\ManagerRegistry */
 	private Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var ORM\EntityRepository<Entities\Emails\Email>|null */
+	/** @var ORM\EntityRepository<Entities\Emails\IEmail>|null */
 	private ?ORM\EntityRepository $repository = null;
 
 	public function __construct(
@@ -91,12 +91,12 @@ final class EmailRepository implements IEmailRepository
 	/**
 	 * @return ORM\EntityRepository
 	 *
-	 * @phpstan-return ORM\EntityRepository<Entities\Emails\Email>
+	 * @phpstan-return ORM\EntityRepository<Entities\Emails\IEmail>
 	 */
 	private function getRepository(): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$repository = $this->managerRegistry->getRepository(Entities\Emails\Email::class);
+			$repository = $this->managerRegistry->getRepository(Entities\Emails\IEmail::class);
 
 			if (!$repository instanceof ORM\EntityRepository) {
 				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');

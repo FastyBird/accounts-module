@@ -37,12 +37,12 @@ class IdentitiesManager implements IIdentitiesManager
 	/**
 	 * @var Crud\IEntityCrud
 	 *
-	 * @phpstan-var Crud\IEntityCrud<Entities\Identities\Identity>
+	 * @phpstan-var Crud\IEntityCrud<Entities\Identities\IIdentity>
 	 */
 	private Crud\IEntityCrud $entityCrud;
 
 	/**
-	 * @phpstan-param Crud\IEntityCrud<Entities\Identities\Identity> $entityCrud
+	 * @phpstan-param Crud\IEntityCrud<Entities\Identities\IIdentity> $entityCrud
 	 */
 	public function __construct(
 		Crud\IEntityCrud $entityCrud

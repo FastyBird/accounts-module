@@ -63,7 +63,7 @@ interface IIdentityRepository
 	 *
 	 * @return DoctrineOrmQuery\ResultSet
 	 *
-	 * @phpstan-return   DoctrineOrmQuery\ResultSet<Entities\Identities\Identity>
+	 * @phpstan-return   DoctrineOrmQuery\ResultSet<Entities\Identities\IIdentity>
 	 */
 	public function getResultSet(
 		Queries\FindIdentitiesQuery $queryObject

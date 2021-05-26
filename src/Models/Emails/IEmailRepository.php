@@ -50,7 +50,7 @@ interface IEmailRepository
 	 *
 	 * @return DoctrineOrmQuery\ResultSet
 	 *
-	 * @phpstan-return   DoctrineOrmQuery\ResultSet<Entities\Emails\Email>
+	 * @phpstan-return   DoctrineOrmQuery\ResultSet<Entities\Emails\IEmail>
 	 */
 	public function getResultSet(
 		Queries\FindEmailsQuery $queryObject

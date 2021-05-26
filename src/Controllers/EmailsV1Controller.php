@@ -17,6 +17,7 @@ namespace FastyBird\AccountsModule\Controllers;
 
 use Doctrine;
 use FastyBird\AccountsModule\Controllers;
+use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Exceptions;
 use FastyBird\AccountsModule\Helpers;
 use FastyBird\AccountsModule\Hydrators;
@@ -294,7 +295,10 @@ final class EmailsV1Controller extends BaseV1Controller
 			// Start transaction connection to the database
 			$this->getOrmConnection()->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
+			if (
+				$document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE
+				&& $email instanceof Entities\Emails\IEmail
+			) {
 				$updateData = $this->emailHydrator->hydrate($document, $email);
 
 				$this->validateAccountRelation($updateData, $account);

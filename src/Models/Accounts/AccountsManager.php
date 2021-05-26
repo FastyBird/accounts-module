@@ -36,12 +36,12 @@ final class AccountsManager implements IAccountsManager
 	/**
 	 * @var Crud\IEntityCrud
 	 *
-	 * @phpstan-var Crud\IEntityCrud<Entities\Accounts\Account>
+	 * @phpstan-var Crud\IEntityCrud<Entities\Accounts\IAccount>
 	 */
 	private Crud\IEntityCrud $entityCrud;
 
 	/**
-	 * @phpstan-param Crud\IEntityCrud<Entities\Accounts\Account> $entityCrud
+	 * @phpstan-param Crud\IEntityCrud<Entities\Accounts\IAccount> $entityCrud
 	 */
 	public function __construct(
 		Crud\IEntityCrud $entityCrud

@@ -59,7 +59,7 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 	 */
 	public function getEntityClass(): string
 	{
-		return Entities\Tokens\AccessToken::class;
+		return Entities\Tokens\IAccessToken::class;
 	}
 
 	/**

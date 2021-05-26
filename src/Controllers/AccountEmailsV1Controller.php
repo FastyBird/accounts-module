@@ -291,7 +291,10 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 			// Start transaction connection to the database
 			$this->getOrmConnection()->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE) {
+			if (
+				$document->getResource()->getType() === Schemas\Emails\EmailSchema::SCHEMA_TYPE
+				&& $email instanceof Entities\Emails\IEmail
+			) {
 				$updateEmailData = $this->emailHydrator->hydrate($document, $email);
 
 				$email = $this->emailsManager->update($email, $updateEmailData);

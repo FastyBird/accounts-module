@@ -41,7 +41,7 @@ final class IdentityRepository implements IIdentityRepository
 	/** @var Persistence\ManagerRegistry */
 	private Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var ORM\EntityRepository<Entities\Identities\Identity>|null */
+	/** @var ORM\EntityRepository<Entities\Identities\IIdentity>|null */
 	private ?ORM\EntityRepository $repository = null;
 
 	public function __construct(Persistence\ManagerRegistry $managerRegistry)
@@ -94,7 +94,7 @@ final class IdentityRepository implements IIdentityRepository
 	 */
 	public function getResultSet(
 		Queries\FindIdentitiesQuery $queryObject,
-		string $type = Entities\Identities\Identity::class
+		string $type = Entities\Identities\IIdentity::class
 	): DoctrineOrmQuery\ResultSet {
 		$result = $queryObject->fetch($this->getRepository());
 
@@ -108,12 +108,12 @@ final class IdentityRepository implements IIdentityRepository
 	/**
 	 * @return ORM\EntityRepository
 	 *
-	 * @phpstan-return ORM\EntityRepository<Entities\Identities\Identity>
+	 * @phpstan-return ORM\EntityRepository<Entities\Identities\IIdentity>
 	 */
 	private function getRepository(): Persistence\ObjectRepository
 	{
 		if ($this->repository === null) {
-			$repository = $this->managerRegistry->getRepository(Entities\Identities\Identity::class);
+			$repository = $this->managerRegistry->getRepository(Entities\Identities\IIdentity::class);
 
 			if (!$repository instanceof ORM\EntityRepository) {
 				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');

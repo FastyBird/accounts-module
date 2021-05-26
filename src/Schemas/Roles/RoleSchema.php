@@ -68,7 +68,7 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 	 */
 	public function getEntityClass(): string
 	{
-		return Entities\Roles\Role::class;
+		return Entities\Roles\IRole::class;
 	}
 
 	/**

@@ -29,7 +29,7 @@ use Ramsey\Uuid;
  *
  * @author           Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @phpstan-extends  DoctrineOrmQuery\QueryObject<Entities\Roles\Role>
+ * @phpstan-extends  DoctrineOrmQuery\QueryObject<Entities\Roles\IRole>
  */
 class FindRolesQuery extends DoctrineOrmQuery\QueryObject
 {
@@ -88,7 +88,7 @@ class FindRolesQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<Entities\Roles\Role> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Roles\IRole> $repository
 	 */
 	protected function doCreateQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
@@ -100,7 +100,7 @@ class FindRolesQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<Entities\Roles\Role> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Roles\IRole> $repository
 	 */
 	private function createBasicDql(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
@@ -122,7 +122,7 @@ class FindRolesQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<Entities\Roles\Role> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Roles\IRole> $repository
 	 */
 	protected function doCreateCountQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{

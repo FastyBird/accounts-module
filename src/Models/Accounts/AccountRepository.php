@@ -40,7 +40,7 @@ final class AccountRepository implements IAccountRepository
 	/** @var Persistence\ManagerRegistry */
 	private Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var ORM\EntityRepository<Entities\Accounts\Account>|null */
+	/** @var ORM\EntityRepository<Entities\Accounts\IAccount>|null */
 	private ?ORM\EntityRepository $repository = null;
 
 	public function __construct(
@@ -94,12 +94,12 @@ final class AccountRepository implements IAccountRepository
 	/**
 	 * @return ORM\EntityRepository
 	 *
-	 * @phpstan-return ORM\EntityRepository<Entities\Accounts\Account>
+	 * @phpstan-return ORM\EntityRepository<Entities\Accounts\IAccount>
 	 */
 	private function getRepository(): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$repository = $this->managerRegistry->getRepository(Entities\Accounts\Account::class);
+			$repository = $this->managerRegistry->getRepository(Entities\Accounts\IAccount::class);
 
 			if (!$repository instanceof ORM\EntityRepository) {
 				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');

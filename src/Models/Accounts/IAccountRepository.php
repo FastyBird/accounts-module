@@ -53,7 +53,7 @@ interface IAccountRepository
 	 *
 	 * @return DoctrineOrmQuery\ResultSet
 	 *
-	 * @phpstan-return   DoctrineOrmQuery\ResultSet<Entities\Accounts\Account>
+	 * @phpstan-return   DoctrineOrmQuery\ResultSet<Entities\Accounts\IAccount>
 	 */
 	public function getResultSet(
 		Queries\FindAccountsQuery $queryObject

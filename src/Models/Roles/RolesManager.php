@@ -37,12 +37,12 @@ class RolesManager implements IRolesManager
 	/**
 	 * @var Crud\IEntityCrud
 	 *
-	 * @phpstan-var Crud\IEntityCrud<Entities\Roles\Role>
+	 * @phpstan-var Crud\IEntityCrud<Entities\Roles\IRole>
 	 */
 	private Crud\IEntityCrud $entityCrud;
 
 	/**
-	 * @phpstan-param Crud\IEntityCrud<Entities\Roles\Role> $entityCrud
+	 * @phpstan-param Crud\IEntityCrud<Entities\Roles\IRole> $entityCrud
 	 */
 	public function __construct(
 		Crud\IEntityCrud $entityCrud

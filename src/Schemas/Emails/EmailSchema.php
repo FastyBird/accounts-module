@@ -59,7 +59,7 @@ final class EmailSchema extends JsonApiSchemas\JsonApiSchema
 	 */
 	public function getEntityClass(): string
 	{
-		return Entities\Emails\Email::class;
+		return Entities\Emails\IEmail::class;
 	}
 
 	/**

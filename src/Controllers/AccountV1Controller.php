@@ -109,7 +109,10 @@ final class AccountV1Controller extends BaseV1Controller
 			// Start transaction connection to the database
 			$this->getOrmConnection()->beginTransaction();
 
-			if ($document->getResource()->getType() === Schemas\Accounts\AccountSchema::SCHEMA_TYPE) {
+			if (
+				$document->getResource()->getType() === Schemas\Accounts\AccountSchema::SCHEMA_TYPE
+				&& $account instanceof Entities\Accounts\IAccount
+			) {
 				$account = $this->accountsManager->update(
 					$account,
 					$this->accountHydrator->hydrate($document, $account)

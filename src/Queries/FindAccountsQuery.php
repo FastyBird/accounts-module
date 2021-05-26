@@ -31,7 +31,7 @@ use Ramsey\Uuid;
  *
  * @author           Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @phpstan-extends  DoctrineOrmQuery\QueryObject<Entities\Accounts\Account>
+ * @phpstan-extends  DoctrineOrmQuery\QueryObject<Entities\Accounts\IAccount>
  */
 class FindAccountsQuery extends DoctrineOrmQuery\QueryObject
 {
@@ -96,7 +96,7 @@ class FindAccountsQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<Entities\Accounts\Account> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Accounts\IAccount> $repository
 	 */
 	protected function doCreateQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
@@ -108,7 +108,7 @@ class FindAccountsQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<Entities\Accounts\Account> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Accounts\IAccount> $repository
 	 */
 	private function createBasicDql(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
@@ -130,7 +130,7 @@ class FindAccountsQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<Entities\Accounts\Account> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Accounts\IAccount> $repository
 	 */
 	protected function doCreateCountQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{

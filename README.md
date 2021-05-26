@@ -10,7 +10,7 @@
 
 ## What is FastyBird IoT accounts module?
 
-Accounts module is a [Nette framework](https://nette.org) extension for managing application accounts and sessions and exposing them for clients.
+Accounts module is a [Nette framework](https://nette.org) extension for managing application accounts and sessions.
 
 [FastyBird](https://www.fastybird.com) [IoT](https://en.wikipedia.org/wiki/Internet_of_things) accounts module is an [Apache2 licensed](http://www.apache.org/licenses/LICENSE-2.0) distributed extension, developed in [PHP](https://www.php.net) with [Nette framework](https://nette.org).
 
@@ -18,48 +18,25 @@ Accounts module is a [Nette framework](https://nette.org) extension for managing
 
 [FastyBird](https://www.fastybird.com) accounts module is tested against PHP 7.4 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [Nette framework](https://nette.org/en/) 3.0 PHP framework for real programmers
 
-## Getting started
+### Features:
 
-The best way to install **fastybird/accounts-module** is using [Composer](https://getcomposer.org/).
+- Accounts and their details management
+- Support for data exchange
+- [{JSON:API}](https://jsonapi.org/) schemas for full api access
+- User access check & validation
+- Multilingual
 
-> If you don't have Composer yet, [download it](https://getcomposer.org/download/) following the instructions.
-> Then use command and install base Nette project. Everything required will be then installed in the provided folder.
+## Installation
 
-```sh
-$ composer create-project nette/web-project path/to/install
-$ cd path/to/install
-```
-
-Module could be installed with command:
+The best way to install **fastybird/accounts-module** is using [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require fastybird/accounts-module
+composer require fastybird/accounts-module
 ```
 
-## Configuration
+## Documentation
 
-This module is dependent on other Nette extensions. All this extensions have to enabled and configured in NEON configuration file.
-
-Example configuration could be found [here](https://github.com/FastyBird/accounts-module/blob/master/config/example.neon)
-
-## Initialization
-
-This module is using database, and need some initial data to be inserted into it. This could be done via shell command:
-
-```sh
-$ vendor/bin/fb-console fb:accounts-module:initialize
-```
-
-This console command is interactive and will ask for all required information.
-
-## HTTP server
-
-This module has built-in web server for serving module api to clients. This web server could be started with command:
-```sh
-$ vendor/bin/fb-console fb:web-server:start
-```
-
-After successful start, app is listening for incoming http api request messages from clients.
+Learn how to use accounts module and manage your accounts in [documentation](https://github.com/FastyBird/accounts-module/blob/master/.docs/en/index.md).
 
 ## Feedback
 

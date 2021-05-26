@@ -57,7 +57,7 @@ interface IRoleRepository
 	 *
 	 * @return DoctrineOrmQuery\ResultSet
 	 *
-	 * @phpstan-template T of Entities\Roles\Role
+	 * @phpstan-template T of Entities\Roles\IRole
 	 * @phpstan-return   DoctrineOrmQuery\ResultSet<T>
 	 */
 	public function getResultSet(Queries\FindRolesQuery $queryObject): DoctrineOrmQuery\ResultSet;

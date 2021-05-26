@@ -29,7 +29,7 @@ use Ramsey\Uuid;
  *
  * @author           Adam Kadlec <adam.kadlec@fastybird.com>
  *
- * @phpstan-extends  DoctrineOrmQuery\QueryObject<Entities\Emails\Email>
+ * @phpstan-extends  DoctrineOrmQuery\QueryObject<Entities\Emails\IEmail>
  */
 class FindEmailsQuery extends DoctrineOrmQuery\QueryObject
 {
@@ -88,7 +88,7 @@ class FindEmailsQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<Entities\Emails\Email> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Emails\IEmail> $repository
 	 */
 	protected function doCreateQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
@@ -100,7 +100,7 @@ class FindEmailsQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<Entities\Emails\Email> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Emails\IEmail> $repository
 	 */
 	private function createBasicDql(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
@@ -122,7 +122,7 @@ class FindEmailsQuery extends DoctrineOrmQuery\QueryObject
 	 *
 	 * @return ORM\QueryBuilder
 	 *
-	 * @phpstan-param ORM\EntityRepository<Entities\Emails\Email> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Emails\IEmail> $repository
 	 */
 	protected function doCreateCountQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
