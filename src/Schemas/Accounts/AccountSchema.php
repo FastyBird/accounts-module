@@ -61,7 +61,7 @@ final class AccountSchema extends JsonApiSchemas\JsonApiSchema
 	 */
 	public function getEntityClass(): string
 	{
-		return Entities\Accounts\IAccount::class;
+		return Entities\Accounts\Account::class;
 	}
 
 	/**

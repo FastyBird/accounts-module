@@ -59,7 +59,7 @@ final class IdentitySchema extends JsonApiSchemas\JsonApiSchema
 	 */
 	public function getEntityClass(): string
 	{
-		return Entities\Identities\IIdentity::class;
+		return Entities\Identities\Identity::class;
 	}
 
 	/**

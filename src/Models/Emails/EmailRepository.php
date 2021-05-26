@@ -96,7 +96,7 @@ final class EmailRepository implements IEmailRepository
 	private function getRepository(): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$repository = $this->managerRegistry->getRepository(Entities\Emails\IEmail::class);
+			$repository = $this->managerRegistry->getRepository(Entities\Emails\Email::class);
 
 			if (!$repository instanceof ORM\EntityRepository) {
 				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');

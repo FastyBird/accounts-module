@@ -99,7 +99,7 @@ final class AccountRepository implements IAccountRepository
 	private function getRepository(): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$repository = $this->managerRegistry->getRepository(Entities\Accounts\IAccount::class);
+			$repository = $this->managerRegistry->getRepository(Entities\Accounts\Account::class);
 
 			if (!$repository instanceof ORM\EntityRepository) {
 				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');

@@ -110,7 +110,7 @@ final class RoleRepository implements IRoleRepository
 	private function getRepository(): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$repository = $this->managerRegistry->getRepository(Entities\Roles\IRole::class);
+			$repository = $this->managerRegistry->getRepository(Entities\Roles\Role::class);
 
 			if (!$repository instanceof ORM\EntityRepository) {
 				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');
