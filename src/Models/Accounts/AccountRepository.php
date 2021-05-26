@@ -37,11 +37,11 @@ final class AccountRepository implements IAccountRepository
 
 	use Nette\SmartObject;
 
-	/** @var Persistence\ManagerRegistry */
-	private Persistence\ManagerRegistry $managerRegistry;
-
 	/** @var ORM\EntityRepository<Entities\Accounts\IAccount>|null */
 	private ?ORM\EntityRepository $repository = null;
+
+	/** @var Persistence\ManagerRegistry */
+	private Persistence\ManagerRegistry $managerRegistry;
 
 	public function __construct(
 		Persistence\ManagerRegistry $managerRegistry
@@ -92,14 +92,18 @@ final class AccountRepository implements IAccountRepository
 	}
 
 	/**
+	 * @param string $type
+	 *
 	 * @return ORM\EntityRepository
+	 *
+	 * @phpstan-param class-string $type
 	 *
 	 * @phpstan-return ORM\EntityRepository<Entities\Accounts\IAccount>
 	 */
-	private function getRepository(): ORM\EntityRepository
+	private function getRepository(string $type = Entities\Accounts\Account::class): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$repository = $this->managerRegistry->getRepository(Entities\Accounts\Account::class);
+			$repository = $this->managerRegistry->getRepository($type);
 
 			if (!$repository instanceof ORM\EntityRepository) {
 				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');

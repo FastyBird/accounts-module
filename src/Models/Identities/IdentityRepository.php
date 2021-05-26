@@ -38,11 +38,11 @@ final class IdentityRepository implements IIdentityRepository
 
 	use Nette\SmartObject;
 
-	/** @var Persistence\ManagerRegistry */
-	private Persistence\ManagerRegistry $managerRegistry;
-
 	/** @var ORM\EntityRepository<Entities\Identities\IIdentity>|null */
 	private ?ORM\EntityRepository $repository = null;
+
+	/** @var Persistence\ManagerRegistry */
+	private Persistence\ManagerRegistry $managerRegistry;
 
 	public function __construct(Persistence\ManagerRegistry $managerRegistry)
 	{
@@ -93,8 +93,7 @@ final class IdentityRepository implements IIdentityRepository
 	 * @throws Throwable
 	 */
 	public function getResultSet(
-		Queries\FindIdentitiesQuery $queryObject,
-		string $type = Entities\Identities\Identity::class
+		Queries\FindIdentitiesQuery $queryObject
 	): DoctrineOrmQuery\ResultSet {
 		$result = $queryObject->fetch($this->getRepository());
 
@@ -106,14 +105,18 @@ final class IdentityRepository implements IIdentityRepository
 	}
 
 	/**
+	 * @param string $type
+	 *
 	 * @return ORM\EntityRepository
+	 *
+	 * @phpstan-param class-string $type
 	 *
 	 * @phpstan-return ORM\EntityRepository<Entities\Identities\IIdentity>
 	 */
-	private function getRepository(): Persistence\ObjectRepository
+	private function getRepository(string $type = Entities\Identities\Identity::class): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$repository = $this->managerRegistry->getRepository(Entities\Identities\Identity::class);
+			$repository = $this->managerRegistry->getRepository($type);
 
 			if (!$repository instanceof ORM\EntityRepository) {
 				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');
