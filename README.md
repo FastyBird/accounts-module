@@ -14,10 +14,6 @@ Accounts module is a [Nette framework](https://nette.org) extension for managing
 
 [FastyBird](https://www.fastybird.com) [IoT](https://en.wikipedia.org/wiki/Internet_of_things) accounts module is an [Apache2 licensed](http://www.apache.org/licenses/LICENSE-2.0) distributed extension, developed in [PHP](https://www.php.net) with [Nette framework](https://nette.org).
 
-## Requirements
-
-[FastyBird](https://www.fastybird.com) accounts module is tested against PHP 7.4 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [Nette framework](https://nette.org/en/) 3.0 PHP framework for real programmers
-
 ### Features:
 
 - Accounts and their details management
@@ -25,6 +21,10 @@ Accounts module is a [Nette framework](https://nette.org) extension for managing
 - [{JSON:API}](https://jsonapi.org/) schemas for full api access
 - User access check & validation
 - Multilingual
+
+## Requirements
+
+[FastyBird](https://www.fastybird.com) accounts module is tested against PHP 7.4 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [Nette framework](https://nette.org/en/) 3.0 PHP framework for real programmers
 
 ## Installation
 
