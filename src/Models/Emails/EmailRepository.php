@@ -37,7 +37,11 @@ final class EmailRepository implements IEmailRepository
 
 	use Nette\SmartObject;
 
-	/** @var ORM\EntityRepository<Entities\Emails\IEmail>|null */
+	/**
+	 * @var ORM\EntityRepository|null
+	 *
+	 * @phpstan-var ORM\EntityRepository<Entities\Emails\IEmail>|null
+	 */
 	private ?ORM\EntityRepository $repository = null;
 
 	/** @var Persistence\ManagerRegistry */

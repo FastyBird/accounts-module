@@ -38,7 +38,11 @@ final class IdentityRepository implements IIdentityRepository
 
 	use Nette\SmartObject;
 
-	/** @var ORM\EntityRepository<Entities\Identities\IIdentity>|null */
+	/**
+	 * @var ORM\EntityRepository|null
+	 *
+	 * @phpstan-var ORM\EntityRepository<Entities\Identities\IIdentity>|null
+	 */
 	private ?ORM\EntityRepository $repository = null;
 
 	/** @var Persistence\ManagerRegistry */

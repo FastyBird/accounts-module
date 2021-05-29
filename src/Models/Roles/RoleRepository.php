@@ -37,7 +37,11 @@ final class RoleRepository implements IRoleRepository
 
 	use Nette\SmartObject;
 
-	/** @var ORM\EntityRepository<Entities\Roles\IRole>|null */
+	/**
+	 * @var ORM\EntityRepository|null
+	 *
+	 * @phpstan-var ORM\EntityRepository<Entities\Roles\IRole>|null
+	 */
 	private ?Persistence\ObjectRepository $repository = null;
 
 	/** @var Persistence\ManagerRegistry */

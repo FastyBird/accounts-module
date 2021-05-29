@@ -37,7 +37,11 @@ final class AccountRepository implements IAccountRepository
 
 	use Nette\SmartObject;
 
-	/** @var ORM\EntityRepository<Entities\Accounts\IAccount>|null */
+	/**
+	 * @var ORM\EntityRepository|null
+	 *
+	 * @phpstan-var ORM\EntityRepository<Entities\Accounts\IAccount>|null
+	 */
 	private ?ORM\EntityRepository $repository = null;
 
 	/** @var Persistence\ManagerRegistry */
