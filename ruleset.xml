@@ -6,6 +6,7 @@
         <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman.BraceOnSameLine"/>
 
         <exclude name="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing.IncorrectLinesCountAfterLastControlStructure"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing.IncorrectLinesCountAfterControlStructure"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.RequireTernaryOperator"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.EarlyExit"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.AssignmentInCondition.assignmentInCondition"/>

@@ -15,6 +15,8 @@
 
 namespace FastyBird\AccountsModule;
 
+use FastyBird\AccountsModule\Entities as AccountsModuleEntities;
+use FastyBird\ModulesMetadata;
 use FastyBird\SimpleAuth;
 
 /**
@@ -77,5 +79,26 @@ final class Constants
 
 	public const IDENTITY_UID_MAXIMAL_LENGTH = 50;
 	public const IDENTITY_PASSWORD_MINIMAL_LENGTH = 8;
+
+	/**
+	 * Message bus routing keys mapping
+	 */
+	public const MESSAGE_BUS_CREATED_ENTITIES_ROUTING_KEYS_MAPPING = [
+		AccountsModuleEntities\Accounts\Account::class    => ModulesMetadata\Constants::MESSAGE_BUS_ACCOUNTS_CREATED_ENTITY_ROUTING_KEY,
+		AccountsModuleEntities\Emails\Email::class        => ModulesMetadata\Constants::MESSAGE_BUS_EMAILS_CREATED_ENTITY_ROUTING_KEY,
+		AccountsModuleEntities\Identities\Identity::class => ModulesMetadata\Constants::MESSAGE_BUS_IDENTITIES_CREATED_ENTITY_ROUTING_KEY,
+	];
+
+	public const MESSAGE_BUS_UPDATED_ENTITIES_ROUTING_KEYS_MAPPING = [
+		AccountsModuleEntities\Accounts\Account::class    => ModulesMetadata\Constants::MESSAGE_BUS_ACCOUNTS_UPDATED_ENTITY_ROUTING_KEY,
+		AccountsModuleEntities\Emails\Email::class        => ModulesMetadata\Constants::MESSAGE_BUS_EMAILS_UPDATED_ENTITY_ROUTING_KEY,
+		AccountsModuleEntities\Identities\Identity::class => ModulesMetadata\Constants::MESSAGE_BUS_IDENTITIES_UPDATED_ENTITY_ROUTING_KEY,
+	];
+
+	public const MESSAGE_BUS_DELETED_ENTITIES_ROUTING_KEYS_MAPPING = [
+		AccountsModuleEntities\Accounts\Account::class    => ModulesMetadata\Constants::MESSAGE_BUS_ACCOUNTS_DELETED_ENTITY_ROUTING_KEY,
+		AccountsModuleEntities\Emails\Email::class        => ModulesMetadata\Constants::MESSAGE_BUS_EMAILS_DELETED_ENTITY_ROUTING_KEY,
+		AccountsModuleEntities\Identities\Identity::class => ModulesMetadata\Constants::MESSAGE_BUS_IDENTITIES_DELETED_ENTITY_ROUTING_KEY,
+	];
 
 }

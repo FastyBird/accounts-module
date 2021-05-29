@@ -133,6 +133,9 @@ class AccountsModuleExtension extends DI\CompilerExtension implements Translatio
 			->setArgument('entityCrud', '__placeholder__');
 
 		// Events subscribers
+		$builder->addDefinition($this->prefix('subscribers.entities'))
+			->setType(Subscribers\EntitiesSubscriber::class);
+
 		$builder->addDefinition($this->prefix('subscribers.accountEntity'))
 			->setType(Subscribers\AccountEntitySubscriber::class);
 
