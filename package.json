@@ -1,7 +1,7 @@
 {
-  "name": "@fastybird/devices-module",
-  "version": "0.2.0",
-  "description": "Devices module data model plugin",
+  "name": "@fastybird/accl-module",
+  "version": "0.1.1",
+  "description": "Accounts module data model plugin",
   "keywords": [
     "vuex wamp",
     "wamp",
@@ -10,7 +10,7 @@
     "ws"
   ],
   "homepage": "https://www.fastybird.com",
-  "bugs": "https://github.com/FastyBird/devices-module/issues",
+  "bugs": "https://github.com/FastyBird/accounts-module/issues",
   "license": "Apache-2.0",
   "author": {
     "name": "FastyBird s.r.o.",
@@ -19,13 +19,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/FastyBird/devices-module.git"
+    "url": "https://github.com/FastyBird/accounts-module.git"
   },
-  "main": "dist/devices-module.ssr.js",
-  "browser": "dist/devices-module.esm.js",
-  "module": "dist/devices-module.esm.js",
-  "unpkg": "dist/devices-module.min.js",
-  "types": "dist/devices-module.d.ts",
+  "main": "dist/accounts-module.ssr.js",
+  "browser": "dist/accounts-module.esm.js",
+  "module": "dist/accounts-module.esm.js",
+  "unpkg": "dist/accounts-module.min.js",
+  "types": "dist/accounts-module.d.ts",
   "files": [
     "dist/*",
     "public/locales/*"
