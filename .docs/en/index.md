@@ -4,6 +4,8 @@ This module adds support for managing [FastyBird](https://www.fastybird.com) IoT
 
 ## Installation
 
+### Backend
+
 The best way to install **fastybird/accounts-module** is using [Composer](https://getcomposer.org/).
 
 > If you don't have Composer yet, [download it](https://getcomposer.org/download/) following the instructions.
@@ -30,6 +32,20 @@ Module could be added to your project with composer command:
 
 ```sh
 composer require fastybird/accounts-module
+```
+
+### Frontend
+
+The best way to install **@fastybird/accounts-module** is using [Yarn](https://yarnpkg.com/):
+
+```sh
+yarn add @fastybird/accounts-module
+```
+
+or if you prefer npm:
+
+```sh
+npm install @fastybird/accounts-module
 ```
 
 ## Configuration
@@ -62,3 +78,23 @@ your-console-entrypoint fb:web-server:start
 ```
 
 After successful start, server is listening for incoming http api request messages from clients.
+
+## Register Vuex ORM models
+
+This module could be registered in your Vuex ORM instance
+
+```js
+import VuexORM, { Database } from '@vuex-orm/core'
+import AccountsModule from '@fastybird/accounts-module'
+
+// Create new instance of Database
+const database = new Database()
+
+VuexORM.use(AccountsModule, { database })
+
+export default {
+  plugins: [
+    VuexORM.install(database),
+  ],
+}
+```

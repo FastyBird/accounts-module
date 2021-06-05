@@ -1,0 +1,108 @@
+import {
+  Fields,
+  Item,
+  Model,
+} from '@vuex-orm/core'
+import { IdentityState } from '@fastybird/modules-metadata'
+
+import Account from '@/lib/accounts/Account'
+import { AccountInterface } from '@/lib/accounts/types'
+import {
+  IdentityInterface,
+  IdentityEntityTypes,
+  IdentityCreateInterface,
+  IdentityUpdateInterface,
+} from '@/lib/identities/types'
+
+export default class Identity extends Model implements IdentityInterface {
+  static get entity(): string {
+    return 'identity'
+  }
+
+  static fields(): Fields {
+    return {
+      id: this.string(''),
+      type: this.string(''),
+
+      draft: this.boolean(false),
+
+      state: this.string(IdentityState.ACTIVE),
+      uid: this.string(''),
+      password: this.string(null).nullable(),
+
+      // Relations
+      relationshipNames: this.attr([]),
+
+      account: this.belongsTo(Account, 'id'),
+
+      accountId: this.attr(''),
+    }
+  }
+
+  id!: string
+  type!: IdentityEntityTypes
+
+  draft!: boolean
+
+  state!: IdentityState
+  uid!: string
+  password!: string
+
+  // Relations
+  relationshipNames!: Array<string>
+
+  account!: AccountInterface | null
+
+  accountId!: string
+
+  static async get(account: AccountInterface, id: string): Promise<boolean> {
+    return await Identity.dispatch('get', {
+      account,
+      id,
+    })
+  }
+
+  static async fetch(account: AccountInterface): Promise<boolean> {
+    return await Identity.dispatch('fetch', {
+      account,
+    })
+  }
+
+  static async add(account: AccountInterface, data: IdentityCreateInterface, id?: string | null, draft = true): Promise<Item<Identity>> {
+    return await Identity.dispatch('add', {
+      account,
+      id,
+      draft,
+      data,
+    })
+  }
+
+  static async edit(identity: IdentityInterface, data: IdentityUpdateInterface): Promise<Item<Identity>> {
+    return await Identity.dispatch('edit', {
+      identity,
+      data,
+    })
+  }
+
+  static async save(identity: IdentityInterface): Promise<Item<Identity>> {
+    return await Identity.dispatch('save', {
+      identity,
+    })
+  }
+
+  static async remove(identity: IdentityInterface): Promise<boolean> {
+    return await Identity.dispatch('remove', {
+      identity,
+    })
+  }
+
+  static async requestReset(uid: string): Promise<boolean> {
+    return await Identity.dispatch('requestReset', {
+      uid,
+    })
+  }
+
+  static reset(): void {
+    Identity.dispatch('reset')
+  }
+}

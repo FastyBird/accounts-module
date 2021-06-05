@@ -8,11 +8,15 @@
 [![Latest stable](https://badgen.net/packagist/v/FastyBird/accounts-module/latest?cache=300&style=flast-square)](https://packagist.org/packages/FastyBird/accounts-module)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
 
+[![Latest stable](https://badgen.net/npm/v/@fastybird/accounts-module?cache=300&style=flast-square)](https://www.npmjs.com/package/@fastybird/accounts-module)
+[![Downloads total](https://badgen.net/npm/dt/@fastybird/accounts-module?cache=300&style=flast-square)](https://www.npmjs.com/package/@fastybird/accounts-module)
+![Types](https://badgen.net/npm/types/@fastybird/accounts-module?cache=300&style=flast-square)
+
 ## What is FastyBird IoT accounts module?
 
-Accounts module is a [Nette framework](https://nette.org) extension for managing application accounts and sessions.
+Accounts module is a combined [Nette framework](https://nette.org) extension and [Vex ORM](https://vuex-orm.org) plugin for managing application accounts and sessions.
 
-[FastyBird](https://www.fastybird.com) [IoT](https://en.wikipedia.org/wiki/Internet_of_things) accounts module is an [Apache2 licensed](http://www.apache.org/licenses/LICENSE-2.0) distributed extension, developed in [PHP](https://www.php.net) with [Nette framework](https://nette.org).
+[FastyBird](https://www.fastybird.com) [IoT](https://en.wikipedia.org/wiki/Internet_of_things) accounts module is an [Apache2 licensed](http://www.apache.org/licenses/LICENSE-2.0) distributed extension, developed in [PHP](https://www.php.net) with [Nette framework](https://nette.org) and in [Typescript](https://www.typescriptlang.org).
 
 ### Features:
 
@@ -21,17 +25,36 @@ Accounts module is a [Nette framework](https://nette.org) extension for managing
 - [{JSON:API}](https://jsonapi.org/) schemas for full api access
 - User access check & validation
 - Multilingual
+- JS integration via [Vex ORM](https://vuex-orm.org) plugin
 
 ## Requirements
 
-[FastyBird](https://www.fastybird.com) accounts module is tested against PHP 7.4 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [Nette framework](https://nette.org/en/) 3.0 PHP framework for real programmers
+Backend part of [FastyBird](https://www.fastybird.com) accounts module is tested against PHP 7.4 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [Nette framework](https://nette.org/en/) 3.0 PHP framework for real programmers
+
+Frontend part of [FastyBird](https://www.fastybird.com) accounts module is tested against [ECMAScript 6](https://www.w3schools.com/JS/js_es6.asp)
 
 ## Installation
+
+#### Backend
 
 The best way to install **fastybird/accounts-module** is using [Composer](http://getcomposer.org/):
 
 ```sh
 composer require fastybird/accounts-module
+```
+
+#### Frontend
+
+The best way to install **@fastybird/accounts-module** is using [Yarn](https://yarnpkg.com/):
+
+```sh
+yarn add @fastybird/accounts-module
+```
+
+or if you prefer npm:
+
+```sh
+npm install @fastybird/accounts-module
 ```
 
 ## Documentation
