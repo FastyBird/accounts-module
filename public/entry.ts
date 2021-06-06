@@ -41,5 +41,7 @@ export {
   Identity,
 }
 
+export * from '@/lib/errors'
+
 // Re-export plugin typing
 export * from '@/types/accounts-module'
