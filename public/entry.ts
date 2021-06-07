@@ -1,18 +1,18 @@
-// Import library
 import { ModuleOrigin } from '@fastybird/modules-metadata'
+import { Plugin } from '@vuex-orm/core/dist/src/plugins/use'
 
-import Account from '@/lib/accounts/Account'
-import accounts from '@/lib/accounts'
-import Email from '@/lib/emails/Email'
-import emails from '@/lib/emails'
-import Identity from '@/lib/identities/Identity'
-import identities from '@/lib/identities'
+import Account from '@/lib/models/accounts/Account'
+import accounts from '@/lib/models/accounts'
+import Email from '@/lib/models/emails/Email'
+import emails from '@/lib/models/emails'
+import Identity from '@/lib/models/identities/Identity'
+import identities from '@/lib/models/identities'
 
 // Import typing
-import { ComponentsInterface, GlobalConfigInterface, InstallFunction } from '@/types/accounts-module'
+import { ComponentsInterface, GlobalConfigInterface } from '@/types/accounts-module'
 
 // install function executed by VuexORM.use()
-const install: InstallFunction = function installVuexOrmWamp(components: ComponentsInterface, config: GlobalConfigInterface) {
+const install: Plugin = function installVuexOrmWamp(components: ComponentsInterface, config: GlobalConfigInterface) {
   if (typeof config.originName !== 'undefined') {
     // @ts-ignore
     components.Model.prototype.$accountsModuleOrigin = config.originName

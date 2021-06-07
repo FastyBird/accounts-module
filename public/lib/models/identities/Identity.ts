@@ -5,14 +5,14 @@ import {
 } from '@vuex-orm/core'
 import { IdentityState } from '@fastybird/modules-metadata'
 
-import Account from '@/lib/accounts/Account'
-import { AccountInterface } from '@/lib/accounts/types'
+import Account from '@/lib/models/accounts/Account'
+import { AccountInterface } from '@/lib/models/accounts/types'
 import {
   IdentityInterface,
   IdentityEntityTypes,
   IdentityCreateInterface,
   IdentityUpdateInterface,
-} from '@/lib/identities/types'
+} from '@/lib/models/identities/types'
 
 export default class Identity extends Model implements IdentityInterface {
   static get entity(): string {
@@ -49,7 +49,7 @@ export default class Identity extends Model implements IdentityInterface {
   password!: string
 
   // Relations
-  relationshipNames!: Array<string>
+  relationshipNames!: string[]
 
   account!: AccountInterface | null
 

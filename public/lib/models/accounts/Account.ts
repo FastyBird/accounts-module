@@ -11,11 +11,11 @@ import {
   AccountCreateInterface,
   AccountUpdateInterface,
   AccountRegisterInterface,
-} from '@/lib/accounts/types'
-import Email from '@/lib/emails/Email'
-import { EmailInterface } from '@/lib/emails/types'
-import Identity from '@/lib/identities/Identity'
-import { IdentityInterface } from '@/lib/identities/types'
+} from '@/lib/models/accounts/types'
+import Email from '@/lib/models/emails/Email'
+import { EmailInterface } from '@/lib/models/emails/types'
+import Identity from '@/lib/models/identities/Identity'
+import { IdentityInterface } from '@/lib/models/identities/types'
 
 export default class Account extends Model implements AccountInterface {
   static get entity(): string {
@@ -75,10 +75,10 @@ export default class Account extends Model implements AccountInterface {
   timeFormat!: string
 
   // Relations
-  relationshipNames!: Array<string>
+  relationshipNames!: string[]
 
-  emails!: Array<EmailInterface>
-  identities!: Array<IdentityInterface>
+  emails!: EmailInterface[]
+  identities!: IdentityInterface[]
 
   // Entity transformers
   get name(): string {

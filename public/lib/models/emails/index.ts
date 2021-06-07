@@ -13,9 +13,9 @@ import { v4 as uuid } from 'uuid'
 import { AxiosResponse } from 'axios'
 import uniq from 'lodash/uniq'
 
-import Account from '@/lib/accounts/Account'
-import { AccountInterface } from '@/lib/accounts/types'
-import Email from '@/lib/emails/Email'
+import Account from '@/lib/models/accounts/Account'
+import { AccountInterface } from '@/lib/models/accounts/types'
+import Email from '@/lib/models/emails/Email'
 import {
   EmailCreateInterface,
   EmailEntityTypes,
@@ -23,7 +23,7 @@ import {
   EmailResponseInterface,
   EmailsResponseInterface,
   EmailUpdateInterface,
-} from '@/lib/emails/types'
+} from '@/lib/models/emails/types'
 
 import {
   ApiError,
@@ -31,7 +31,7 @@ import {
 } from '@/lib/errors'
 import {
   JsonApiModelPropertiesMapper,
-  JsonApiPropertiesMapper,
+  JsonApiJsonPropertiesMapper,
 } from '@/lib/jsonapi'
 import {
   EmailJsonModelInterface,
@@ -40,20 +40,20 @@ import {
 } from '@/lib/types'
 
 interface SemaphoreFetchingState {
-  item: Array<string>
-  items: Array<string>
+  item: string[]
+  items: string[]
 }
 
 interface SemaphoreState {
   fetching: SemaphoreFetchingState
-  creating: Array<string>
-  updating: Array<string>
-  deleting: Array<string>
+  creating: string[]
+  updating: string[]
+  deleting: string[]
 }
 
 interface EmailState {
   semaphore: SemaphoreState
-  firstLoad: Array<string>
+  firstLoad: string[]
 }
 
 interface FirstLoadAction {
@@ -67,13 +67,13 @@ interface SemaphoreAction {
 
 const jsonApiFormatter = new Jsona({
   modelPropertiesMapper: new JsonApiModelPropertiesMapper(),
-  jsonPropertiesMapper: new JsonApiPropertiesMapper(),
+  jsonPropertiesMapper: new JsonApiJsonPropertiesMapper(),
 })
 
 const jsonSchemaValidator = new Ajv()
 
 const apiOptions = {
-  dataTransformer: (result: AxiosResponse<EmailResponseInterface> | AxiosResponse<EmailsResponseInterface>): EmailJsonModelInterface | Array<EmailJsonModelInterface> => <EmailJsonModelInterface | Array<EmailJsonModelInterface>>jsonApiFormatter.deserialize(result.data),
+  dataTransformer: (result: AxiosResponse<EmailResponseInterface> | AxiosResponse<EmailsResponseInterface>): EmailJsonModelInterface | EmailJsonModelInterface[] => jsonApiFormatter.deserialize(result.data) as EmailJsonModelInterface | EmailJsonModelInterface[],
 }
 
 const moduleState: EmailState = {
@@ -107,7 +107,7 @@ const moduleGetters: GetterTree<EmailState, any> = {
 }
 
 const moduleActions: ActionTree<EmailState, any> = {
-  async get({state, commit}, payload: { account: AccountInterface, id: string }): Promise<boolean> {
+  async get({ state, commit }, payload: { account: AccountInterface, id: string }): Promise<boolean> {
     if (state.semaphore.fetching.item.includes(payload.id)) {
       return false
     }
@@ -138,7 +138,7 @@ const moduleActions: ActionTree<EmailState, any> = {
     }
   },
 
-  async fetch({state, commit}, payload: { account: AccountInterface }): Promise<boolean> {
+  async fetch({ state, commit }, payload: { account: AccountInterface }): Promise<boolean> {
     if (state.semaphore.fetching.items.includes(payload.account.id)) {
       return false
     }
@@ -173,7 +173,7 @@ const moduleActions: ActionTree<EmailState, any> = {
     }
   },
 
-  async add({commit}, payload: { account: AccountInterface, id?: string | null, draft?: boolean, data: EmailCreateInterface }): Promise<Item<Email>> {
+  async add({ commit }, payload: { account: AccountInterface, id?: string | null, draft?: boolean, data: EmailCreateInterface }): Promise<Item<Email>> {
     const id = typeof payload.id !== 'undefined' && payload.id !== null && payload.id !== '' ? payload.id : uuid().toString()
     const draft = typeof payload.draft !== 'undefined' ? payload.draft : false
 
@@ -184,7 +184,12 @@ const moduleActions: ActionTree<EmailState, any> = {
 
     try {
       await Email.insert({
-        data: Object.assign({}, payload.data, {id, draft, accountId: payload.account.id, type: EmailEntityTypes.EMAIL}),
+        data: Object.assign({}, payload.data, {
+          id,
+          draft,
+          accountId: payload.account.id,
+          type: EmailEntityTypes.EMAIL,
+        }),
       })
     } catch (e) {
       commit('CLEAR_SEMAPHORE', {
@@ -248,7 +253,7 @@ const moduleActions: ActionTree<EmailState, any> = {
     }
   },
 
-  async edit({state, commit}, payload: { email: EmailInterface, data: EmailUpdateInterface }): Promise<Item<Email>> {
+  async edit({ state, commit }, payload: { email: EmailInterface, data: EmailUpdateInterface }): Promise<Item<Email>> {
     if (state.semaphore.updating.includes(payload.email.id)) {
       throw new Error('accounts-module.emails.update.inProgress')
     }
@@ -340,7 +345,7 @@ const moduleActions: ActionTree<EmailState, any> = {
     }
   },
 
-  async save({state, commit}, payload: { email: EmailInterface }): Promise<Item<Email>> {
+  async save({ state, commit }, payload: { email: EmailInterface }): Promise<Item<Email>> {
     if (state.semaphore.updating.includes(payload.email.id)) {
       throw new Error('accounts-module.emails.save.inProgress')
     }
@@ -389,7 +394,7 @@ const moduleActions: ActionTree<EmailState, any> = {
     }
   },
 
-  async remove({state, commit}, payload: { email: EmailInterface }): Promise<boolean> {
+  async remove({ state, commit }, payload: { email: EmailInterface }): Promise<boolean> {
     if (state.semaphore.deleting.includes(payload.email.id)) {
       throw new Error('accounts-module.emails.delete.inProgress')
     }
@@ -485,7 +490,7 @@ const moduleActions: ActionTree<EmailState, any> = {
     }
   },
 
-  async socketData({state, commit}, payload: { origin: string, routingKey: string, data: string }): Promise<boolean> {
+  async socketData({ state, commit }, payload: { origin: string, routingKey: string, data: string }): Promise<boolean> {
     if (payload.origin !== ModuleOrigin.MODULE_ACCOUNTS_ORIGIN) {
       return false
     }
@@ -591,7 +596,7 @@ const moduleActions: ActionTree<EmailState, any> = {
     }
   },
 
-  reset({commit}): void {
+  reset({ commit }): void {
     commit('RESET_STATE')
   },
 }

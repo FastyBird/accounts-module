@@ -12,12 +12,12 @@ import {
   EmailEntityTypes,
   EmailInterface,
   EmailDataResponseInterface,
-} from '@/lib/emails/types'
+} from '@/lib/models/emails/types'
 import {
   IdentityDataResponseInterface,
   IdentityEntityTypes,
   IdentityInterface,
-} from '@/lib/identities/types'
+} from '@/lib/models/identities/types'
 
 // ENTITY TYPES
 // ============
@@ -52,10 +52,10 @@ export interface AccountInterface {
   timeFormat: string
 
   // Relations
-  relationshipNames: Array<string>
+  relationshipNames: string[]
 
-  emails: Array<EmailInterface>
-  identities: Array<IdentityInterface>
+  emails: EmailInterface[]
+  identities: IdentityInterface[]
 
   // Entity transformers
   email: EmailInterface | null
@@ -94,7 +94,7 @@ interface EmailRelationshipResponseInterface extends TJsonApiRelationshipData {
 }
 
 interface AccountEmailsRelationshipsResponseInterface extends TJsonApiRelation {
-  data: Array<EmailRelationshipResponseInterface>
+  data: EmailRelationshipResponseInterface[]
 }
 
 interface IdentityRelationshipResponseInterface extends TJsonApiRelationshipData {
@@ -103,7 +103,7 @@ interface IdentityRelationshipResponseInterface extends TJsonApiRelationshipData
 }
 
 interface AccountIdentitiesRelationshipsResponseInterface extends TJsonApiRelation {
-  data: Array<IdentityRelationshipResponseInterface>
+  data: IdentityRelationshipResponseInterface[]
 }
 
 interface RoleRelationshipResponseInterface extends TJsonApiRelationshipData {
@@ -112,7 +112,7 @@ interface RoleRelationshipResponseInterface extends TJsonApiRelationshipData {
 }
 
 interface AccountRolesRelationshipsResponseInterface extends TJsonApiRelation {
-  data: Array<RoleRelationshipResponseInterface>
+  data: RoleRelationshipResponseInterface[]
 }
 
 interface UserAccountRelationshipsResponseInterface extends TJsonApiRelationships {
@@ -135,11 +135,11 @@ interface AccountDataResponseInterface extends TJsonApiData {
 
 export interface AccountResponseInterface extends TJsonApiBody {
   data: AccountDataResponseInterface,
-  included?: Array<EmailDataResponseInterface | IdentityDataResponseInterface>
+  included?: EmailDataResponseInterface[] | IdentityDataResponseInterface[]
 }
 
 export interface AccountsResponseInterface extends TJsonApiBody {
-  data: Array<AccountDataResponseInterface>,
+  data: AccountDataResponseInterface[],
 }
 
 // CREATE ENTITY INTERFACES

@@ -19,9 +19,9 @@ import { AxiosResponse } from 'axios'
 import get from 'lodash/get'
 import uniq from 'lodash/uniq'
 
-import Account from '@/lib/accounts/Account'
-import Email from '@/lib/emails/Email'
-import Identity from '@/lib/identities/Identity'
+import Account from '@/lib/models/accounts/Account'
+import Email from '@/lib/models/emails/Email'
+import Identity from '@/lib/models/identities/Identity'
 import {
   AccountCreateInterface,
   AccountEntityTypes,
@@ -30,7 +30,7 @@ import {
   AccountResponseInterface,
   AccountsResponseInterface,
   AccountUpdateInterface,
-} from '@/lib/accounts/types'
+} from '@/lib/models/accounts/types'
 
 import {
   ApiError,
@@ -38,7 +38,7 @@ import {
 } from '@/lib/errors'
 import {
   JsonApiModelPropertiesMapper,
-  JsonApiPropertiesMapper,
+  JsonApiJsonPropertiesMapper,
 } from '@/lib/jsonapi'
 import {
   AccountJsonModelInterface,
@@ -48,14 +48,14 @@ import {
 
 interface SemaphoreFetchingState {
   items: boolean
-  item: Array<string>
+  item: string[]
 }
 
 interface SemaphoreState {
   fetching: SemaphoreFetchingState
-  creating: Array<string>
-  updating: Array<string>
-  deleting: Array<string>
+  creating: string[]
+  updating: string[]
+  deleting: string[]
 }
 
 interface AccountState {
@@ -70,11 +70,11 @@ interface SemaphoreAction {
 
 const jsonApiFormatter = new Jsona({
   modelPropertiesMapper: new JsonApiModelPropertiesMapper(),
-  jsonPropertiesMapper: new JsonApiPropertiesMapper(),
+  jsonPropertiesMapper: new JsonApiJsonPropertiesMapper(),
 })
 
 const apiOptions = {
-  dataTransformer: (result: AxiosResponse<AccountResponseInterface> | AxiosResponse<AccountsResponseInterface>): AccountJsonModelInterface | Array<AccountJsonModelInterface> => <AccountJsonModelInterface | Array<AccountJsonModelInterface>>jsonApiFormatter.deserialize(result.data),
+  dataTransformer: (result: AxiosResponse<AccountResponseInterface> | AxiosResponse<AccountsResponseInterface>): AccountJsonModelInterface | AccountJsonModelInterface[] => jsonApiFormatter.deserialize(result.data) as AccountJsonModelInterface | AccountJsonModelInterface[],
 }
 
 const jsonSchemaValidator = new Ajv()
@@ -110,7 +110,7 @@ const moduleGetters: GetterTree<AccountState, any> = {
 }
 
 const moduleActions: ActionTree<AccountState, any> = {
-  async get({state, commit}, payload: { id: string }): Promise<boolean> {
+  async get({ state, commit }, payload: { id: string }): Promise<boolean> {
     if (state.semaphore.fetching.item.includes(payload.id)) {
       return false
     }
@@ -141,7 +141,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     return true
   },
 
-  async fetch({state, commit}): Promise<boolean> {
+  async fetch({ state, commit }): Promise<boolean> {
     if (state.semaphore.fetching.items) {
       return false
     }
@@ -172,7 +172,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     }
   },
 
-  async add({commit}, payload: { id?: string | null, draft?: boolean, data: AccountCreateInterface }): Promise<Item<Account>> {
+  async add({ commit }, payload: { id?: string | null, draft?: boolean, data: AccountCreateInterface }): Promise<Item<Account>> {
     const id = typeof payload.id !== 'undefined' && payload.id !== null && payload.id !== '' ? payload.id : uuid().toString()
     const draft = typeof payload.draft !== 'undefined' ? payload.draft : false
 
@@ -183,7 +183,7 @@ const moduleActions: ActionTree<AccountState, any> = {
 
     try {
       await Account.insert({
-        data: Object.assign({}, payload.data, {id, draft}),
+        data: Object.assign({}, payload.data, { id, draft }),
       })
     } catch (e) {
       commit('CLEAR_SEMAPHORE', {
@@ -247,10 +247,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     }
   },
 
-  async edit({
-               state,
-               commit,
-             }, payload: { account: AccountInterface, data: AccountUpdateInterface }): Promise<Item<Account>> {
+  async edit({ state, commit }, payload: { account: AccountInterface, data: AccountUpdateInterface }): Promise<Item<Account>> {
     if (state.semaphore.updating.includes(payload.account.id)) {
       throw new Error('accounts-module.accounts.update.inProgress')
     }
@@ -336,7 +333,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     }
   },
 
-  async save({state, commit}, payload: { account: AccountInterface }): Promise<Item<Account>> {
+  async save({ state, commit }, payload: { account: AccountInterface }): Promise<Item<Account>> {
     if (state.semaphore.updating.includes(payload.account.id)) {
       throw new Error('accounts-module.accounts.save.inProgress')
     }
@@ -385,7 +382,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     }
   },
 
-  async remove({state, commit}, payload: { account: AccountInterface }): Promise<boolean> {
+  async remove({ state, commit }, payload: { account: AccountInterface }): Promise<boolean> {
     if (state.semaphore.deleting.includes(payload.account.id)) {
       throw new Error('accounts-module.accounts.delete.inProgress')
     }
@@ -480,7 +477,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     }
   },
 
-  async socketData({state, commit}, payload: { origin: string, routingKey: string, data: string }): Promise<boolean> {
+  async socketData({ state, commit }, payload: { origin: string, routingKey: string, data: string }): Promise<boolean> {
     if (payload.origin !== ModuleOrigin.MODULE_ACCOUNTS_ORIGIN) {
       return false
     }
@@ -593,7 +590,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     }
   },
 
-  reset({commit}): void {
+  reset({ commit }): void {
     commit('RESET_STATE')
 
     Email.reset()

@@ -11,7 +11,7 @@ import {
 import {
   AccountEntityTypes,
   AccountInterface,
-} from '@/lib/accounts/types'
+} from '@/lib/models/accounts/types'
 
 // ENTITY TYPES
 // ============
@@ -33,7 +33,7 @@ export interface IdentityInterface {
   uid: string
   password: string
 
-  relationshipNames: Array<string>
+  relationshipNames: string[]
 
   account: AccountInterface | null
 
@@ -76,7 +76,7 @@ export interface IdentityResponseInterface extends TJsonApiBody {
 }
 
 export interface IdentitiesResponseInterface extends TJsonApiBody {
-  data: Array<IdentityDataResponseInterface>,
+  data: IdentityDataResponseInterface[],
 }
 
 // CREATE ENTITY INTERFACES

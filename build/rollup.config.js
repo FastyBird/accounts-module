@@ -5,6 +5,7 @@ import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import babel from '@rollup/plugin-babel';
+import eslint from '@rollup/plugin-eslint';
 import dts from 'rollup-plugin-dts';
 import {terser} from 'rollup-plugin-terser';
 import minimist from 'minimist';
@@ -21,26 +22,29 @@ const projectRoot = path.resolve(__dirname, '..');
 
 const baseConfig = {
   input: 'public/entry.ts',
-  plugins: {
-    preVue: [
-      alias({
-        resolve: ['.js', '.ts'],
-        entries: {
-          '@': path.resolve(projectRoot, 'public'),
-        },
-      }),
-    ],
-    replace: {
-      preventAssignment: true,
-      'process.env.NODE_ENV': JSON.stringify('production'),
-      'process.env.ES_BUILD': JSON.stringify('false'),
-    },
-    babel: {
-      babelHelpers: 'bundled',
-      exclude: 'node_modules/**',
-      extensions: ['.js', '.ts',],
-    },
+};
+
+const basePlugins = {
+  forAll: [
+    alias({
+      resolve: ['.js', '.ts'],
+      entries: {
+        '@': path.resolve(projectRoot, 'public'),
+      },
+    }),
+    eslint(),
+  ],
+  replace: {
+    preventAssignment: true,
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    'process.env.ES_BUILD': JSON.stringify('false'),
   },
+};
+
+const babelConfig = {
+  babelHelpers: 'bundled',
+  exclude: 'node_modules/**',
+  extensions: ['.js', '.ts',],
 };
 
 // ESM/UMD/IIFE shared settings: externals
@@ -87,6 +91,7 @@ const globals = {
 
 // Customize configs for individual targets
 const buildFormats = [];
+
 if (!argv.format || argv.format === 'es') {
   const esConfig = {
     ...baseConfig,
@@ -98,12 +103,12 @@ if (!argv.format || argv.format === 'es') {
     },
     plugins: [
       replace({
-        ...baseConfig.plugins.replace,
+        ...basePlugins.replace,
         'process.env.ES_BUILD': JSON.stringify('true'),
       }),
-      ...baseConfig.plugins.preVue,
+      ...basePlugins.forAll,
       babel({
-        ...baseConfig.plugins.babel,
+        ...babelConfig,
         presets: [
           [
             '@babel/preset-env',
@@ -132,9 +137,9 @@ if (!argv.format || argv.format === 'cjs') {
       globals,
     },
     plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      babel(baseConfig.plugins.babel),
+      replace(basePlugins.replace),
+      ...basePlugins.forAll,
+      babel(babelConfig),
       commonjs(),
     ],
   };
@@ -154,9 +159,9 @@ if (!argv.format || argv.format === 'iife') {
       globals,
     },
     plugins: [
-      replace(baseConfig.plugins.replace),
-      ...baseConfig.plugins.preVue,
-      babel(baseConfig.plugins.babel),
+      replace(basePlugins.replace),
+      ...basePlugins.forAll,
+      babel(babelConfig),
       commonjs(),
       terser({
         output: {
@@ -177,12 +182,12 @@ buildFormats.push({
   },
   plugins: [
     replace({
-      ...baseConfig.plugins.replace,
+      ...basePlugins.replace,
       'process.env.ES_BUILD': JSON.stringify('true'),
     }),
-    ...baseConfig.plugins.preVue,
+    ...basePlugins.forAll,
     babel({
-      ...baseConfig.plugins.babel,
+      ...babelConfig,
       presets: [
         [
           '@babel/preset-env',
@@ -196,7 +201,6 @@ buildFormats.push({
     dts(),
   ],
 });
-
 
 // Export config
 export default buildFormats;

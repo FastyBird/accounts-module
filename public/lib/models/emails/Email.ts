@@ -4,14 +4,14 @@ import {
   Model,
 } from '@vuex-orm/core'
 
-import Account from '@/lib/accounts/Account'
-import { AccountInterface } from '@/lib/accounts/types'
+import Account from '@/lib/models/accounts/Account'
+import { AccountInterface } from '@/lib/models/accounts/types'
 import {
   EmailInterface,
   EmailEntityTypes,
   EmailCreateInterface,
   EmailUpdateInterface,
-} from '@/lib/emails/types'
+} from '@/lib/models/emails/types'
 
 export default class Email extends Model implements EmailInterface {
   static get entity(): string {
@@ -50,7 +50,7 @@ export default class Email extends Model implements EmailInterface {
   verified!: boolean
 
   // Relations
-  relationshipNames!: Array<string>
+  relationshipNames!: string[]
 
   account!: AccountInterface | null
 

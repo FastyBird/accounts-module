@@ -1,8 +1,4 @@
 import { Database, Model } from '@vuex-orm/core'
-import { Plugin } from '@vuex-orm/core/dist/src/plugins/use'
-
-export interface InstallFunction extends Plugin {
-}
 
 export interface GlobalConfigInterface {
   database: Database
@@ -14,6 +10,7 @@ export interface ComponentsInterface {
 }
 
 declare module '@vuex-orm/core' {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Model {
     // Exchange origin name
     const $accountsModuleOrigin: string
@@ -22,6 +19,6 @@ declare module '@vuex-orm/core' {
 
 // Re-export models types
 export * from '@/lib/types'
-export * from '@/lib/accounts/types'
-export * from '@/lib/emails/types'
-export * from '@/lib/identities/types'
+export * from '@/lib/models/accounts/types'
+export * from '@/lib/models/emails/types'
+export * from '@/lib/models/identities/types'

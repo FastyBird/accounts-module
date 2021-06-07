@@ -6,9 +6,9 @@ import {
 
 import { TJsonaModel } from 'jsona/lib/JsonaTypes'
 
-import { AccountEntityTypes } from '@/lib/accounts/types'
-import { EmailEntityTypes } from '@/lib/emails/types'
-import { IdentityEntityTypes } from '@/lib/identities/types'
+import { AccountEntityTypes } from '@/lib/models/accounts/types'
+import { EmailEntityTypes } from '@/lib/models/emails/types'
+import { IdentityEntityTypes } from '@/lib/models/identities/types'
 
 export interface AccountJsonModelInterface extends TJsonaModel {
   id: string,

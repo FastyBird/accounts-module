@@ -9,7 +9,7 @@ import {
 import {
   AccountEntityTypes,
   AccountInterface,
-} from '@/lib/accounts/types'
+} from '@/lib/models/accounts/types'
 
 // ENTITY TYPES
 // ============
@@ -33,7 +33,7 @@ export interface EmailInterface {
   verified: boolean
 
   // Relations
-  relationshipNames: Array<string>
+  relationshipNames: string[]
 
   account: AccountInterface | null
 
@@ -80,7 +80,7 @@ export interface EmailResponseInterface extends TJsonApiBody {
 }
 
 export interface EmailsResponseInterface extends TJsonApiBody {
-  data: Array<EmailDataResponseInterface>,
+  data: EmailDataResponseInterface[],
 }
 
 // CREATE ENTITY INTERFACES

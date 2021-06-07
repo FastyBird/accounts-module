@@ -18,9 +18,9 @@ import { v4 as uuid } from 'uuid'
 import { AxiosResponse } from 'axios'
 import uniq from 'lodash/uniq'
 
-import Account from '@/lib/accounts/Account'
-import { AccountInterface } from '@/lib/accounts/types'
-import Identity from '@/lib/identities/Identity'
+import Account from '@/lib/models/accounts/Account'
+import { AccountInterface } from '@/lib/models/accounts/types'
+import Identity from '@/lib/models/identities/Identity'
 import {
   IdentitiesResponseInterface,
   IdentityCreateInterface,
@@ -28,7 +28,7 @@ import {
   IdentityInterface,
   IdentityResponseInterface,
   IdentityUpdateInterface,
-} from '@/lib/identities/types'
+} from '@/lib/models/identities/types'
 
 import {
   ApiError,
@@ -36,7 +36,7 @@ import {
 } from '@/lib/errors'
 import {
   JsonApiModelPropertiesMapper,
-  JsonApiPropertiesMapper,
+  JsonApiJsonPropertiesMapper,
 } from '@/lib/jsonapi'
 import {
   IdentityJsonModelInterface,
@@ -45,20 +45,20 @@ import {
 } from '@/lib/types'
 
 interface SemaphoreFetchingState {
-  item: Array<string>
-  items: Array<string>
+  item: string[]
+  items: string[]
 }
 
 interface SemaphoreState {
   fetching: SemaphoreFetchingState
-  creating: Array<string>
-  updating: Array<string>
-  deleting: Array<string>
+  creating: string[]
+  updating: string[]
+  deleting: string[]
 }
 
 interface IdentityState {
   semaphore: SemaphoreState
-  firstLoad: Array<string>
+  firstLoad: string[]
 }
 
 interface FirstLoadAction {
@@ -72,13 +72,13 @@ interface SemaphoreAction {
 
 const jsonApiFormatter = new Jsona({
   modelPropertiesMapper: new JsonApiModelPropertiesMapper(),
-  jsonPropertiesMapper: new JsonApiPropertiesMapper(),
+  jsonPropertiesMapper: new JsonApiJsonPropertiesMapper(),
 })
 
 const jsonSchemaValidator = new Ajv()
 
 const apiOptions = {
-  dataTransformer: (result: AxiosResponse<IdentityResponseInterface> | AxiosResponse<IdentitiesResponseInterface>): IdentityJsonModelInterface | Array<IdentityJsonModelInterface> => <IdentityJsonModelInterface | Array<IdentityJsonModelInterface>>jsonApiFormatter.deserialize(result.data),
+  dataTransformer: (result: AxiosResponse<IdentityResponseInterface> | AxiosResponse<IdentitiesResponseInterface>): IdentityJsonModelInterface | IdentityJsonModelInterface[] => jsonApiFormatter.deserialize(result.data) as IdentityJsonModelInterface | IdentityJsonModelInterface[],
 }
 
 const moduleState: IdentityState = {
@@ -112,7 +112,7 @@ const moduleGetters: GetterTree<IdentityState, any> = {
 }
 
 const moduleActions: ActionTree<IdentityState, any> = {
-  async get({state, commit}, payload: { account: AccountInterface, id: string }): Promise<boolean> {
+  async get({ state, commit }, payload: { account: AccountInterface, id: string }): Promise<boolean> {
     if (state.semaphore.fetching.item.includes(payload.id)) {
       return false
     }
@@ -143,7 +143,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
     }
   },
 
-  async fetch({state, commit}, payload: { account: AccountInterface }): Promise<boolean> {
+  async fetch({ state, commit }, payload: { account: AccountInterface }): Promise<boolean> {
     if (state.semaphore.fetching.items.includes(payload.account.id)) {
       return false
     }
@@ -178,7 +178,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
     }
   },
 
-  async add({commit}, payload: { account: AccountInterface, id?: string | null, draft?: boolean, data: IdentityCreateInterface }): Promise<Item<Identity>> {
+  async add({ commit }, payload: { account: AccountInterface, id?: string | null, draft?: boolean, data: IdentityCreateInterface }): Promise<Item<Identity>> {
     const id = typeof payload.id !== 'undefined' && payload.id !== null && payload.id !== '' ? payload.id : uuid().toString()
     const draft = typeof payload.draft !== 'undefined' ? payload.draft : false
 
@@ -189,7 +189,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
 
     try {
       await Identity.insert({
-        data: Object.assign({}, payload.data, {id, draft, accountId: payload.account.id}),
+        data: Object.assign({}, payload.data, { id, draft, accountId: payload.account.id }),
       })
     } catch (e) {
       commit('CLEAR_SEMAPHORE', {
@@ -252,10 +252,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
     }
   },
 
-  async edit({
-               state,
-               commit,
-             }, payload: { identity: IdentityInterface, data: IdentityUpdateInterface }): Promise<Item<Identity>> {
+  async edit({ state, commit }, payload: { identity: IdentityInterface, data: IdentityUpdateInterface }): Promise<Item<Identity>> {
     if (state.semaphore.updating.includes(payload.identity.id)) {
       throw new Error('accounts-module.identities.update.inProgress')
     }
@@ -325,7 +322,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
     }
   },
 
-  async save({state, commit}, payload: { identity: IdentityInterface }): Promise<Item<Identity>> {
+  async save({ state, commit }, payload: { identity: IdentityInterface }): Promise<Item<Identity>> {
     if (state.semaphore.updating.includes(payload.identity.id)) {
       throw new Error('accounts-module.identities.save.inProgress')
     }
@@ -374,7 +371,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
     }
   },
 
-  async remove({state, commit}, payload: { identity: IdentityInterface }): Promise<boolean> {
+  async remove({ state, commit }, payload: { identity: IdentityInterface }): Promise<boolean> {
     if (state.semaphore.deleting.includes(payload.identity.id)) {
       throw new Error('accounts-module.identities.delete.inProgress')
     }
@@ -470,7 +467,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
     }
   },
 
-  async socketData({state, commit}, payload: { origin: string, routingKey: string, data: string }): Promise<boolean> {
+  async socketData({ state, commit }, payload: { origin: string, routingKey: string, data: string }): Promise<boolean> {
     if (payload.origin !== ModuleOrigin.MODULE_ACCOUNTS_ORIGIN) {
       return false
     }
@@ -576,7 +573,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
     }
   },
 
-  reset({commit}): void {
+  reset({ commit }): void {
     commit('RESET_STATE')
   },
 }
