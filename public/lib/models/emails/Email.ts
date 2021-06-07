@@ -15,7 +15,7 @@ import {
 
 export default class Email extends Model implements EmailInterface {
   static get entity(): string {
-    return 'email'
+    return 'accounts_email'
   }
 
   static fields(): Fields {

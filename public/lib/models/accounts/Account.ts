@@ -19,7 +19,7 @@ import { IdentityInterface } from '@/lib/models/identities/types'
 
 export default class Account extends Model implements AccountInterface {
   static get entity(): string {
-    return 'account'
+    return 'accounts_account'
   }
 
   static fields(): Fields {

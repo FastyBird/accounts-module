@@ -16,7 +16,7 @@ import {
 
 export default class Identity extends Model implements IdentityInterface {
   static get entity(): string {
-    return 'identity'
+    return 'accounts_identity'
   }
 
   static fields(): Fields {
