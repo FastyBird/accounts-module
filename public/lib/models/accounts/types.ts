@@ -135,7 +135,7 @@ interface AccountDataResponseInterface extends TJsonApiData {
 
 export interface AccountResponseInterface extends TJsonApiBody {
   data: AccountDataResponseInterface,
-  included?: EmailDataResponseInterface[] | IdentityDataResponseInterface[]
+  included?: (EmailDataResponseInterface | IdentityDataResponseInterface)[]
 }
 
 export interface AccountsResponseInterface extends TJsonApiBody {
