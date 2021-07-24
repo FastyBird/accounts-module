@@ -15,10 +15,10 @@ import { ComponentsInterface, GlobalConfigInterface } from '@/types/accounts-mod
 const install: Plugin = function installVuexOrmWamp(components: ComponentsInterface, config: GlobalConfigInterface) {
   if (typeof config.originName !== 'undefined') {
     // @ts-ignore
-    components.Model.prototype.$accountsModuleOrigin = config.originName
+    components.Model.$accountsModuleOrigin = config.originName
   } else {
     // @ts-ignore
-    components.Model.prototype.$accountsModuleOrigin = ModuleOrigin.MODULE_ACCOUNTS_ORIGIN
+    components.Model.$accountsModuleOrigin = ModuleOrigin.MODULE_ACCOUNTS_ORIGIN
   }
 
   config.database.register(Account, accounts)
