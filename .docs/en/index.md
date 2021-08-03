@@ -4,7 +4,7 @@ This module adds support for managing [FastyBird](https://www.fastybird.com) IoT
 
 ## Installation
 
-### Backend
+### Application backend in PHP
 
 The best way to install **fastybird/accounts-module** is using [Composer](https://getcomposer.org/).
 
@@ -34,7 +34,7 @@ Module could be added to your project with composer command:
 composer require fastybird/accounts-module
 ```
 
-### Frontend
+### Application frontend in JS
 
 The best way to install **@fastybird/accounts-module** is using [Yarn](https://yarnpkg.com/):
 

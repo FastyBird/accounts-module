@@ -115,6 +115,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 						$publishRoutingKey = $routingKey;
 					}
 				}
+
 				break;
 
 			case self::ACTION_UPDATED:
@@ -123,6 +124,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 						$publishRoutingKey = $routingKey;
 					}
 				}
+
 				break;
 
 			case self::ACTION_DELETED:
@@ -131,6 +133,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 						$publishRoutingKey = $routingKey;
 					}
 				}
+
 				break;
 		}
 
@@ -191,7 +194,6 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			foreach ($rc->getProperties() as $property) {
 				$fields[] = $property->getName();
 			}
-
 		} catch (ReflectionException $ex) {
 			// Nothing to do, reflection could not be loaded
 		}
@@ -206,7 +208,6 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 
 				if ($value instanceof Consistence\Enum\Enum) {
 					$value = $value->getValue();
-
 				} elseif ($value instanceof Uuid\UuidInterface) {
 					$value = $value->toString();
 				}
@@ -220,7 +221,6 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 				if ($key !== null) {
 					$values[strtolower($key)] = $value;
 				}
-
 			} catch (Exceptions\PropertyNotExistsException $ex) {
 				// No need to do anything
 			}

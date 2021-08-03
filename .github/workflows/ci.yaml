@@ -20,8 +20,8 @@ env:
   coverage: "none"
 
 jobs:
-  qa:
-    name: "Quality assurance"
+  php-qa:
+    name: "Quality assurance for PHP code"
     runs-on: "${{ matrix.operating-system }}"
 
     strategy:
@@ -78,10 +78,10 @@ jobs:
         run: "${{ env.composer-install }}"
 
       - name: "Coding Standard"
-        run: "make cs"
+        run: "make php_cs"
 
-  static-analysis:
-    name: "Static analysis"
+  php-static-analysis:
+    name: "Static analysis for PHP code"
     runs-on: "${{ matrix.operating-system }}"
 
     strategy:
@@ -137,10 +137,10 @@ jobs:
       - name: "PHPStan"
         run: "make phpstan"
 
-  tests:
-    name: "Tests"
+  php-tests:
+    name: "Tests for PHP code"
     runs-on: "${{ matrix.operating-system }}"
-    needs: ["qa", "static-analysis"]
+    needs: ["php-qa", "php-static-analysis"]
 
     strategy:
       matrix:
@@ -200,19 +200,19 @@ jobs:
         run: "${{ env.composer-install }} ${{ matrix.composer-args }}"
 
       - name: "Tests"
-        run: "make tests"
+        run: "make php_tests"
 
       - name: "Upload test output"
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: "actions/upload-artifact@v2"
         with:
           name: output
           path: tests/**/output
 
-  tests-code-coverage:
-    name: "Tests with code coverage"
+  php-tests-code-coverage:
+    name: "Tests for PHP code with code coverage"
     runs-on: "${{ matrix.operating-system }}"
-    needs: ["tests"]
+    needs: ["php-tests"]
 
     strategy:
       matrix:
@@ -254,7 +254,7 @@ jobs:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.extensions }}"
           tools: "composer:${{ env.composer-version }}"
-          coverage: "xdebug"
+          coverage: "pcov"
 
       - name: "Setup problem matchers for PHP"
         run: 'echo "::add-matcher::${{ runner.tool_cache }}/php.json"'
@@ -274,7 +274,7 @@ jobs:
         run: "${{ env.composer-install }} ${{ matrix.composer-args }}"
 
       - name: "Tests"
-        run: "make coverage"
+        run: "make php_coverage"
 
       - name: "Coveralls.io"
         env:
@@ -286,7 +286,7 @@ jobs:
           php php-coveralls.phar --verbose --config tests/.coveralls.yml
 
   jslint:
-    name: "Code linting"
+    name: "Code linting for JS code"
     runs-on: "${{ matrix.operating-system }}"
 
     strategy:
@@ -317,13 +317,13 @@ jobs:
 
       - name: "Install dependencies"
         if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: 'yarn install'
+        run: "yarn install"
 
       - name: "Check linter"
-        run: 'yarn lint:js'
+        run: "yarn lint:js"
 
   tslint:
-    name: "Checking typescript"
+    name: "Typescript linting for JS code"
     runs-on: "${{ matrix.operating-system }}"
 
     strategy:
@@ -354,13 +354,13 @@ jobs:
 
       - name: "Install dependencies"
         if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: 'yarn install'
+        run: "yarn install"
 
       - name: "Check linter"
-        run: 'yarn lint:ts'
+        run: "yarn lint:ts"
 
   publish-npmjs:
-    name: "Build library and publish it to NPM"
+    name: "Build JS library and publish it to NPM"
     runs-on: "${{ matrix.operating-system }}"
     needs: ["jslint", "tslint"]
 
@@ -385,7 +385,7 @@ jobs:
         id: "get_version"
 
       - name: "Install package dependencies"
-        run: yarn install
+        run: "yarn install"
 
       - name: "Set up git since we will later push to the repo"
         run: |
@@ -396,15 +396,15 @@ jobs:
         run: npm version ${{ steps.get_version.outputs.version-without-v }} --allow-same-version
 
       - name: "Build the project"
-        run: yarn build
+        run: "yarn build"
 
       - name: "Publish to NPM"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPMJS_TOKEN }}
-        run: npm publish --access public
+        run: "npm publish --access public"
 
   publish-github:
-    name: "Build library and publish it to Github packages"
+    name: "Build JS library and publish it to Github packages"
     runs-on: "${{ matrix.operating-system }}"
     needs: ["publish-npmjs"]
 
@@ -431,7 +431,7 @@ jobs:
       - name: "Install package dependencies"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn install
+        run: "yarn install"
 
       - name: "Set up git since we will later push to the repo"
         run: |
@@ -439,12 +439,12 @@ jobs:
           git config --global user.email "code@fastybird.com"
 
       - name: "Upgrade npm version in package.json to the tag used in the release"
-        run: npm version ${{ steps.get_version.outputs.version-without-v }} --allow-same-version
+        run: "npm version ${{ steps.get_version.outputs.version-without-v }} --allow-same-version"
 
       - name: "Build the project"
-        run: yarn build
+        run: "yarn build"
 
       - name: "Publish to NPM"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm publish --access public
+        run: "npm publish --access public"

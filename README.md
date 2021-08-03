@@ -1,16 +1,17 @@
 # FastyBird IoT accounts module
 
-[![Build Status](https://badgen.net/github/checks/FastyBird/accounts-module/master?cache=300&style=flast-square)](https://github.com/FastyBird/accounts-module/actions)
-[![Code coverage](https://badgen.net/coveralls/c/github/FastyBird/accounts-module?cache=300&style=flast-square)](https://coveralls.io/r/FastyBird/accounts-module)
-![PHP](https://badgen.net/packagist/php/FastyBird/accounts-module?cache=300&style=flast-square)
-[![Licence](https://badgen.net/packagist/license/FastyBird/accounts-module?cache=300&style=flast-square)](https://packagist.org/packages/FastyBird/accounts-module)
-[![Downloads total](https://badgen.net/packagist/dt/FastyBird/accounts-module?cache=300&style=flast-square)](https://packagist.org/packages/FastyBird/accounts-module)
-[![Latest stable](https://badgen.net/packagist/v/FastyBird/accounts-module/latest?cache=300&style=flast-square)](https://packagist.org/packages/FastyBird/accounts-module)
-[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
+[![Build Status](https://badgen.net/github/checks/FastyBird/accounts-module/master?cache=300&style=flat-square)](https://github.com/FastyBird/accounts-module/actions)
+[![Licence](https://badgen.net/github/license/FastyBird/accounts-module?cache=300&style=flat-square)](https://github.com/FastyBird/accounts-module/blob/master/LICENSE.md)
 
-[![Latest stable](https://badgen.net/npm/v/@fastybird/accounts-module?cache=300&style=flast-square)](https://www.npmjs.com/package/@fastybird/accounts-module)
-[![Downloads total](https://badgen.net/npm/dt/@fastybird/accounts-module?cache=300&style=flast-square)](https://www.npmjs.com/package/@fastybird/accounts-module)
-![Types](https://badgen.net/npm/types/@fastybird/accounts-module?cache=300&style=flast-square)
+![PHP](https://badgen.net/packagist/php/FastyBird/accounts-module?cache=300&style=flat-square)
+[![PHP code coverage](https://badgen.net/coveralls/c/github/FastyBird/accounts-module?cache=300&style=flat-square)](https://coveralls.io/r/FastyBird/accounts-module)
+[![PHP latest stable](https://badgen.net/packagist/v/FastyBird/accounts-module/latest?cache=300&style=flat-square)](https://packagist.org/packages/FastyBird/accounts-module)
+[![PHP downloads total](https://badgen.net/packagist/dt/FastyBird/accounts-module?cache=300&style=flat-square)](https://packagist.org/packages/FastyBird/accounts-module)
+[![PHPStan](https://img.shields.io/badge/phpstan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
+
+[![JS latest stable](https://badgen.net/npm/v/@fastybird/accounts-module?cache=300&style=flat-square)](https://www.npmjs.com/package/@fastybird/accounts-module)
+[![JS downloads total](https://badgen.net/npm/dt/@fastybird/accounts-module?cache=300&style=flat-square)](https://www.npmjs.com/package/@fastybird/accounts-module)
+![Types](https://badgen.net/npm/types/@fastybird/accounts-module?cache=300&style=flat-square)
 
 ## What is FastyBird IoT accounts module?
 
@@ -25,17 +26,17 @@ Accounts module is a combined [Nette framework](https://nette.org) extension and
 - [{JSON:API}](https://jsonapi.org/) schemas for full api access
 - User access check & validation
 - Multilingual
-- JS integration via [Vex ORM](https://vuex-orm.org) plugin
+- JS integration via [Vuex ORM](https://vuex-orm.org) plugin
 
 ## Requirements
 
-Backend part of [FastyBird](https://www.fastybird.com) accounts module is tested against PHP 7.4 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [Nette framework](https://nette.org/en/) 3.0 PHP framework for real programmers
+PHP part of [FastyBird](https://www.fastybird.com) accounts module is tested against PHP 7.4 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [Nette framework](https://nette.org/en/) 3.0 PHP framework for real programmers
 
-Frontend part of [FastyBird](https://www.fastybird.com) accounts module is tested against [ECMAScript 6](https://www.w3schools.com/JS/js_es6.asp)
+JavaScript part of [FastyBird](https://www.fastybird.com) accounts module is tested against [ECMAScript 6](https://www.w3schools.com/JS/js_es6.asp)
 
 ## Installation
 
-#### Backend
+#### Application backend in PHP
 
 The best way to install **fastybird/accounts-module** is using [Composer](http://getcomposer.org/):
 
@@ -43,7 +44,7 @@ The best way to install **fastybird/accounts-module** is using [Composer](http:/
 composer require fastybird/accounts-module
 ```
 
-#### Frontend
+#### Application frontend in JS
 
 The best way to install **@fastybird/accounts-module** is using [Yarn](https://yarnpkg.com/):
 

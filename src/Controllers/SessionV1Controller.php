@@ -155,7 +155,6 @@ final class SessionV1Controller extends BaseV1Controller
 					$this->translator->translate('messages.unknownAccount.heading'),
 					$this->translator->translate('messages.unknownAccount.message')
 				);
-
 			} elseif ($ex instanceof Exceptions\AuthenticationFailedException) {
 				switch ($ex->getCode()) {
 					case Security\Authenticator::ACCOUNT_PROFILE_BLOCKED:
@@ -173,7 +172,6 @@ final class SessionV1Controller extends BaseV1Controller
 							$this->translator->translate('messages.unknownAccount.message')
 						);
 				}
-
 			} else {
 				// Log caught exception
 				$this->logger->error('[FB:ACCOUNTS_MODULE:CONTROLLER] ' . $ex->getMessage(), [

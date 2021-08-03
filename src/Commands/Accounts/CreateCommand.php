@@ -123,7 +123,6 @@ class CreateCommand extends Console\Command\Command
 			&& $input->getArgument('lastName') !== ''
 		) {
 			$lastName = $input->getArgument('lastName');
-
 		} else {
 			$lastName = $io->ask($this->translator->translate('inputs.lastName.title'));
 		}
@@ -134,7 +133,6 @@ class CreateCommand extends Console\Command\Command
 			&& $input->getArgument('firstName') !== ''
 		) {
 			$firstName = $input->getArgument('firstName');
-
 		} else {
 			$firstName = $io->ask($this->translator->translate('inputs.firstName.title'));
 		}
@@ -145,7 +143,6 @@ class CreateCommand extends Console\Command\Command
 			&& $input->getArgument('email') !== ''
 		) {
 			$emailAddress = $input->getArgument('email');
-
 		} else {
 			$emailAddress = $io->ask($this->translator->translate('inputs.email.title'));
 		}
@@ -155,7 +152,6 @@ class CreateCommand extends Console\Command\Command
 				$io->error($this->translator->translate('validation.email.invalid', ['email' => $emailAddress]));
 
 				$repeat = true;
-
 			} else {
 				$email = $this->emailRepository->findOneByAddress($emailAddress);
 
@@ -169,7 +165,6 @@ class CreateCommand extends Console\Command\Command
 			if ($repeat) {
 				$emailAddress = $io->ask($this->translator->translate('inputs.email.title'));
 			}
-
 		} while ($repeat);
 
 		$repeat = true;
@@ -189,7 +184,6 @@ class CreateCommand extends Console\Command\Command
 
 				return 1;
 			}
-
 		} else {
 			do {
 				$roleName = $io->choice(
@@ -224,7 +218,6 @@ class CreateCommand extends Console\Command\Command
 				if ($role !== null) {
 					$repeat = false;
 				}
-
 			} while ($repeat);
 		}
 
@@ -257,7 +250,6 @@ class CreateCommand extends Console\Command\Command
 
 			// Commit all changes into database
 			$this->getOrmConnection()->commit();
-
 		} catch (Throwable $ex) {
 			// Revert all changes when error occur
 			if ($this->getOrmConnection()->isTransactionActive()) {
@@ -277,7 +269,6 @@ class CreateCommand extends Console\Command\Command
 			&& $input->getArgument('password') !== ''
 		) {
 			$password = $input->getArgument('password');
-
 		} else {
 			$password = $io->askHidden($this->translator->translate('inputs.password.title'));
 		}
@@ -306,7 +297,6 @@ class CreateCommand extends Console\Command\Command
 
 			// Commit all changes into database
 			$this->getOrmConnection()->commit();
-
 		} catch (Throwable $ex) {
 			// Revert all changes when error occur
 			if ($this->getOrmConnection()->isTransactionActive()) {

@@ -124,7 +124,6 @@ class InitializeCommand extends Console\Command\Command
 
 				return 1;
 			}
-
 		} catch (Throwable $ex) {
 			$io->error('Something went wrong, initialization could not be finished.');
 
@@ -194,7 +193,6 @@ class InitializeCommand extends Console\Command\Command
 
 			// Commit all changes into database
 			$this->getOrmConnection()->commit();
-
 		} catch (Throwable $ex) {
 			// Revert all changes when error occur
 			if ($this->getOrmConnection()->isTransactionActive()) {
@@ -238,11 +236,9 @@ class InitializeCommand extends Console\Command\Command
 
 					return 1;
 				}
-
 			} else {
 				$io->success('There is existing administrator account.');
 			}
-
 		} else {
 			$io->error('Something went wrong, administrator role could not be found.');
 
