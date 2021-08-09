@@ -255,7 +255,7 @@ class Account implements IAccount
 	{
 		$email = $this->emails
 			->filter(function (Entities\Emails\IEmail $row) use ($id): bool {
-				return $id !== null ? $row->getId()
+				return $id !== null && $id !== '' ? $row->getId()
 					->equals(Uuid\Uuid::fromString($id)) : $row->isDefault();
 			})
 			->first();
