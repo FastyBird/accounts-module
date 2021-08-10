@@ -528,14 +528,20 @@ const moduleActions: ActionTree<IdentityState, any> = {
           type: IdentityEntityTypes.USER,
         }
 
+        const camelRegex = new RegExp('_([a-z0-9])', 'g')
+
         Object.keys(body)
           .forEach((attrName) => {
-            const kebabName = attrName.replace(/([a-z][A-Z0-9])/g, g => `${g[0]}_${g[1].toLowerCase()}`)
+            const camelName = attrName.replace(camelRegex, g => g[1].toUpperCase())
 
-            if (kebabName === 'account') {
-              entityData.accountId = body[attrName]
-            } else if (kebabName !== 'type') {
-              entityData[kebabName] = body[attrName]
+            if (camelName === 'account') {
+              const account = Account.query().where('id', body[attrName]).first()
+
+              if (account !== null) {
+                entityData.accountId = account.id
+              }
+            } else {
+              entityData[camelName] = body[attrName]
             }
           })
 

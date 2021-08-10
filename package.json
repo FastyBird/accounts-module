@@ -1,6 +1,6 @@
 {
   "name": "@fastybird/accounts-module",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Accounts module data model plugin",
   "keywords": [
     "accounts",
