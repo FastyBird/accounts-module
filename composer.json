@@ -41,7 +41,7 @@
     "fastybird/application-exchange": "^0.2",
     "fastybird/database": "^0.1",
     "fastybird/json-api": "^0.1",
-    "fastybird/modules-metadata": "^0.5",
+    "fastybird/modules-metadata": "^0.7",
     "fastybird/simple-auth": "^0.1",
     "fastybird/web-server": "^0.2",
     "ipub/doctrine-consistence": "^0.4",
