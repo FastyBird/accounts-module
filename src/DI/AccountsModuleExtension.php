@@ -84,152 +84,152 @@ class AccountsModuleExtension extends DI\CompilerExtension implements Translatio
 		$configuration = $this->getConfig();
 
 		// Http router
-		$builder->addDefinition($this->prefix('middleware.access'))
+		$builder->addDefinition($this->prefix('middleware.access'), new DI\Definitions\ServiceDefinition())
 			->setType(Middleware\AccessMiddleware::class);
 
-		$builder->addDefinition($this->prefix('middleware.urlFormat'))
+		$builder->addDefinition($this->prefix('middleware.urlFormat'), new DI\Definitions\ServiceDefinition())
 			->setType(Middleware\UrlFormatMiddleware::class)
 			->addTag('middleware', ['priority' => 150]);
 
-		$builder->addDefinition($this->prefix('router.routes'))
+		$builder->addDefinition($this->prefix('router.routes'), new DI\Definitions\ServiceDefinition())
 			->setType(Router\Routes::class)
 			->setArguments(['usePrefix' => $configuration->apiPrefix]);
 
 		// Console commands
-		$builder->addDefinition($this->prefix('commands.create'))
+		$builder->addDefinition($this->prefix('commands.create'), new DI\Definitions\ServiceDefinition())
 			->setType(Commands\Accounts\CreateCommand::class);
 
-		$builder->addDefinition($this->prefix('commands.initialize'))
+		$builder->addDefinition($this->prefix('commands.initialize'), new DI\Definitions\ServiceDefinition())
 			->setType(Commands\InitializeCommand::class);
 
 		// Database repositories
-		$builder->addDefinition($this->prefix('models.accountRepository'))
+		$builder->addDefinition($this->prefix('models.accountRepository'), new DI\Definitions\ServiceDefinition())
 			->setType(Models\Accounts\AccountRepository::class);
 
-		$builder->addDefinition($this->prefix('models.emailRepository'))
+		$builder->addDefinition($this->prefix('models.emailRepository'), new DI\Definitions\ServiceDefinition())
 			->setType(Models\Emails\EmailRepository::class);
 
-		$builder->addDefinition($this->prefix('models.identityRepository'))
+		$builder->addDefinition($this->prefix('models.identityRepository'), new DI\Definitions\ServiceDefinition())
 			->setType(Models\Identities\IdentityRepository::class);
 
-		$builder->addDefinition($this->prefix('models.roleRepository'))
+		$builder->addDefinition($this->prefix('models.roleRepository'), new DI\Definitions\ServiceDefinition())
 			->setType(Models\Roles\RoleRepository::class);
 
 		// Database managers
-		$builder->addDefinition($this->prefix('models.accountsManager'))
+		$builder->addDefinition($this->prefix('models.accountsManager'), new DI\Definitions\ServiceDefinition())
 			->setType(Models\Accounts\AccountsManager::class)
 			->setArgument('entityCrud', '__placeholder__');
 
-		$builder->addDefinition($this->prefix('models.emailsManager'))
+		$builder->addDefinition($this->prefix('models.emailsManager'), new DI\Definitions\ServiceDefinition())
 			->setType(Models\Emails\EmailsManager::class)
 			->setArgument('entityCrud', '__placeholder__');
 
-		$builder->addDefinition($this->prefix('models.identitiesManager'))
+		$builder->addDefinition($this->prefix('models.identitiesManager'), new DI\Definitions\ServiceDefinition())
 			->setType(Models\Identities\IdentitiesManager::class)
 			->setArgument('entityCrud', '__placeholder__');
 
-		$builder->addDefinition($this->prefix('models.rolesManager'))
+		$builder->addDefinition($this->prefix('models.rolesManager'), new DI\Definitions\ServiceDefinition())
 			->setType(Models\Roles\RolesManager::class)
 			->setArgument('entityCrud', '__placeholder__');
 
 		// Events subscribers
-		$builder->addDefinition($this->prefix('subscribers.entities'))
+		$builder->addDefinition($this->prefix('subscribers.entities'), new DI\Definitions\ServiceDefinition())
 			->setType(Subscribers\EntitiesSubscriber::class);
 
-		$builder->addDefinition($this->prefix('subscribers.accountEntity'))
+		$builder->addDefinition($this->prefix('subscribers.accountEntity'), new DI\Definitions\ServiceDefinition())
 			->setType(Subscribers\AccountEntitySubscriber::class);
 
-		$builder->addDefinition($this->prefix('subscribers.emailEntity'))
+		$builder->addDefinition($this->prefix('subscribers.emailEntity'), new DI\Definitions\ServiceDefinition())
 			->setType(Subscribers\EmailEntitySubscriber::class);
 
 		// API controllers
-		$builder->addDefinition($this->prefix('controllers.session'))
+		$builder->addDefinition($this->prefix('controllers.session'), new DI\Definitions\ServiceDefinition())
 			->setType(Controllers\SessionV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition($this->prefix('controllers.account'))
+		$builder->addDefinition($this->prefix('controllers.account'), new DI\Definitions\ServiceDefinition())
 			->setType(Controllers\AccountV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition($this->prefix('controllers.accountEmails'))
+		$builder->addDefinition($this->prefix('controllers.accountEmails'), new DI\Definitions\ServiceDefinition())
 			->setType(Controllers\AccountEmailsV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition($this->prefix('controllers.accountIdentities'))
+		$builder->addDefinition($this->prefix('controllers.accountIdentities'), new DI\Definitions\ServiceDefinition())
 			->setType(Controllers\AccountIdentitiesV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition($this->prefix('controllers.accounts'))
+		$builder->addDefinition($this->prefix('controllers.accounts'), new DI\Definitions\ServiceDefinition())
 			->setType(Controllers\AccountsV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition($this->prefix('controllers.emails'))
+		$builder->addDefinition($this->prefix('controllers.emails'), new DI\Definitions\ServiceDefinition())
 			->setType(Controllers\EmailsV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition($this->prefix('controllers.identities'))
+		$builder->addDefinition($this->prefix('controllers.identities'), new DI\Definitions\ServiceDefinition())
 			->setType(Controllers\IdentitiesV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition($this->prefix('controllers.roles'))
+		$builder->addDefinition($this->prefix('controllers.roles'), new DI\Definitions\ServiceDefinition())
 			->setType(Controllers\RolesV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition($this->prefix('controllers.roleChildren'))
+		$builder->addDefinition($this->prefix('controllers.roleChildren'), new DI\Definitions\ServiceDefinition())
 			->setType(Controllers\RoleChildrenV1Controller::class)
 			->addTag('nette.inject');
 
-		$builder->addDefinition($this->prefix('controllers.public'))
+		$builder->addDefinition($this->prefix('controllers.public'), new DI\Definitions\ServiceDefinition())
 			->setType(Controllers\PublicV1Controller::class)
 			->addTag('nette.inject');
 
 		// API schemas
-		$builder->addDefinition($this->prefix('schemas.account'))
+		$builder->addDefinition($this->prefix('schemas.account'), new DI\Definitions\ServiceDefinition())
 			->setType(Schemas\Accounts\AccountSchema::class);
 
-		$builder->addDefinition($this->prefix('schemas.email'))
+		$builder->addDefinition($this->prefix('schemas.email'), new DI\Definitions\ServiceDefinition())
 			->setType(Schemas\Emails\EmailSchema::class);
 
-		$builder->addDefinition($this->prefix('schemas.accountIdentity'))
+		$builder->addDefinition($this->prefix('schemas.accountIdentity'), new DI\Definitions\ServiceDefinition())
 			->setType(Schemas\Identities\IdentitySchema::class);
 
-		$builder->addDefinition($this->prefix('schemas.role'))
+		$builder->addDefinition($this->prefix('schemas.role'), new DI\Definitions\ServiceDefinition())
 			->setType(Schemas\Roles\RoleSchema::class);
 
-		$builder->addDefinition($this->prefix('schemas.session'))
+		$builder->addDefinition($this->prefix('schemas.session'), new DI\Definitions\ServiceDefinition())
 			->setType(Schemas\Sessions\SessionSchema::class);
 
 		// API hydrators
-		$builder->addDefinition($this->prefix('hydrators.accounts.profile'))
+		$builder->addDefinition($this->prefix('hydrators.accounts.profile'), new DI\Definitions\ServiceDefinition())
 			->setType(Hydrators\Accounts\ProfileAccountHydrator::class);
 
-		$builder->addDefinition($this->prefix('hydrators.accounts'))
+		$builder->addDefinition($this->prefix('hydrators.accounts'), new DI\Definitions\ServiceDefinition())
 			->setType(Hydrators\Accounts\AccountHydrator::class);
 
-		$builder->addDefinition($this->prefix('hydrators.emails.profile'))
+		$builder->addDefinition($this->prefix('hydrators.emails.profile'), new DI\Definitions\ServiceDefinition())
 			->setType(Hydrators\Emails\ProfileEmailHydrator::class);
 
-		$builder->addDefinition($this->prefix('hydrators.emails.email'))
+		$builder->addDefinition($this->prefix('hydrators.emails.email'), new DI\Definitions\ServiceDefinition())
 			->setType(Hydrators\Emails\EmailHydrator::class);
 
-		$builder->addDefinition($this->prefix('hydrators.identities.profile'))
+		$builder->addDefinition($this->prefix('hydrators.identities.profile'), new DI\Definitions\ServiceDefinition())
 			->setType(Hydrators\Identities\IdentityHydrator::class);
 
-		$builder->addDefinition($this->prefix('hydrators.role'))
+		$builder->addDefinition($this->prefix('hydrators.role'), new DI\Definitions\ServiceDefinition())
 			->setType(Hydrators\Roles\RoleHydrator::class);
 
 		// Security
-		$builder->addDefinition($this->prefix('security.hash'))
+		$builder->addDefinition($this->prefix('security.hash'), new DI\Definitions\ServiceDefinition())
 			->setType(Helpers\SecurityHash::class);
 
-		$builder->addDefinition($this->prefix('security.identityFactory'))
+		$builder->addDefinition($this->prefix('security.identityFactory'), new DI\Definitions\ServiceDefinition())
 			->setType(Security\IdentityFactory::class);
 
-		$builder->addDefinition($this->prefix('security.authenticator'))
+		$builder->addDefinition($this->prefix('security.authenticator'), new DI\Definitions\ServiceDefinition())
 			->setType(Security\Authenticator::class);
 
 		// Nette services overwrite
-		$builder->addDefinition('security.user')
+		$builder->addDefinition('security.user', new DI\Definitions\ServiceDefinition())
 			->setType(Security\User::class);
 	}
 

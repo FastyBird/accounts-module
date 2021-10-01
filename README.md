@@ -2,13 +2,14 @@
 
 [![Build Status](https://badgen.net/github/checks/FastyBird/accounts-module/master?cache=300&style=flat-square)](https://github.com/FastyBird/accounts-module/actions)
 [![Licence](https://badgen.net/github/license/FastyBird/accounts-module?cache=300&style=flat-square)](https://github.com/FastyBird/accounts-module/blob/master/LICENSE.md)
+[![Coverage](https://badgen.net/coveralls/c/github/FastyBird/accounts-module?cache=300&style=flat-square)](https://coveralls.io/r/FastyBird/accounts-module)
 
 ![PHP](https://badgen.net/packagist/php/FastyBird/accounts-module?cache=300&style=flat-square)
-[![PHP code coverage](https://badgen.net/coveralls/c/github/FastyBird/accounts-module?cache=300&style=flat-square)](https://coveralls.io/r/FastyBird/accounts-module)
 [![PHP latest stable](https://badgen.net/packagist/v/FastyBird/accounts-module/latest?cache=300&style=flat-square)](https://packagist.org/packages/FastyBird/accounts-module)
 [![PHP downloads total](https://badgen.net/packagist/dt/FastyBird/accounts-module?cache=300&style=flat-square)](https://packagist.org/packages/FastyBird/accounts-module)
 [![PHPStan](https://img.shields.io/badge/phpstan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
 
+![JS](https://img.shields.io/badge/js-es6-blue.svg?style=flat-square)
 [![JS latest stable](https://badgen.net/npm/v/@fastybird/accounts-module?cache=300&style=flat-square)](https://www.npmjs.com/package/@fastybird/accounts-module)
 [![JS downloads total](https://badgen.net/npm/dt/@fastybird/accounts-module?cache=300&style=flat-square)](https://www.npmjs.com/package/@fastybird/accounts-module)
 ![Types](https://badgen.net/npm/types/@fastybird/accounts-module?cache=300&style=flat-square)
