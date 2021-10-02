@@ -16,6 +16,8 @@ import Email from '@/lib/models/emails/Email'
 import { EmailInterface } from '@/lib/models/emails/types'
 import Identity from '@/lib/models/identities/Identity'
 import { IdentityInterface } from '@/lib/models/identities/types'
+import Role from '@/lib/models/roles/Role'
+import RoleAccount from '@/lib/models/roles-accounts/RoleAccount'
 
 export default class Account extends Model implements AccountInterface {
   static get entity(): string {
@@ -50,6 +52,7 @@ export default class Account extends Model implements AccountInterface {
 
       emails: this.hasMany(Email, 'accountId'),
       identities: this.hasMany(Identity, 'accountId'),
+      roles: this.belongsToMany(Role, RoleAccount, 'accountId', 'roleId')
     }
   }
 
@@ -136,7 +139,7 @@ export default class Account extends Model implements AccountInterface {
     })
   }
 
-  static reset(): void {
-    Account.dispatch('reset')
+  static reset(): Promise<void> {
+    return Account.dispatch('reset')
   }
 }

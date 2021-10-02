@@ -9,6 +9,7 @@ import {
 } from 'jsona/lib/JsonaTypes'
 
 import {
+  AccountDataResponseInterface,
   AccountEntityTypes,
   AccountInterface,
 } from '@/lib/models/accounts/types'
@@ -73,10 +74,12 @@ export interface IdentityDataResponseInterface extends TJsonApiData {
 
 export interface IdentityResponseInterface extends TJsonApiBody {
   data: IdentityDataResponseInterface,
+  includes?: (AccountDataResponseInterface)[],
 }
 
 export interface IdentitiesResponseInterface extends TJsonApiBody {
   data: IdentityDataResponseInterface[],
+  includes?: (AccountDataResponseInterface)[],
 }
 
 // CREATE ENTITY INTERFACES

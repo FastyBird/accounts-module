@@ -124,7 +124,7 @@ const moduleActions: ActionTree<EmailState, any> = {
       )
 
       return true
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.emails.get.failed',
         e,
@@ -159,7 +159,7 @@ const moduleActions: ActionTree<EmailState, any> = {
       })
 
       return true
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.emails.fetch.failed',
         e,
@@ -191,7 +191,7 @@ const moduleActions: ActionTree<EmailState, any> = {
           type: EmailEntityTypes.EMAIL,
         }),
       })
-    } catch (e) {
+    } catch (e: any) {
       commit('CLEAR_SEMAPHORE', {
         type: SemaphoreTypes.CREATING,
         id,
@@ -235,7 +235,7 @@ const moduleActions: ActionTree<EmailState, any> = {
         )
 
         return Email.find(id)
-      } catch (e) {
+      } catch (e: any) {
         // Entity could not be created on api, we have to remove it from database
         await Email.delete(id)
 
@@ -272,7 +272,7 @@ const moduleActions: ActionTree<EmailState, any> = {
         where: payload.email.id,
         data: payload,
       })
-    } catch (e) {
+    } catch (e: any) {
       commit('CLEAR_SEMAPHORE', {
         type: SemaphoreTypes.UPDATING,
         id: payload.email.id,
@@ -322,7 +322,7 @@ const moduleActions: ActionTree<EmailState, any> = {
         )
 
         return Email.find(payload.email.id)
-      } catch (e) {
+      } catch (e: any) {
         const account = Account.find(payload.email.accountId)
 
         // Updating entity on api failed, we need to refresh entity
@@ -380,7 +380,7 @@ const moduleActions: ActionTree<EmailState, any> = {
       )
 
       return Email.find(payload.email.id)
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.emails.save.failed',
         e,
@@ -410,7 +410,7 @@ const moduleActions: ActionTree<EmailState, any> = {
 
     try {
       await Email.delete(payload.email.id)
-    } catch (e) {
+    } catch (e: any) {
       commit('CLEAR_SEMAPHORE', {
         type: SemaphoreTypes.DELETING,
         id: payload.email.id,
@@ -440,7 +440,7 @@ const moduleActions: ActionTree<EmailState, any> = {
         )
 
         return true
-      } catch (e) {
+      } catch (e: any) {
         const account = await Account.find(payload.email.accountId)
 
         // Replacing backup failed, we need to refresh whole list
@@ -481,7 +481,7 @@ const moduleActions: ActionTree<EmailState, any> = {
       )
 
       return true
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.emails.validate.failed',
         e,
@@ -525,7 +525,7 @@ const moduleActions: ActionTree<EmailState, any> = {
 
         try {
           await Email.delete(body.id)
-        } catch (e) {
+        } catch (e: any) {
           throw new OrmError(
             'accounts-module.emails.delete.failed',
             e,
@@ -572,7 +572,7 @@ const moduleActions: ActionTree<EmailState, any> = {
           await Email.insertOrUpdate({
             data: entityData,
           })
-        } catch (e) {
+        } catch (e: any) {
           const failedEntity = Email.query().with('account').where('id', body.id).first()
 
           if (failedEntity !== null && failedEntity.account !== null) {

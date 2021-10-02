@@ -7,6 +7,9 @@ import Email from '@/lib/models/emails/Email'
 import emails from '@/lib/models/emails'
 import Identity from '@/lib/models/identities/Identity'
 import identities from '@/lib/models/identities'
+import Role from '@/lib/models/roles/Role'
+import roles from '@/lib/models/roles'
+import RoleAccount from '@/lib/models/roles-accounts/RoleAccount'
 
 // Import typing
 import { ComponentsInterface, GlobalConfigInterface } from '@/types/accounts-module'
@@ -24,6 +27,8 @@ const install: Plugin = function installVuexOrmWamp(components: ComponentsInterf
   config.database.register(Account, accounts)
   config.database.register(Email, emails)
   config.database.register(Identity, identities)
+  config.database.register(Role, roles)
+  config.database.register(RoleAccount)
 }
 
 // Create module definition for VuexORM.use()
@@ -39,6 +44,8 @@ export {
   Account,
   Email,
   Identity,
+  Role,
+  RoleAccount,
 }
 
 export * from '@/lib/errors'

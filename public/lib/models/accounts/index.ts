@@ -122,10 +122,10 @@ const moduleActions: ActionTree<AccountState, any> = {
 
     try {
       await Account.api().get(
-        `${ModuleApiPrefix}/v1/accounts/${payload.id}?include=emails,identities`,
+        `${ModuleApiPrefix}/v1/accounts/${payload.id}?include=emails,identities,roles`,
         apiOptions,
       )
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.accounts.get.failed',
         e,
@@ -152,14 +152,14 @@ const moduleActions: ActionTree<AccountState, any> = {
 
     try {
       await Account.api().get(
-        `${ModuleApiPrefix}/v1/accounts?include=emails,identities`,
+        `${ModuleApiPrefix}/v1/accounts?include=emails,identities,roles`,
         apiOptions,
       )
 
       commit('SET_FIRST_LOAD', true)
 
       return true
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.accounts.fetch.failed',
         e,
@@ -185,7 +185,7 @@ const moduleActions: ActionTree<AccountState, any> = {
       await Account.insert({
         data: Object.assign({}, payload.data, { id, draft }),
       })
-    } catch (e) {
+    } catch (e: any) {
       commit('CLEAR_SEMAPHORE', {
         type: SemaphoreTypes.CREATING,
         id,
@@ -221,7 +221,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     } else {
       try {
         await Account.api().post(
-          `${ModuleApiPrefix}/v1/accounts?include=emails,identities`,
+          `${ModuleApiPrefix}/v1/accounts?include=emails,identities,roles`,
           jsonApiFormatter.serialize({
             stuff: createdEntity,
           }),
@@ -229,7 +229,7 @@ const moduleActions: ActionTree<AccountState, any> = {
         )
 
         return Account.find(id)
-      } catch (e) {
+      } catch (e: any) {
         // Entity could not be created on api, we have to remove it from database
         await Account.delete(id)
 
@@ -266,7 +266,7 @@ const moduleActions: ActionTree<AccountState, any> = {
         where: payload.account.id,
         data: payload.data,
       })
-    } catch (e) {
+    } catch (e: any) {
       commit('CLEAR_SEMAPHORE', {
         type: SemaphoreTypes.UPDATING,
         id: payload.account.id,
@@ -305,7 +305,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     } else {
       try {
         await Account.api().patch(
-          `${ModuleApiPrefix}/v1/accounts/${updatedEntity.id}?include=emails,identities`,
+          `${ModuleApiPrefix}/v1/accounts/${updatedEntity.id}?include=emails,identities,roles`,
           jsonApiFormatter.serialize({
             stuff: updatedEntity,
           }),
@@ -313,7 +313,7 @@ const moduleActions: ActionTree<AccountState, any> = {
         )
 
         return Account.find(payload.account.id)
-      } catch (e) {
+      } catch (e: any) {
         // Updating entity on api failed, we need to refresh entity
         await Account.dispatch('get', {
           id: payload.account.id,
@@ -360,7 +360,7 @@ const moduleActions: ActionTree<AccountState, any> = {
 
     try {
       await Account.api().post(
-        `${ModuleApiPrefix}/v1/accounts?include=emails,identities`,
+        `${ModuleApiPrefix}/v1/accounts?include=emails,identities,roles`,
         jsonApiFormatter.serialize({
           stuff: entityToSave,
         }),
@@ -368,7 +368,7 @@ const moduleActions: ActionTree<AccountState, any> = {
       )
 
       return Account.find(payload.account.id)
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.accounts.save.failed',
         e,
@@ -398,7 +398,7 @@ const moduleActions: ActionTree<AccountState, any> = {
 
     try {
       await Account.delete(payload.account.id)
-    } catch (e) {
+    } catch (e: any) {
       commit('CLEAR_SEMAPHORE', {
         type: SemaphoreTypes.DELETING,
         id: payload.account.id,
@@ -428,7 +428,7 @@ const moduleActions: ActionTree<AccountState, any> = {
         )
 
         return true
-      } catch (e) {
+      } catch (e: any) {
         // Deleting entity on api failed, we need to refresh entity
         await Account.dispatch('get', {
           id: payload.account.id,
@@ -468,7 +468,7 @@ const moduleActions: ActionTree<AccountState, any> = {
       )
 
       return true
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.accounts.register.failed',
         e,
@@ -526,7 +526,7 @@ const moduleActions: ActionTree<AccountState, any> = {
 
             await Account.delete(body.id)
           }
-        } catch (e) {
+        } catch (e: any) {
           throw new OrmError(
             'accounts-module.accounts.delete.failed',
             e,
@@ -565,7 +565,7 @@ const moduleActions: ActionTree<AccountState, any> = {
           await Account.insertOrUpdate({
             data: entityData,
           })
-        } catch (e) {
+        } catch (e: any) {
           // Updating entity on api failed, we need to refresh entity
           await Account.dispatch('get', {
             id: body.id,

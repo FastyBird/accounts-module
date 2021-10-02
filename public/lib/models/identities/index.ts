@@ -129,7 +129,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
       )
 
       return true
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.identities.get.failed',
         e,
@@ -164,7 +164,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
       })
 
       return true
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.identities.fetch.failed',
         e,
@@ -191,7 +191,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
       await Identity.insert({
         data: Object.assign({}, payload.data, { id, draft, accountId: payload.account.id }),
       })
-    } catch (e) {
+    } catch (e: any) {
       commit('CLEAR_SEMAPHORE', {
         type: SemaphoreTypes.CREATING,
         id,
@@ -235,7 +235,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
         )
 
         return Identity.find(id)
-      } catch (e) {
+      } catch (e: any) {
         await Identity.delete(id)
 
         throw new ApiError(
@@ -307,7 +307,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
         )
 
         return Identity.find(payload.identity.id)
-      } catch (e) {
+      } catch (e: any) {
         throw new ApiError(
           'accounts-module.identities.update.failed',
           e,
@@ -357,7 +357,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
       )
 
       return Identity.find(payload.identity.id)
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.identities.save.failed',
         e,
@@ -387,7 +387,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
 
     try {
       await Identity.delete(payload.identity.id)
-    } catch (e) {
+    } catch (e: any) {
       commit('CLEAR_SEMAPHORE', {
         type: SemaphoreTypes.DELETING,
         id: payload.identity.id,
@@ -417,7 +417,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
         )
 
         return true
-      } catch (e) {
+      } catch (e: any) {
         const account = await Account.find(payload.identity.accountId)
 
         // Replacing backup failed, we need to refresh whole list
@@ -458,7 +458,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
       )
 
       return true
-    } catch (e) {
+    } catch (e: any) {
       throw new ApiError(
         'accounts-module.identities.requestReset.failed',
         e,
@@ -502,7 +502,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
 
         try {
           await Identity.delete(body.id)
-        } catch (e) {
+        } catch (e: any) {
           throw new OrmError(
             'accounts-module.identities.delete.failed',
             e,
@@ -549,7 +549,7 @@ const moduleActions: ActionTree<IdentityState, any> = {
           await Identity.insertOrUpdate({
             data: entityData,
           })
-        } catch (e) {
+        } catch (e: any) {
           const failedEntity = Identity.query().with('account').where('id', body.id).first()
 
           if (failedEntity !== null && failedEntity.account !== null) {

@@ -116,7 +116,7 @@ export default class Email extends Model implements EmailInterface {
     })
   }
 
-  static reset(): void {
-    Email.dispatch('reset')
+  static reset(): Promise<void> {
+    return Email.dispatch('reset')
   }
 }

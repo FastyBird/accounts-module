@@ -9,6 +9,7 @@ import Account from '@/lib/models/accounts/Account'
 import { AccountEntityTypes } from '@/lib/models/accounts/types'
 import { IdentityEntityTypes } from '@/lib/models/identities/types'
 import { EmailEntityTypes } from '@/lib/models/emails/types'
+import { RelationInterface } from '@/lib/types'
 
 const RELATIONSHIP_NAMES_PROP = 'relationshipNames'
 
@@ -88,7 +89,7 @@ class JsonApiModelPropertiesMapper extends ModelPropertiesMapper implements IMod
 
     const relationshipNames = model[RELATIONSHIP_NAMES_PROP]
 
-    const relationships: { [index: string]: any } = {}
+    const relationships: { [index: string]: RelationInterface | RelationInterface[] } = {}
 
     relationshipNames
       .forEach((relationName: string) => {

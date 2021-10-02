@@ -115,31 +115,27 @@ interface AccountRolesRelationshipsResponseInterface extends TJsonApiRelation {
   data: RoleRelationshipResponseInterface[]
 }
 
-interface UserAccountRelationshipsResponseInterface extends TJsonApiRelationships {
+interface AccountRelationshipsResponseInterface extends TJsonApiRelationships {
   emails: AccountEmailsRelationshipsResponseInterface
   identities: AccountIdentitiesRelationshipsResponseInterface
   roles: AccountRolesRelationshipsResponseInterface
 }
 
-interface MachineAccountRelationshipsResponseInterface extends TJsonApiRelationships {
-  identities: AccountIdentitiesRelationshipsResponseInterface
-  roles: AccountRolesRelationshipsResponseInterface
-}
-
-interface AccountDataResponseInterface extends TJsonApiData {
+export interface AccountDataResponseInterface extends TJsonApiData {
   id: string,
   type: AccountEntityTypes,
   attributes: AccountAttributesResponseInterface,
-  relationships: UserAccountRelationshipsResponseInterface | MachineAccountRelationshipsResponseInterface,
+  relationships: AccountRelationshipsResponseInterface,
 }
 
 export interface AccountResponseInterface extends TJsonApiBody {
   data: AccountDataResponseInterface,
-  included?: (EmailDataResponseInterface | IdentityDataResponseInterface)[]
+  included?: (EmailDataResponseInterface | IdentityDataResponseInterface)[],
 }
 
 export interface AccountsResponseInterface extends TJsonApiBody {
   data: AccountDataResponseInterface[],
+  included?: (EmailDataResponseInterface | IdentityDataResponseInterface)[],
 }
 
 // CREATE ENTITY INTERFACES

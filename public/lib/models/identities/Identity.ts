@@ -102,7 +102,7 @@ export default class Identity extends Model implements IdentityInterface {
     })
   }
 
-  static reset(): void {
-    Identity.dispatch('reset')
+  static reset(): Promise<void> {
+    return Identity.dispatch('reset')
   }
 }
