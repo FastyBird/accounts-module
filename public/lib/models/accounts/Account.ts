@@ -52,7 +52,7 @@ export default class Account extends Model implements AccountInterface {
 
       emails: this.hasMany(Email, 'accountId'),
       identities: this.hasMany(Identity, 'accountId'),
-      roles: this.belongsToMany(Role, RoleAccount, 'accountId', 'roleId')
+      roles: this.belongsToMany(Role, RoleAccount, 'accountId', 'roleId'),
     }
   }
 

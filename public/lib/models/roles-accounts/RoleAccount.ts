@@ -1,4 +1,4 @@
-import { Model } from '@vuex-orm/core'
+import { Fields, Model } from '@vuex-orm/core'
 import { RoleAccountInterface } from '@/lib/models/roles-accounts/types'
 
 export default class RoleAccount extends Model implements RoleAccountInterface {
@@ -10,10 +10,10 @@ export default class RoleAccount extends Model implements RoleAccountInterface {
     return ['roleId', 'accountId']
   }
 
-  static fields () {
+  static fields(): Fields {
     return {
       roleId: this.string(null),
-      accountId: this.string(null)
+      accountId: this.string(null),
     }
   }
 

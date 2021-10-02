@@ -29,7 +29,7 @@ export default class Role extends Model implements RoleInterface {
       // Relations
       relationshipNames: this.attr([]),
 
-      account: this.belongsToMany(Account, RoleAccount, 'roleId', 'accountId')
+      account: this.belongsToMany(Account, RoleAccount, 'roleId', 'accountId'),
     }
   }
 
