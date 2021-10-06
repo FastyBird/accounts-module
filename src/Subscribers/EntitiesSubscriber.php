@@ -22,8 +22,8 @@ use Doctrine\Persistence;
 use FastyBird\AccountsModule;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Exceptions;
-use FastyBird\ApplicationExchange\Publisher as ApplicationExchangePublisher;
 use FastyBird\DateTimeFactory;
+use FastyBird\ExchangePlugin\Publisher as ExchangePluginPublisher;
 use FastyBird\ModulesMetadata;
 use Nette;
 use Ramsey\Uuid;
@@ -50,15 +50,15 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 	/** @var DateTimeFactory\DateTimeFactory */
 	private DateTimeFactory\DateTimeFactory $dateTimeFactory;
 
-	/** @var ApplicationExchangePublisher\IPublisher */
-	private ApplicationExchangePublisher\IPublisher $publisher;
+	/** @var ExchangePluginPublisher\IPublisher */
+	private ExchangePluginPublisher\IPublisher $publisher;
 
 	/** @var ORM\EntityManagerInterface */
 	private ORM\EntityManagerInterface $entityManager;
 
 	public function __construct(
 		DateTimeFactory\DateTimeFactory $dateTimeFactory,
-		ApplicationExchangePublisher\IPublisher $publisher,
+		ExchangePluginPublisher\IPublisher $publisher,
 		ORM\EntityManagerInterface $entityManager
 	) {
 		$this->dateTimeFactory = $dateTimeFactory;
@@ -112,7 +112,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			case self::ACTION_CREATED:
 				foreach (AccountsModule\Constants::MESSAGE_BUS_CREATED_ENTITIES_ROUTING_KEYS_MAPPING as $class => $routingKey) {
 					if ($this->validateEntity($entity, $class)) {
-						$publishRoutingKey = $routingKey;
+						$publishRoutingKey = ModulesMetadata\Types\RoutingKeyType::get($routingKey);
 					}
 				}
 
@@ -121,7 +121,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			case self::ACTION_UPDATED:
 				foreach (AccountsModule\Constants::MESSAGE_BUS_UPDATED_ENTITIES_ROUTING_KEYS_MAPPING as $class => $routingKey) {
 					if ($this->validateEntity($entity, $class)) {
-						$publishRoutingKey = $routingKey;
+						$publishRoutingKey = ModulesMetadata\Types\RoutingKeyType::get($routingKey);
 					}
 				}
 
@@ -130,7 +130,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			case self::ACTION_DELETED:
 				foreach (AccountsModule\Constants::MESSAGE_BUS_DELETED_ENTITIES_ROUTING_KEYS_MAPPING as $class => $routingKey) {
 					if ($this->validateEntity($entity, $class)) {
-						$publishRoutingKey = $routingKey;
+						$publishRoutingKey = ModulesMetadata\Types\RoutingKeyType::get($routingKey);
 					}
 				}
 
@@ -139,7 +139,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 
 		if ($publishRoutingKey !== null) {
 			$this->publisher->publish(
-				ModulesMetadata\Constants::MODULE_DEVICES_ORIGIN,
+				ModulesMetadata\Types\ModuleOriginType::get(ModulesMetadata\Types\ModuleOriginType::ORIGIN_MODULE_ACCOUNTS),
 				$publishRoutingKey,
 				$this->toArray($entity)
 			);

@@ -43,7 +43,7 @@ export interface RelationInterface extends TJsonaModel {
   type: AccountEntityTypes | EmailEntityTypes | IdentityEntityTypes | RoleEntityTypes
 }
 
-export const ModuleApiPrefix = `/${ModulePrefix.MODULE_ACCOUNTS_PREFIX}`
+export const ModuleApiPrefix = `/${ModulePrefix.MODULE_ACCOUNTS}`
 
 // STORE
 // =====

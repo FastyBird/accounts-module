@@ -20,7 +20,7 @@ use Doctrine\Persistence;
 use FastyBird\AccountsModule\Exceptions;
 use FastyBird\AccountsModule\Models;
 use FastyBird\AccountsModule\Queries;
-use FastyBird\Database;
+use FastyBird\DatabasePlugin\Helpers as DatabasePluginHelpers;
 use FastyBird\SimpleAuth;
 use Nette\Utils;
 use RuntimeException;
@@ -53,15 +53,15 @@ class InitializeCommand extends Console\Command\Command
 	/** @var Persistence\ManagerRegistry */
 	private Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var Database\Helpers\Database */
-	private Database\Helpers\Database $database;
+	/** @var DatabasePluginHelpers\Database */
+	private DatabasePluginHelpers\Database $database;
 
 	public function __construct(
 		Models\Accounts\IAccountRepository $accountRepository,
 		Models\Roles\IRoleRepository $roleRepository,
 		Models\Roles\IRolesManager $rolesManager,
 		Persistence\ManagerRegistry $managerRegistry,
-		Database\Helpers\Database $database,
+		DatabasePluginHelpers\Database $database,
 		?string $name = null
 	) {
 		$this->accountRepository = $accountRepository;
