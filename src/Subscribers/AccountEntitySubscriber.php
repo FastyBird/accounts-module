@@ -66,9 +66,7 @@ final class AccountEntitySubscriber implements Common\EventSubscriber
 	}
 
 	/**
-	 * Register events
-	 *
-	 * @return string[]
+	 * {@inheritDoc}
 	 */
 	public function getSubscribedEvents(): array
 	{

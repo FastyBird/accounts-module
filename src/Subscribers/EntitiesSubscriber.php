@@ -26,6 +26,7 @@ use FastyBird\DateTimeFactory;
 use FastyBird\ExchangePlugin\Publisher as ExchangePluginPublisher;
 use FastyBird\ModulesMetadata;
 use Nette;
+use Nette\Utils;
 use Ramsey\Uuid;
 use ReflectionClass;
 use ReflectionException;
@@ -66,10 +67,9 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 		$this->entityManager = $entityManager;
 	}
 
+
 	/**
-	 * Register events
-	 *
-	 * @return string[]
+	 * {@inheritDoc}
 	 */
 	public function getSubscribedEvents(): array
 	{
@@ -141,7 +141,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			$this->publisher->publish(
 				ModulesMetadata\Types\ModuleOriginType::get(ModulesMetadata\Types\ModuleOriginType::ORIGIN_MODULE_ACCOUNTS),
 				$publishRoutingKey,
-				$this->toArray($entity)
+				Utils\ArrayHash::from($this->toArray($entity))
 			);
 		}
 	}

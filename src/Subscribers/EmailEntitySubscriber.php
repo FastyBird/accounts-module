@@ -45,9 +45,7 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 	}
 
 	/**
-	 * Register events
-	 *
-	 * @return string[]
+	 * {@inheritDoc}
 	 */
 	public function getSubscribedEvents(): array
 	{
