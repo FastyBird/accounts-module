@@ -1,6 +1,6 @@
 import { Item } from '@vuex-orm/core'
 import * as exchangeEntitySchema from '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.email.json'
-import { ModuleOrigin, EmailEntity as ExchangeEntity, AccountsModule as RoutingKeys } from '@fastybird/modules-metadata'
+import { ModuleOrigin, EmailEntity as ExchangeEntity, AccountsModuleRoutes as RoutingKeys } from '@fastybird/modules-metadata'
 
 import {
   ActionTree,
@@ -497,6 +497,7 @@ const moduleActions: ActionTree<EmailState, any> = {
 
     if (
       ![
+        RoutingKeys.EMAILS_ENTITY_REPORTED,
         RoutingKeys.EMAILS_ENTITY_CREATED,
         RoutingKeys.EMAILS_ENTITY_UPDATED,
         RoutingKeys.EMAILS_ENTITY_DELETED,
@@ -543,7 +544,7 @@ const moduleActions: ActionTree<EmailState, any> = {
         }
 
         commit('SET_SEMAPHORE', {
-          type: payload.routingKey === RoutingKeys.EMAILS_ENTITY_UPDATED ? SemaphoreTypes.UPDATING : SemaphoreTypes.CREATING,
+          type: payload.routingKey === RoutingKeys.EMAILS_ENTITY_REPORTED ? SemaphoreTypes.GETTING : (payload.routingKey === RoutingKeys.EMAILS_ENTITY_UPDATED ? SemaphoreTypes.UPDATING : SemaphoreTypes.CREATING),
           id: body.id,
         })
 

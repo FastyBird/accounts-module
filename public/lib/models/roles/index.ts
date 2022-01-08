@@ -1,5 +1,5 @@
 import * as exchangeEntitySchema from '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.role.json'
-import { ModuleOrigin, RoleEntity as ExchangeEntity, AccountsModule as RoutingKeys } from '@fastybird/modules-metadata'
+import { ModuleOrigin, RoleEntity as ExchangeEntity, AccountsModuleRoutes as RoutingKeys } from '@fastybird/modules-metadata'
 
 import {
   ActionTree,
@@ -161,6 +161,7 @@ const moduleActions: ActionTree<RoleState, any> = {
 
     if (
       ![
+        RoutingKeys.ROLES_ENTITY_REPORTED,
         RoutingKeys.ROLES_ENTITY_CREATED,
         RoutingKeys.ROLES_ENTITY_UPDATED,
         RoutingKeys.ROLES_ENTITY_DELETED,
@@ -203,7 +204,7 @@ const moduleActions: ActionTree<RoleState, any> = {
         }
       } else {
         commit('SET_SEMAPHORE', {
-          type: payload.routingKey === RoutingKeys.ROLES_ENTITY_UPDATED ? SemaphoreTypes.UPDATING : SemaphoreTypes.CREATING,
+          type: payload.routingKey === RoutingKeys.ROLES_ENTITY_REPORTED ? SemaphoreTypes.GETTING : (payload.routingKey === RoutingKeys.ROLES_ENTITY_UPDATED ? SemaphoreTypes.UPDATING : SemaphoreTypes.CREATING),
           id: body.id,
         })
 

@@ -4,7 +4,7 @@ import * as exchangeEntitySchema
 import {
   ModuleOrigin,
   AccountEntity as ExchangeEntity,
-  AccountsModule as RoutingKeys,
+  AccountsModuleRoutes as RoutingKeys,
 } from '@fastybird/modules-metadata'
 
 import {
@@ -484,6 +484,7 @@ const moduleActions: ActionTree<AccountState, any> = {
 
     if (
       ![
+        RoutingKeys.ACCOUNTS_ENTITY_REPORTED,
         RoutingKeys.ACCOUNTS_ENTITY_CREATED,
         RoutingKeys.ACCOUNTS_ENTITY_UPDATED,
         RoutingKeys.ACCOUNTS_ENTITY_DELETED,
@@ -544,7 +545,7 @@ const moduleActions: ActionTree<AccountState, any> = {
         }
 
         commit('SET_SEMAPHORE', {
-          type: payload.routingKey === RoutingKeys.ACCOUNTS_ENTITY_UPDATED ? SemaphoreTypes.UPDATING : SemaphoreTypes.CREATING,
+          type: payload.routingKey === RoutingKeys.ACCOUNTS_ENTITY_REPORTED ? SemaphoreTypes.GETTING : (payload.routingKey === RoutingKeys.ACCOUNTS_ENTITY_UPDATED ? SemaphoreTypes.UPDATING : SemaphoreTypes.CREATING),
           id: body.id,
         })
 
