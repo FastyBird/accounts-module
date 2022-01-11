@@ -1,5 +1,5 @@
-import * as exchangeEntitySchema from '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.role.json'
-import { ModuleOrigin, RoleEntity as ExchangeEntity, AccountsModuleRoutes as RoutingKeys } from '@fastybird/modules-metadata'
+import * as exchangeEntitySchema from '@fastybird/metadata/resources/schemas/modules/accounts-module/entity.role.json'
+import { ModuleOrigin, RoleEntity as ExchangeEntity, AccountsModuleRoutes as RoutingKeys } from '@fastybird/metadata'
 
 import {
   ActionTree,

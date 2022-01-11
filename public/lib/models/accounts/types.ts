@@ -1,4 +1,4 @@
-import { AccountState } from '@fastybird/modules-metadata'
+import { AccountState } from '@fastybird/metadata'
 
 import {
   TJsonApiBody,

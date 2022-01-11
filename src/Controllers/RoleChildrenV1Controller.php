@@ -19,7 +19,6 @@ use FastyBird\AccountsModule\Controllers;
 use FastyBird\AccountsModule\Models;
 use FastyBird\AccountsModule\Queries;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
-use FastyBird\WebServer\Http as WebServerHttp;
 use Psr\Http\Message;
 
 /**
@@ -41,9 +40,6 @@ final class RoleChildrenV1Controller extends BaseV1Controller
 	/** @var Models\Roles\IRoleRepository */
 	private Models\Roles\IRoleRepository $roleRepository;
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.roles';
-
 	public function __construct(
 		Models\Roles\IRoleRepository $roleRepository
 	) {
@@ -52,16 +48,16 @@ final class RoleChildrenV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 */
 	public function index(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		// At first, try to load role
 		$role = $this->findRole($request);
 
@@ -70,8 +66,8 @@ final class RoleChildrenV1Controller extends BaseV1Controller
 
 		$children = $this->roleRepository->getResultSet($findQuery);
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($children));
+		// @phpstan-ignore-next-line
+		return $this->buildResponse($request, $response, $children);
 	}
 
 }

@@ -19,7 +19,7 @@ use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Helpers;
-use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
+use FastyBird\Metadata\Types as MetadataTypes;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Nette\Utils;
@@ -90,9 +90,9 @@ class Identity implements IIdentity
 	protected ?string $plainPassword = null;
 
 	/**
-	 * @var ModulesMetadataTypes\IdentityStateType
+	 * @var MetadataTypes\IdentityStateType
 	 *
-	 * @Enum(class=ModulesMetadataTypes\IdentityStateType::class)
+	 * @Enum(class=MetadataTypes\IdentityStateType::class)
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="string_enum", name="identity_state", nullable=false, options={"default": "active"})
 	 */
@@ -117,7 +117,7 @@ class Identity implements IIdentity
 		$this->account = $account;
 		$this->uid = $uid;
 
-		$this->state = ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_ACTIVE);
+		$this->state = MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_ACTIVE);
 
 		$this->setPassword($password);
 	}
@@ -180,7 +180,7 @@ class Identity implements IIdentity
 	 */
 	public function isActive(): bool
 	{
-		return $this->state === ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_ACTIVE);
+		return $this->state === MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_ACTIVE);
 	}
 
 	/**
@@ -188,7 +188,7 @@ class Identity implements IIdentity
 	 */
 	public function isBlocked(): bool
 	{
-		return $this->state === ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_BLOCKED);
+		return $this->state === MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_BLOCKED);
 	}
 
 	/**
@@ -196,7 +196,7 @@ class Identity implements IIdentity
 	 */
 	public function isDeleted(): bool
 	{
-		return $this->state === ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_DELETED);
+		return $this->state === MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_DELETED);
 	}
 
 	/**
@@ -204,7 +204,7 @@ class Identity implements IIdentity
 	 */
 	public function isInvalid(): bool
 	{
-		return $this->state === ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_INVALID);
+		return $this->state === MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_INVALID);
 	}
 
 	/**
@@ -222,7 +222,7 @@ class Identity implements IIdentity
 	 */
 	public function invalidate(): void
 	{
-		$this->state = ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_INVALID);
+		$this->state = MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_INVALID);
 	}
 
 	/**
@@ -257,7 +257,7 @@ class Identity implements IIdentity
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getState(): ModulesMetadataTypes\IdentityStateType
+	public function getState(): MetadataTypes\IdentityStateType
 	{
 		return $this->state;
 	}
@@ -265,7 +265,7 @@ class Identity implements IIdentity
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setState(ModulesMetadataTypes\IdentityStateType $state): void
+	public function setState(MetadataTypes\IdentityStateType $state): void
 	{
 		$this->state = $state;
 	}
@@ -281,7 +281,7 @@ class Identity implements IIdentity
 	{
 		$this->id = Uuid\Uuid::uuid4();
 		$this->createdAt = new Utils\DateTime();
-		$this->state = ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_ACTIVE);
+		$this->state = MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_ACTIVE);
 	}
 
 }

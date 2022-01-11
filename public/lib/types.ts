@@ -2,7 +2,7 @@ import {
   AccountState,
   IdentityState,
   ModulePrefix,
-} from '@fastybird/modules-metadata'
+} from '@fastybird/metadata'
 
 import { TJsonaModel } from 'jsona/lib/JsonaTypes'
 

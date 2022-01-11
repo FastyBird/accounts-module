@@ -28,7 +28,6 @@ use FastyBird\SimpleAuth\Models as SimpleAuthModels;
 use FastyBird\SimpleAuth\Queries as SimpleAuthQueries;
 use FastyBird\SimpleAuth\Security as SimpleAuthSecurity;
 use FastyBird\SimpleAuth\Types as SimpleAuthTypes;
-use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
 use Nette\Utils;
 use Psr\Http\Message;
@@ -62,9 +61,6 @@ final class SessionV1Controller extends BaseV1Controller
 	/** @var SimpleAuthSecurity\TokenBuilder */
 	private SimpleAuthSecurity\TokenBuilder $tokenBuilder;
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.session';
-
 	/**
 	 * @phpstan-param SimpleAuthModels\Tokens\ITokenRepository<SimpleAuthEntities\Tokens\Token> $tokenRepository
 	 */
@@ -83,9 +79,9 @@ final class SessionV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 *
@@ -94,19 +90,18 @@ final class SessionV1Controller extends BaseV1Controller
 	 */
 	public function read(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$accessToken = $this->getToken($request);
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($accessToken));
+		return $this->buildResponse($request, $response, $accessToken);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
@@ -116,8 +111,8 @@ final class SessionV1Controller extends BaseV1Controller
 	 */
 	public function create(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$document = $this->createDocument($request);
 
 		$attributes = $document->getResource()->getAttributes();
@@ -152,8 +147,8 @@ final class SessionV1Controller extends BaseV1Controller
 			if ($ex instanceof Exceptions\AccountNotFoundException) {
 				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-					$this->translator->translate('messages.unknownAccount.heading'),
-					$this->translator->translate('messages.unknownAccount.message')
+					$this->translator->translate('//accounts-module.session.messages.unknownAccount.heading'),
+					$this->translator->translate('//accounts-module.session.messages.unknownAccount.message')
 				);
 			} elseif ($ex instanceof Exceptions\AuthenticationFailedException) {
 				switch ($ex->getCode()) {
@@ -168,8 +163,8 @@ final class SessionV1Controller extends BaseV1Controller
 					default:
 						throw new JsonApiExceptions\JsonApiErrorException(
 							StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-							$this->translator->translate('messages.unknownAccount.heading'),
-							$this->translator->translate('messages.unknownAccount.message')
+							$this->translator->translate('//accounts-module.session.messages.unknownAccount.heading'),
+							$this->translator->translate('//accounts-module.session.messages.unknownAccount.message')
 						);
 				}
 			} else {
@@ -246,19 +241,15 @@ final class SessionV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withEntity(WebServerHttp\ScalarEntity::from($accessToken))
-			->withStatus(StatusCodeInterface::STATUS_CREATED);
-
-		return $response;
+		$response = $this->buildResponse($request, $response, $accessToken);
+		return $response->withStatus(StatusCodeInterface::STATUS_CREATED);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
@@ -268,8 +259,8 @@ final class SessionV1Controller extends BaseV1Controller
 	 */
 	public function update(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$document = $this->createDocument($request);
 
 		$attributes = $document->getResource()->getAttributes();
@@ -291,8 +282,8 @@ final class SessionV1Controller extends BaseV1Controller
 		if ($refreshToken === null) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('messages.invalidRefreshToken.heading'),
-				$this->translator->translate('messages.invalidRefreshToken.message'),
+				$this->translator->translate('//accounts-module.session.messages.invalidRefreshToken.heading'),
+				$this->translator->translate('//accounts-module.session.messages.invalidRefreshToken.message'),
 				[
 					'pointer' => '/data/attributes/refresh',
 				]
@@ -308,8 +299,8 @@ final class SessionV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('messages.refreshTokenExpired.heading'),
-				$this->translator->translate('messages.refreshTokenExpired.message'),
+				$this->translator->translate('//accounts-module.session.messages.refreshTokenExpired.heading'),
+				$this->translator->translate('//accounts-module.session.messages.refreshTokenExpired.message'),
 				[
 					'pointer' => '/data/attributes/refresh',
 				]
@@ -368,8 +359,8 @@ final class SessionV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('messages.refreshingTokenFailed.heading'),
-				$this->translator->translate('messages.refreshingTokenFailed.message')
+				$this->translator->translate('//accounts-module.session.messages.refreshingTokenFailed.heading'),
+				$this->translator->translate('//accounts-module.session.messages.refreshingTokenFailed.message')
 			);
 
 		} finally {
@@ -379,19 +370,15 @@ final class SessionV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withEntity(WebServerHttp\ScalarEntity::from($newAccessToken))
-			->withStatus(StatusCodeInterface::STATUS_CREATED);
-
-		return $response;
+		$response = $this->buildResponse($request, $response, $newAccessToken);
+		return $response->withStatus(StatusCodeInterface::STATUS_CREATED);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
@@ -401,8 +388,8 @@ final class SessionV1Controller extends BaseV1Controller
 	 */
 	public function delete(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$accessToken = $this->getToken($request);
 
 		try {
@@ -431,8 +418,8 @@ final class SessionV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('messages.destroyingSessionFailed.heading'),
-				$this->translator->translate('messages.destroyingSessionFailed.message')
+				$this->translator->translate('//accounts-module.session.messages.destroyingSessionFailed.heading'),
+				$this->translator->translate('//accounts-module.session.messages.destroyingSessionFailed.message')
 			);
 
 		} finally {
@@ -442,18 +429,14 @@ final class SessionV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withStatus(StatusCodeInterface::STATUS_NO_CONTENT);
-
-		return $response;
+		return $response->withStatus(StatusCodeInterface::STATUS_NO_CONTENT);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 *
@@ -462,13 +445,12 @@ final class SessionV1Controller extends BaseV1Controller
 	 */
 	public function readRelationship(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if ($relationEntity === Schemas\Sessions\SessionSchema::RELATIONSHIPS_ACCOUNT) {
-			return $response
-				->withEntity(WebServerHttp\ScalarEntity::from($this->user->getAccount()));
+			return $this->buildResponse($request, $response, $this->user->getAccount());
 		}
 
 		return parent::readRelationship($request, $response);

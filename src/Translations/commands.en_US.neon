@@ -1,5 +1,5 @@
 #
-# User profile module translations - commands
+# Module translations - commands
 #
 # @language		en_US
 #
@@ -45,7 +45,3 @@ accountCreate:
 			noEmail	: "Account identity could not be created because this account is withnout email address."
 
 	success: "Account \"%name%\" was successfully saved."
-
-sync:
-	validation:
-		notFinished	: "Synchronisation could not be finished: %s"

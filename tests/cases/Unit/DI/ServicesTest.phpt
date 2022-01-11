@@ -8,6 +8,7 @@ use FastyBird\AccountsModule\DI;
 use FastyBird\AccountsModule\Hydrators;
 use FastyBird\AccountsModule\Middleware;
 use FastyBird\AccountsModule\Models;
+use FastyBird\AccountsModule\Router;
 use FastyBird\AccountsModule\Schemas;
 use FastyBird\AccountsModule\Subscribers;
 use Nette;
@@ -56,6 +57,9 @@ final class ServicesTest extends BaseTestCase
 		Assert::notNull($container->getByType(Controllers\RolesV1Controller::class));
 		Assert::notNull($container->getByType(Controllers\RoleChildrenV1Controller::class));
 
+		Assert::notNull($container->getByType(Router\Validator::class));
+		Assert::notNull($container->getByType(Router\Routes::class));
+
 		Assert::notNull($container->getByType(Schemas\Accounts\AccountSchema::class));
 		Assert::notNull($container->getByType(Schemas\Emails\EmailSchema::class));
 		Assert::notNull($container->getByType(Schemas\Sessions\SessionSchema::class));
@@ -75,7 +79,7 @@ final class ServicesTest extends BaseTestCase
 	 */
 	protected function createContainer(): Nette\DI\Container
 	{
-		$rootDir = __DIR__ . '/../../../';
+		$rootDir = __DIR__ . '/../../..';
 
 		$config = new Nette\Configurator();
 		$config->setTempDirectory(TEMP_DIR);

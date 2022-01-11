@@ -1,22 +1,20 @@
 #
-# Accounts module DI configuration
+# Module DI configuration
 #
-# @license		More in LICENSE.md
-# @copyright	https://www.fastybird.com
-# @author		Adam Kadlec <adam.kadlec@fastybird.com>
-# @package		FastyBird:AccountsModule!
-# @subpackage	config
-# @since		0.1.0
+# @license      More in LICENSE.md
+# @copyright    https://www.fastybird.com
+# @author       Adam Kadlec <adam.kadlec@fastybird.com>
+# @package      FastyBird:AccountsModule!
+# @subpackage   config
+# @since        0.1.0
 #
-# @date			25.11.20
+# @date         25.11.20
 
 php:
     date.timezone: Europe/Prague
 
 extensions:
-    contributteConsole                  : Contributte\Console\DI\ConsoleExtension(%consoleMode%)
     contributteTranslation              : Contributte\Translation\DI\TranslationExtension
-    contributteEvents                   : Contributte\EventDispatcher\DI\EventDispatcherExtension
     nettrineAnnotations                 : Nettrine\Annotations\DI\AnnotationsExtension
     nettrineCache                       : Nettrine\Cache\DI\CacheExtension
     nettrineDbal                        : Nettrine\DBAL\DI\DbalExtension
@@ -33,18 +31,9 @@ extensions:
     fbSimpleAuth                        : FastyBird\SimpleAuth\DI\SimpleAuthExtension
     fbSocketServerFactory               : FastyBird\SocketServerFactory\DI\SocketServerFactoryExtension
     fbWebServer                         : FastyBird\WebServer\DI\WebServerExtension(%consoleMode%)
-    fbDatabasePlugin                    : FastyBird\DatabasePlugin\DI\DatabasePluginExtension
-    fbExchangePlugin                    : FastyBird\ExchangePlugin\DI\ExchangePluginExtension
 
-contributteConsole:
-    name: FastyBird:AccountsModule!
-    version: '1.0'
-    catchExceptions: true
-    autoExit: true
-    url: http://accounts-module.fastybird.com
-    lazy: false
-    helperSet: \Symfony\Component\Console\Helper\HelperSet
-    helpers: []
+services:
+    - {factory: Symfony\Component\Console\Application}
 
 contributteTranslation:
     locales:
@@ -53,6 +42,7 @@ contributteTranslation:
     localeResolvers: []
     dirs:
         - %appDir%/../src/Translations
+        - %appDir%/../vendor/fastybird/json-api/src/Translations
 
 nettrineDbal:
     connection:

@@ -22,9 +22,9 @@ use Doctrine\Persistence;
 use FastyBird\AccountsModule;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Exceptions;
+use FastyBird\AccountsModule\Exchange;
 use FastyBird\DateTimeFactory;
-use FastyBird\ExchangePlugin\Publisher as ExchangePluginPublisher;
-use FastyBird\ModulesMetadata;
+use FastyBird\Metadata;
 use Nette;
 use Nette\Utils;
 use Ramsey\Uuid;
@@ -51,16 +51,16 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 	/** @var DateTimeFactory\DateTimeFactory */
 	private DateTimeFactory\DateTimeFactory $dateTimeFactory;
 
-	/** @var ExchangePluginPublisher\IPublisher */
-	private ExchangePluginPublisher\IPublisher $publisher;
+	/** @var Exchange\IPublisher|null */
+	private ?Exchange\IPublisher $publisher;
 
 	/** @var ORM\EntityManagerInterface */
 	private ORM\EntityManagerInterface $entityManager;
 
 	public function __construct(
 		DateTimeFactory\DateTimeFactory $dateTimeFactory,
-		ExchangePluginPublisher\IPublisher $publisher,
-		ORM\EntityManagerInterface $entityManager
+		ORM\EntityManagerInterface $entityManager,
+		?Exchange\IPublisher $publisher = null
 	) {
 		$this->dateTimeFactory = $dateTimeFactory;
 		$this->publisher = $publisher;
@@ -95,7 +95,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			return;
 		}
 
-		$this->processEntityAction($entity, self::ACTION_CREATED);
+		$this->publishEntity($entity, self::ACTION_CREATED);
 	}
 
 	/**
@@ -104,15 +104,19 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 	 *
 	 * @return void
 	 */
-	private function processEntityAction(Entities\IEntity $entity, string $action): void
+	private function publishEntity(Entities\IEntity $entity, string $action): void
 	{
+		if ($this->publisher === null) {
+			return;
+		}
+
 		$publishRoutingKey = null;
 
 		switch ($action) {
 			case self::ACTION_CREATED:
 				foreach (AccountsModule\Constants::MESSAGE_BUS_CREATED_ENTITIES_ROUTING_KEYS_MAPPING as $class => $routingKey) {
 					if ($this->validateEntity($entity, $class)) {
-						$publishRoutingKey = ModulesMetadata\Types\RoutingKeyType::get($routingKey);
+						$publishRoutingKey = Metadata\Types\RoutingKeyType::get($routingKey);
 					}
 				}
 
@@ -121,7 +125,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			case self::ACTION_UPDATED:
 				foreach (AccountsModule\Constants::MESSAGE_BUS_UPDATED_ENTITIES_ROUTING_KEYS_MAPPING as $class => $routingKey) {
 					if ($this->validateEntity($entity, $class)) {
-						$publishRoutingKey = ModulesMetadata\Types\RoutingKeyType::get($routingKey);
+						$publishRoutingKey = Metadata\Types\RoutingKeyType::get($routingKey);
 					}
 				}
 
@@ -130,7 +134,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			case self::ACTION_DELETED:
 				foreach (AccountsModule\Constants::MESSAGE_BUS_DELETED_ENTITIES_ROUTING_KEYS_MAPPING as $class => $routingKey) {
 					if ($this->validateEntity($entity, $class)) {
-						$publishRoutingKey = ModulesMetadata\Types\RoutingKeyType::get($routingKey);
+						$publishRoutingKey = Metadata\Types\RoutingKeyType::get($routingKey);
 					}
 				}
 
@@ -139,7 +143,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 
 		if ($publishRoutingKey !== null) {
 			$this->publisher->publish(
-				ModulesMetadata\Types\ModuleOriginType::get(ModulesMetadata\Types\ModuleOriginType::ORIGIN_MODULE_ACCOUNTS),
+				Metadata\Types\ModuleOriginType::get(Metadata\Types\ModuleOriginType::ORIGIN_MODULE_ACCOUNTS),
 				$publishRoutingKey,
 				Utils\ArrayHash::from($this->toArray($entity))
 			);
@@ -291,7 +295,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			return;
 		}
 
-		$this->processEntityAction($entity, self::ACTION_UPDATED);
+		$this->publishEntity($entity, self::ACTION_UPDATED);
 	}
 
 	/**
@@ -328,7 +332,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 				continue;
 			}
 
-			$this->processEntityAction($entity, self::ACTION_DELETED);
+			$this->publishEntity($entity, self::ACTION_DELETED);
 		}
 	}
 

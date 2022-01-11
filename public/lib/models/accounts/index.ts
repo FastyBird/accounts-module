@@ -1,11 +1,11 @@
 import { Item } from '@vuex-orm/core'
 import * as exchangeEntitySchema
-  from '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.account.json'
+  from '@fastybird/metadata/resources/schemas/modules/accounts-module/entity.account.json'
 import {
   ModuleOrigin,
   AccountEntity as ExchangeEntity,
   AccountsModuleRoutes as RoutingKeys,
-} from '@fastybird/modules-metadata'
+} from '@fastybird/metadata'
 
 import {
   ActionTree,

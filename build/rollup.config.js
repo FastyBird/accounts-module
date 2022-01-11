@@ -61,10 +61,10 @@ const external = [
   'lodash/uniq',
   'uuid',
   'vuex',
-  '@fastybird/modules-metadata',
-  '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.account.json',
-  '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.email.json',
-  '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.identity.json',
+  '@fastybird/metadata',
+  '@fastybird/metadata/resources/schemas/accounts-module/entity.account.json',
+  '@fastybird/metadata/resources/schemas/accounts-module/entity.email.json',
+  '@fastybird/metadata/resources/schemas/accounts-module/entity.identity.json',
   '@vuex-orm/core',
 ];
 
@@ -82,10 +82,10 @@ const globals = {
   'lodash/uniq': 'uniq',
   uuid: 'v4',
   vuex: 'Vuex',
-  '@fastybird/modules-metadata': 'ModulesMetadata',
-  '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.account.json': 'AccountExchangeEntitySchema',
-  '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.email.json': 'EmailExchangeEntitySchema',
-  '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.identity.json': 'IdentityExchangeEntitySchema',
+  '@fastybird/metadata': 'Metadata',
+  '@fastybird/metadata/resources/schemas/accounts-module/entity.account.json': 'AccountExchangeEntitySchema',
+  '@fastybird/metadata/resources/schemas/accounts-module/entity.email.json': 'EmailExchangeEntitySchema',
+  '@fastybird/metadata/resources/schemas/accounts-module/entity.identity.json': 'IdentityExchangeEntitySchema',
   '@vuex-orm/core': 'OrmCore',
 };
 

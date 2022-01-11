@@ -41,7 +41,4 @@ final class ProfileEmailHydrator extends JsonApiHydrators\Hydrator
 		'private' => 'visibility',
 	];
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.emails';
-
 }

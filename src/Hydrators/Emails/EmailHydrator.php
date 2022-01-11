@@ -48,7 +48,4 @@ final class EmailHydrator extends JsonApiHydrators\Hydrator
 		Schemas\Emails\EmailSchema::RELATIONSHIPS_ACCOUNT,
 	];
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.emails';
-
 }

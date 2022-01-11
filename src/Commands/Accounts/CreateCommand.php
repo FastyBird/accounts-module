@@ -15,15 +15,15 @@
 
 namespace FastyBird\AccountsModule\Commands\Accounts;
 
-use Contributte\Translation;
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Exceptions;
 use FastyBird\AccountsModule\Models;
 use FastyBird\AccountsModule\Queries;
-use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
+use FastyBird\Metadata\Types as MetadataTypes;
 use FastyBird\SimpleAuth;
+use Nette\Localization;
 use Nette\Utils;
 use Symfony\Component\Console;
 use Symfony\Component\Console\Input;
@@ -60,11 +60,8 @@ class CreateCommand extends Console\Command\Command
 	/** @var Persistence\ManagerRegistry */
 	private Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var Translation\PrefixedTranslator */
-	private Translation\PrefixedTranslator $translator;
-
-	/** @var string */
-	private string $translationDomain = 'commands.accountCreate';
+	/** @var Localization\Translator */
+	private Localization\Translator $translator;
 
 	public function __construct(
 		Models\Accounts\IAccountsManager $accountsManager,
@@ -72,7 +69,7 @@ class CreateCommand extends Console\Command\Command
 		Models\Emails\IEmailsManager $emailsManager,
 		Models\Identities\IIdentitiesManager $identitiesManager,
 		Models\Roles\IRoleRepository $roleRepository,
-		Translation\Translator $translator,
+		Localization\Translator $translator,
 		Persistence\ManagerRegistry $managerRegistry,
 		?string $name = null
 	) {
@@ -84,7 +81,7 @@ class CreateCommand extends Console\Command\Command
 
 		$this->managerRegistry = $managerRegistry;
 
-		$this->translator = new Translation\PrefixedTranslator($translator, $this->translationDomain);
+		$this->translator = $translator;
 
 		parent::__construct($name);
 	}
@@ -96,11 +93,11 @@ class CreateCommand extends Console\Command\Command
 	{
 		$this
 			->setName('fb:accounts-module:create:account')
-			->addArgument('lastName', Input\InputArgument::OPTIONAL, $this->translator->translate('inputs.lastName.title'))
-			->addArgument('firstName', Input\InputArgument::OPTIONAL, $this->translator->translate('inputs.firstName.title'))
-			->addArgument('email', Input\InputArgument::OPTIONAL, $this->translator->translate('inputs.email.title'))
-			->addArgument('password', Input\InputArgument::OPTIONAL, $this->translator->translate('inputs.password.title'))
-			->addArgument('role', Input\InputArgument::OPTIONAL, $this->translator->translate('inputs.role.title'))
+			->addArgument('lastName', Input\InputArgument::OPTIONAL, $this->translator->translate('//commands.accountCreate.inputs.lastName.title'))
+			->addArgument('firstName', Input\InputArgument::OPTIONAL, $this->translator->translate('//commands.accountCreate.inputs.firstName.title'))
+			->addArgument('email', Input\InputArgument::OPTIONAL, $this->translator->translate('//commands.accountCreate.inputs.email.title'))
+			->addArgument('password', Input\InputArgument::OPTIONAL, $this->translator->translate('//commands.accountCreate.inputs.password.title'))
+			->addArgument('role', Input\InputArgument::OPTIONAL, $this->translator->translate('//commands.accountCreate.inputs.role.title'))
 			->addOption('noconfirm', null, Input\InputOption::VALUE_NONE, 'do not ask for any confirmation')
 			->addOption('injected', null, Input\InputOption::VALUE_NONE, 'do not show all outputs')
 			->setDescription('Create account.');
@@ -124,7 +121,7 @@ class CreateCommand extends Console\Command\Command
 		) {
 			$lastName = $input->getArgument('lastName');
 		} else {
-			$lastName = $io->ask($this->translator->translate('inputs.lastName.title'));
+			$lastName = $io->ask($this->translator->translate('//commands.accountCreate.inputs.lastName.title'));
 		}
 
 		if (
@@ -134,7 +131,7 @@ class CreateCommand extends Console\Command\Command
 		) {
 			$firstName = $input->getArgument('firstName');
 		} else {
-			$firstName = $io->ask($this->translator->translate('inputs.firstName.title'));
+			$firstName = $io->ask($this->translator->translate('//commands.accountCreate.inputs.firstName.title'));
 		}
 
 		if (
@@ -144,12 +141,12 @@ class CreateCommand extends Console\Command\Command
 		) {
 			$emailAddress = $input->getArgument('email');
 		} else {
-			$emailAddress = $io->ask($this->translator->translate('inputs.email.title'));
+			$emailAddress = $io->ask($this->translator->translate('//commands.accountCreate.inputs.email.title'));
 		}
 
 		do {
 			if (!Utils\Validators::isEmail($emailAddress)) {
-				$io->error($this->translator->translate('validation.email.invalid', ['email' => $emailAddress]));
+				$io->error($this->translator->translate('//commands.accountCreate.validation.email.invalid', ['email' => $emailAddress]));
 
 				$repeat = true;
 			} else {
@@ -158,12 +155,12 @@ class CreateCommand extends Console\Command\Command
 				$repeat = $email !== null;
 
 				if ($repeat) {
-					$io->error($this->translator->translate('validation.email.taken', ['email' => $emailAddress]));
+					$io->error($this->translator->translate('//commands.accountCreate.validation.email.taken', ['email' => $emailAddress]));
 				}
 			}
 
 			if ($repeat) {
-				$emailAddress = $io->ask($this->translator->translate('inputs.email.title'));
+				$emailAddress = $io->ask($this->translator->translate('//commands.accountCreate.inputs.email.title'));
 			}
 		} while ($repeat);
 
@@ -187,11 +184,11 @@ class CreateCommand extends Console\Command\Command
 		} else {
 			do {
 				$roleName = $io->choice(
-					$this->translator->translate('inputs.role.title'),
+					$this->translator->translate('//commands.accountCreate.inputs.role.title'),
 					[
-						'U' => $this->translator->translate('inputs.role.values.user'),
-						'M' => $this->translator->translate('inputs.role.values.manager'),
-						'A' => $this->translator->translate('inputs.role.values.administrator'),
+						'U' => $this->translator->translate('//commands.accountCreate.inputs.role.values.user'),
+						'M' => $this->translator->translate('//commands.accountCreate.inputs.role.values.manager'),
+						'A' => $this->translator->translate('//commands.accountCreate.inputs.role.values.administrator'),
 					],
 					'U'
 				);
@@ -227,7 +224,7 @@ class CreateCommand extends Console\Command\Command
 
 			$create = new Utils\ArrayHash();
 			$create->offsetSet('entity', Entities\Accounts\Account::class);
-			$create->offsetSet('state', ModulesMetadataTypes\AccountStateType::get(ModulesMetadataTypes\AccountStateType::STATE_ACTIVE));
+			$create->offsetSet('state', MetadataTypes\AccountStateType::get(MetadataTypes\AccountStateType::STATE_ACTIVE));
 			$create->offsetSet('roles', [$role]);
 
 			$details = new Utils\ArrayHash();
@@ -258,7 +255,7 @@ class CreateCommand extends Console\Command\Command
 
 			$io->error($ex->getMessage());
 
-			$io->error($this->translator->translate('validation.account.wasNotCreated', ['error' => $ex->getMessage()]));
+			$io->error($this->translator->translate('//commands.accountCreate.validation.account.wasNotCreated', ['error' => $ex->getMessage()]));
 
 			return $ex->getCode();
 		}
@@ -270,13 +267,13 @@ class CreateCommand extends Console\Command\Command
 		) {
 			$password = $input->getArgument('password');
 		} else {
-			$password = $io->askHidden($this->translator->translate('inputs.password.title'));
+			$password = $io->askHidden($this->translator->translate('//commands.accountCreate.inputs.password.title'));
 		}
 
 		$email = $account->getEmail();
 
 		if ($email === null) {
-			$io->warning($this->translator->translate('validation.identity.noEmail'));
+			$io->warning($this->translator->translate('//commands.accountCreate.validation.identity.noEmail'));
 
 			return 0;
 		}
@@ -291,7 +288,7 @@ class CreateCommand extends Console\Command\Command
 			$create->offsetSet('account', $account);
 			$create->offsetSet('uid', $email->getAddress());
 			$create->offsetSet('password', $password);
-			$create->offsetSet('state', ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_ACTIVE));
+			$create->offsetSet('state', MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_ACTIVE));
 
 			$this->identitiesManager->create($create);
 
@@ -305,12 +302,12 @@ class CreateCommand extends Console\Command\Command
 
 			$io->error($ex->getMessage());
 
-			$io->error($this->translator->translate('validation.identity.wasNotCreated', ['error' => $ex->getMessage()]));
+			$io->error($this->translator->translate('//commands.accountCreate.validation.identity.wasNotCreated', ['error' => $ex->getMessage()]));
 
 			return $ex->getCode();
 		}
 
-		$io->success($this->translator->translate('success', ['name' => $account->getName()]));
+		$io->success($this->translator->translate('//commands.accountCreate.success', ['name' => $account->getName()]));
 
 		return 0;
 	}

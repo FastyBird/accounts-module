@@ -30,26 +30,30 @@
     }
   ],
 
+  "support" : {
+    "email" : "code@fastybird.com",
+    "issues" : "https://github.com/FastyBird/accounts-module/issues",
+    "source" : "https://github.com/FastyBird/accounts-module"
+  },
+
   "prefer-stable" : true,
 
   "minimum-stability" : "stable",
 
   "require" : {
     "php": ">=7.4.0|>=8.0.0",
-    "contributte/translation": "^0.8",
-    "cweagans/composer-patches": "^1.7",
-    "fastybird/database-plugin": "^0.3",
-    "fastybird/exchange-plugin": "^0.5",
-    "fastybird/json-api": "^0.1",
-    "fastybird/modules-metadata": "^0.22",
-    "fastybird/simple-auth": "^0.1",
-    "fastybird/web-server": "^0.4",
+    "cweagans/composer-patches" : "^1.7",
+    "fastybird/json-api" : "^0.7",
+    "fastybird/metadata" : "^0.25",
+    "fastybird/simple-auth" : "^0.1",
+    "fastybird/web-server" : "^0.6",
     "ipub/doctrine-consistence": "^0.4",
-    "ipub/doctrine-timestampable": "^1.5",
-    "nettrine/orm": "^0.8"
+    "ipub/doctrine-timestampable" : "^1.5",
+    "nettrine/orm" : "^0.8"
   },
 
   "require-dev" : {
+    "contributte/translation" : "^0.9",
     "mockery/mockery" : "^1.4",
     "ninjify/nunjuck" : "^0.3",
     "ninjify/qa" : "^0.12",
@@ -59,7 +63,7 @@
     "phpstan/phpstan-deprecation-rules" : "^0.12",
     "phpstan/phpstan-doctrine" : "^0.12",
     "phpstan/phpstan-nette" : "^0.12",
-    "tracy/tracy" : "^2.8"
+    "tracy/tracy": "^2.9"
   },
 
   "autoload" : {

@@ -43,13 +43,10 @@ final class RoleHydrator extends JsonApiHydrators\Hydrator
 		Schemas\Roles\RoleSchema::RELATIONSHIPS_PARENT,
 	];
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.roles';
-
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function getEntityName(): string
+	public function getEntityName(): string
 	{
 		return Entities\Roles\Role::class;
 	}

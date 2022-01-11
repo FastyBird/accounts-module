@@ -1,4 +1,4 @@
-import { IdentityState } from '@fastybird/modules-metadata'
+import { IdentityState } from '@fastybird/metadata'
 
 import {
   TJsonApiBody,

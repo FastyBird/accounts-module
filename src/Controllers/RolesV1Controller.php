@@ -24,7 +24,6 @@ use FastyBird\AccountsModule\Queries;
 use FastyBird\AccountsModule\Router;
 use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
-use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message;
 use Throwable;
@@ -54,9 +53,6 @@ final class RolesV1Controller extends BaseV1Controller
 	/** @var Hydrators\Roles\RoleHydrator */
 	private Hydrators\Roles\RoleHydrator $roleHydrator;
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.roles';
-
 	public function __construct(
 		Models\Roles\IRoleRepository $roleRepository,
 		Models\Roles\IRolesManager $rolesManager,
@@ -69,45 +65,44 @@ final class RolesV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 */
 	public function index(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$findQuery = new Queries\FindRolesQuery();
 
 		$roles = $this->roleRepository->getResultSet($findQuery);
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($roles));
+		// @phpstan-ignore-next-line
+		return $this->buildResponse($request, $response, $roles);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 */
 	public function read(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$role = $this->findRole($request);
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($role));
+		return $this->buildResponse($request, $response, $role);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
@@ -117,8 +112,8 @@ final class RolesV1Controller extends BaseV1Controller
 	 */
 	public function update(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$document = $this->createDocument($request);
 
 		$role = $this->findRole($request);
@@ -176,33 +171,30 @@ final class RolesV1Controller extends BaseV1Controller
 			}
 		}
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($role));
+		return $this->buildResponse($request, $response, $role);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 */
 	public function readRelationship(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$role = $this->findRole($request);
 
 		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if ($relationEntity === Schemas\Roles\RoleSchema::RELATIONSHIPS_PARENT) {
-			return $response
-				->withEntity(WebServerHttp\ScalarEntity::from($role->getParent()));
+			return $this->buildResponse($request, $response, $role->getParent());
 
 		} elseif ($relationEntity === Schemas\Roles\RoleSchema::RELATIONSHIPS_CHILDREN) {
-			return $response
-				->withEntity(WebServerHttp\ScalarEntity::from($role->getChildren()));
+			return $this->buildResponse($request, $response, $role->getChildren());
 		}
 
 		return parent::readRelationship($request, $response);

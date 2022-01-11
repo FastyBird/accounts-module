@@ -47,13 +47,10 @@ class IdentityHydrator extends JsonApiHydrators\Hydrator
 		Schemas\Identities\IdentitySchema::RELATIONSHIPS_ACCOUNT,
 	];
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.identities';
-
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function getEntityName(): string
+	public function getEntityName(): string
 	{
 		return Entities\Identities\Identity::class;
 	}

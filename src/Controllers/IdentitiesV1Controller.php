@@ -24,7 +24,6 @@ use FastyBird\AccountsModule\Queries;
 use FastyBird\AccountsModule\Router;
 use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
-use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
 use IPub\DoctrineCrud\Exceptions as DoctrineCrudExceptions;
 use Nette\Utils;
@@ -60,9 +59,6 @@ final class IdentitiesV1Controller extends BaseV1Controller
 	/** @var Hydrators\Identities\IdentityHydrator */
 	private Hydrators\Identities\IdentityHydrator $identityHydrator;
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.identities';
-
 	public function __construct(
 		Hydrators\Identities\IdentityHydrator $identityHydrator,
 		Models\Identities\IIdentityRepository $identityRepository,
@@ -78,49 +74,48 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 */
 	public function index(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$findQuery = new Queries\FindIdentitiesQuery();
 		$findQuery->forAccount($this->findAccount($request));
 
 		$identities = $this->identityRepository->getResultSet($findQuery);
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($identities));
+		// @phpstan-ignore-next-line
+		return $this->buildResponse($request, $response, $identities);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 */
 	public function read(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		// Find identity
 		$identity = $this->findIdentity($request, $this->findAccount($request));
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($identity));
+		return $this->buildResponse($request, $response, $identity);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
@@ -130,8 +125,8 @@ final class IdentitiesV1Controller extends BaseV1Controller
 	 */
 	public function create(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		// Get user profile account or url defined account
 		$account = $this->findAccount($request);
 
@@ -233,27 +228,23 @@ final class IdentitiesV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withEntity(WebServerHttp\ScalarEntity::from($identity))
-			->withStatus(StatusCodeInterface::STATUS_CREATED);
-
-		return $response;
+		$response = $this->buildResponse($request, $response, $identity);
+		return $response->withStatus(StatusCodeInterface::STATUS_CREATED);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
 	 */
 	public function update(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$document = $this->createDocument($request);
 
 		$account = $this->findAccount($request);
@@ -316,33 +307,28 @@ final class IdentitiesV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withEntity(WebServerHttp\ScalarEntity::from($identity));
-
-		return $response;
+		return $this->buildResponse($request, $response, $identity);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 */
 	public function readRelationship(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$identity = $this->findIdentity($request, $this->findAccount($request));
 
 		// & relation entity name
 		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if ($relationEntity === Schemas\Identities\IdentitySchema::RELATIONSHIPS_ACCOUNT) {
-			return $response
-				->withEntity(WebServerHttp\ScalarEntity::from($identity->getAccount()));
+			return $this->buildResponse($request, $response, $identity->getAccount());
 		}
 
 		return parent::readRelationship($request, $response);

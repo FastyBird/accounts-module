@@ -18,7 +18,7 @@ namespace FastyBird\AccountsModule\Hydrators\Accounts;
 use Contributte\Translation;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
-use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
+use FastyBird\Metadata\Types as MetadataTypes;
 use Fig\Http\Message\StatusCodeInterface;
 use IPub\JsonAPIDocument;
 use Nette\Utils;
@@ -39,7 +39,7 @@ trait TAccountHydrator
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function getEntityName(): string
+	public function getEntityName(): string
 	{
 		return Entities\Accounts\Account::class;
 	}
@@ -208,17 +208,17 @@ trait TAccountHydrator
 	/**
 	 * @param JsonAPIDocument\Objects\IStandardObject $attributes
 	 *
-	 * @return ModulesMetadataTypes\AccountStateType
+	 * @return MetadataTypes\AccountStateType
 	 *
 	 * @throws JsonApiExceptions\JsonApiErrorException
 	 * @throws Translation\Exceptions\InvalidArgument
 	 */
 	protected function hydrateStateAttribute(
 		JsonAPIDocument\Objects\IStandardObject $attributes
-	): ModulesMetadataTypes\AccountStateType {
+	): MetadataTypes\AccountStateType {
 		if (
 			!is_scalar($attributes->get('state'))
-			|| !ModulesMetadataTypes\AccountStateType::isValidValue((string) $attributes->get('state'))
+			|| !MetadataTypes\AccountStateType::isValidValue((string) $attributes->get('state'))
 		) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
@@ -230,7 +230,7 @@ trait TAccountHydrator
 			);
 		}
 
-		return ModulesMetadataTypes\AccountStateType::get((string) $attributes->get('state'));
+		return MetadataTypes\AccountStateType::get((string) $attributes->get('state'));
 	}
 
 }

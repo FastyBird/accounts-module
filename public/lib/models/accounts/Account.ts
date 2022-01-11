@@ -3,7 +3,7 @@ import {
   Item,
   Model,
 } from '@vuex-orm/core'
-import { AccountState } from '@fastybird/modules-metadata'
+import { AccountState } from '@fastybird/metadata'
 
 import {
   AccountInterface,

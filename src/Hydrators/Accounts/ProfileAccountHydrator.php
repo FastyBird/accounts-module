@@ -53,7 +53,4 @@ final class ProfileAccountHydrator extends JsonApiHydrators\Hydrator
 		Schemas\Accounts\AccountSchema::RELATIONSHIPS_ROLES,
 	];
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.accounts';
-
 }

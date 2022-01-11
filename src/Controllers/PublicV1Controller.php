@@ -23,7 +23,6 @@ use FastyBird\AccountsModule\Models;
 use FastyBird\AccountsModule\Queries;
 use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
-use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
 use Nette\Utils;
 use Psr\Http\Message;
@@ -51,9 +50,6 @@ final class PublicV1Controller extends BaseV1Controller
 	/** @var Helpers\SecurityHash */
 	private Helpers\SecurityHash $securityHash;
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.public';
-
 	public function __construct(
 		Models\Identities\IIdentityRepository $identityRepository,
 		Models\Accounts\IAccountsManager $accountsManager,
@@ -67,31 +63,27 @@ final class PublicV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @Secured
 	 * @Secured\User(guest)
 	 */
 	public function register(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		// TODO: Registration not implemented yet
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withStatus(StatusCodeInterface::STATUS_ACCEPTED);
-
-		return $response;
+		return $response->withStatus(StatusCodeInterface::STATUS_ACCEPTED);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
@@ -101,8 +93,8 @@ final class PublicV1Controller extends BaseV1Controller
 	 */
 	public function resetIdentity(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$document = $this->createDocument($request);
 
 		$attributes = $document->getResource()->getAttributes();
@@ -173,8 +165,8 @@ final class PublicV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('messages.notActivated.heading'),
-				$this->translator->translate('messages.notActivated.message'),
+				$this->translator->translate('//accounts-module.public.messages.notActivated.heading'),
+				$this->translator->translate('//accounts-module.public.messages.notActivated.message'),
 				[
 					'pointer' => '/data/attributes/uid',
 				]
@@ -183,8 +175,8 @@ final class PublicV1Controller extends BaseV1Controller
 		} elseif ($account->isBlocked()) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('messages.blocked.heading'),
-				$this->translator->translate('messages.blocked.message'),
+				$this->translator->translate('//accounts-module.public.messages.blocked.heading'),
+				$this->translator->translate('//accounts-module.public.messages.blocked.message'),
 				[
 					'pointer' => '/data/attributes/uid',
 				]
@@ -219,8 +211,8 @@ final class PublicV1Controller extends BaseV1Controller
 
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('messages.requestNotSent.heading'),
-				$this->translator->translate('messages.requestNotSent.message'),
+				$this->translator->translate('//accounts-module.public.messages.requestNotSent.heading'),
+				$this->translator->translate('//accounts-module.public.messages.requestNotSent.message'),
 				[
 					'pointer' => '/data/attributes/uid',
 				]
@@ -233,11 +225,7 @@ final class PublicV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withStatus(StatusCodeInterface::STATUS_NO_CONTENT);
-
-		return $response;
+		return $response->withStatus(StatusCodeInterface::STATUS_NO_CONTENT);
 	}
 
 }

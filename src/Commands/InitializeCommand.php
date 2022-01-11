@@ -10,19 +10,12 @@
  * @subpackage     Commands
  * @since          0.1.0
  *
- * @date           31.07.20
+ * @date           08.08.20
  */
 
 namespace FastyBird\AccountsModule\Commands;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\Persistence;
-use FastyBird\AccountsModule\Exceptions;
-use FastyBird\AccountsModule\Models;
-use FastyBird\AccountsModule\Queries;
-use FastyBird\DatabasePlugin\Helpers as DatabasePluginHelpers;
-use FastyBird\SimpleAuth;
-use Nette\Utils;
+use Psr\Log;
 use RuntimeException;
 use Symfony\Component\Console;
 use Symfony\Component\Console\Input;
@@ -41,38 +34,16 @@ use Throwable;
 class InitializeCommand extends Console\Command\Command
 {
 
-	/** @var Models\Accounts\IAccountRepository */
-	private Models\Accounts\IAccountRepository $accountRepository;
-
-	/** @var Models\Roles\IRoleRepository */
-	private Models\Roles\IRoleRepository $roleRepository;
-
-	/** @var Models\Roles\IRolesManager */
-	private Models\Roles\IRolesManager $rolesManager;
-
-	/** @var Persistence\ManagerRegistry */
-	private Persistence\ManagerRegistry $managerRegistry;
-
-	/** @var DatabasePluginHelpers\Database */
-	private DatabasePluginHelpers\Database $database;
+	/** @var Log\LoggerInterface */
+	private Log\LoggerInterface $logger;
 
 	public function __construct(
-		Models\Accounts\IAccountRepository $accountRepository,
-		Models\Roles\IRoleRepository $roleRepository,
-		Models\Roles\IRolesManager $rolesManager,
-		Persistence\ManagerRegistry $managerRegistry,
-		DatabasePluginHelpers\Database $database,
+		?Log\LoggerInterface $logger = null,
 		?string $name = null
 	) {
-		$this->accountRepository = $accountRepository;
-		$this->roleRepository = $roleRepository;
-		$this->rolesManager = $rolesManager;
-
-		$this->managerRegistry = $managerRegistry;
-
-		$this->database = $database;
-
 		parent::__construct($name);
+
+		$this->logger = $logger ?? new Log\NullLogger();
 	}
 
 	/**
@@ -101,7 +72,7 @@ class InitializeCommand extends Console\Command\Command
 
 		$io->title('FB accounts module - initialization');
 
-		$io->note('This action will create or update node database structure, create initial data and initialize administrator account.');
+		$io->note('This action will create|update module database structure.');
 
 		/** @var bool $continue */
 		$continue = $io->ask('Would you like to continue?', 'n', function ($answer): bool {
@@ -116,154 +87,52 @@ class InitializeCommand extends Console\Command\Command
 			return 0;
 		}
 
-		$io->section('Checking database connection');
-
 		try {
-			if (!$this->database->ping()) {
-				$io->error('Connection to the database could not be established. Check configuration.');
+			$io->section('Preparing module database');
+
+			$databaseCmd = $symfonyApp->find('orm:schema-tool:update');
+
+			$result = $databaseCmd->run(new Input\ArrayInput([
+				'--force' => true,
+			]), $output);
+
+			if ($result !== 0) {
+				$io->error('Something went wrong, initialization could not be finished.');
 
 				return 1;
 			}
+
+			$databaseProxiesCmd = $symfonyApp->find('orm:generate-proxies');
+
+			$result = $databaseProxiesCmd->run(new Input\ArrayInput([
+				'--quiet' => true,
+			]), $output);
+
+			if ($result !== 0) {
+				$io->error('Something went wrong, initialization could not be finished.');
+
+				return 1;
+			}
+
+			$io->newLine(3);
+
+			$io->success('Accounts module has been successfully initialized and can be now started.');
+
+			return 0;
+
 		} catch (Throwable $ex) {
-			$io->error('Something went wrong, initialization could not be finished.');
+			// Log caught exception
+			$this->logger->error('[FB:ACCOUNTS_MODULE:CMD] ' . $ex->getMessage(), [
+				'exception' => [
+					'message' => $ex->getMessage(),
+					'code'    => $ex->getCode(),
+				],
+			]);
+
+			$io->error('Something went wrong, initialization could not be finished. Error was logged.');
 
 			return 1;
 		}
-
-		$io->section('Preparing module database');
-
-		$databaseCmd = $symfonyApp->find('orm:schema-tool:update');
-
-		$result = $databaseCmd->run(new Input\ArrayInput([
-			'--force' => true,
-		]), $output);
-
-		if ($result !== 0) {
-			$io->error('Something went wrong, initialization could not be finished.');
-
-			return 1;
-		}
-
-		$databaseProxiesCmd = $symfonyApp->find('orm:generate-proxies');
-
-		$result = $databaseProxiesCmd->run(new Input\ArrayInput([
-			'--quiet' => true,
-		]), $output);
-
-		if ($result !== 0) {
-			$io->error('Something went wrong, initialization could not be finished.');
-
-			return 1;
-		}
-
-		$io->newLine();
-
-		$io->section('Preparing initial data');
-
-		$allRoles = [
-			SimpleAuth\Constants::ROLE_ANONYMOUS,
-			SimpleAuth\Constants::ROLE_VISITOR,
-			SimpleAuth\Constants::ROLE_USER,
-			SimpleAuth\Constants::ROLE_MANAGER,
-			SimpleAuth\Constants::ROLE_ADMINISTRATOR,
-		];
-
-		try {
-			// Start transaction connection to the database
-			$this->getOrmConnection()->beginTransaction();
-
-			$parent = null;
-
-			// Roles initialization
-			foreach ($allRoles as $roleName) {
-				$findRole = new Queries\FindRolesQuery();
-				$findRole->byName($roleName);
-
-				$role = $this->roleRepository->findOneBy($findRole);
-
-				if ($role === null) {
-					$create = new Utils\ArrayHash();
-					$create->offsetSet('name', $roleName);
-					$create->offsetSet('description', $roleName);
-					$create->offsetSet('parent', $parent);
-
-					$parent = $this->rolesManager->create($create);
-				}
-			}
-
-			// Commit all changes into database
-			$this->getOrmConnection()->commit();
-		} catch (Throwable $ex) {
-			// Revert all changes when error occur
-			if ($this->getOrmConnection()->isTransactionActive()) {
-				$this->getOrmConnection()->rollBack();
-			}
-
-			$io->error($ex->getMessage());
-
-			$io->error('Initial data could not be created.');
-
-			return $ex->getCode();
-		}
-
-		$io->success('All initial data has been successfully created.');
-
-		$io->newLine();
-
-		$io->section('Checking for administrator account');
-
-		$findRole = new Queries\FindRolesQuery();
-		$findRole->byName(SimpleAuth\Constants::ROLE_ADMINISTRATOR);
-
-		$administratorRole = $this->roleRepository->findOneBy($findRole);
-
-		if ($administratorRole !== null) {
-			$findAccounts = new Queries\FindAccountsQuery();
-			$findAccounts->inRole($administratorRole);
-
-			$accounts = $this->accountRepository->findAllBy($findAccounts);
-
-			if (count($accounts) === 0) {
-				$accountCmd = $symfonyApp->find('fb:accounts-module:create:account');
-
-				$result = $accountCmd->run(new Input\ArrayInput([
-					'role'       => SimpleAuth\Constants::ROLE_ADMINISTRATOR,
-					'--injected' => true,
-				]), $output);
-
-				if ($result !== 0) {
-					$io->error('Something went wrong, initialization could not be finished.');
-
-					return 1;
-				}
-			} else {
-				$io->success('There is existing administrator account.');
-			}
-		} else {
-			$io->error('Something went wrong, administrator role could not be found.');
-
-			return 1;
-		}
-
-		$io->newLine(3);
-
-		$io->success('Accounts module has been successfully initialized and can be now started.');
-
-		return 0;
-	}
-
-	/**
-	 * @return Connection
-	 */
-	protected function getOrmConnection(): Connection
-	{
-		$connection = $this->managerRegistry->getConnection();
-
-		if ($connection instanceof Connection) {
-			return $connection;
-		}
-
-		throw new Exceptions\RuntimeException('Entity manager could not be loaded');
 	}
 
 }

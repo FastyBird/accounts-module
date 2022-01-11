@@ -33,7 +33,7 @@ trait TEmailHydrator
 	/**
 	 * @return string
 	 */
-	protected function getEntityName(): string
+	public function getEntityName(): string
 	{
 		return Entities\Emails\Email::class;
 	}

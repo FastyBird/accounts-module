@@ -24,8 +24,7 @@ use FastyBird\AccountsModule\Queries;
 use FastyBird\AccountsModule\Router;
 use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
-use FastyBird\ModulesMetadata\Types as ModulesMetadataTypes;
-use FastyBird\WebServer\Http as WebServerHttp;
+use FastyBird\Metadata\Types as MetadataTypes;
 use Fig\Http\Message\StatusCodeInterface;
 use IPub\DoctrineCrud\Exceptions as DoctrineCrudExceptions;
 use Nette\Utils;
@@ -59,9 +58,6 @@ final class AccountsV1Controller extends BaseV1Controller
 	/** @var Models\Identities\IIdentitiesManager */
 	private Models\Identities\IIdentitiesManager $identitiesManager;
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.accounts';
-
 	public function __construct(
 		Hydrators\Accounts\AccountHydrator $accountHydrator,
 		Models\Accounts\IAccountRepository $accountRepository,
@@ -77,54 +73,53 @@ final class AccountsV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 */
 	public function index(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$findQuery = new Queries\FindAccountsQuery();
 
 		$accounts = $this->accountRepository->getResultSet($findQuery);
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($accounts));
+		// @phpstan-ignore-next-line
+		return $this->buildResponse($request, $response, $accounts);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 */
 	public function read(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		// Find account
 		$account = $this->findAccount($request);
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($account));
+		return $this->buildResponse($request, $response, $account);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
 	 */
 	public function create(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$document = $this->createDocument($request);
 
 		try {
@@ -229,27 +224,23 @@ final class AccountsV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withEntity(WebServerHttp\ScalarEntity::from($account))
-			->withStatus(StatusCodeInterface::STATUS_CREATED);
-
-		return $response;
+		$response = $this->buildResponse($request, $response, $account);
+		return $response->withStatus(StatusCodeInterface::STATUS_CREATED);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
 	 */
 	public function update(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$document = $this->createDocument($request);
 
 		$account = $this->findAccount($request);
@@ -317,26 +308,22 @@ final class AccountsV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withEntity(WebServerHttp\ScalarEntity::from($account));
-
-		return $response;
+		return $this->buildResponse($request, $response, $account);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
 	 */
 	public function delete(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$account = $this->findAccount($request);
 
 		if (
@@ -345,8 +332,8 @@ final class AccountsV1Controller extends BaseV1Controller
 		) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('messages.selfNotDeletable.heading'),
-				$this->translator->translate('messages.selfNotDeletable.message')
+				$this->translator->translate('//accounts-module.accounts.messages.selfNotDeletable.heading'),
+				$this->translator->translate('//accounts-module.accounts.messages.selfNotDeletable.message')
 			);
 		}
 
@@ -355,14 +342,14 @@ final class AccountsV1Controller extends BaseV1Controller
 			$this->getOrmConnection()->beginTransaction();
 
 			$updateData = Utils\ArrayHash::from([
-				'state' => ModulesMetadataTypes\AccountStateType::get(ModulesMetadataTypes\AccountStateType::STATE_DELETED),
+				'state' => MetadataTypes\AccountStateType::get(MetadataTypes\AccountStateType::STATE_DELETED),
 			]);
 
 			$this->accountsManager->update($account, $updateData);
 
 			foreach ($account->getIdentities() as $identity) {
 				$updateIdentity = Utils\ArrayHash::from([
-					'state' => ModulesMetadataTypes\IdentityStateType::get(ModulesMetadataTypes\IdentityStateType::STATE_DELETED),
+					'state' => MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_DELETED),
 				]);
 
 				$this->identitiesManager->update($identity, $updateIdentity);
@@ -393,25 +380,21 @@ final class AccountsV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withStatus(StatusCodeInterface::STATUS_NO_CONTENT);
-
-		return $response;
+		return $response->withStatus(StatusCodeInterface::STATUS_NO_CONTENT);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 */
 	public function readRelationship(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		// At first, try to load account
 		$account = $this->findAccount($request);
 
@@ -419,18 +402,15 @@ final class AccountsV1Controller extends BaseV1Controller
 		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if ($relationEntity === Schemas\Accounts\AccountSchema::RELATIONSHIPS_IDENTITIES) {
-			return $response
-				->withEntity(WebServerHttp\ScalarEntity::from($account->getIdentities()));
+			return $this->buildResponse($request, $response, $account->getIdentities());
 
 		} elseif ($relationEntity === Schemas\Accounts\AccountSchema::RELATIONSHIPS_ROLES) {
-			return $response
-				->withEntity(WebServerHttp\ScalarEntity::from($account->getRoles()));
+			return $this->buildResponse($request, $response, $account->getRoles());
 		}
 
 		if ($account instanceof Entities\Accounts\IAccount) {
 			if ($relationEntity === Schemas\Accounts\AccountSchema::RELATIONSHIPS_EMAILS) {
-				return $response
-					->withEntity(WebServerHttp\ScalarEntity::from($account->getEmails()));
+				return $this->buildResponse($request, $response, $account->getEmails());
 			}
 		}
 

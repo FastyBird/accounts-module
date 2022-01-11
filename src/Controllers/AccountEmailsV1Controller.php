@@ -26,7 +26,6 @@ use FastyBird\AccountsModule\Queries;
 use FastyBird\AccountsModule\Router;
 use FastyBird\AccountsModule\Schemas;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
-use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
 use IPub\DoctrineCrud\Exceptions as DoctrineCrudExceptions;
 use Nette\Utils;
@@ -58,9 +57,6 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 	/** @var Helpers\SecurityHash */
 	private Helpers\SecurityHash $securityHash;
 
-	/** @var string */
-	protected string $translationDomain = 'accounts-module.emails';
-
 	public function __construct(
 		Hydrators\Emails\ProfileEmailHydrator $emailHydrator,
 		Models\Emails\IEmailRepository $emailRepository,
@@ -77,9 +73,9 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 *
@@ -88,22 +84,22 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 	 */
 	public function index(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$findQuery = new Queries\FindEmailsQuery();
 		$findQuery->forAccount($this->findAccount());
 
 		$emails = $this->emailRepository->getResultSet($findQuery);
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($emails));
+		// @phpstan-ignore-next-line
+		return $this->buildResponse($request, $response, $emails);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 *
@@ -112,20 +108,19 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 	 */
 	public function read(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		// Find email
 		$email = $this->findEmail($request, $this->findAccount());
 
-		return $response
-			->withEntity(WebServerHttp\ScalarEntity::from($email));
+		return $this->buildResponse($request, $response, $email);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
@@ -135,8 +130,8 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 	 */
 	public function create(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		// Get user profile account or url defined account
 		$account = $this->findAccount();
 
@@ -182,8 +177,8 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 		} catch (Exceptions\EmailAlreadyTakenException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('messages.taken.heading'),
-				$this->translator->translate('messages.taken.message'),
+				$this->translator->translate('//accounts-module.emails.messages.taken.heading'),
+				$this->translator->translate('//accounts-module.emails.messages.taken.message'),
 				[
 					'pointer' => '/data/attributes/address',
 				]
@@ -257,19 +252,15 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withEntity(WebServerHttp\ScalarEntity::from($email))
-			->withStatus(StatusCodeInterface::STATUS_CREATED);
-
-		return $response;
+		$response = $this->buildResponse($request, $response, $email);
+		return $response->withStatus(StatusCodeInterface::STATUS_CREATED);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
@@ -279,8 +270,8 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 	 */
 	public function update(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$document = $this->createDocument($request);
 
 		$email = $this->findEmail($request, $this->findAccount());
@@ -338,18 +329,14 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withEntity(WebServerHttp\ScalarEntity::from($email));
-
-		return $response;
+		return $this->buildResponse($request, $response, $email);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Doctrine\DBAL\ConnectionException
@@ -359,15 +346,15 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 	 */
 	public function delete(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		$email = $this->findEmail($request, $this->findAccount());
 
 		if ($email->isDefault()) {
 			throw new JsonApiExceptions\JsonApiErrorException(
 				StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
-				$this->translator->translate('messages.defaultNotDeletable.heading'),
-				$this->translator->translate('messages.defaultNotDeletable.message')
+				$this->translator->translate('//accounts-module.emails.messages.defaultNotDeletable.heading'),
+				$this->translator->translate('//accounts-module.emails.messages.defaultNotDeletable.message')
 			);
 		}
 
@@ -402,18 +389,14 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 			}
 		}
 
-		/** @var WebServerHttp\Response $response */
-		$response = $response
-			->withStatus(StatusCodeInterface::STATUS_NO_CONTENT);
-
-		return $response;
+		return $response->withStatus(StatusCodeInterface::STATUS_NO_CONTENT);
 	}
 
 	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
-	 * @return WebServerHttp\Response
+	 * @return Message\ResponseInterface
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 *
@@ -422,8 +405,8 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 	 */
 	public function readRelationship(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): Message\ResponseInterface {
 		// At first, try to load email
 		$email = $this->findEmail($request, $this->findAccount());
 
@@ -431,8 +414,7 @@ final class AccountEmailsV1Controller extends BaseV1Controller
 		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
 		if ($relationEntity === Schemas\Emails\EmailSchema::RELATIONSHIPS_ACCOUNT) {
-			return $response
-				->withEntity(WebServerHttp\ScalarEntity::from($email->getAccount()));
+			return $this->buildResponse($request, $response, $email->getAccount());
 		}
 
 		return parent::readRelationship($request, $response);

@@ -10,12 +10,11 @@
  * @subpackage     Controllers
  * @since          0.1.0
  *
- * @date           31.03.20
+ * @date           13.04.19
  */
 
 namespace FastyBird\AccountsModule\Controllers;
 
-use Contributte\Translation;
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence;
 use FastyBird\AccountsModule\Entities;
@@ -23,14 +22,19 @@ use FastyBird\AccountsModule\Exceptions;
 use FastyBird\AccountsModule\Router;
 use FastyBird\AccountsModule\Security;
 use FastyBird\DateTimeFactory;
+use FastyBird\JsonApi\Builder as JsonApiBuilder;
 use FastyBird\JsonApi\Exceptions as JsonApiExceptions;
-use FastyBird\WebServer\Http as WebServerHttp;
+use FastyBird\JsonApi\Hydrators as JsonApiHydrators;
 use Fig\Http\Message\RequestMethodInterface;
 use Fig\Http\Message\StatusCodeInterface;
+use IPub\DoctrineCrud;
+use IPub\DoctrineOrmQuery\ResultSet;
 use IPub\JsonAPIDocument;
 use Nette;
+use Nette\Localization;
 use Nette\Utils;
 use Psr\Http\Message;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log;
 
 /**
@@ -52,17 +56,23 @@ abstract class BaseV1Controller
 	/** @var DateTimeFactory\DateTimeFactory */
 	protected DateTimeFactory\DateTimeFactory $dateFactory;
 
-	/** @var Translation\PrefixedTranslator */
-	protected Translation\PrefixedTranslator $translator;
+	/** @var Localization\Translator */
+	protected Localization\Translator $translator;
 
 	/** @var Persistence\ManagerRegistry */
 	protected Persistence\ManagerRegistry $managerRegistry;
 
+	/** @var JsonApiBuilder\Builder */
+	protected JsonApiBuilder\Builder $builder;
+
+	/** @var Router\Validator */
+	protected Router\Validator $routesValidator;
+
+	/** @var JsonApiHydrators\HydratorsContainer */
+	protected JsonApiHydrators\HydratorsContainer $hydratorsContainer;
+
 	/** @var Log\LoggerInterface */
 	protected Log\LoggerInterface $logger;
-
-	/** @var string */
-	protected string $translationDomain = '';
 
 	/**
 	 * @param Security\User $user
@@ -85,13 +95,13 @@ abstract class BaseV1Controller
 	}
 
 	/**
-	 * @param Translation\Translator $translator
+	 * @param Localization\Translator $translator
 	 *
 	 * @return void
 	 */
-	public function injectTranslator(Translation\Translator $translator): void
+	public function injectTranslator(Localization\Translator $translator): void
 	{
-		$this->translator = new Translation\PrefixedTranslator($translator, $this->translationDomain);
+		$this->translator = $translator;
 	}
 
 	/**
@@ -115,15 +125,45 @@ abstract class BaseV1Controller
 	}
 
 	/**
+	 * @param JsonApiBuilder\Builder $builder
+	 *
+	 * @return void
+	 */
+	public function injectJsonApiBuilder(JsonApiBuilder\Builder $builder): void
+	{
+		$this->builder = $builder;
+	}
+
+	/**
+	 * @param Router\Validator $validator
+	 *
+	 * @return void
+	 */
+	public function injectRoutesValidator(Router\Validator $validator): void
+	{
+		$this->routesValidator = $validator;
+	}
+
+	/**
+	 * @param JsonApiHydrators\HydratorsContainer $hydratorsContainer
+	 *
+	 * @return void
+	 */
+	public function injectHydratorsContainer(JsonApiHydrators\HydratorsContainer $hydratorsContainer): void
+	{
+		$this->hydratorsContainer = $hydratorsContainer;
+	}
+
+	/**
 	 * @param Message\ServerRequestInterface $request
-	 * @param WebServerHttp\Response $response
+	 * @param Message\ResponseInterface $response
 	 *
 	 * @throws JsonApiExceptions\IJsonApiException
 	 */
 	public function readRelationship(
 		Message\ServerRequestInterface $request,
-		WebServerHttp\Response $response
-	): WebServerHttp\Response {
+		Message\ResponseInterface $response
+	): ResponseInterface {
 		// & relation entity name
 		$relationEntity = strtolower($request->getAttribute(Router\Routes::RELATION_ENTITY));
 
@@ -152,8 +192,7 @@ abstract class BaseV1Controller
 	protected function createDocument(Message\ServerRequestInterface $request): JsonAPIDocument\IDocument
 	{
 		try {
-			$document = new JsonAPIDocument\Document(Utils\Json::decode($request->getBody()
-				->getContents()));
+			$document = new JsonAPIDocument\Document(Utils\Json::decode($request->getBody()->getContents()));
 
 		} catch (Utils\JsonException $ex) {
 			throw new JsonApiExceptions\JsonApiErrorException(
@@ -253,6 +292,46 @@ abstract class BaseV1Controller
 		}
 
 		throw new Exceptions\RuntimeException('Entity manager could not be loaded');
+	}
+
+	/**
+	 * @param Message\ServerRequestInterface $request
+	 * @param ResponseInterface $response
+	 * @param DoctrineCrud\Entities\IEntity|ResultSet<DoctrineCrud\Entities\IEntity>|Array<DoctrineCrud\Entities\IEntity>|null $data
+	 *
+	 * @return ResponseInterface
+	 */
+	protected function buildResponse(
+		Message\ServerRequestInterface $request,
+		ResponseInterface $response,
+		$data
+	): ResponseInterface {
+		$totalCount = null;
+
+		if ($data instanceof ResultSet) {
+			if (array_key_exists('page', $request->getQueryParams())) {
+				$queryParams = $request->getQueryParams();
+
+				$pageOffset = isset($queryParams['page']['offset']) ? (int) $queryParams['page']['offset'] : null;
+				$pageLimit = isset($queryParams['page']['limit']) ? (int) $queryParams['page']['limit'] : null;
+
+				$totalCount = $data->getTotalCount();
+
+				if ($data->getTotalCount() > $pageLimit) {
+					$data->applyPaging($pageOffset, $pageLimit);
+				}
+			}
+		}
+
+		return $this->builder->build(
+			$request,
+			$response,
+			$data instanceof ResultSet ? $data->toArray() : $data,
+			$totalCount,
+			function (string $link): bool {
+				return $this->routesValidator->validate($link);
+			}
+		);
 	}
 
 }

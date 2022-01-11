@@ -1,6 +1,6 @@
 import { Item } from '@vuex-orm/core'
-import * as exchangeEntitySchema from '@fastybird/modules-metadata/resources/schemas/accounts-module/entity.email.json'
-import { ModuleOrigin, EmailEntity as ExchangeEntity, AccountsModuleRoutes as RoutingKeys } from '@fastybird/modules-metadata'
+import * as exchangeEntitySchema from '@fastybird/metadata/resources/schemas/modules/accounts-module/entity.email.json'
+import { ModuleOrigin, EmailEntity as ExchangeEntity, AccountsModuleRoutes as RoutingKeys } from '@fastybird/metadata'
 
 import {
   ActionTree,

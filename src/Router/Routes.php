@@ -18,7 +18,7 @@ namespace FastyBird\AccountsModule\Router;
 use FastyBird\AccountsModule;
 use FastyBird\AccountsModule\Controllers;
 use FastyBird\AccountsModule\Middleware;
-use FastyBird\ModulesMetadata;
+use FastyBird\Metadata;
 use FastyBird\SimpleAuth\Middleware as SimpleAuthMiddleware;
 use FastyBird\WebServer\Router as WebServerRouter;
 use IPub\SlimRouter\Routing;
@@ -127,7 +127,7 @@ class Routes implements WebServerRouter\IRoutes
 	public function registerRoutes(Routing\IRouter $router): void
 	{
 		if ($this->usePrefix) {
-			$routes = $router->group('/' . ModulesMetadata\Constants::MODULE_ACCOUNTS_PREFIX, function (Routing\RouteCollector $group): void {
+			$routes = $router->group('/' . Metadata\Constants::MODULE_ACCOUNTS_PREFIX, function (Routing\RouteCollector $group): void {
 				$this->buildRoutes($group);
 			});
 
