@@ -15,6 +15,17 @@ import {
 } from '@/lib/models/identities/types'
 
 export default class Identity extends Model implements IdentityInterface {
+  id!: string
+  type!: IdentityEntityTypes
+  draft!: boolean
+  state!: IdentityState
+  uid!: string
+  password!: string
+  // Relations
+  relationshipNames!: string[]
+  account!: AccountInterface | null
+  accountId!: string
+
   static get entity(): string {
     return 'accounts_identity'
   }
@@ -38,22 +49,6 @@ export default class Identity extends Model implements IdentityInterface {
       accountId: this.attr(''),
     }
   }
-
-  id!: string
-  type!: IdentityEntityTypes
-
-  draft!: boolean
-
-  state!: IdentityState
-  uid!: string
-  password!: string
-
-  // Relations
-  relationshipNames!: string[]
-
-  account!: AccountInterface | null
-
-  accountId!: string
 
   static async get(account: AccountInterface, id: string): Promise<boolean> {
     return await Identity.dispatch('get', {

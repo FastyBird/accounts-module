@@ -81,6 +81,24 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 	}
 
 	/**
+	 * @return Entities\Accounts\IAccount
+	 *
+	 * @throws JsonApiExceptions\JsonApiErrorException
+	 */
+	private function findAccount(): Entities\Accounts\IAccount
+	{
+		if ($this->user->getAccount() === null) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_FORBIDDEN,
+				$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//accounts-module.base.messages.forbidden.message')
+			);
+		}
+
+		return $this->user->getAccount();
+	}
+
+	/**
 	 * @param Message\ServerRequestInterface $request
 	 * @param Message\ResponseInterface $response
 	 *
@@ -249,24 +267,6 @@ final class AccountIdentitiesV1Controller extends BaseV1Controller
 		}
 
 		return parent::readRelationship($request, $response);
-	}
-
-	/**
-	 * @return Entities\Accounts\IAccount
-	 *
-	 * @throws JsonApiExceptions\JsonApiErrorException
-	 */
-	private function findAccount(): Entities\Accounts\IAccount
-	{
-		if ($this->user->getAccount() === null) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
-				$this->translator->translate('//accounts-module.base.messages.forbidden.message')
-			);
-		}
-
-		return $this->user->getAccount();
 	}
 
 }

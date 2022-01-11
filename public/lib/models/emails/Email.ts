@@ -14,8 +14,33 @@ import {
 } from '@/lib/models/emails/types'
 
 export default class Email extends Model implements EmailInterface {
+  id!: string
+  type!: EmailEntityTypes
+  draft!: boolean
+  address!: string
+  default!: boolean
+  private!: boolean
+  verified!: boolean
+  // Relations
+  relationshipNames!: string[]
+  account!: AccountInterface | null
+  accountId!: string
+
   static get entity(): string {
     return 'accounts_email'
+  }
+
+  // Entity transformers
+  get isDefault(): boolean {
+    return this.default
+  }
+
+  get isPrivate(): boolean {
+    return this.private
+  }
+
+  get isVerified(): boolean {
+    return this.verified
   }
 
   static fields(): Fields {
@@ -37,36 +62,6 @@ export default class Email extends Model implements EmailInterface {
 
       accountId: this.attr(''),
     }
-  }
-
-  id!: string
-  type!: EmailEntityTypes
-
-  draft!: boolean
-
-  address!: string
-  default!: boolean
-  private!: boolean
-  verified!: boolean
-
-  // Relations
-  relationshipNames!: string[]
-
-  account!: AccountInterface | null
-
-  accountId!: string
-
-  // Entity transformers
-  get isDefault(): boolean {
-    return this.default
-  }
-
-  get isPrivate(): boolean {
-    return this.private
-  }
-
-  get isVerified(): boolean {
-    return this.verified
   }
 
   static async get(account: AccountInterface, id: string): Promise<boolean> {

@@ -99,6 +99,23 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 	}
 
 	/**
+	 * @param object $entity
+	 *
+	 * @return bool
+	 */
+	private function validateNamespace(object $entity): bool
+	{
+		try {
+			$rc = new ReflectionClass($entity);
+
+		} catch (ReflectionException $ex) {
+			return false;
+		}
+
+		return str_starts_with($rc->getNamespaceName(), 'FastyBird\AccountsModule');
+	}
+
+	/**
 	 * @param Entities\IEntity $entity
 	 * @param string $action
 	 *
@@ -367,23 +384,6 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 		}
 
 		return substr($class, $pos + Persistence\Proxy::MARKER_LENGTH + 2);
-	}
-
-	/**
-	 * @param object $entity
-	 *
-	 * @return bool
-	 */
-	private function validateNamespace(object $entity): bool
-	{
-		try {
-			$rc = new ReflectionClass($entity);
-
-		} catch (ReflectionException $ex) {
-			return false;
-		}
-
-		return str_starts_with($rc->getNamespaceName(), 'FastyBird\AccountsModule');
 	}
 
 }

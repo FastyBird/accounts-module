@@ -10,14 +10,14 @@ const USER_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uZmFzdHl
 return [
 	// Valid responses
 	//////////////////
-	'createUser'             => [
+	'createUser'          => [
 		'/v1/accounts',
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.user.json'),
 		StatusCodeInterface::STATUS_CREATED,
 		__DIR__ . '/responses/accounts/accounts.create.user.json',
 	],
-	'createUserWithRoles'    => [
+	'createUserWithRoles' => [
 		'/v1/accounts',
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.userWithRoles.json'),
@@ -27,21 +27,21 @@ return [
 
 	// Invalid responses
 	////////////////////
-	'missingRequired'        => [
+	'missingRequired'     => [
 		'/v1/accounts',
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.missing.required.json'),
 		StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 		__DIR__ . '/responses/accounts/accounts.create.missing.required.json',
 	],
-	'invalidType'            => [
+	'invalidType'         => [
 		'/v1/accounts',
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.invalid.type.json'),
 		StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 		__DIR__ . '/responses/generic/invalid.type.json',
 	],
-	'identifierNotUnique'    => [
+	'identifierNotUnique' => [
 		'/v1/accounts',
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.identifier.notUnique.json'),
@@ -49,42 +49,42 @@ return [
 		__DIR__ . '/responses/generic/identifier.notUnique.json',
 	],
 	// User role could not be combined with other roles
-	'invalidRoles'           => [
+	'invalidRoles'        => [
 		'/v1/accounts',
 		'Bearer ' . ADMINISTRATOR_TOKEN,
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.invalid.roles.json'),
 		StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 		__DIR__ . '/responses/accounts/accounts.invalid.role.json',
 	],
-	'noToken'                => [
+	'noToken'             => [
 		'/v1/accounts',
 		null,
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.user.json'),
 		StatusCodeInterface::STATUS_FORBIDDEN,
 		__DIR__ . '/responses/generic/forbidden.json',
 	],
-	'emptyToken'             => [
+	'emptyToken'          => [
 		'/v1/accounts',
 		'',
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.user.json'),
 		StatusCodeInterface::STATUS_FORBIDDEN,
 		__DIR__ . '/responses/generic/forbidden.json',
 	],
-	'userToken'              => [
+	'userToken'           => [
 		'/v1/accounts',
 		'Bearer ' . USER_TOKEN,
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.user.json'),
 		StatusCodeInterface::STATUS_FORBIDDEN,
 		__DIR__ . '/responses/generic/forbidden.json',
 	],
-	'invalidToken'           => [
+	'invalidToken'        => [
 		'/v1/accounts',
 		'Bearer ' . INVALID_TOKEN,
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.user.json'),
 		StatusCodeInterface::STATUS_UNAUTHORIZED,
 		__DIR__ . '/responses/generic/unauthorized.json',
 	],
-	'expiredToken'           => [
+	'expiredToken'        => [
 		'/v1/accounts',
 		'Bearer ' . EXPIRED_TOKEN,
 		file_get_contents(__DIR__ . '/requests/accounts/accounts.create.user.json'),

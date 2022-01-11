@@ -18,11 +18,11 @@ class JsonApiJsonPropertiesMapper extends JsonPropertiesMapper implements IJsonP
   private caseRegExp = '_([a-z0-9])'
 
   createModel(type: string): TJsonaModel {
-    return {type}
+    return { type }
   }
 
   setId(model: TJsonaModel, id: string): void {
-    Object.assign(model, {id})
+    Object.assign(model, { id })
   }
 
   setAttributes(model: TJsonaModel, attributes: TAnyKeyValueObject): void {
@@ -35,15 +35,15 @@ class JsonApiJsonPropertiesMapper extends JsonPropertiesMapper implements IJsonP
         Object.keys(attributes[propName]).forEach((subPropName) => {
           const camelSubName = subPropName.replace(regex, g => g[1].toUpperCase())
 
-          Object.assign(model, {[camelSubName]: attributes[propName][subPropName]})
+          Object.assign(model, { [camelSubName]: attributes[propName][subPropName] })
         })
       } else {
-        Object.assign(model, {[camelName]: attributes[propName]})
+        Object.assign(model, { [camelName]: attributes[propName] })
       }
     })
 
     // Entity received via api is not a draft entity
-    Object.assign(model, {draft: false})
+    Object.assign(model, { draft: false })
   }
 
   setRelationships(model: TJsonaModel, relationships: TJsonaRelationships): void {
@@ -67,9 +67,9 @@ class JsonApiJsonPropertiesMapper extends JsonPropertiesMapper implements IJsonP
               },
             )
           } else if (get(relation, 'type') === AccountEntityTypes.USER) {
-            Object.assign(model, {accountId: get(relation, 'id')})
+            Object.assign(model, { accountId: get(relation, 'id') })
           } else {
-            Object.assign(model, {[camelName]: relation})
+            Object.assign(model, { [camelName]: relation })
           }
         }
       })
@@ -78,15 +78,15 @@ class JsonApiJsonPropertiesMapper extends JsonPropertiesMapper implements IJsonP
     const currentNames = model[RELATIONSHIP_NAMES_PROP]
 
     if (currentNames && currentNames.length) {
-      Object.assign(model, {[RELATIONSHIP_NAMES_PROP]: [...currentNames, ...newNames].filter((value, i, self) => self.indexOf(value) === i)})
+      Object.assign(model, { [RELATIONSHIP_NAMES_PROP]: [...currentNames, ...newNames].filter((value, i, self) => self.indexOf(value) === i) })
     } else {
-      Object.assign(model, {[RELATIONSHIP_NAMES_PROP]: newNames})
+      Object.assign(model, { [RELATIONSHIP_NAMES_PROP]: newNames })
     }
   }
 
   transformAccount(item: TJsonaModel): TJsonaModel {
     if (Object.prototype.hasOwnProperty.call(item, 'account')) {
-      Object.assign(item, {accountId: item.account.id})
+      Object.assign(item, { accountId: item.account.id })
       Reflect.deleteProperty(item, 'account')
     }
 

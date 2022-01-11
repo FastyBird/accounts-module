@@ -11,6 +11,16 @@ import Account from '@/lib/models/accounts/Account'
 import RoleAccount from '@/lib/models/roles-accounts/RoleAccount'
 
 export default class Role extends Model implements RoleInterface {
+  id!: string
+  type!: RoleEntityTypes
+  name!: string
+  description!: string
+  anonymous!: boolean
+  authenticated!: boolean
+  administrator!: boolean
+  // Relations
+  relationshipNames!: string[]
+
   static get entity(): string {
     return 'accounts_role'
   }
@@ -32,18 +42,6 @@ export default class Role extends Model implements RoleInterface {
       account: this.belongsToMany(Account, RoleAccount, 'roleId', 'accountId'),
     }
   }
-
-  id!: string
-  type!: RoleEntityTypes
-
-  name!: string
-  description!: string
-  anonymous!: boolean
-  authenticated!: boolean
-  administrator!: boolean
-
-  // Relations
-  relationshipNames!: string[]
 
   static async get(id: string): Promise<boolean> {
     return await Role.dispatch('get', {

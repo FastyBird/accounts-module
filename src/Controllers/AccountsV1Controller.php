@@ -109,6 +109,40 @@ final class AccountsV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
+	 *
+	 * @return Entities\Accounts\IAccount
+	 *
+	 * @throws JsonApiExceptions\IJsonApiException
+	 */
+	private function findAccount(
+		Message\ServerRequestInterface $request
+	): Entities\Accounts\IAccount {
+		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Routes::URL_ITEM_ID))) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_NOT_FOUND,
+				$this->translator->translate('//accounts-module.base.messages.notFound.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notFound.message')
+			);
+		}
+
+		$findQuery = new Queries\FindAccountsQuery();
+		$findQuery->byId(Uuid\Uuid::fromString($request->getAttribute(Router\Routes::URL_ITEM_ID)));
+
+		$account = $this->accountRepository->findOneBy($findQuery);
+
+		if ($account === null) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_NOT_FOUND,
+				$this->translator->translate('//accounts-module.base.messages.notFound.heading'),
+				$this->translator->translate('//accounts-module.base.messages.notFound.message')
+			);
+		}
+
+		return $account;
+	}
+
+	/**
+	 * @param Message\ServerRequestInterface $request
 	 * @param Message\ResponseInterface $response
 	 *
 	 * @return Message\ResponseInterface
@@ -415,40 +449,6 @@ final class AccountsV1Controller extends BaseV1Controller
 		}
 
 		return parent::readRelationship($request, $response);
-	}
-
-	/**
-	 * @param Message\ServerRequestInterface $request
-	 *
-	 * @return Entities\Accounts\IAccount
-	 *
-	 * @throws JsonApiExceptions\IJsonApiException
-	 */
-	private function findAccount(
-		Message\ServerRequestInterface $request
-	): Entities\Accounts\IAccount {
-		if (!Uuid\Uuid::isValid($request->getAttribute(Router\Routes::URL_ITEM_ID))) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//accounts-module.base.messages.notFound.heading'),
-				$this->translator->translate('//accounts-module.base.messages.notFound.message')
-			);
-		}
-
-		$findQuery = new Queries\FindAccountsQuery();
-		$findQuery->byId(Uuid\Uuid::fromString($request->getAttribute(Router\Routes::URL_ITEM_ID)));
-
-		$account = $this->accountRepository->findOneBy($findQuery);
-
-		if ($account === null) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_NOT_FOUND,
-				$this->translator->translate('//accounts-module.base.messages.notFound.heading'),
-				$this->translator->translate('//accounts-module.base.messages.notFound.message')
-			);
-		}
-
-		return $account;
 	}
 
 }

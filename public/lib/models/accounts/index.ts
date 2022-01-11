@@ -247,7 +247,10 @@ const moduleActions: ActionTree<AccountState, any> = {
     }
   },
 
-  async edit({ state, commit }, payload: { account: AccountInterface, data: AccountUpdateInterface }): Promise<Item<Account>> {
+  async edit({
+               state,
+               commit,
+             }, payload: { account: AccountInterface, data: AccountUpdateInterface }): Promise<Item<Account>> {
     if (state.semaphore.updating.includes(payload.account.id)) {
       throw new Error('accounts-module.accounts.update.inProgress')
     }

@@ -149,7 +149,7 @@ final class AccountSchema extends JsonApiSchemas\JsonApiSchema
 				self::RELATIONSHIP_LINKS_SELF    => true,
 				self::RELATIONSHIP_LINKS_RELATED => false,
 			],
-			self::RELATIONSHIPS_EMAILS => [
+			self::RELATIONSHIPS_EMAILS     => [
 				self::RELATIONSHIP_DATA          => $account->getEmails(),
 				self::RELATIONSHIP_LINKS_SELF    => true,
 				self::RELATIONSHIP_LINKS_RELATED => true,

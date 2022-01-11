@@ -99,6 +99,48 @@ final class SessionV1Controller extends BaseV1Controller
 
 	/**
 	 * @param Message\ServerRequestInterface $request
+	 *
+	 * @return Entities\Tokens\IAccessToken
+	 *
+	 * @throws JsonApiExceptions\IJsonApiException
+	 */
+	private function getToken(Message\ServerRequestInterface $request): Entities\Tokens\IAccessToken
+	{
+		$token = $this->tokenReader->read($request);
+
+		if ($token === null) {
+			throw new JsonApiExceptions\JsonApiErrorException(
+				StatusCodeInterface::STATUS_FORBIDDEN,
+				$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
+				$this->translator->translate('//accounts-module.base.messages.forbidden.message')
+			);
+		}
+
+		$findToken = new SimpleAuthQueries\FindTokensQuery();
+		$findToken->byToken($token->toString());
+
+		$accessToken = $this->tokenRepository->findOneBy($findToken, Entities\Tokens\AccessToken::class);
+
+		if (
+			$this->user->getAccount() !== null
+			&& $accessToken instanceof Entities\Tokens\IAccessToken
+			&& $accessToken->getIdentity()
+				->getAccount()
+				->getId()
+				->equals($this->user->getAccount()->getId())
+		) {
+			return $accessToken;
+		}
+
+		throw new JsonApiExceptions\JsonApiErrorException(
+			StatusCodeInterface::STATUS_FORBIDDEN,
+			$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
+			$this->translator->translate('//accounts-module.base.messages.forbidden.message')
+		);
+	}
+
+	/**
+	 * @param Message\ServerRequestInterface $request
 	 * @param Message\ResponseInterface $response
 	 *
 	 * @return Message\ResponseInterface
@@ -243,6 +285,34 @@ final class SessionV1Controller extends BaseV1Controller
 
 		$response = $this->buildResponse($request, $response, $accessToken);
 		return $response->withStatus(StatusCodeInterface::STATUS_CREATED);
+	}
+
+	/**
+	 * @return DateTimeImmutable
+	 */
+	private function getNow(): DateTimeImmutable
+	{
+		/** @var DateTimeImmutable $now */
+		$now = $this->dateFactory->getNow();
+
+		return $now;
+	}
+
+	/**
+	 * @param Uuid\UuidInterface $userId
+	 * @param string[] $roles
+	 * @param DateTimeImmutable|null $validTill
+	 *
+	 * @return string
+	 *
+	 * @throws Throwable
+	 */
+	private function createToken(
+		Uuid\UuidInterface $userId,
+		array $roles,
+		?DateTimeImmutable $validTill
+	): string {
+		return $this->tokenBuilder->build($userId->toString(), $roles, $validTill)->toString();
 	}
 
 	/**
@@ -454,76 +524,6 @@ final class SessionV1Controller extends BaseV1Controller
 		}
 
 		return parent::readRelationship($request, $response);
-	}
-
-	/**
-	 * @return DateTimeImmutable
-	 */
-	private function getNow(): DateTimeImmutable
-	{
-		/** @var DateTimeImmutable $now */
-		$now = $this->dateFactory->getNow();
-
-		return $now;
-	}
-
-	/**
-	 * @param Uuid\UuidInterface $userId
-	 * @param string[] $roles
-	 * @param DateTimeImmutable|null $validTill
-	 *
-	 * @return string
-	 *
-	 * @throws Throwable
-	 */
-	private function createToken(
-		Uuid\UuidInterface $userId,
-		array $roles,
-		?DateTimeImmutable $validTill
-	): string {
-		return $this->tokenBuilder->build($userId->toString(), $roles, $validTill)->toString();
-	}
-
-	/**
-	 * @param Message\ServerRequestInterface $request
-	 *
-	 * @return Entities\Tokens\IAccessToken
-	 *
-	 * @throws JsonApiExceptions\IJsonApiException
-	 */
-	private function getToken(Message\ServerRequestInterface $request): Entities\Tokens\IAccessToken
-	{
-		$token = $this->tokenReader->read($request);
-
-		if ($token === null) {
-			throw new JsonApiExceptions\JsonApiErrorException(
-				StatusCodeInterface::STATUS_FORBIDDEN,
-				$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
-				$this->translator->translate('//accounts-module.base.messages.forbidden.message')
-			);
-		}
-
-		$findToken = new SimpleAuthQueries\FindTokensQuery();
-		$findToken->byToken($token->toString());
-
-		$accessToken = $this->tokenRepository->findOneBy($findToken, Entities\Tokens\AccessToken::class);
-
-		if (
-			$this->user->getAccount() !== null
-			&& $accessToken instanceof Entities\Tokens\IAccessToken
-			&& $accessToken->getIdentity()
-				->getAccount()
-				->getId()
-				->equals($this->user->getAccount()->getId())
-		) {
-			return $accessToken;
-		}
-
-		throw new JsonApiExceptions\JsonApiErrorException(
-			StatusCodeInterface::STATUS_FORBIDDEN,
-			$this->translator->translate('//accounts-module.base.messages.forbidden.heading'),
-			$this->translator->translate('//accounts-module.base.messages.forbidden.message')
-		);
 	}
 
 }

@@ -50,15 +50,19 @@ npm install @fastybird/accounts-module
 
 ## Configuration
 
-This module is dependent on other Nette extensions. All this extensions have to enabled and configured in NEON configuration file.
+This module is dependent on other Nette extensions. All this extensions have to enabled and configured in NEON
+configuration file.
 
-Example configuration could be found [here](https://github.com/FastyBird/accounts-module/blob/master/config/example.neon)
+Example configuration could be
+found [here](https://github.com/FastyBird/accounts-module/blob/master/config/example.neon)
 
 ## Initialization
 
 This module is using database, and need some initial data to be inserted into it.
 
-Execution of command is dependend on you current implementation. This module is dependend on [contribute/console](https://github.com/contributte/console) extension, so check it out to get know how to configure your console entrypoint.
+Execution of command is dependend on you current implementation. This module is dependend
+on [contribute/console](https://github.com/contributte/console) extension, so check it out to get know how to configure
+your console entrypoint.
 
 After creating console entrypoint you could call module console command:
 
@@ -70,8 +74,9 @@ This console command is interactive and will ask for all required information.
 
 ## Running module interface
 
-This module is dependent on [fastybird/web-server](https://github.com/FastyBird/web-server) which is server-less web server for serving API content. This module is registering its routes to this webserver automatically.
-All what you have to do is start this server with your console entrypoint:
+This module is dependent on [fastybird/web-server](https://github.com/FastyBird/web-server) which is server-less web
+server for serving API content. This module is registering its routes to this webserver automatically. All what you have
+to do is start this server with your console entrypoint:
 
 ```sh
 your-console-entrypoint fb:web-server:start

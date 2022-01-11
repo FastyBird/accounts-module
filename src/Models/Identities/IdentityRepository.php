@@ -79,6 +79,30 @@ final class IdentityRepository implements IIdentityRepository
 	}
 
 	/**
+	 * @param string $type
+	 *
+	 * @return ORM\EntityRepository
+	 *
+	 * @phpstan-param class-string $type
+	 *
+	 * @phpstan-return ORM\EntityRepository<Entities\Identities\IIdentity>
+	 */
+	private function getRepository(string $type = Entities\Identities\Identity::class): ORM\EntityRepository
+	{
+		if ($this->repository === null) {
+			$repository = $this->managerRegistry->getRepository($type);
+
+			if (!$repository instanceof ORM\EntityRepository) {
+				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');
+			}
+
+			$this->repository = $repository;
+		}
+
+		return $this->repository;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function findOneByUid(
@@ -106,30 +130,6 @@ final class IdentityRepository implements IIdentityRepository
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @param string $type
-	 *
-	 * @return ORM\EntityRepository
-	 *
-	 * @phpstan-param class-string $type
-	 *
-	 * @phpstan-return ORM\EntityRepository<Entities\Identities\IIdentity>
-	 */
-	private function getRepository(string $type = Entities\Identities\Identity::class): ORM\EntityRepository
-	{
-		if ($this->repository === null) {
-			$repository = $this->managerRegistry->getRepository($type);
-
-			if (!$repository instanceof ORM\EntityRepository) {
-				throw new Exceptions\InvalidStateException('Entity repository could not be loaded');
-			}
-
-			$this->repository = $repository;
-		}
-
-		return $this->repository;
 	}
 
 }

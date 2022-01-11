@@ -20,8 +20,40 @@ import Role from '@/lib/models/roles/Role'
 import RoleAccount from '@/lib/models/roles-accounts/RoleAccount'
 
 export default class Account extends Model implements AccountInterface {
+  id!: string
+  type!: AccountEntityTypes
+  draft!: boolean
+  state!: AccountState
+  lastVisit!: string
+  registered!: string
+  firstName!: string
+  lastName!: string
+  middleName!: string | null
+  language!: string
+  weekStart!: number
+  timezone!: string
+  dateFormat!: string
+  timeFormat!: string
+  // Relations
+  relationshipNames!: string[]
+  emails!: EmailInterface[]
+  identities!: IdentityInterface[]
+
   static get entity(): string {
     return 'accounts_account'
+  }
+
+  // Entity transformers
+  get name(): string {
+    return `${this.firstName} ${this.lastName}`
+  }
+
+  get email(): EmailInterface | null {
+    return Email
+      .query()
+      .where('accountId', this.id)
+      .where('default', true)
+      .first()
   }
 
   static fields(): Fields {
@@ -54,46 +86,6 @@ export default class Account extends Model implements AccountInterface {
       identities: this.hasMany(Identity, 'accountId'),
       roles: this.belongsToMany(Role, RoleAccount, 'accountId', 'roleId'),
     }
-  }
-
-  id!: string
-  type!: AccountEntityTypes
-
-  draft!: boolean
-
-  state!: AccountState
-
-  lastVisit!: string
-  registered!: string
-
-  firstName!: string
-  lastName!: string
-  middleName!: string | null
-
-  language!: string
-
-  weekStart!: number
-  timezone!: string
-  dateFormat!: string
-  timeFormat!: string
-
-  // Relations
-  relationshipNames!: string[]
-
-  emails!: EmailInterface[]
-  identities!: IdentityInterface[]
-
-  // Entity transformers
-  get name(): string {
-    return `${this.firstName} ${this.lastName}`
-  }
-
-  get email(): EmailInterface | null {
-    return Email
-      .query()
-      .where('accountId', this.id)
-      .where('default', true)
-      .first()
   }
 
   static async get(id: string): Promise<boolean> {
