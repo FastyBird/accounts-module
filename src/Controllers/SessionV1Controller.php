@@ -211,7 +211,9 @@ final class SessionV1Controller extends BaseV1Controller
 				}
 			} else {
 				// Log caught exception
-				$this->logger->error('[FB:ACCOUNTS_MODULE:CONTROLLER] ' . $ex->getMessage(), [
+				$this->logger->error('An unhandled error occurred', [
+					'source'    => 'accounts-module-session-controller',
+					'type'      => 'create',
 					'exception' => [
 						'message' => $ex->getMessage(),
 						'code'    => $ex->getCode(),
@@ -263,7 +265,9 @@ final class SessionV1Controller extends BaseV1Controller
 			var_dump($this->user->getIdentity() !== null);
 			echo $ex->getMessage();
 			// Log caught exception
-			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('An unhandled error occurred', [
+				'source'    => 'accounts-module-session-controller',
+				'type'      => 'create',
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),
@@ -420,7 +424,9 @@ final class SessionV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log caught exception
-			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('An unhandled error occurred', [
+				'source'    => 'accounts-module-session-controller',
+				'type'      => 'update',
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),
@@ -479,7 +485,9 @@ final class SessionV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log caught exception
-			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('An unhandled error occurred', [
+				'source'    => 'accounts-module-session-controller',
+				'type'      => 'delete',
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),

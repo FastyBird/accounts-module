@@ -208,7 +208,9 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log caught exception
-			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('An unhandled error occurred', [
+				'source'    => 'accounts-module-identities-controller',
+				'type'      => 'create',
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),
@@ -287,7 +289,9 @@ final class IdentitiesV1Controller extends BaseV1Controller
 
 		} catch (Throwable $ex) {
 			// Log caught exception
-			$this->logger->error('[FB:AUTH_MODULE:CONTROLLER] ' . $ex->getMessage(), [
+			$this->logger->error('An unhandled error occurred', [
+				'source'    => 'accounts-module-identities-controller',
+				'type'      => 'update',
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),

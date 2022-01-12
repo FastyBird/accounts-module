@@ -122,7 +122,9 @@ class InitializeCommand extends Console\Command\Command
 
 		} catch (Throwable $ex) {
 			// Log caught exception
-			$this->logger->error('[FB:ACCOUNTS_MODULE:CMD] ' . $ex->getMessage(), [
+			$this->logger->error('An unhandled error occurred', [
+				'source'    => 'accounts-module-initialize',
+				'type'      => 'run',
 				'exception' => [
 					'message' => $ex->getMessage(),
 					'code'    => $ex->getCode(),
