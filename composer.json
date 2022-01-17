@@ -44,7 +44,7 @@
     "php" : ">=7.4.0|>=8.0.0",
     "cweagans/composer-patches" : "^1.7",
     "fastybird/json-api" : "^0.8",
-    "fastybird/metadata" : "^0.25",
+    "fastybird/metadata" : "^0.27",
     "fastybird/simple-auth" : "^0.2",
     "fastybird/web-server" : "^0.7",
     "ipub/doctrine-consistence" : "^0.4",
