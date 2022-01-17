@@ -13,10 +13,9 @@ import get from 'lodash/get'
 import { AccountEntityTypes } from '@/lib/models/accounts/types'
 
 const RELATIONSHIP_NAMES_PROP = 'relationshipNames'
+const CASE_REG_EXP = '_([a-z0-9])'
 
 class JsonApiJsonPropertiesMapper extends JsonPropertiesMapper implements IJsonPropertiesMapper {
-  private caseRegExp = '_([a-z0-9])'
-
   createModel(type: string): TJsonaModel {
     return { type }
   }
@@ -26,7 +25,7 @@ class JsonApiJsonPropertiesMapper extends JsonPropertiesMapper implements IJsonP
   }
 
   setAttributes(model: TJsonaModel, attributes: TAnyKeyValueObject): void {
-    const regex = new RegExp(this.caseRegExp, 'g')
+    const regex = new RegExp(CASE_REG_EXP, 'g')
 
     Object.keys(attributes).forEach((propName) => {
       const camelName = propName.replace(regex, g => g[1].toUpperCase())
@@ -49,7 +48,7 @@ class JsonApiJsonPropertiesMapper extends JsonPropertiesMapper implements IJsonP
   setRelationships(model: TJsonaModel, relationships: TJsonaRelationships): void {
     Object.keys(relationships)
       .forEach((propName) => {
-        const regex = new RegExp(this.caseRegExp, 'g')
+        const regex = new RegExp(CASE_REG_EXP, 'g')
         const camelName = propName.replace(regex, g => g[1].toUpperCase())
 
         if (typeof relationships[propName] === 'function') {
