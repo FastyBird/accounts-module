@@ -1,6 +1,6 @@
 {
   "name" : "fastybird/accounts-module",
-  "type" : "library",
+  "type" : "module",
   "description" : "FastyBird IoT accounts module for accounts management",
   "keywords" : [
     "fastybird",
