@@ -22,8 +22,8 @@ use Doctrine\Persistence;
 use FastyBird\AccountsModule;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Exceptions;
-use FastyBird\AccountsModule\Exchange;
 use FastyBird\DateTimeFactory;
+use FastyBird\Exchange\Publisher as ExchangePublisher;
 use FastyBird\Metadata;
 use Nette;
 use Nette\Utils;
@@ -51,8 +51,8 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 	/** @var DateTimeFactory\DateTimeFactory */
 	private DateTimeFactory\DateTimeFactory $dateTimeFactory;
 
-	/** @var Exchange\IPublisher|null */
-	private ?Exchange\IPublisher $publisher;
+	/** @var ExchangePublisher\Publisher|null */
+	private ?ExchangePublisher\Publisher $publisher;
 
 	/** @var ORM\EntityManagerInterface */
 	private ORM\EntityManagerInterface $entityManager;
@@ -60,7 +60,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 	public function __construct(
 		DateTimeFactory\DateTimeFactory $dateTimeFactory,
 		ORM\EntityManagerInterface $entityManager,
-		?Exchange\IPublisher $publisher = null
+		?ExchangePublisher\Publisher $publisher = null
 	) {
 		$this->dateTimeFactory = $dateTimeFactory;
 		$this->publisher = $publisher;
