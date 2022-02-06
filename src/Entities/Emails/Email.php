@@ -30,7 +30,7 @@ use Throwable;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *     name="fb_emails",
+ *     name="fb_triggers_module_emails",
  *     options={
  *       "collate"="utf8mb4_general_ci",
  *       "charset"="utf8mb4",
