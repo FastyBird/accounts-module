@@ -29,7 +29,7 @@ use Throwable;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *     name="fb_accounts_module__accounts",
+ *     name="fb_accounts_module_accounts",
  *     options={
  *       "collate"="utf8mb4_general_ci",
  *       "charset"="utf8mb4",
@@ -108,7 +108,7 @@ class Account implements IAccount
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\ManyToMany(targetEntity="FastyBird\AccountsModule\Entities\Roles\Role")
-	 * @ORM\JoinTable(name="fb_accounts_module__accounts_roles",
+	 * @ORM\JoinTable(name="fb_accounts_module_accounts_roles",
 	 *    joinColumns={
 	 *       @ORM\JoinColumn(name="account_id", referencedColumnName="account_id", onDelete="cascade")
 	 *    },

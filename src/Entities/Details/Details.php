@@ -25,7 +25,7 @@ use Throwable;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *     name="fb_accounts_module__accounts_details",
+ *     name="fb_accounts_module_accounts_details",
  *     options={
  *       "collate"="utf8mb4_general_ci",
  *       "charset"="utf8mb4",
