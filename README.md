@@ -27,7 +27,7 @@ in [Typescript](https://www.typescriptlang.org).
 ### Features:
 
 - Accounts and their details management
-- Support for data exchange
+- Support for data [exchange bus](https://github.com/FastyBird/exchange)
 - [{JSON:API}](https://jsonapi.org/) schemas for full api access
 - User access check & validation
 - Multilingual
