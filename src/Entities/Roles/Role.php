@@ -27,7 +27,7 @@ use Throwable;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *     name="fb_triggers_module_acl_roles",
+ *     name="fb_accounts_module__acl_roles",
  *     options={
  *       "collate"="utf8mb4_general_ci",
  *       "charset"="utf8mb4",
