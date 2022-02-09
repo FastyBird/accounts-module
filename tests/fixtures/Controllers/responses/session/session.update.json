@@ -10,7 +10,7 @@
     "self" : "/v1/session"
   },
   "data" : {
-    "type" : "accounts-module/session",
+    "type" : "com.fastybird.accounts-module/session",
     "id" : "__ENTITY_ID__",
     "attributes" : {
       "token" : "__ACCESS_TOKEN__",
@@ -25,7 +25,7 @@
           "related" : "/v1/me"
         },
         "data" : {
-          "type" : "accounts-module/account",
+          "type" : "com.fastybird.accounts-module/account",
           "id" : "5e79efbf-bd0d-5b7c-46ef-bfbdefbfbd34"
         }
       }

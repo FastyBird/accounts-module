@@ -16,7 +16,7 @@
   },
   "data" : [
     {
-      "type" : "accounts-module/account",
+      "type" : "com.fastybird.accounts-module/account",
       "id" : "efbfbdef-bfbd-68ef-bfbd-770b40efbfbd",
       "attributes" : {
         "state" : "active",
@@ -49,7 +49,7 @@
           },
           "data" : [
             {
-              "type" : "accounts-module/identity",
+              "type" : "com.fastybird.accounts-module/identity",
               "id" : "faf7a863-a49c-4428-a757-1de537773355"
             }
           ]
@@ -60,7 +60,7 @@
           },
           "data" : [
             {
-              "type" : "accounts-module/role",
+              "type" : "com.fastybird.accounts-module/role",
               "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
             }
           ]
@@ -77,7 +77,7 @@
           },
           "data" : [
             {
-              "type" : "accounts-module/email",
+              "type" : "com.fastybird.accounts-module/email",
               "id" : "73efbfbd-efbf-bd36-44ef-bfbdefbfbd7a"
             }
           ]

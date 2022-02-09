@@ -16,7 +16,7 @@ import {
 // ============
 
 export enum EmailEntityTypes {
-  EMAIL = 'accounts-module/email',
+  EMAIL = 'com.fastybird.accounts-module/email',
 }
 
 // ENTITY INTERFACE

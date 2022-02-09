@@ -19,6 +19,7 @@ use FastyBird\AccountsModule;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Router;
 use FastyBird\JsonApi\Schemas as JsonApiSchemas;
+use FastyBird\Metadata\Types as MetadataTypes;
 use IPub\SlimRouter\Routing;
 use Neomerx\JsonApi;
 
@@ -38,7 +39,7 @@ final class SessionSchema extends JsonApiSchemas\JsonApiSchema
 	/**
 	 * Define entity schema type string
 	 */
-	public const SCHEMA_TYPE = 'accounts-module/session';
+	public const SCHEMA_TYPE = MetadataTypes\ModuleSourceType::SOURCE_MODULE_ACCOUNTS . '/session';
 
 	/**
 	 * Define relationships names

@@ -15,7 +15,7 @@ import {
 // ============
 
 export enum RoleEntityTypes {
-  ROLE = 'accounts-module/role',
+  ROLE = 'com.fastybird.accounts-module/role',
 }
 
 // ENTITY INTERFACE

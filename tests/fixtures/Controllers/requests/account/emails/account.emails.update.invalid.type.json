@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "accounts-module/invalid-type",
+    "type" : "com.fastybird.accounts-module/invalid-type",
     "id" : "32ebe3c3-0238-482e-ab79-6b1d9ee2147c",
     "attributes" : {
       "default" : false,

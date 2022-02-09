@@ -12,7 +12,7 @@
   },
   "data" : [
     {
-      "type" : "accounts-module/role",
+      "type" : "com.fastybird.accounts-module/role",
       "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61"
     }
   ]

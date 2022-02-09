@@ -1,7 +1,7 @@
 {
   "data" : {
     "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61",
-    "type" : "accounts-module/role",
+    "type" : "com.fastybird.accounts-module/role",
     "attributes" : {
       "description" : "Authenticated with update"
     }

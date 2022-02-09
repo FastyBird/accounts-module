@@ -18,7 +18,7 @@ import {
 // ============
 
 export enum IdentityEntityTypes {
-  USER = 'accounts-module/identity',
+  USER = 'com.fastybird.accounts-module/identity',
 }
 
 // ENTITY INTERFACE

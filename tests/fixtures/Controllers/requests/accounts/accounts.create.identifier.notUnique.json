@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "accounts-module/account",
+    "type" : "com.fastybird.accounts-module/account",
     "id" : "efbfbdef-bfbd-68ef-bfbd-770b40efbfbd",
     "attributes" : {
       "details" : {

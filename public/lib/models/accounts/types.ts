@@ -23,7 +23,7 @@ import {
 // ============
 
 export enum AccountEntityTypes {
-  USER = 'accounts-module/account',
+  USER = 'com.fastybird.accounts-module/account',
 }
 
 // ENTITY INTERFACE

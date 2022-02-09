@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "accounts-module/session",
+    "type" : "com.fastybird.accounts-module/session",
     "attributes" : {
       "uid" : "peter.pan@fastybird.com",
       "password" : "123456789"

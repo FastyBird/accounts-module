@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "accounts-module/email",
+    "type" : "com.fastybird.accounts-module/email",
     "id" : "66295a83-0f85-4e8f-9c3d-9d9f5a947737",
     "attributes" : {
       "address" : "john&doe.com",
@@ -10,7 +10,7 @@
     "relationships" : {
       "account" : {
         "data" : {
-          "type" : "accounts-module/account",
+          "type" : "com.fastybird.accounts-module/account",
           "id" : "5e79efbf-bd0d-5b7c-46ef-bfbdefbfbd34"
         }
       }

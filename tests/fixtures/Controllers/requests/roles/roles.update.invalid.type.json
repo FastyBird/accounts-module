@@ -1,7 +1,7 @@
 {
   "data" : {
     "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61",
-    "type" : "accounts-module/invalid-type",
+    "type" : "com.fastybird.accounts-module/invalid-type",
     "attributes" : {
       "description" : "Authenticated with update"
     }

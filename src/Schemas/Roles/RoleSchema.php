@@ -21,6 +21,7 @@ use FastyBird\AccountsModule\Models;
 use FastyBird\AccountsModule\Queries;
 use FastyBird\AccountsModule\Router;
 use FastyBird\JsonApi\Schemas as JsonApiSchemas;
+use FastyBird\Metadata\Types as MetadataTypes;
 use IPub\SlimRouter\Routing;
 use Neomerx\JsonApi;
 
@@ -40,7 +41,7 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 	/**
 	 * Define entity schema type string
 	 */
-	public const SCHEMA_TYPE = 'accounts-module/role';
+	public const SCHEMA_TYPE = MetadataTypes\ModuleSourceType::SOURCE_MODULE_ACCOUNTS . '/role';
 
 	/**
 	 * Define relationships names

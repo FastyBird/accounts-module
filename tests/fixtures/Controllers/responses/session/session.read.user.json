@@ -10,7 +10,7 @@
     "self" : "/v1/session"
   },
   "data" : {
-    "type" : "accounts-module/session",
+    "type" : "com.fastybird.accounts-module/session",
     "id" : "956a7e26-e8c0-4bdb-894a-dd21b14e4a94",
     "attributes" : {
       "token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uZmFzdHliaXJkLmF1dGgtbW9kdWxlIiwianRpIjoiYTVkMTliNDktNjI3Mi00ZGJkLWI3YWItNTJhY2QwMzY3MWE5IiwiaWF0IjoxNTg1NzQyNDAwLCJleHAiOjE1ODU3NDk2MDAsInVzZXIiOiJlZmJmYmRlZi1iZmJkLTY4ZWYtYmZiZC03NzBiNDBlZmJmYmQiLCJyb2xlcyI6WyJ1c2VyIl19.wi_KC5aDT-y6wKbA4wG29KPHUqFyEcNTI-TUvwIH5yc",
@@ -25,7 +25,7 @@
           "related" : "/v1/me"
         },
         "data" : {
-          "type" : "accounts-module/account",
+          "type" : "com.fastybird.accounts-module/account",
           "id" : "efbfbdef-bfbd-68ef-bfbd-770b40efbfbd"
         }
       }

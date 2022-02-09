@@ -15,7 +15,7 @@
   },
   "data" : [
     {
-      "type" : "accounts-module/identity",
+      "type" : "com.fastybird.accounts-module/identity",
       "id" : "faf7a863-a49c-4428-a757-1de537773355",
       "attributes" : {
         "uid" : "jane.doe@fastybird.com",
@@ -28,7 +28,7 @@
             "related" : "/v1/accounts/efbfbdef-bfbd-68ef-bfbd-770b40efbfbd"
           },
           "data" : {
-            "type" : "accounts-module/account",
+            "type" : "com.fastybird.accounts-module/account",
             "id" : "efbfbdef-bfbd-68ef-bfbd-770b40efbfbd"
           }
         }

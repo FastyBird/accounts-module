@@ -1,6 +1,6 @@
 {
   "data" : {
-    "type" : "accounts-module/invalid",
+    "type" : "com.fastybird.accounts-module/invalid",
     "id" : "efbfbdef-bfbd-68ef-bfbd-770b40efbfbd",
     "attributes" : {
       "details" : {
@@ -19,7 +19,7 @@
       "roles" : {
         "data" : [
           {
-            "type" : "accounts-module/role",
+            "type" : "com.fastybird.accounts-module/role",
             "id" : "89f4a14f-7f78-4216-99b8-584ab9229f1c"
           }
         ]
