@@ -27,7 +27,7 @@ export default class Email extends Model implements EmailInterface {
   accountId!: string
 
   static get entity(): string {
-    return 'accounts_email'
+    return 'accounts_module_email'
   }
 
   // Entity transformers

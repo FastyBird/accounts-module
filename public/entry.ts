@@ -1,4 +1,4 @@
-import { ModuleOrigin } from '@fastybird/metadata'
+import { ModuleSource } from '@fastybird/metadata'
 import { Plugin } from '@vuex-orm/core/dist/src/plugins/use'
 
 import Account from '@/lib/models/accounts/Account'
@@ -16,12 +16,12 @@ import { ComponentsInterface, GlobalConfigInterface } from '@/types/accounts-mod
 
 // install function executed by VuexORM.use()
 const install: Plugin = function installVuexOrmWamp(components: ComponentsInterface, config: GlobalConfigInterface) {
-  if (typeof config.originName !== 'undefined') {
+  if (typeof config.sourceName !== 'undefined') {
     // @ts-ignore
-    components.Model.$accountsModuleOrigin = config.originName
+    components.Model.$accountsModuleSource = config.sourceName
   } else {
     // @ts-ignore
-    components.Model.$accountsModuleOrigin = ModuleOrigin.MODULE_ACCOUNTS_ORIGIN
+    components.Model.$accountsModuleSource = ModuleSource.MODULE_ACCOUNTS_SOURCE
   }
 
   config.database.register(Account, accounts)

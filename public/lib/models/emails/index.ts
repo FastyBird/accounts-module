@@ -1,6 +1,6 @@
 import { Item } from '@vuex-orm/core'
 import * as exchangeEntitySchema from '@fastybird/metadata/resources/schemas/modules/accounts-module/entity.email.json'
-import { ModuleOrigin, EmailEntity as ExchangeEntity, AccountsModuleRoutes as RoutingKeys } from '@fastybird/metadata'
+import { EmailEntity as ExchangeEntity, AccountsModuleRoutes as RoutingKeys } from '@fastybird/metadata'
 
 import {
   ActionTree,
@@ -490,11 +490,7 @@ const moduleActions: ActionTree<EmailState, any> = {
     }
   },
 
-  async socketData({ state, commit }, payload: { origin: string, routingKey: string, data: string }): Promise<boolean> {
-    if (payload.origin !== ModuleOrigin.MODULE_ACCOUNTS) {
-      return false
-    }
-
+  async socketData({ state, commit }, payload: { source: string, routingKey: string, data: string }): Promise<boolean> {
     if (
       ![
         RoutingKeys.EMAILS_ENTITY_REPORTED,

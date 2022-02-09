@@ -1,5 +1,5 @@
 import * as exchangeEntitySchema from '@fastybird/metadata/resources/schemas/modules/accounts-module/entity.role.json'
-import { ModuleOrigin, RoleEntity as ExchangeEntity, AccountsModuleRoutes as RoutingKeys } from '@fastybird/metadata'
+import { RoleEntity as ExchangeEntity, AccountsModuleRoutes as RoutingKeys } from '@fastybird/metadata'
 
 import {
   ActionTree,
@@ -154,11 +154,7 @@ const moduleActions: ActionTree<RoleState, any> = {
     }
   },
 
-  async socketData({ commit }, payload: { origin: string, routingKey: string, data: string }): Promise<boolean> {
-    if (payload.origin !== ModuleOrigin.MODULE_ACCOUNTS) {
-      return false
-    }
-
+  async socketData({ commit }, payload: { source: string, routingKey: string, data: string }): Promise<boolean> {
     if (
       ![
         RoutingKeys.ROLES_ENTITY_REPORTED,

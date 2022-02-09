@@ -2,7 +2,6 @@ import { Item } from '@vuex-orm/core'
 import * as exchangeEntitySchema
   from '@fastybird/metadata/resources/schemas/modules/accounts-module/entity.account.json'
 import {
-  ModuleOrigin,
   AccountEntity as ExchangeEntity,
   AccountsModuleRoutes as RoutingKeys,
 } from '@fastybird/metadata'
@@ -247,10 +246,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     }
   },
 
-  async edit({
-               state,
-               commit,
-             }, payload: { account: AccountInterface, data: AccountUpdateInterface }): Promise<Item<Account>> {
+  async edit({ state, commit }, payload: { account: AccountInterface, data: AccountUpdateInterface }): Promise<Item<Account>> {
     if (state.semaphore.updating.includes(payload.account.id)) {
       throw new Error('accounts-module.accounts.update.inProgress')
     }
@@ -480,11 +476,7 @@ const moduleActions: ActionTree<AccountState, any> = {
     }
   },
 
-  async socketData({ state, commit }, payload: { origin: string, routingKey: string, data: string }): Promise<boolean> {
-    if (payload.origin !== ModuleOrigin.MODULE_ACCOUNTS) {
-      return false
-    }
-
+  async socketData({ state, commit }, payload: { source: string, routingKey: string, data: string }): Promise<boolean> {
     if (
       ![
         RoutingKeys.ACCOUNTS_ENTITY_REPORTED,

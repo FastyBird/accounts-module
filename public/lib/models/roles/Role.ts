@@ -22,7 +22,7 @@ export default class Role extends Model implements RoleInterface {
   relationshipNames!: string[]
 
   static get entity(): string {
-    return 'accounts_role'
+    return 'accounts_module_role'
   }
 
   static fields(): Fields {

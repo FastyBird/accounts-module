@@ -40,7 +40,7 @@ export default class Account extends Model implements AccountInterface {
   identities!: IdentityInterface[]
 
   static get entity(): string {
-    return 'accounts_account'
+    return 'accounts_module_account'
   }
 
   // Entity transformers
