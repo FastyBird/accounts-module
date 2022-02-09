@@ -160,7 +160,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 
 		if ($publishRoutingKey !== null) {
 			$this->publisher->publish(
-				Metadata\Types\ModuleOriginType::get(Metadata\Types\ModuleOriginType::ORIGIN_MODULE_ACCOUNTS),
+				$entity->getSource(),
 				$publishRoutingKey,
 				Utils\ArrayHash::from($this->toArray($entity))
 			);

@@ -15,6 +15,7 @@
 
 namespace FastyBird\AccountsModule\Entities;
 
+use FastyBird\Metadata\Types as MetadataTypes;
 use IPub\DoctrineCrud;
 use Ramsey\Uuid;
 
@@ -38,5 +39,10 @@ interface IEntity extends DoctrineCrud\Entities\IEntity
 	 * @return string
 	 */
 	public function getPlainId(): string;
+
+	/**
+	 * @return MetadataTypes\ModuleSourceType|MetadataTypes\ConnectorSourceType|MetadataTypes\PluginSourceType
+	 */
+	public function getSource();
 
 }
