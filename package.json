@@ -1,6 +1,6 @@
 {
   "name": "@fastybird/accounts-module",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Accounts module data model plugin",
   "keywords": [
     "accounts",
@@ -38,7 +38,7 @@
     "lint:ts": "tslint -c tslint.json 'public/**/*.ts'"
   },
   "dependencies": {
-    "@fastybird/metadata": "^0.43",
+    "@fastybird/metadata": "^0.44",
     "@fastybird/vue-wamp-v1": "^0.1",
     "@fastybird/vuex-orm-wamp": "^0.1",
     "@vuex-orm/core": "^0.36",
