@@ -84,21 +84,21 @@ final class Constants
 	 * Message bus routing keys mapping
 	 */
 	public const MESSAGE_BUS_CREATED_ENTITIES_ROUTING_KEYS_MAPPING = [
-		AccountsModuleEntities\Accounts\Account::class    => Metadata\Constants::MESSAGE_BUS_ACCOUNTS_CREATED_ENTITY_ROUTING_KEY,
-		AccountsModuleEntities\Emails\Email::class        => Metadata\Constants::MESSAGE_BUS_EMAILS_CREATED_ENTITY_ROUTING_KEY,
-		AccountsModuleEntities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITIES_CREATED_ENTITY_ROUTING_KEY,
+		AccountsModuleEntities\Accounts\Account::class    => Metadata\Constants::MESSAGE_BUS_ACCOUNT_ENTITY_CREATED_ROUTING_KEY,
+		AccountsModuleEntities\Emails\Email::class        => Metadata\Constants::MESSAGE_BUS_EMAIL_ENTITY_CREATED_ROUTING_KEY,
+		AccountsModuleEntities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITY_ENTITY_CREATED_ROUTING_KEY,
 	];
 
 	public const MESSAGE_BUS_UPDATED_ENTITIES_ROUTING_KEYS_MAPPING = [
-		AccountsModuleEntities\Accounts\Account::class    => Metadata\Constants::MESSAGE_BUS_ACCOUNTS_UPDATED_ENTITY_ROUTING_KEY,
-		AccountsModuleEntities\Emails\Email::class        => Metadata\Constants::MESSAGE_BUS_EMAILS_UPDATED_ENTITY_ROUTING_KEY,
-		AccountsModuleEntities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITIES_UPDATED_ENTITY_ROUTING_KEY,
+		AccountsModuleEntities\Accounts\Account::class    => Metadata\Constants::MESSAGE_BUS_ACCOUNT_ENTITY_UPDATED_ROUTING_KEY,
+		AccountsModuleEntities\Emails\Email::class        => Metadata\Constants::MESSAGE_BUS_EMAIL_ENTITY_UPDATED_ROUTING_KEY,
+		AccountsModuleEntities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITY_ENTITY_UPDATED_ROUTING_KEY,
 	];
 
 	public const MESSAGE_BUS_DELETED_ENTITIES_ROUTING_KEYS_MAPPING = [
-		AccountsModuleEntities\Accounts\Account::class    => Metadata\Constants::MESSAGE_BUS_ACCOUNTS_DELETED_ENTITY_ROUTING_KEY,
-		AccountsModuleEntities\Emails\Email::class        => Metadata\Constants::MESSAGE_BUS_EMAILS_DELETED_ENTITY_ROUTING_KEY,
-		AccountsModuleEntities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITIES_DELETED_ENTITY_ROUTING_KEY,
+		AccountsModuleEntities\Accounts\Account::class    => Metadata\Constants::MESSAGE_BUS_ACCOUNT_ENTITY_DELETED_ROUTING_KEY,
+		AccountsModuleEntities\Emails\Email::class        => Metadata\Constants::MESSAGE_BUS_EMAIL_ENTITY_DELETED_ROUTING_KEY,
+		AccountsModuleEntities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITY_ENTITY_DELETED_ROUTING_KEY,
 	];
 
 }
