@@ -41,16 +41,16 @@
   "minimum-stability" : "stable",
 
   "require" : {
-    "php": ">=7.4.0|>=8.0.0",
-    "cweagans/composer-patches": "^1.7",
-    "fastybird/exchange": "^0.36",
-    "fastybird/json-api": "^0.10",
-    "fastybird/metadata": "^0.53",
-    "fastybird/simple-auth": "^0.3",
-    "fastybird/web-server": "^0.8",
-    "ipub/doctrine-consistence": "^0.4",
-    "ipub/doctrine-timestampable": "^1.5",
-    "nettrine/orm": "^0.8"
+    "php" : ">=7.4.0|>=8.0.0",
+    "cweagans/composer-patches" : "^1.7",
+    "fastybird/exchange" : "^0.39",
+    "fastybird/json-api" : "^0.10",
+    "fastybird/metadata" : "^0.56",
+    "fastybird/simple-auth" : "^0.3",
+    "fastybird/web-server" : "^0.8",
+    "ipub/doctrine-consistence" : "^0.4",
+    "ipub/doctrine-timestampable" : "^1.5",
+    "nettrine/orm" : "^0.8"
   },
 
   "require-dev" : {
