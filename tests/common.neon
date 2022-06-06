@@ -22,6 +22,7 @@ extensions:
     nettrineOrmAnnotations              : Nettrine\ORM\DI\OrmAnnotationsExtension
     nettrineOrmConsole                  : Nettrine\ORM\DI\OrmConsoleExtension
     nettrineOrmCache                    : Nettrine\ORM\DI\OrmCacheExtension
+    ipubPhone                           : IPub\Phone\DI\PhoneExtension
     ipubDoctrineConsistence             : IPub\DoctrineConsistence\DI\DoctrineConsistenceExtension
     ipubDoctrineCrud                    : IPub\DoctrineCrud\DI\DoctrineCrudExtension
     ipubDoctrineTimestampable           : IPub\DoctrineTimestampable\DI\DoctrineTimestampableExtension
@@ -31,6 +32,7 @@ extensions:
     fbSimpleAuth                        : FastyBird\SimpleAuth\DI\SimpleAuthExtension
     fbSocketServerFactory               : FastyBird\SocketServerFactory\DI\SocketServerFactoryExtension
     fbWebServer                         : FastyBird\WebServer\DI\WebServerExtension(%consoleMode%)
+    fbMetadata                          : FastyBird\Metadata\DI\MetadataExtension
 
 services:
     - {factory: Symfony\Component\Console\Application}
