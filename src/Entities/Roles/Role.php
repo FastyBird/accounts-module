@@ -65,9 +65,9 @@ class Role implements IRole
 	 * @var string
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
-	 * @ORM\Column(type="text", name="role_description", nullable=false)
+	 * @ORM\Column(type="text", name="role_comment", nullable=false)
 	 */
-	private string $description;
+	private string $comment;
 
 	/**
 	 * @var IRole|null
@@ -88,20 +88,20 @@ class Role implements IRole
 
 	/**
 	 * @param string $name
-	 * @param string $description
+	 * @param string $comment
 	 * @param Uuid\UuidInterface|null $id
 	 *
 	 * @throws Throwable
 	 */
 	public function __construct(
 		string $name,
-		string $description,
+		string $comment,
 		?Uuid\UuidInterface $id = null
 	) {
 		$this->id = $id ?? Uuid\Uuid::uuid4();
 
 		$this->name = $name;
-		$this->description = $description;
+		$this->comment = $comment;
 
 		$this->children = new Common\Collections\ArrayCollection();
 	}
@@ -109,17 +109,17 @@ class Role implements IRole
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDescription(): string
+	public function getComment(): string
 	{
-		return $this->description;
+		return $this->comment;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setDescription(string $description): void
+	public function setComment(string $comment): void
 	{
-		$this->description = $description;
+		$this->comment = $comment;
 	}
 
 	/**

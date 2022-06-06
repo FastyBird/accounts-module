@@ -14,7 +14,7 @@
     "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61",
     "attributes" : {
       "name" : "user",
-      "description" : "Authenticated with update",
+      "comment" : "Authenticated with update",
       "anonymous" : false,
       "authenticated" : true,
       "administrator" : false

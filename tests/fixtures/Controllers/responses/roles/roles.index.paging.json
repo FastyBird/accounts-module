@@ -20,7 +20,7 @@
       "id" : "337a0518-664b-40ef-bfbd-efbfbd7914ef",
       "attributes" : {
         "name" : "administrator",
-        "description" : "Administrator",
+        "comment" : "Administrator",
         "anonymous" : false,
         "authenticated" : false,
         "administrator" : true

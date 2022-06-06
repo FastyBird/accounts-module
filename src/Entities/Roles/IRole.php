@@ -44,16 +44,16 @@ interface IRole extends Entities\IEntity,
 	public function getName(): string;
 
 	/**
-	 * @param string $description
+	 * @param string $comment
 	 *
 	 * @return void
 	 */
-	public function setDescription(string $description): void;
+	public function setComment(string $comment): void;
 
 	/**
 	 * @return string
 	 */
-	public function getDescription(): string;
+	public function getComment(): string;
 
 	/**
 	 * @param IRole|null $parent

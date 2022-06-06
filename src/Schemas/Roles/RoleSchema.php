@@ -91,8 +91,8 @@ final class RoleSchema extends JsonApiSchemas\JsonApiSchema
 	public function getAttributes($role, JsonApi\Contracts\Schema\ContextInterface $context): iterable
 	{
 		return [
-			'name'        => $role->getName(),
-			'description' => $role->getDescription(),
+			'name'    => $role->getName(),
+			'comment' => $role->getComment(),
 
 			'anonymous'     => $role->isAnonymous(),
 			'authenticated' => $role->isAuthenticated(),

@@ -15,7 +15,7 @@
       "id" : "337a0518-664b-40ef-bfbd-efbfbd7914ef",
       "attributes" : {
         "name" : "administrator",
-        "description" : "Administrator",
+        "comment" : "Administrator",
         "anonymous" : false,
         "authenticated" : false,
         "administrator" : true
@@ -53,7 +53,7 @@
       "id" : "89f4a14f-7f78-4216-99b8-584ab9229f1c",
       "attributes" : {
         "name" : "manager",
-        "description" : "Manager",
+        "comment" : "Manager",
         "anonymous" : false,
         "authenticated" : true,
         "administrator" : false
@@ -96,7 +96,7 @@
       "id" : "efbfbd04-0158-efbf-bdef-bfbd4defbfbd",
       "attributes" : {
         "name" : "guest",
-        "description" : "Guest",
+        "comment" : "Guest",
         "anonymous" : true,
         "authenticated" : false,
         "administrator" : false
@@ -129,7 +129,7 @@
       "id" : "efbfbdef-bfbd-efbf-bd0f-efbfbd5c4f61",
       "attributes" : {
         "name" : "user",
-        "description" : "User",
+        "comment" : "User",
         "anonymous" : false,
         "authenticated" : true,
         "administrator" : false
