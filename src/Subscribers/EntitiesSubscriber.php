@@ -168,7 +168,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			$this->publisher->publish(
 				$entity->getSource(),
 				$publishRoutingKey,
-				$this->entityFactory->create(Utils\Json::encode($this->toArray($entity)), $routingKey)
+				$this->entityFactory->create(Utils\Json::encode($this->toArray($entity)), $publishRoutingKey)
 			);
 		}
 	}
