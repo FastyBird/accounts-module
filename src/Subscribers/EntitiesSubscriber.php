@@ -25,6 +25,7 @@ use FastyBird\AccountsModule\Exceptions;
 use FastyBird\DateTimeFactory;
 use FastyBird\Exchange\Publisher as ExchangePublisher;
 use FastyBird\Metadata;
+use FastyBird\Metadata\Entities as MetadataEntities;
 use Nette;
 use Nette\Utils;
 use Ramsey\Uuid;
@@ -51,6 +52,9 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 	/** @var DateTimeFactory\DateTimeFactory */
 	private DateTimeFactory\DateTimeFactory $dateTimeFactory;
 
+	/** @var MetadataEntities\GlobalEntityFactory */
+	private MetadataEntities\GlobalEntityFactory $entityFactory;
+
 	/** @var ExchangePublisher\Publisher|null */
 	private ?ExchangePublisher\Publisher $publisher;
 
@@ -59,10 +63,12 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 
 	public function __construct(
 		DateTimeFactory\DateTimeFactory $dateTimeFactory,
+		MetadataEntities\GlobalEntityFactory $entityFactory,
 		ORM\EntityManagerInterface $entityManager,
 		?ExchangePublisher\Publisher $publisher = null
 	) {
 		$this->dateTimeFactory = $dateTimeFactory;
+		$this->entityFactory = $entityFactory;
 		$this->publisher = $publisher;
 		$this->entityManager = $entityManager;
 	}
@@ -162,7 +168,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 			$this->publisher->publish(
 				$entity->getSource(),
 				$publishRoutingKey,
-				Utils\ArrayHash::from($this->toArray($entity))
+				$this->entityFactory->create(Utils\Json::encode($this->toArray($entity)), $routingKey)
 			);
 		}
 	}
