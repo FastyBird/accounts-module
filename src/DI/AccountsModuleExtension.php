@@ -29,6 +29,7 @@ use FastyBird\AccountsModule\Schemas;
 use FastyBird\AccountsModule\Security;
 use FastyBird\AccountsModule\Subscribers;
 use IPub\DoctrineCrud;
+use IPub\SlimRouter\Routing as SlimRouterRouting;
 use Nette;
 use Nette\DI;
 use Nette\PhpGenerator;
@@ -262,6 +263,16 @@ class AccountsModuleExtension extends DI\CompilerExtension implements Translatio
 				$ormAnnotationDriverService,
 				'FastyBird\AccountsModule\Entities',
 			]);
+		}
+
+		/**
+		 * Routes
+		 */
+
+		$routerService = $builder->getDefinitionByType(SlimRouterRouting\Router::class);
+
+		if ($routerService instanceof DI\Definitions\ServiceDefinition) {
+			$routerService->addSetup('?->registerRoutes(?)', [$builder->getDefinitionByType(Router\Routes::class), $routerService]);
 		}
 	}
 

@@ -20,7 +20,6 @@ use FastyBird\AccountsModule\Controllers;
 use FastyBird\AccountsModule\Middleware;
 use FastyBird\Metadata;
 use FastyBird\SimpleAuth\Middleware as SimpleAuthMiddleware;
-use FastyBird\WebServer\Router as WebServerRouter;
 use IPub\SlimRouter\Routing;
 
 /**
@@ -31,7 +30,7 @@ use IPub\SlimRouter\Routing;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-class Routes implements WebServerRouter\IRoutes
+class Routes
 {
 
 	public const URL_ITEM_ID = 'id';

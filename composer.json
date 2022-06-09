@@ -47,9 +47,9 @@
     "fastybird/json-api" : "^0.10",
     "fastybird/metadata" : "^0.60",
     "fastybird/simple-auth" : "^0.3",
-    "fastybird/web-server" : "^0.8",
     "ipub/doctrine-consistence" : "^0.4",
     "ipub/doctrine-timestampable" : "^1.5",
+    "ipub/slim-router": "^0.2",
     "nettrine/orm" : "^0.8"
   },
 
@@ -64,6 +64,7 @@
     "phpstan/phpstan-deprecation-rules" : "^0.12",
     "phpstan/phpstan-doctrine" : "^0.12",
     "phpstan/phpstan-nette" : "^0.12",
+    "react/http": "^1.6",
     "tracy/tracy" : "^2.9"
   },
 
