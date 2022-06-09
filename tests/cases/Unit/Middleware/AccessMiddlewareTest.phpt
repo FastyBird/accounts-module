@@ -2,8 +2,8 @@
 
 namespace Tests\Cases;
 
-use FastyBird\WebServer\Http;
 use IPub\SlimRouter;
+use IPub\SlimRouter\Http as SlimRouterHttp;
 use React\Http\Message\ServerRequest;
 use Tester\Assert;
 use Tests\Tools;
@@ -55,7 +55,7 @@ final class AccessMiddlewareTest extends DbTestCase
 			(string) $response->getBody()
 		);
 		Assert::same($statusCode, $response->getStatusCode());
-		Assert::type(Http\Response::class, $response);
+		Assert::type(SlimRouterHttp\Response::class, $response);
 	}
 
 }
