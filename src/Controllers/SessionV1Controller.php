@@ -262,8 +262,6 @@ final class SessionV1Controller extends BaseV1Controller
 			$this->getOrmConnection()->commit();
 
 		} catch (Throwable $ex) {
-			var_dump($this->user->getIdentity() !== null);
-			echo $ex->getMessage();
 			// Log caught exception
 			$this->logger->error('An unhandled error occurred', [
 				'source'    => 'accounts-module-session-controller',
