@@ -23,6 +23,7 @@ use FastyBird\AccountsModule;
 use FastyBird\AccountsModule\Entities;
 use FastyBird\AccountsModule\Exceptions;
 use FastyBird\DateTimeFactory;
+use FastyBird\Exchange\Entities as ExchangeEntities;
 use FastyBird\Exchange\Publisher as ExchangePublisher;
 use FastyBird\Metadata;
 use FastyBird\Metadata\Entities as MetadataEntities;
@@ -52,8 +53,8 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 	/** @var DateTimeFactory\DateTimeFactory */
 	private DateTimeFactory\DateTimeFactory $dateTimeFactory;
 
-	/** @var MetadataEntities\GlobalEntityFactory */
-	private MetadataEntities\GlobalEntityFactory $entityFactory;
+	/** @var ExchangeEntities\EntityFactory */
+	private ExchangeEntities\EntityFactory $entityFactory;
 
 	/** @var ExchangePublisher\Publisher|null */
 	private ?ExchangePublisher\Publisher $publisher;
@@ -63,7 +64,7 @@ final class EntitiesSubscriber implements Common\EventSubscriber
 
 	public function __construct(
 		DateTimeFactory\DateTimeFactory $dateTimeFactory,
-		MetadataEntities\GlobalEntityFactory $entityFactory,
+		ExchangeEntities\EntityFactory $entityFactory,
 		ORM\EntityManagerInterface $entityManager,
 		?ExchangePublisher\Publisher $publisher = null
 	) {
