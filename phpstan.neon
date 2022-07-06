@@ -2,5 +2,5 @@ parameters:
     level: max
     ignoreErrors:
         -
-            message: "#Syntax error, unexpected ')' on line 360#"
+            message: '#Syntax error, unexpected \'\)\' on line 360#'
             path: vendor/symfony/console/Command/Command.php
