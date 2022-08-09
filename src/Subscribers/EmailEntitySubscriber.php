@@ -62,8 +62,8 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 	 */
 	public function prePersist(ORM\Event\LifecycleEventArgs $eventArgs): void
 	{
-		$em = $eventArgs->getEntityManager();
-		$uow = $em->getUnitOfWork();
+		$manager = $eventArgs->getObjectManager();
+		$uow = $manager->getUnitOfWork();
 
 		// Check all scheduled updates
 		foreach ($uow->getScheduledEntityInsertions() as $object) {
@@ -86,8 +86,8 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 	 */
 	public function onFlush(ORM\Event\OnFlushEventArgs $eventArgs): void
 	{
-		$em = $eventArgs->getEntityManager();
-		$uow = $em->getUnitOfWork();
+		$manager = $eventArgs->getObjectManager();
+		$uow = $manager->getUnitOfWork();
 
 		// Check all scheduled updates
 		foreach (array_merge($uow->getScheduledEntityInsertions(), $uow->getScheduledEntityUpdates()) as $object) {
@@ -104,7 +104,7 @@ final class EmailEntitySubscriber implements Common\EventSubscriber
 
 			if ($object instanceof Entities\Emails\IEmail && $object->isDefault()) {
 				/** @phpstan-var ORM\Mapping\ClassMetadata<Entities\Emails\IEmail> $classMetadata */
-				$classMetadata = $em->getClassMetadata(get_class($object));
+				$classMetadata = $manager->getClassMetadata(get_class($object));
 
 				// Check if entity was set as default
 				if (array_key_exists('default', $changeSet)) {
