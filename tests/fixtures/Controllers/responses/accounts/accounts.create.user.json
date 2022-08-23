@@ -13,7 +13,7 @@
     "type" : "com.fastybird.accounts-module/account",
     "id" : "3de0c345-ea83-4585-a7ca-7759a2e1e66e",
     "attributes" : {
-      "state" : "notActivated",
+      "state" : "not_activated",
       "last_visit" : null,
       "registered" : "__TIME_PLACEHOLDER__",
       "name" : "Novák Pepa",

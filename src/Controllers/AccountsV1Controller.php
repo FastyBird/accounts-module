@@ -237,6 +237,7 @@ final class AccountsV1Controller extends BaseV1Controller
 			);
 
 		} catch (Throwable $ex) {
+			var_dump($ex->getMessage());
 			// Log caught exception
 			$this->logger->error('An unhandled error occurred', [
 				'source'    => 'accounts-module-accounts-controller',

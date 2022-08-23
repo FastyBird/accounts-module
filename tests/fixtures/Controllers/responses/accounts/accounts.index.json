@@ -162,7 +162,7 @@
       "type" : "com.fastybird.accounts-module/account",
       "id" : "fae8d781-7e2c-4318-9c85-43ba637d14c5",
       "attributes" : {
-        "state" : "approvalWaiting",
+        "state" : "approval_waiting",
         "last_visit" : "2019-05-29T07:38:24+02:00",
         "registered" : "2017-01-04T12:30:00+01:00",
         "name" : "Kent Clark",
@@ -229,7 +229,7 @@
       "type" : "com.fastybird.accounts-module/account",
       "id" : "fd23ccb4-8d87-4eb3-94da-638ab4e10ae3",
       "attributes" : {
-        "state" : "notActivated",
+        "state" : "not_activated",
         "last_visit" : "2019-05-29T07:38:24+02:00",
         "registered" : "2017-01-04T12:30:00+01:00",
         "name" : "Wane Bruce",

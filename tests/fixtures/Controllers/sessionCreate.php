@@ -89,7 +89,7 @@ return [
 		StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
 		__DIR__ . '/responses/session/session.create.notActivated.json',
 	],
-	'approvalWaiting'        => [
+	'approval_waiting'       => [
 		'/v1/session',
 		null,
 		file_get_contents(__DIR__ . '/requests/session/session.create.approvalWaiting.json'),
