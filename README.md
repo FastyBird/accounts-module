@@ -1,7 +1,7 @@
 # FastyBird IoT accounts module
 
-[![Build Status](https://badgen.net/github/checks/FastyBird/accounts-module/master?cache=300&style=flat-square)](https://github.com/FastyBird/accounts-module/actions)
-[![Licence](https://badgen.net/github/license/FastyBird/accounts-module?cache=300&style=flat-square)](https://github.com/FastyBird/accounts-module/blob/master/LICENSE.md)
+[![Build Status](https://badgen.net/github/checks/FastyBird/accounts-module/main?cache=300&style=flat-square)](https://github.com/FastyBird/accounts-module/actions)
+[![Licence](https://badgen.net/github/license/FastyBird/accounts-module?cache=300&style=flat-square)](https://github.com/FastyBird/accounts-module/blob/main/LICENSE.md)
 [![Coverage](https://badgen.net/coveralls/c/github/FastyBird/accounts-module?cache=300&style=flat-square)](https://coveralls.io/r/FastyBird/accounts-module)
 
 ![PHP](https://badgen.net/packagist/php/FastyBird/accounts-module?cache=300&style=flat-square)
@@ -69,7 +69,7 @@ npm install @fastybird/accounts-module
 ## Documentation
 
 Learn how to use accounts module and manage your accounts
-in [documentation](https://github.com/FastyBird/accounts-module/blob/master/.docs/en/index.md).
+in [documentation](https://github.com/FastyBird/accounts-module/blob/main/.docs/en/index.md).
 
 ## Feedback
 
