@@ -13,13 +13,15 @@
  * @date           31.03.20
  */
 
-namespace FastyBird\AccountsModule\Security;
+namespace FastyBird\Module\Accounts\Security;
 
-use FastyBird\AccountsModule\Entities;
-use FastyBird\AccountsModule\Exceptions;
-use FastyBird\AccountsModule\Models;
-use FastyBird\Metadata\Types as MetadataTypes;
+use FastyBird\Library\Metadata\Types as MetadataTypes;
+use FastyBird\Module\Accounts\Entities;
+use FastyBird\Module\Accounts\Exceptions;
+use FastyBird\Module\Accounts\Models;
 use FastyBird\SimpleAuth\Security as SimpleAuthSecurity;
+use IPub\DoctrineOrmQuery\Exceptions as DoctrineOrmQueryExceptions;
+use function is_string;
 
 /**
  * Account authentication
@@ -37,61 +39,76 @@ final class Authenticator implements SimpleAuthSecurity\IAuthenticator
 	public const INVALID_CREDENTIAL_FOR_UID = 120;
 
 	public const ACCOUNT_PROFILE_BLOCKED = 210;
+
 	public const ACCOUNT_PROFILE_DELETED = 220;
+
 	public const ACCOUNT_PROFILE_OTHER_ERROR = 230;
 
-	/** @var Models\Identities\IIdentityRepository */
-	private Models\Identities\IIdentityRepository $identityRepository;
-
 	public function __construct(
-		Models\Identities\IIdentityRepository $identityRepository
-	) {
-		$this->identityRepository = $identityRepository;
+		private readonly Models\Identities\IdentitiesRepository $identitiesRepository,
+	)
+	{
 	}
 
 	/**
-	 * Performs an system authentication.
+	 * Performs a system authentication
 	 *
-	 * @param mixed[] $credentials
+	 * @param Array<mixed> $credentials
 	 *
 	 * @return Entities\Identities\Identity
 	 *
-	 * @throws Exceptions\AccountNotFoundException
-	 * @throws Exceptions\AuthenticationFailedException
+	 * @throws DoctrineOrmQueryExceptions\InvalidStateException
+	 * @throws DoctrineOrmQueryExceptions\QueryException
+	 * @throws Exceptions\AccountNotFound
+	 * @throws Exceptions\AuthenticationFailed
+	 * @throws Exceptions\InvalidArgument
+	 * @throws Exceptions\InvalidState
 	 */
 	public function authenticate(array $credentials): SimpleAuthSecurity\IIdentity
 	{
 		[$username, $password] = $credentials + [null, null];
 
-		/** @var Entities\Identities\Identity|null $identity */
-		$identity = $this->identityRepository->findOneByUid($username);
-
-		if ($identity === null) {
-			throw new Exceptions\AccountNotFoundException('The identity identifier is incorrect', self::IDENTITY_UID_NOT_FOUND);
+		if (!is_string($username)) {
+			throw new Exceptions\AccountNotFound('The identity identifier is incorrect', self::IDENTITY_UID_NOT_FOUND);
 		}
 
-		// Check if password is ok
-		if (!$identity->verifyPassword((string) $password)) {
-			throw new Exceptions\AuthenticationFailedException('The password is incorrect', self::INVALID_CREDENTIAL_FOR_UID);
+		$identity = $this->identitiesRepository->findOneByUid($username);
+
+		if ($identity === null) {
+			throw new Exceptions\AccountNotFound('The identity identifier is incorrect', self::IDENTITY_UID_NOT_FOUND);
+		}
+
+		if (!is_string($password)) {
+			throw new Exceptions\AuthenticationFailed('The password is incorrect', self::INVALID_CREDENTIAL_FOR_UID);
+		}
+
+		if (!$identity->verifyPassword($password)) {
+			throw new Exceptions\AuthenticationFailed('The password is incorrect', self::INVALID_CREDENTIAL_FOR_UID);
 		}
 
 		$account = $identity->getAccount();
 
 		if ($account->getState()
-			->equalsValue(MetadataTypes\AccountStateType::STATE_ACTIVE)) {
+			->equalsValue(MetadataTypes\AccountState::STATE_ACTIVE)) {
 			return $identity;
 		}
 
-		if ($account->getState()
-			->equalsValue(MetadataTypes\AccountStateType::STATE_BLOCKED)) {
-			throw new Exceptions\AuthenticationFailedException('Account profile is blocked', self::ACCOUNT_PROFILE_BLOCKED);
-
-		} elseif ($account->getState()
-			->equalsValue(MetadataTypes\AccountStateType::STATE_DELETED)) {
-			throw new Exceptions\AuthenticationFailedException('Account profile is deleted', self::ACCOUNT_PROFILE_DELETED);
+		if ($account->getState()->equalsValue(MetadataTypes\AccountState::STATE_BLOCKED)) {
+			throw new Exceptions\AuthenticationFailed(
+				'Account profile is blocked',
+				self::ACCOUNT_PROFILE_BLOCKED,
+			);
+		} elseif ($account->getState()->equalsValue(MetadataTypes\AccountState::STATE_DELETED)) {
+			throw new Exceptions\AuthenticationFailed(
+				'Account profile is deleted',
+				self::ACCOUNT_PROFILE_DELETED,
+			);
 		}
 
-		throw new Exceptions\AuthenticationFailedException('Account profile is not available', self::ACCOUNT_PROFILE_OTHER_ERROR);
+		throw new Exceptions\AuthenticationFailed(
+			'Account profile is not available',
+			self::ACCOUNT_PROFILE_OTHER_ERROR,
+		);
 	}
 
 }

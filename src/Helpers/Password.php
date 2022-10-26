@@ -13,11 +13,12 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\AccountsModule\Helpers;
+namespace FastyBird\Module\Accounts\Helpers;
 
-use FastyBird\AccountsModule\Exceptions;
+use FastyBird\Module\Accounts\Exceptions;
 use Nette;
 use Nette\Utils;
+use function hash;
 
 /**
  * Password generator and verification
@@ -34,22 +35,23 @@ final class Password
 
 	private const SEPARATOR = '##';
 
-	/** @var string */
 	private string $hash;
 
-	/** @var string */
 	private string $salt;
 
-	/** @var string */
 	private string $password;
 
+	/**
+	 * @throws Exceptions\InvalidState
+	 */
 	public function __construct(
-		?string $hash = null,
-		?string $password = null,
-		?string $salt = null
-	) {
+		string|null $hash = null,
+		string|null $password = null,
+		string|null $salt = null,
+	)
+	{
 		if ($password !== null && $hash !== null) {
-			throw new Exceptions\InvalidStateException('Only password string or hash could be provided');
+			throw new Exceptions\InvalidState('Only password string or hash could be provided');
 		}
 
 		if ($salt !== null) {
@@ -66,92 +68,63 @@ final class Password
 			$this->hash = $hash;
 
 		} else {
-			throw new Exceptions\InvalidStateException('Password or hash have to be provided');
+			throw new Exceptions\InvalidState('Password or hash have to be provided');
 		}
 	}
 
 	/**
-	 * @return string
-	 */
-	public function createSalt(): string
-	{
-		return $this->salt = Utils\Random::generate(5);
-	}
-
-	/**
-	 * @param int $length
-	 *
-	 * @return Password
+	 * @throws Exceptions\InvalidState
 	 */
 	public static function createRandom(int $length = 4): Password
 	{
+		if ($length < 1) {
+			$length = 4;
+		}
+
 		return new self(null, Utils\Random::generate($length));
 	}
 
 	/**
-	 * @param string $password
-	 *
-	 * @return Password
+	 * @throws Exceptions\InvalidState
 	 */
 	public static function createFromString(string $password): Password
 	{
 		return new self(null, $password);
 	}
 
-	/**
-	 * @return string
-	 */
+	public function createSalt(): string
+	{
+		return $this->salt = Utils\Random::generate(5);
+	}
+
 	public function getSalt(): string
 	{
 		return $this->salt;
 	}
 
-	/**
-	 * @param string $salt
-	 *
-	 * @return void
-	 */
 	public function setSalt(string $salt): void
 	{
 		$this->salt = $salt;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getHash(): string
 	{
 		return $this->hash;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getPassword(): ?string
+	public function getPassword(): string
 	{
 		return $this->password;
 	}
 
-	/**
-	 * @param string $password
-	 * @param string|null $salt
-	 *
-	 * @return void
-	 */
-	public function setPassword(string $password, ?string $salt = null): void
+	public function setPassword(string $password, string|null $salt = null): void
 	{
 		$this->password = $password;
 		$this->salt = $salt ?? $this->createSalt();
 		$this->hash = $this->hashPassword($password, $this->salt);
 	}
 
-	/**
-	 * @param string $password
-	 * @param string|null $salt
-	 *
-	 * @return bool
-	 */
-	public function isEqual(string $password, ?string $salt = null): bool
+	public function isEqual(string $password, string|null $salt = null): bool
 	{
 		if ($salt !== null) {
 			$this->salt = $salt;
@@ -160,20 +133,11 @@ final class Password
 		return $this->hash === $this->hashPassword($password, $this->salt);
 	}
 
-	/**
-	 * @param string $password
-	 * @param string|null $salt
-	 *
-	 * @return string
-	 */
-	private function hashPassword(string $password, ?string $salt = null): string
+	private function hashPassword(string $password, string|null $salt = null): string
 	{
 		return hash('sha512', $salt . self::SEPARATOR . $password);
 	}
 
-	/**
-	 * @return string
-	 */
 	public function __toString(): string
 	{
 		return $this->hash;

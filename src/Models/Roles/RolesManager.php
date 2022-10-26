@@ -13,13 +13,15 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\AccountsModule\Models\Roles;
+namespace FastyBird\Module\Accounts\Models\Roles;
 
-use FastyBird\AccountsModule\Entities;
-use FastyBird\AccountsModule\Models;
-use IPub\DoctrineCrud\Crud;
+use FastyBird\Module\Accounts\Entities;
+use FastyBird\Module\Accounts\Models;
+use IPub\DoctrineCrud\Crud as DoctrineCrudCrud;
+use IPub\DoctrineCrud\Exceptions as DoctrineCrudExceptions;
 use Nette;
 use Nette\Utils;
+use function assert;
 
 /**
  * ACL roles entities manager
@@ -29,64 +31,48 @@ use Nette\Utils;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-class RolesManager implements IRolesManager
+class RolesManager
 {
 
 	use Nette\SmartObject;
 
 	/**
-	 * @var Crud\IEntityCrud
-	 *
-	 * @phpstan-var Crud\IEntityCrud<Entities\Roles\IRole>
+	 * @param DoctrineCrudCrud\IEntityCrud<Entities\Roles\Role> $entityCrud
 	 */
-	private Crud\IEntityCrud $entityCrud;
-
-	/**
-	 * @phpstan-param Crud\IEntityCrud<Entities\Roles\IRole> $entityCrud
-	 */
-	public function __construct(
-		Crud\IEntityCrud $entityCrud
-	) {
+	public function __construct(private readonly DoctrineCrudCrud\IEntityCrud $entityCrud)
+	{
 		// Entity CRUD for handling entities
-		$this->entityCrud = $entityCrud;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function create(
-		Utils\ArrayHash $values
-	): Entities\Roles\IRole {
-		/** @var Entities\Roles\IRole $entity */
-		$entity = $this->entityCrud->getEntityCreator()
-			->create($values);
+	public function create(Utils\ArrayHash $values): Entities\Roles\Role
+	{
+		$entity = $this->entityCrud->getEntityCreator()->create($values);
+		assert($entity instanceof Entities\Roles\Role);
 
 		return $entity;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws DoctrineCrudExceptions\InvalidArgumentException
 	 */
 	public function update(
-		Entities\Roles\IRole $entity,
-		Utils\ArrayHash $values
-	): Entities\Roles\IRole {
-		/** @var Entities\Roles\IRole $entity */
-		$entity = $this->entityCrud->getEntityUpdater()
-			->update($values, $entity);
+		Entities\Roles\Role $entity,
+		Utils\ArrayHash $values,
+	): Entities\Roles\Role
+	{
+		$entity = $this->entityCrud->getEntityUpdater()->update($values, $entity);
+		assert($entity instanceof Entities\Roles\Role);
 
 		return $entity;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws DoctrineCrudExceptions\InvalidArgumentException
 	 */
-	public function delete(
-		Entities\Roles\IRole $entity
-	): bool {
+	public function delete(Entities\Roles\Role $entity): bool
+	{
 		// Delete entity from database
-		return $this->entityCrud->getEntityDeleter()
-			->delete($entity);
+		return $this->entityCrud->getEntityDeleter()->delete($entity);
 	}
 
 }

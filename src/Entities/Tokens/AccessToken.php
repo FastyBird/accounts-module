@@ -13,22 +13,25 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\AccountsModule\Entities\Tokens;
+namespace FastyBird\Module\Accounts\Entities\Tokens;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use FastyBird\AccountsModule\Entities;
-use FastyBird\AccountsModule\Exceptions;
+use FastyBird\Module\Accounts\Entities;
+use FastyBird\Module\Accounts\Exceptions;
 use FastyBird\SimpleAuth\Entities as SimpleAuthEntities;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
-use Throwable;
 
 /**
  * @ORM\Entity
  */
-class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToken
+class AccessToken extends SimpleAuthEntities\Tokens\Token implements
+	Entities\Entity,
+	Entities\EntityParams,
+	DoctrineTimestampable\Entities\IEntityCreated,
+	DoctrineTimestampable\Entities\IEntityUpdated
 {
 
 	use Entities\TEntity;
@@ -36,59 +39,44 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 	use DoctrineTimestampable\Entities\TEntityCreated;
 	use DoctrineTimestampable\Entities\TEntityUpdated;
 
-	/**
-	 * @var Entities\Identities\IIdentity|null
-	 *
-	 * @IPubDoctrine\Crud(is="required")
-	 * @ORM\ManyToOne(targetEntity="FastyBird\AccountsModule\Entities\Identities\Identity")
-	 * @ORM\JoinColumn(name="identity_id", referencedColumnName="identity_id", onDelete="cascade", nullable=true)
-	 */
-	private ?Entities\Identities\IIdentity $identity = null;
+	public const TOKEN_EXPIRATION = '+6 hours';
 
 	/**
-	 * @var DateTimeInterface|null
-	 *
+	 * @IPubDoctrine\Crud(is="required")
+	 * @ORM\ManyToOne(targetEntity="FastyBird\Module\Accounts\Entities\Identities\Identity")
+	 * @ORM\JoinColumn(name="identity_id", referencedColumnName="identity_id", onDelete="cascade", nullable=true)
+	 */
+	private Entities\Identities\Identity|null $identity = null;
+
+	/**
 	 * @IPubDoctrine\Crud(is={"writable"})
 	 * @ORM\Column(name="token_valid_till", type="datetime", nullable=true)
 	 */
-	private ?DateTimeInterface $validTill = null;
+	private DateTimeInterface|null $validTill = null;
 
-	/**
-	 * @param Entities\Identities\IIdentity $identity
-	 * @param string $token
-	 * @param DateTimeInterface|null $validTill
-	 * @param Uuid\UuidInterface|null $id
-	 *
-	 * @throws Throwable
-	 */
 	public function __construct(
-		Entities\Identities\IIdentity $identity,
+		Entities\Identities\Identity $identity,
 		string $token,
-		?DateTimeInterface $validTill,
-		?Uuid\UuidInterface $id = null
-	) {
+		DateTimeInterface|null $validTill,
+		Uuid\UuidInterface|null $id = null,
+	)
+	{
 		parent::__construct($token, $id);
 
 		$this->identity = $identity;
 		$this->validTill = $validTill;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setRefreshToken(IRefreshToken $refreshToken): void
+	public function setRefreshToken(RefreshToken $refreshToken): void
 	{
 		parent::addChild($refreshToken);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getRefreshToken(): ?IRefreshToken
+	public function getRefreshToken(): RefreshToken|null
 	{
 		$token = $this->children->first();
 
-		if ($token instanceof IRefreshToken) {
+		if ($token instanceof RefreshToken) {
 			return $token;
 		}
 
@@ -96,28 +84,22 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws Exceptions\InvalidState
 	 */
-	public function getIdentity(): Entities\Identities\IIdentity
+	public function getIdentity(): Entities\Identities\Identity
 	{
 		if ($this->identity === null) {
-			throw new Exceptions\InvalidStateException('Identity is not set to token.');
+			throw new Exceptions\InvalidState('Identity is not set to token.');
 		}
 
 		return $this->identity;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getValidTill(): ?DateTimeInterface
+	public function getValidTill(): DateTimeInterface|null
 	{
 		return $this->validTill;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isValid(DateTimeInterface $dateTime): bool
 	{
 		if ($this->validTill === null) {
@@ -125,6 +107,16 @@ class AccessToken extends SimpleAuthEntities\Tokens\Token implements IAccessToke
 		}
 
 		return $this->validTill >= $dateTime;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function toArray(): array
+	{
+		return [
+			'id' => $this->getPlainId(),
+		];
 	}
 
 }

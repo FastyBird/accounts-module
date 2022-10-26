@@ -13,10 +13,9 @@
  * @date           12.06.20
  */
 
-namespace FastyBird\AccountsModule;
+namespace FastyBird\Module\Accounts;
 
-use FastyBird\AccountsModule\Entities as AccountsModuleEntities;
-use FastyBird\Metadata;
+use FastyBird\Library\Metadata;
 use FastyBird\SimpleAuth;
 
 /**
@@ -35,30 +34,49 @@ final class Constants
 	 */
 
 	public const ROUTE_NAME_ME = 'me';
+
 	public const ROUTE_NAME_ME_RELATIONSHIP = 'me.relationship';
+
 	public const ROUTE_NAME_ME_EMAILS = 'me.emails';
+
 	public const ROUTE_NAME_ME_EMAIL = 'me.email';
+
 	public const ROUTE_NAME_ME_EMAIL_RELATIONSHIP = 'me.email.relationship';
+
 	public const ROUTE_NAME_ME_IDENTITIES = 'me.identities';
+
 	public const ROUTE_NAME_ME_IDENTITY = 'me.identity';
+
 	public const ROUTE_NAME_ME_IDENTITY_RELATIONSHIP = 'me.identity.relationship';
 
 	public const ROUTE_NAME_ACCOUNTS = 'accounts';
+
 	public const ROUTE_NAME_ACCOUNT = 'account';
+
 	public const ROUTE_NAME_ACCOUNT_RELATIONSHIP = 'account.relationship';
+
 	public const ROUTE_NAME_ACCOUNT_EMAILS = 'account.emails';
+
 	public const ROUTE_NAME_ACCOUNT_EMAIL = 'account.email';
+
 	public const ROUTE_NAME_ACCOUNT_EMAIL_RELATIONSHIP = 'account.email.relationship';
+
 	public const ROUTE_NAME_ACCOUNT_IDENTITIES = 'account.identities';
+
 	public const ROUTE_NAME_ACCOUNT_IDENTITY = 'account.identity';
+
 	public const ROUTE_NAME_ACCOUNT_IDENTITY_RELATIONSHIP = 'account.identity.relationship';
 
 	public const ROUTE_NAME_SESSION = 'session';
+
 	public const ROUTE_NAME_SESSION_RELATIONSHIP = 'session.relationship';
 
 	public const ROUTE_NAME_ROLE = 'role';
+
 	public const ROUTE_NAME_ROLES = 'roles';
+
 	public const ROUTE_NAME_ROLE_RELATIONSHIP = 'role.relationship';
+
 	public const ROUTE_NAME_ROLE_CHILDREN = 'role.children';
 
 	/**
@@ -78,27 +96,28 @@ final class Constants
 	 */
 
 	public const IDENTITY_UID_MAXIMAL_LENGTH = 50;
+
 	public const IDENTITY_PASSWORD_MINIMAL_LENGTH = 8;
 
 	/**
 	 * Message bus routing keys mapping
 	 */
 	public const MESSAGE_BUS_CREATED_ENTITIES_ROUTING_KEYS_MAPPING = [
-		AccountsModuleEntities\Accounts\Account::class    => Metadata\Constants::MESSAGE_BUS_ACCOUNT_ENTITY_CREATED_ROUTING_KEY,
-		AccountsModuleEntities\Emails\Email::class        => Metadata\Constants::MESSAGE_BUS_EMAIL_ENTITY_CREATED_ROUTING_KEY,
-		AccountsModuleEntities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITY_ENTITY_CREATED_ROUTING_KEY,
+		Entities\Accounts\Account::class => Metadata\Constants::MESSAGE_BUS_ACCOUNT_ENTITY_CREATED_ROUTING_KEY,
+		Entities\Emails\Email::class => Metadata\Constants::MESSAGE_BUS_EMAIL_ENTITY_CREATED_ROUTING_KEY,
+		Entities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITY_ENTITY_CREATED_ROUTING_KEY,
 	];
 
 	public const MESSAGE_BUS_UPDATED_ENTITIES_ROUTING_KEYS_MAPPING = [
-		AccountsModuleEntities\Accounts\Account::class    => Metadata\Constants::MESSAGE_BUS_ACCOUNT_ENTITY_UPDATED_ROUTING_KEY,
-		AccountsModuleEntities\Emails\Email::class        => Metadata\Constants::MESSAGE_BUS_EMAIL_ENTITY_UPDATED_ROUTING_KEY,
-		AccountsModuleEntities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITY_ENTITY_UPDATED_ROUTING_KEY,
+		Entities\Accounts\Account::class => Metadata\Constants::MESSAGE_BUS_ACCOUNT_ENTITY_UPDATED_ROUTING_KEY,
+		Entities\Emails\Email::class => Metadata\Constants::MESSAGE_BUS_EMAIL_ENTITY_UPDATED_ROUTING_KEY,
+		Entities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITY_ENTITY_UPDATED_ROUTING_KEY,
 	];
 
 	public const MESSAGE_BUS_DELETED_ENTITIES_ROUTING_KEYS_MAPPING = [
-		AccountsModuleEntities\Accounts\Account::class    => Metadata\Constants::MESSAGE_BUS_ACCOUNT_ENTITY_DELETED_ROUTING_KEY,
-		AccountsModuleEntities\Emails\Email::class        => Metadata\Constants::MESSAGE_BUS_EMAIL_ENTITY_DELETED_ROUTING_KEY,
-		AccountsModuleEntities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITY_ENTITY_DELETED_ROUTING_KEY,
+		Entities\Accounts\Account::class => Metadata\Constants::MESSAGE_BUS_ACCOUNT_ENTITY_DELETED_ROUTING_KEY,
+		Entities\Emails\Email::class => Metadata\Constants::MESSAGE_BUS_EMAIL_ENTITY_DELETED_ROUTING_KEY,
+		Entities\Identities\Identity::class => Metadata\Constants::MESSAGE_BUS_IDENTITY_ENTITY_DELETED_ROUTING_KEY,
 	];
 
 }

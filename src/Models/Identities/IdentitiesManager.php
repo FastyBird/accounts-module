@@ -13,13 +13,15 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\AccountsModule\Models\Identities;
+namespace FastyBird\Module\Accounts\Models\Identities;
 
-use FastyBird\AccountsModule\Entities;
-use FastyBird\AccountsModule\Models;
-use IPub\DoctrineCrud\Crud;
+use FastyBird\Module\Accounts\Entities;
+use FastyBird\Module\Accounts\Models;
+use IPub\DoctrineCrud\Crud as DoctrineCrudCrud;
+use IPub\DoctrineCrud\Exceptions as DoctrineCrudExceptions;
 use Nette;
 use Nette\Utils;
+use function assert;
 
 /**
  * User identities entities manager
@@ -29,64 +31,50 @@ use Nette\Utils;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-class IdentitiesManager implements IIdentitiesManager
+class IdentitiesManager
 {
 
 	use Nette\SmartObject;
 
 	/**
-	 * @var Crud\IEntityCrud
-	 *
-	 * @phpstan-var Crud\IEntityCrud<Entities\Identities\IIdentity>
+	 * @param DoctrineCrudCrud\IEntityCrud<Entities\Identities\Identity> $entityCrud
 	 */
-	private Crud\IEntityCrud $entityCrud;
-
-	/**
-	 * @phpstan-param Crud\IEntityCrud<Entities\Identities\IIdentity> $entityCrud
-	 */
-	public function __construct(
-		Crud\IEntityCrud $entityCrud
-	) {
+	public function __construct(private readonly DoctrineCrudCrud\IEntityCrud $entityCrud)
+	{
 		// Entity CRUD for handling entities
-		$this->entityCrud = $entityCrud;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function create(
-		Utils\ArrayHash $values
-	): Entities\Identities\IIdentity {
-		/** @var Entities\Identities\IIdentity $entity */
-		$entity = $this->entityCrud->getEntityCreator()
-			->create($values);
+		Utils\ArrayHash $values,
+	): Entities\Identities\Identity
+	{
+		$entity = $this->entityCrud->getEntityCreator()->create($values);
+		assert($entity instanceof Entities\Identities\Identity);
 
 		return $entity;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws DoctrineCrudExceptions\InvalidArgumentException
 	 */
 	public function update(
-		Entities\Identities\IIdentity $entity,
-		Utils\ArrayHash $values
-	): Entities\Identities\IIdentity {
-		/** @var Entities\Identities\IIdentity $entity */
-		$entity = $this->entityCrud->getEntityUpdater()
-			->update($values, $entity);
+		Entities\Identities\Identity $entity,
+		Utils\ArrayHash $values,
+	): Entities\Identities\Identity
+	{
+		$entity = $this->entityCrud->getEntityUpdater()->update($values, $entity);
+		assert($entity instanceof Entities\Identities\Identity);
 
 		return $entity;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws DoctrineCrudExceptions\InvalidArgumentException
 	 */
-	public function delete(
-		Entities\Identities\IIdentity $entity
-	): bool {
+	public function delete(Entities\Identities\Identity $entity): bool
+	{
 		// Delete entity from database
-		return $this->entityCrud->getEntityDeleter()
-			->delete($entity);
+		return $this->entityCrud->getEntityDeleter()->delete($entity);
 	}
 
 }

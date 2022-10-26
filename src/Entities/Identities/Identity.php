@@ -13,18 +13,21 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\AccountsModule\Entities\Identities;
+namespace FastyBird\Module\Accounts\Entities\Identities;
 
 use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
 use Doctrine\ORM\Mapping as ORM;
-use FastyBird\AccountsModule\Entities;
-use FastyBird\AccountsModule\Helpers;
-use FastyBird\Metadata\Types as MetadataTypes;
+use FastyBird\Library\Metadata\Types as MetadataTypes;
+use FastyBird\Module\Accounts\Entities;
+use FastyBird\Module\Accounts\Exceptions;
+use FastyBird\Module\Accounts\Helpers;
+use FastyBird\SimpleAuth\Security as SimpleAuthSecurity;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Nette\Utils;
 use Ramsey\Uuid;
-use Throwable;
+use function array_map;
+use function strval;
 
 /**
  * @ORM\Entity
@@ -44,7 +47,11 @@ use Throwable;
  *     }
  * )
  */
-class Identity implements IIdentity
+class Identity implements Entities\Entity,
+	SimpleAuthSecurity\IIdentity,
+	Entities\EntityParams,
+	DoctrineTimestampable\Entities\IEntityCreated,
+	DoctrineTimestampable\Entities\IEntityUpdated
 {
 
 	use Entities\TEntity;
@@ -53,8 +60,6 @@ class Identity implements IIdentity
 	use DoctrineTimestampable\Entities\TEntityUpdated;
 
 	/**
-	 * @var Uuid\UuidInterface
-	 *
 	 * @ORM\Id
 	 * @ORM\Column(type="uuid_binary", name="identity_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
@@ -62,68 +67,59 @@ class Identity implements IIdentity
 	protected Uuid\UuidInterface $id;
 
 	/**
-	 * @var Entities\Accounts\IAccount
-	 *
 	 * @IPubDoctrine\Crud(is="required")
-	 * @ORM\ManyToOne(targetEntity="FastyBird\AccountsModule\Entities\Accounts\Account", inversedBy="identities", cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity="FastyBird\Module\Accounts\Entities\Accounts\Account", inversedBy="identities", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id", onDelete="cascade", nullable=false)
 	 */
-	protected Entities\Accounts\IAccount $account;
+	protected Entities\Accounts\Account $account;
 
 	/**
-	 * @var string
-	 *
 	 * @IPubDoctrine\Crud(is="required")
 	 * @ORM\Column(type="string", name="identity_uid", length=50, nullable=false)
 	 */
 	protected string $uid;
 
 	/**
-	 * @var string
-	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="text", name="identity_token", nullable=false)
 	 */
 	protected string $password;
 
-	/** @var string|null */
-	protected ?string $plainPassword = null;
+	protected string|null $plainPassword = null;
 
 	/**
-	 * @var MetadataTypes\IdentityStateType
+	 * @var MetadataTypes\IdentityState
 	 *
-	 * @Enum(class=MetadataTypes\IdentityStateType::class)
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+	 *
+	 * @Enum(class=MetadataTypes\IdentityState::class)
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="string_enum", name="identity_state", nullable=false, options={"default": "active"})
 	 */
 	protected $state;
 
 	/**
-	 * @param Entities\Accounts\IAccount $account
-	 * @param string $uid
-	 * @param string $password
-	 * @param Uuid\UuidInterface|null $id
-	 *
-	 * @throws Throwable
+	 * @throws Exceptions\InvalidState
 	 */
 	public function __construct(
-		Entities\Accounts\IAccount $account,
+		Entities\Accounts\Account $account,
 		string $uid,
 		string $password,
-		?Uuid\UuidInterface $id = null
-	) {
+		Uuid\UuidInterface|null $id = null,
+	)
+	{
 		$this->id = $id ?? Uuid\Uuid::uuid4();
 
 		$this->account = $account;
 		$this->uid = $uid;
 
-		$this->state = MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_ACTIVE);
+		$this->state = MetadataTypes\IdentityState::get(MetadataTypes\IdentityState::STATE_ACTIVE);
 
 		$this->setPassword($password);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws Exceptions\InvalidState
 	 */
 	public function verifyPassword(string $rawPassword): bool
 	{
@@ -132,7 +128,7 @@ class Identity implements IIdentity
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws Exceptions\InvalidState
 	 */
 	public function getPassword(): Helpers\Password
 	{
@@ -142,9 +138,9 @@ class Identity implements IIdentity
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws Exceptions\InvalidState
 	 */
-	public function setPassword($password): void
+	public function setPassword(string|Helpers\Password $password): void
 	{
 		if ($password instanceof Helpers\Password) {
 			$this->password = $password->getHash();
@@ -159,52 +155,36 @@ class Identity implements IIdentity
 		$this->setSalt($password->getSalt());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getSalt(): ?string
+	public function getSalt(): string|null
 	{
-		return $this->getParam('salt');
+		$salt = $this->getParam('salt');
+
+		return $salt === null ? null : strval($salt);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setSalt(string $salt): void
 	{
 		$this->setParam('salt', $salt);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isActive(): bool
 	{
-		return $this->state === MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_ACTIVE);
+		return $this->state === MetadataTypes\IdentityState::get(MetadataTypes\IdentityState::STATE_ACTIVE);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isBlocked(): bool
 	{
-		return $this->state === MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_BLOCKED);
+		return $this->state === MetadataTypes\IdentityState::get(MetadataTypes\IdentityState::STATE_BLOCKED);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isDeleted(): bool
 	{
-		return $this->state === MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_DELETED);
+		return $this->state === MetadataTypes\IdentityState::get(MetadataTypes\IdentityState::STATE_DELETED);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isInvalid(): bool
 	{
-		return $this->state === MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_INVALID);
+		return $this->state === MetadataTypes\IdentityState::get(MetadataTypes\IdentityState::STATE_INVALID);
 	}
 
 	/**
@@ -212,17 +192,35 @@ class Identity implements IIdentity
 	 */
 	public function getRoles(): array
 	{
-		return array_map(function (Entities\Roles\IRole $role): string {
-			return $role->getName();
-		}, $this->account->getRoles());
+		return array_map(
+			static fn (Entities\Roles\Role $role): string => $role->getName(),
+			$this->account->getRoles(),
+		);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function invalidate(): void
 	{
-		$this->state = MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_INVALID);
+		$this->state = MetadataTypes\IdentityState::get(MetadataTypes\IdentityState::STATE_INVALID);
+	}
+
+	public function getAccount(): Entities\Accounts\Account
+	{
+		return $this->account;
+	}
+
+	public function getUid(): string
+	{
+		return $this->uid;
+	}
+
+	public function getState(): MetadataTypes\IdentityState
+	{
+		return $this->state;
+	}
+
+	public function setState(MetadataTypes\IdentityState $state): void
+	{
+		$this->state = $state;
 	}
 
 	/**
@@ -231,49 +229,15 @@ class Identity implements IIdentity
 	public function toArray(): array
 	{
 		return [
-			'id'      => $this->getPlainId(),
+			'id' => $this->getPlainId(),
 			'account' => $this->getAccount()->getPlainId(),
-			'uid'     => $this->getUid(),
-			'state'   => $this->getState()->getValue(),
+			'uid' => $this->getUid(),
+			'state' => $this->getState()->getValue(),
 		];
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public function getAccount(): Entities\Accounts\IAccount
-	{
-		return $this->account;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getUid(): string
-	{
-		return $this->uid;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getState(): MetadataTypes\IdentityStateType
-	{
-		return $this->state;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setState(MetadataTypes\IdentityStateType $state): void
-	{
-		$this->state = $state;
-	}
-
-	/**
 	 * @return void
-	 *
-	 * @throws Throwable
 	 *
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
 	 */
@@ -281,7 +245,7 @@ class Identity implements IIdentity
 	{
 		$this->id = Uuid\Uuid::uuid4();
 		$this->createdAt = new Utils\DateTime();
-		$this->state = MetadataTypes\IdentityStateType::get(MetadataTypes\IdentityStateType::STATE_ACTIVE);
+		$this->state = MetadataTypes\IdentityState::get(MetadataTypes\IdentityState::STATE_ACTIVE);
 	}
 
 }

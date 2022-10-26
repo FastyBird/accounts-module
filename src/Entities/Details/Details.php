@@ -13,14 +13,13 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\AccountsModule\Entities\Details;
+namespace FastyBird\Module\Accounts\Entities\Details;
 
 use Doctrine\ORM\Mapping as ORM;
-use FastyBird\AccountsModule\Entities;
+use FastyBird\Module\Accounts\Entities;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
-use Throwable;
 
 /**
  * @ORM\Entity
@@ -33,7 +32,9 @@ use Throwable;
  *     }
  * )
  */
-class Details implements IDetails
+class Details implements Entities\Entity,
+	DoctrineTimestampable\Entities\IEntityCreated,
+	DoctrineTimestampable\Entities\IEntityUpdated
 {
 
 	use Entities\TEntity;
@@ -41,8 +42,6 @@ class Details implements IDetails
 	use DoctrineTimestampable\Entities\TEntityUpdated;
 
 	/**
-	 * @var Uuid\UuidInterface
-	 *
 	 * @ORM\Id
 	 * @ORM\Column(type="uuid_binary", name="detail_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
@@ -50,51 +49,37 @@ class Details implements IDetails
 	protected Uuid\UuidInterface $id;
 
 	/**
-	 * @var Entities\Accounts\IAccount
-	 *
-	 * @ORM\OneToOne(targetEntity="FastyBird\AccountsModule\Entities\Accounts\Account", inversedBy="details")
-	 * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id", unique=true, onDelete="cascade", nullable=false)
-	 *
 	 * @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.WriteOnlyProperty
+	 *
+	 * @ORM\OneToOne(targetEntity="FastyBird\Module\Accounts\Entities\Accounts\Account", inversedBy="details")
+	 * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id", unique=true, onDelete="cascade", nullable=false)
 	 */
-	private Entities\Accounts\IAccount $account;
+	private Entities\Accounts\Account $account;
 
 	/**
-	 * @var string
-	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="detail_first_name", length=100, nullable=false)
 	 */
 	private string $firstName;
 
 	/**
-	 * @var string
-	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="detail_last_name", length=100, nullable=false)
 	 */
 	private string $lastName;
 
 	/**
-	 * @var string|null
-	 *
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="string", name="detail_middle_name", length=100, nullable=true, options={"default": null})
 	 */
-	private ?string $middleName = null;
+	private string|null $middleName = null;
 
-	/**
-	 * @param Entities\Accounts\IAccount $account
-	 * @param string $firstName
-	 * @param string $lastName
-	 *
-	 * @throws Throwable
-	 */
 	public function __construct(
-		Entities\Accounts\IAccount $account,
+		Entities\Accounts\Account $account,
 		string $firstName,
-		string $lastName
-	) {
+		string $lastName,
+	)
+	{
 		$this->id = Uuid\Uuid::uuid4();
 
 		$this->account = $account;
@@ -103,57 +88,48 @@ class Details implements IDetails
 		$this->setLastName($lastName);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getFirstName(): string
 	{
 		return $this->firstName;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setFirstName(string $firstName): void
 	{
 		$this->firstName = $firstName;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getLastName(): string
 	{
 		return $this->lastName;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setLastName(string $lastName): void
 	{
 		$this->lastName = $lastName;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getMiddleName(): ?string
+	public function getMiddleName(): string|null
 	{
 		return $this->middleName;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setMiddleName(?string $middleName): void
+	public function setMiddleName(string|null $middleName): void
 	{
 		$this->middleName = $middleName;
 	}
 
 	/**
-	 * @return string
+	 * {@inheritDoc}
 	 */
+	public function toArray(): array
+	{
+		return [
+			'first_name' => $this->getFirstName(),
+			'last_name' => $this->getLastName(),
+			'middle_name' => $this->getMiddleName(),
+		];
+	}
+
 	public function __toString(): string
 	{
 		return $this->firstName . ' ' . $this->lastName;

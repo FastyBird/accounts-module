@@ -13,13 +13,18 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\AccountsModule\Helpers;
+namespace FastyBird\Module\Accounts\Helpers;
 
 use DateTimeImmutable;
 use Exception;
 use FastyBird\DateTimeFactory;
 use Nette;
 use Nette\Utils;
+use function assert;
+use function base64_decode;
+use function base64_encode;
+use function count;
+use function explode;
 
 /**
  * Verification hash helper
@@ -36,24 +41,14 @@ final class SecurityHash
 
 	private const SEPARATOR = '##';
 
-	/** @var DateTimeFactory\DateTimeFactory */
-	private DateTimeFactory\DateTimeFactory $dateTimeFactory;
-
-	public function __construct(
-		DateTimeFactory\DateTimeFactory $dateTimeFactory
-	) {
-		$this->dateTimeFactory = $dateTimeFactory;
+	public function __construct(private readonly DateTimeFactory\Factory $dateTimeFactory)
+	{
 	}
 
-	/**
-	 * @param string $interval
-	 *
-	 * @return string
-	 */
 	public function createKey(string $interval = '+ 1 hour'): string
 	{
-		/** @var DateTimeImmutable $now */
 		$now = $this->dateTimeFactory->getNow();
+		assert($now instanceof DateTimeImmutable);
 
 		$datetime = $now->modify($interval);
 
@@ -61,10 +56,6 @@ final class SecurityHash
 	}
 
 	/**
-	 * @param string $key
-	 *
-	 * @return bool
-	 *
 	 * @throws Exception
 	 */
 	public function isValid(string $key): bool

@@ -13,9 +13,10 @@
  * @date           15.07.20
  */
 
-namespace FastyBird\AccountsModule\Security;
+namespace FastyBird\Module\Accounts\Security;
 
-use FastyBird\AccountsModule\Entities;
+use FastyBird\Module\Accounts\Entities;
+use FastyBird\Module\Accounts\Exceptions;
 use FastyBird\SimpleAuth\Models as SimpleAuthModels;
 use FastyBird\SimpleAuth\Queries as SimpleAuthQueries;
 use FastyBird\SimpleAuth\Security as SimpleAuthSecurity;
@@ -33,33 +34,26 @@ class IdentityFactory implements SimpleAuthSecurity\IIdentityFactory
 {
 
 	/**
-	 * @var SimpleAuthModels\Tokens\ITokenRepository
-	 *
-	 * @phpstan-var SimpleAuthModels\Tokens\ITokenRepository<Entities\Tokens\AccessToken>
-	 */
-	private SimpleAuthModels\Tokens\ITokenRepository $tokenRepository;
-
-	/**
-	 * @phpstan-param SimpleAuthModels\Tokens\ITokenRepository<Entities\Tokens\AccessToken> $tokenRepository
+	 * @phpstan-param SimpleAuthModels\Tokens\TokenRepository<Entities\Tokens\AccessToken> $tokenRepository
 	 */
 	public function __construct(
-		SimpleAuthModels\Tokens\ITokenRepository $tokenRepository
-	) {
-		$this->tokenRepository = $tokenRepository;
+		private readonly SimpleAuthModels\Tokens\TokenRepository $tokenRepository,
+	)
+	{
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws Exceptions\InvalidState
 	 */
-	public function create(JWT\Token $token): ?SimpleAuthSecurity\IIdentity
+	public function create(JWT\Token $token): SimpleAuthSecurity\IIdentity|null
 	{
-		/** @phpstan-var SimpleAuthQueries\FindTokensQuery<Entities\Tokens\AccessToken> $findToken */
-		$findToken = new SimpleAuthQueries\FindTokensQuery();
+		/** @phpstan-var SimpleAuthQueries\FindTokens<Entities\Tokens\AccessToken> $findToken */
+		$findToken = new SimpleAuthQueries\FindTokens();
 		$findToken->byToken($token->toString());
 
 		$accessToken = $this->tokenRepository->findOneBy($findToken, Entities\Tokens\AccessToken::class);
 
-		if ($accessToken instanceof Entities\Tokens\IAccessToken) {
+		if ($accessToken instanceof Entities\Tokens\AccessToken) {
 			return $accessToken->getIdentity();
 		}
 

@@ -13,12 +13,15 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\AccountsModule\Models\Emails;
+namespace FastyBird\Module\Accounts\Models\Emails;
 
-use FastyBird\AccountsModule\Entities;
-use IPub\DoctrineCrud\Crud;
+use FastyBird\Module\Accounts\Entities;
+use FastyBird\Module\Accounts\Models;
+use IPub\DoctrineCrud\Crud as DoctrineCrudCrud;
+use IPub\DoctrineCrud\Exceptions as DoctrineCrudExceptions;
 use Nette;
 use Nette\Utils;
+use function assert;
 
 /**
  * Accounts emails address entities manager
@@ -28,68 +31,48 @@ use Nette\Utils;
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-final class EmailsManager implements IEmailsManager
+final class EmailsManager
 {
 
 	use Nette\SmartObject;
 
 	/**
-	 * @var Crud\IEntityCrud
-	 *
-	 * @phpstan-var Crud\IEntityCrud<Entities\Emails\IEmail>
+	 * @param DoctrineCrudCrud\IEntityCrud<Entities\Emails\Email> $entityCrud
 	 */
-	private Crud\IEntityCrud $entityCrud;
-
-	/**
-	 * @phpstan-param Crud\IEntityCrud<Entities\Emails\IEmail> $entityCrud
-	 */
-	public function __construct(
-		Crud\IEntityCrud $entityCrud
-	) {
+	public function __construct(private readonly DoctrineCrudCrud\IEntityCrud $entityCrud)
+	{
 		// Entity CRUD for handling entities
-		$this->entityCrud = $entityCrud;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function create(
-		Utils\ArrayHash $values
-	): Entities\Emails\IEmail {
-		// Get entity creator
-		$creator = $this->entityCrud->getEntityCreator();
-
-		/** @var Entities\Emails\IEmail $entity */
-		$entity = $creator->create($values);
+	public function create(Utils\ArrayHash $values): Entities\Emails\Email
+	{
+		$entity = $this->entityCrud->getEntityCreator()->create($values);
+		assert($entity instanceof Entities\Emails\Email);
 
 		return $entity;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws DoctrineCrudExceptions\InvalidArgumentException
 	 */
 	public function update(
-		Entities\Emails\IEmail $entity,
-		Utils\ArrayHash $values
-	): Entities\Emails\IEmail {
-		// Get entity updater
-		$updater = $this->entityCrud->getEntityUpdater();
-
-		/** @var Entities\Emails\IEmail $entity */
-		$entity = $updater->update($values, $entity);
+		Entities\Emails\Email $entity,
+		Utils\ArrayHash $values,
+	): Entities\Emails\Email
+	{
+		$entity = $this->entityCrud->getEntityUpdater()->update($values, $entity);
+		assert($entity instanceof Entities\Emails\Email);
 
 		return $entity;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws DoctrineCrudExceptions\InvalidArgumentException
 	 */
-	public function delete(
-		Entities\Emails\IEmail $entity
-	): bool {
+	public function delete(Entities\Emails\Email $entity): bool
+	{
 		// Delete entity from database
-		return $this->entityCrud->getEntityDeleter()
-			->delete($entity);
+		return $this->entityCrud->getEntityDeleter()->delete($entity);
 	}
 
 }

@@ -13,16 +13,17 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\AccountsModule\Entities\Roles;
+namespace FastyBird\Module\Accounts\Entities\Roles;
 
 use Doctrine\Common;
 use Doctrine\ORM\Mapping as ORM;
-use FastyBird\AccountsModule\Entities;
+use FastyBird\Module\Accounts\Entities;
 use FastyBird\SimpleAuth\Constants as SimpleAuthConstants;
 use IPub\DoctrineCrud\Mapping\Annotation as IPubDoctrine;
 use IPub\DoctrineTimestampable;
 use Ramsey\Uuid;
-use Throwable;
+use function array_map;
+use function in_array;
 
 /**
  * @ORM\Entity
@@ -38,7 +39,9 @@ use Throwable;
  *     }
  * )
  */
-class Role implements IRole
+class Role implements Entities\Entity,
+	DoctrineTimestampable\Entities\IEntityCreated,
+	DoctrineTimestampable\Entities\IEntityUpdated
 {
 
 	use Entities\TEntity;
@@ -46,58 +49,42 @@ class Role implements IRole
 	use DoctrineTimestampable\Entities\TEntityUpdated;
 
 	/**
-	 * @var Uuid\UuidInterface
-	 *
 	 * @ORM\Id
 	 * @ORM\Column(type="uuid_binary", name="role_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
 	protected Uuid\UuidInterface $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(type="string", name="role_name", length=100, nullable=false)
-	 */
+	/** @ORM\Column(type="string", name="role_name", length=100, nullable=false) */
 	private string $name;
 
 	/**
-	 * @var string
-	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="text", name="role_comment", nullable=false)
 	 */
 	private string $comment;
 
 	/**
-	 * @var IRole|null
-	 *
 	 * @IPubDoctrine\Crud(is="writable")
-	 * @ORM\ManyToOne(targetEntity="FastyBird\AccountsModule\Entities\Roles\Role", inversedBy="children")
+	 * @ORM\ManyToOne(targetEntity="FastyBird\Module\Accounts\Entities\Roles\Role", inversedBy="children")
 	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="role_id", nullable=true, onDelete="set null")
 	 */
-	private ?IRole $parent = null;
+	private Role|null $parent = null;
 
 	/**
-	 * @var Common\Collections\Collection<int, IRole>
+	 * @var Common\Collections\Collection<int, Role>
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
-	 * @ORM\OneToMany(targetEntity="FastyBird\AccountsModule\Entities\Roles\Role", mappedBy="parent")
+	 * @ORM\OneToMany(targetEntity="FastyBird\Module\Accounts\Entities\Roles\Role", mappedBy="parent")
 	 */
 	private Common\Collections\Collection $children;
 
-	/**
-	 * @param string $name
-	 * @param string $comment
-	 * @param Uuid\UuidInterface|null $id
-	 *
-	 * @throws Throwable
-	 */
 	public function __construct(
 		string $name,
 		string $comment,
-		?Uuid\UuidInterface $id = null
-	) {
+		Uuid\UuidInterface|null $id = null,
+	)
+	{
 		$this->id = $id ?? Uuid\Uuid::uuid4();
 
 		$this->name = $name;
@@ -106,34 +93,22 @@ class Role implements IRole
 		$this->children = new Common\Collections\ArrayCollection();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getComment(): string
 	{
 		return $this->comment;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setComment(string $comment): void
 	{
 		$this->comment = $comment;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getParent(): ?IRole
+	public function getParent(): Role|null
 	{
 		return $this->parent;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setParent(?IRole $parent = null): void
+	public function setParent(Role|null $parent = null): void
 	{
 		if ($parent !== null) {
 			$parent->addChild($this);
@@ -142,10 +117,7 @@ class Role implements IRole
 		$this->parent = $parent;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function addChild(IRole $child): void
+	public function addChild(Role $child): void
 	{
 		// Check if collection does not contain inserting entity
 		if (!$this->children->contains($child)) {
@@ -155,7 +127,7 @@ class Role implements IRole
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @return array<Role>
 	 */
 	public function getChildren(): array
 	{
@@ -163,41 +135,28 @@ class Role implements IRole
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @phpstan-param array<Role> $children
 	 */
 	public function setChildren(array $children): void
 	{
 		$this->children = new Common\Collections\ArrayCollection();
 
-		// Process all passed entities...
-		/** @var IRole $entity */
 		foreach ($children as $entity) {
-			if (!$this->children->contains($entity)) {
-				// ...and assign them to collection
-				$this->children->add($entity);
-			}
+			$this->children->add($entity);
 		}
 
-		/** @var IRole $entity */
 		foreach ($this->children as $entity) {
 			if (!in_array($entity, $children, true)) {
-				// ...and remove it from collection
 				$this->children->removeElement($entity);
 			}
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isAnonymous(): bool
 	{
 		return $this->name === SimpleAuthConstants::ROLE_ANONYMOUS;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isAuthenticated(): bool
 	{
 		return in_array($this->name, [
@@ -207,38 +166,44 @@ class Role implements IRole
 		], true);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isAdministrator(): bool
 	{
 		return $this->name === SimpleAuthConstants::ROLE_ADMINISTRATOR;
 	}
 
-	/**
-	 * Convert role object to string
-	 *
-	 * @return string
-	 */
-	public function __toString(): string
-	{
-		return $this->getName();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setName(string $name): void
 	{
 		$this->name = $name;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function toArray(): array
+	{
+		return [
+			'id' => $this->getPlainId(),
+			'name' => $this->getName(),
+			'comment' => $this->getComment(),
+			'is_administrator' => $this->isAdministrator(),
+			'is_authenticated' => $this->isAuthenticated(),
+			'is_anonymous' => $this->isAnonymous(),
+			'parent' => $this->getParent()?->getPlainId(),
+			'children' => array_map(static fn (Role $role): string => $role->getPlainId(), $this->getChildren()),
+		];
+	}
+
+	/**
+	 * Convert role object to string
+	 */
+	public function __toString(): string
+	{
+		return $this->getName();
 	}
 
 }
