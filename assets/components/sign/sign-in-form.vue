@@ -8,22 +8,43 @@
 			name="uid"
 		/>
 	</fb-ui-content>
+
+	<fb-ui-content :mb="FbSizeTypes.MEDIUM">
+		<fb-form-input
+			v-model="password"
+			:error="passwordError"
+			:label="t('fields.identity.password.title')"
+			:required="true"
+			:type="FbFormInputTypeTypes.PASSWORD"
+			name="password"
+		/>
+	</fb-ui-content>
+
+	<fb-ui-content :mb="FbSizeTypes.MEDIUM">
+		<fb-form-checkbox
+			v-model="persistent"
+			:option="true"
+			name="persistent"
+		>
+			{{ t('fields.persistent.title') }}
+		</fb-form-checkbox>
+	</fb-ui-content>
 </template>
 
 <script setup lang="ts">
 import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useField, useForm } from 'vee-validate';
-import * as yup from 'yup';
+import { useForm, useField } from 'vee-validate';
+import { object as yObject, string as yString, boolean as yBoolean } from 'yup';
 import get from 'lodash/get';
 
-import { FbFormInput, FbFormResultTypes, FbSizeTypes, FbUiContent } from '@fastybird/web-ui-library';
+import { FbUiContent, FbFormInput, FbFormCheckbox, FbFormInputTypeTypes, FbSizeTypes, FbFormResultTypes } from '@fastybird/web-ui-library';
 
-import { useAccount } from '@/models';
+import { useSession } from '@/models';
 import { useFlashMessage } from '@/composables';
-import { IResetPasswordForm, IResetPasswordProps } from '@/components/sign/reset-password-form.types';
+import { ISignInForm, ISignInProps } from '@/components/sign/sign-in-form.types';
 
-const props = withDefaults(defineProps<IResetPasswordProps>(), {
+const props = withDefaults(defineProps<ISignInProps>(), {
 	remoteFormSubmit: false,
 	remoteFormResult: FbFormResultTypes.NONE,
 	remoteFormReset: false,
@@ -38,15 +59,19 @@ const emit = defineEmits<{
 const { t } = useI18n();
 const flashMessage = useFlashMessage();
 
-const accountStore = useAccount();
+const sessionStore = useSession();
 
-const { validate } = useForm<IResetPasswordForm>({
-	validationSchema: yup.object({
-		uid: yup.string().required(t('fields.identity.uid.validation.required')),
+const { validate } = useForm<ISignInForm>({
+	validationSchema: yObject({
+		uid: yString().required(t('fields.identity.uid.validation.required')),
+		password: yString().required(t('fields.identity.password.validation.required')),
+		persistent: yBoolean().default(false),
 	}),
 });
 
 const { value: uid, errorMessage: uidError, setValue: setUid } = useField<string>('uid');
+const { value: password, errorMessage: passwordError, setValue: setPassword } = useField<string>('password');
+const { value: persistent, setValue: setPersistent } = useField<boolean>('persistent');
 
 watch(
 	(): boolean => props.remoteFormSubmit,
@@ -60,13 +85,13 @@ watch(
 				emit('update:remoteFormResult', FbFormResultTypes.WORKING);
 
 				try {
-					await accountStore.requestReset({ uid: uid.value });
+					await sessionStore.create({ uid: uid.value, password: password.value });
 
 					emit('update:remoteFormResult', FbFormResultTypes.OK);
 				} catch (e: any) {
 					emit('update:remoteFormResult', FbFormResultTypes.ERROR);
 
-					const errorMessage = t('messages.passwordRequestFail');
+					const errorMessage = t('messages.requestError');
 
 					if (get(e, 'exception', null) !== null) {
 						flashMessage.exception(e.exception, errorMessage);
@@ -88,6 +113,8 @@ watch(
 
 		if (val) {
 			setUid('');
+			setPassword('');
+			setPersistent(false);
 		}
 	}
 );
