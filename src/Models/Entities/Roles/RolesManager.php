@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * EmailsManager.php
+ * RolesManager.php
  *
  * @license        More in LICENSE.md
  * @copyright      https://www.fastybird.com
@@ -13,7 +13,7 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\Module\Accounts\Models\Emails;
+namespace FastyBird\Module\Accounts\Models\Entities\Roles;
 
 use FastyBird\Module\Accounts\Entities;
 use FastyBird\Module\Accounts\Models;
@@ -24,30 +24,30 @@ use Nette\Utils;
 use function assert;
 
 /**
- * Accounts emails address entities manager
+ * ACL roles entities manager
  *
  * @package        FastyBird:AccountsModule!
  * @subpackage     Models
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-final class EmailsManager
+class RolesManager
 {
 
 	use Nette\SmartObject;
 
 	/**
-	 * @param DoctrineCrudCrud\IEntityCrud<Entities\Emails\Email> $entityCrud
+	 * @param DoctrineCrudCrud\IEntityCrud<Entities\Roles\Role> $entityCrud
 	 */
 	public function __construct(private readonly DoctrineCrudCrud\IEntityCrud $entityCrud)
 	{
 		// Transformer CRUD for handling entities
 	}
 
-	public function create(Utils\ArrayHash $values): Entities\Emails\Email
+	public function create(Utils\ArrayHash $values): Entities\Roles\Role
 	{
 		$entity = $this->entityCrud->getEntityCreator()->create($values);
-		assert($entity instanceof Entities\Emails\Email);
+		assert($entity instanceof Entities\Roles\Role);
 
 		return $entity;
 	}
@@ -56,12 +56,12 @@ final class EmailsManager
 	 * @throws DoctrineCrudExceptions\InvalidArgumentException
 	 */
 	public function update(
-		Entities\Emails\Email $entity,
+		Entities\Roles\Role $entity,
 		Utils\ArrayHash $values,
-	): Entities\Emails\Email
+	): Entities\Roles\Role
 	{
 		$entity = $this->entityCrud->getEntityUpdater()->update($values, $entity);
-		assert($entity instanceof Entities\Emails\Email);
+		assert($entity instanceof Entities\Roles\Role);
 
 		return $entity;
 	}
@@ -69,7 +69,7 @@ final class EmailsManager
 	/**
 	 * @throws DoctrineCrudExceptions\InvalidArgumentException
 	 */
-	public function delete(Entities\Emails\Email $entity): bool
+	public function delete(Entities\Roles\Role $entity): bool
 	{
 		// Delete entity from database
 		return $this->entityCrud->getEntityDeleter()->delete($entity);

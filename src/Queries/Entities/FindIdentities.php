@@ -13,7 +13,7 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\Module\Accounts\Queries;
+namespace FastyBird\Module\Accounts\Queries\Entities;
 
 use Closure;
 use Doctrine\ORM;

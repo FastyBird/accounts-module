@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * IdentitiesRepository.php
+ * AccountsRepository.php
  *
  * @license        More in LICENSE.md
  * @copyright      https://www.fastybird.com
@@ -13,11 +13,10 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\Module\Accounts\Models\Identities;
+namespace FastyBird\Module\Accounts\Models\Entities\Accounts;
 
 use Doctrine\ORM;
 use Doctrine\Persistence;
-use FastyBird\Library\Metadata\Types as MetadataTypes;
 use FastyBird\Module\Accounts\Entities;
 use FastyBird\Module\Accounts\Exceptions;
 use FastyBird\Module\Accounts\Queries;
@@ -28,19 +27,19 @@ use Throwable;
 use function is_array;
 
 /**
- * Account identity facade
+ * Account repository
  *
  * @package        FastyBird:AccountsModule!
  * @subpackage     Models
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-final class IdentitiesRepository
+final class AccountsRepository
 {
 
 	use Nette\SmartObject;
 
-	/** @var ORM\EntityRepository<Entities\Identities\Identity>|null */
+	/** @var ORM\EntityRepository<Entities\Accounts\Account>|null */
 	private ORM\EntityRepository|null $repository = null;
 
 	public function __construct(
@@ -51,54 +50,26 @@ final class IdentitiesRepository
 	}
 
 	/**
-	 * @throws Exceptions\InvalidArgument
-	 * @throws Exceptions\InvalidState
-	 */
-	public function findOneForAccount(
-		Entities\Accounts\Account $account,
-	): Entities\Identities\Identity|null
-	{
-		$findQuery = new Queries\FindIdentities();
-		$findQuery->forAccount($account);
-		$findQuery->inState(MetadataTypes\IdentityState::STATE_ACTIVE);
-
-		return $this->findOneBy($findQuery);
-	}
-
-	/**
-	 * @throws Exceptions\InvalidArgument
-	 * @throws Exceptions\InvalidState
-	 */
-	public function findOneByUid(string $uid): Entities\Identities\Identity|null
-	{
-		$findQuery = new Queries\FindIdentities();
-		$findQuery->byUid($uid);
-		$findQuery->inState(MetadataTypes\IdentityState::STATE_ACTIVE);
-
-		return $this->findOneBy($findQuery);
-	}
-
-	/**
 	 * @throws Exceptions\InvalidState
 	 */
 	public function findOneBy(
-		Queries\FindIdentities $queryObject,
-	): Entities\Identities\Identity|null
+		Queries\Entities\FindAccounts $queryObject,
+	): Entities\Accounts\Account|null
 	{
 		return $this->database->query(
-			fn (): Entities\Identities\Identity|null => $queryObject->fetchOne($this->getRepository()),
+			fn (): Entities\Accounts\Account|null => $queryObject->fetchOne($this->getRepository()),
 		);
 	}
 
 	/**
-	 * @return array<Entities\Identities\Identity>
+	 * @return array<Entities\Accounts\Account>
 	 *
 	 * @throws Exceptions\InvalidState
 	 */
-	public function findAllBy(Queries\FindIdentities $queryObject): array
+	public function findAllBy(Queries\Entities\FindAccounts $queryObject): array
 	{
 		try {
-			/** @var array<Entities\Identities\Identity> $result */
+			/** @var array<Entities\Accounts\Account> $result */
 			$result = $this->getResultSet($queryObject)->toArray();
 
 			return $result;
@@ -108,12 +79,12 @@ final class IdentitiesRepository
 	}
 
 	/**
-	 * @return DoctrineOrmQuery\ResultSet<Entities\Identities\Identity>
+	 * @return DoctrineOrmQuery\ResultSet<Entities\Accounts\Account>
 	 *
 	 * @throws Exceptions\InvalidState
 	 */
 	public function getResultSet(
-		Queries\FindIdentities $queryObject,
+		Queries\Entities\FindAccounts $queryObject,
 	): DoctrineOrmQuery\ResultSet
 	{
 		$result = $this->database->query(
@@ -128,11 +99,11 @@ final class IdentitiesRepository
 	}
 
 	/**
-	 * @param class-string<Entities\Identities\Identity> $type
+	 * @param class-string<Entities\Accounts\Account> $type
 	 *
-	 * @return ORM\EntityRepository<Entities\Identities\Identity>
+	 * @return ORM\EntityRepository<Entities\Accounts\Account>
 	 */
-	private function getRepository(string $type = Entities\Identities\Identity::class): ORM\EntityRepository
+	private function getRepository(string $type = Entities\Accounts\Account::class): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
 			$this->repository = $this->managerRegistry->getRepository($type);

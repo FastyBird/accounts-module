@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * AccountsManager.php
+ * EmailsManager.php
  *
  * @license        More in LICENSE.md
  * @copyright      https://www.fastybird.com
@@ -13,7 +13,7 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\Module\Accounts\Models\Accounts;
+namespace FastyBird\Module\Accounts\Models\Entities\Emails;
 
 use FastyBird\Module\Accounts\Entities;
 use FastyBird\Module\Accounts\Models;
@@ -24,30 +24,30 @@ use Nette\Utils;
 use function assert;
 
 /**
- * Accounts entities manager
+ * Accounts emails address entities manager
  *
  * @package        FastyBird:AccountsModule!
  * @subpackage     Models
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-final class AccountsManager
+final class EmailsManager
 {
 
 	use Nette\SmartObject;
 
 	/**
-	 * @param DoctrineCrudCrud\IEntityCrud<Entities\Accounts\Account> $entityCrud
+	 * @param DoctrineCrudCrud\IEntityCrud<Entities\Emails\Email> $entityCrud
 	 */
 	public function __construct(private readonly DoctrineCrudCrud\IEntityCrud $entityCrud)
 	{
 		// Transformer CRUD for handling entities
 	}
 
-	public function create(Utils\ArrayHash $values): Entities\Accounts\Account
+	public function create(Utils\ArrayHash $values): Entities\Emails\Email
 	{
 		$entity = $this->entityCrud->getEntityCreator()->create($values);
-		assert($entity instanceof Entities\Accounts\Account);
+		assert($entity instanceof Entities\Emails\Email);
 
 		return $entity;
 	}
@@ -56,12 +56,12 @@ final class AccountsManager
 	 * @throws DoctrineCrudExceptions\InvalidArgumentException
 	 */
 	public function update(
-		Entities\Accounts\Account $entity,
+		Entities\Emails\Email $entity,
 		Utils\ArrayHash $values,
-	): Entities\Accounts\Account
+	): Entities\Emails\Email
 	{
 		$entity = $this->entityCrud->getEntityUpdater()->update($values, $entity);
-		assert($entity instanceof Entities\Accounts\Account);
+		assert($entity instanceof Entities\Emails\Email);
 
 		return $entity;
 	}
@@ -69,7 +69,7 @@ final class AccountsManager
 	/**
 	 * @throws DoctrineCrudExceptions\InvalidArgumentException
 	 */
-	public function delete(Entities\Accounts\Account $entity): bool
+	public function delete(Entities\Emails\Email $entity): bool
 	{
 		// Delete entity from database
 		return $this->entityCrud->getEntityDeleter()->delete($entity);

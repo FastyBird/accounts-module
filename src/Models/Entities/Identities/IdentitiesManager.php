@@ -13,7 +13,7 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\Module\Accounts\Models\Identities;
+namespace FastyBird\Module\Accounts\Models\Entities\Identities;
 
 use FastyBird\Module\Accounts\Entities;
 use FastyBird\Module\Accounts\Models;

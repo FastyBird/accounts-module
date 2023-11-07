@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * EmailsRepository.php
+ * IdentitiesRepository.php
  *
  * @license        More in LICENSE.md
  * @copyright      https://www.fastybird.com
@@ -13,10 +13,11 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\Module\Accounts\Models\Emails;
+namespace FastyBird\Module\Accounts\Models\Entities\Identities;
 
 use Doctrine\ORM;
 use Doctrine\Persistence;
+use FastyBird\Library\Metadata\Types as MetadataTypes;
 use FastyBird\Module\Accounts\Entities;
 use FastyBird\Module\Accounts\Exceptions;
 use FastyBird\Module\Accounts\Queries;
@@ -27,19 +28,19 @@ use Throwable;
 use function is_array;
 
 /**
- * Account email address repository
+ * Account identity facade
  *
  * @package        FastyBird:AccountsModule!
  * @subpackage     Models
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-final class EmailsRepository
+final class IdentitiesRepository
 {
 
 	use Nette\SmartObject;
 
-	/** @var ORM\EntityRepository<Entities\Emails\Email>|null */
+	/** @var ORM\EntityRepository<Entities\Identities\Identity>|null */
 	private ORM\EntityRepository|null $repository = null;
 
 	public function __construct(
@@ -50,12 +51,29 @@ final class EmailsRepository
 	}
 
 	/**
+	 * @throws Exceptions\InvalidArgument
 	 * @throws Exceptions\InvalidState
 	 */
-	public function findOneByAddress(string $address): Entities\Emails\Email|null
+	public function findOneForAccount(
+		Entities\Accounts\Account $account,
+	): Entities\Identities\Identity|null
 	{
-		$findQuery = new Queries\FindEmails();
-		$findQuery->byAddress($address);
+		$findQuery = new Queries\Entities\FindIdentities();
+		$findQuery->forAccount($account);
+		$findQuery->inState(MetadataTypes\IdentityState::STATE_ACTIVE);
+
+		return $this->findOneBy($findQuery);
+	}
+
+	/**
+	 * @throws Exceptions\InvalidArgument
+	 * @throws Exceptions\InvalidState
+	 */
+	public function findOneByUid(string $uid): Entities\Identities\Identity|null
+	{
+		$findQuery = new Queries\Entities\FindIdentities();
+		$findQuery->byUid($uid);
+		$findQuery->inState(MetadataTypes\IdentityState::STATE_ACTIVE);
 
 		return $this->findOneBy($findQuery);
 	}
@@ -64,23 +82,23 @@ final class EmailsRepository
 	 * @throws Exceptions\InvalidState
 	 */
 	public function findOneBy(
-		Queries\FindEmails $queryObject,
-	): Entities\Emails\Email|null
+		Queries\Entities\FindIdentities $queryObject,
+	): Entities\Identities\Identity|null
 	{
 		return $this->database->query(
-			fn (): Entities\Emails\Email|null => $queryObject->fetchOne($this->getRepository()),
+			fn (): Entities\Identities\Identity|null => $queryObject->fetchOne($this->getRepository()),
 		);
 	}
 
 	/**
-	 * @return array<Entities\Emails\Email>
+	 * @return array<Entities\Identities\Identity>
 	 *
 	 * @throws Exceptions\InvalidState
 	 */
-	public function findAllBy(Queries\FindEmails $queryObject): array
+	public function findAllBy(Queries\Entities\FindIdentities $queryObject): array
 	{
 		try {
-			/** @var array<Entities\Emails\Email> $result */
+			/** @var array<Entities\Identities\Identity> $result */
 			$result = $this->getResultSet($queryObject)->toArray();
 
 			return $result;
@@ -90,12 +108,12 @@ final class EmailsRepository
 	}
 
 	/**
-	 * @return DoctrineOrmQuery\ResultSet<Entities\Emails\Email>
+	 * @return DoctrineOrmQuery\ResultSet<Entities\Identities\Identity>
 	 *
 	 * @throws Exceptions\InvalidState
 	 */
 	public function getResultSet(
-		Queries\FindEmails $queryObject,
+		Queries\Entities\FindIdentities $queryObject,
 	): DoctrineOrmQuery\ResultSet
 	{
 		$result = $this->database->query(
@@ -110,11 +128,11 @@ final class EmailsRepository
 	}
 
 	/**
-	 * @param class-string<Entities\Emails\Email> $type
+	 * @param class-string<Entities\Identities\Identity> $type
 	 *
-	 * @return ORM\EntityRepository<Entities\Emails\Email>
+	 * @return ORM\EntityRepository<Entities\Identities\Identity>
 	 */
-	private function getRepository(string $type = Entities\Emails\Email::class): ORM\EntityRepository
+	private function getRepository(string $type = Entities\Identities\Identity::class): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
 			$this->repository = $this->managerRegistry->getRepository($type);

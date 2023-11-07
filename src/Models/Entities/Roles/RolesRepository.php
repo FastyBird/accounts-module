@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * AccountsRepository.php
+ * RolesRepository.php
  *
  * @license        More in LICENSE.md
  * @copyright      https://www.fastybird.com
@@ -13,7 +13,7 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\Module\Accounts\Models\Accounts;
+namespace FastyBird\Module\Accounts\Models\Entities\Roles;
 
 use Doctrine\ORM;
 use Doctrine\Persistence;
@@ -27,19 +27,19 @@ use Throwable;
 use function is_array;
 
 /**
- * Account repository
+ * ACL role repository
  *
  * @package        FastyBird:AccountsModule!
  * @subpackage     Models
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-final class AccountsRepository
+final class RolesRepository
 {
 
 	use Nette\SmartObject;
 
-	/** @var ORM\EntityRepository<Entities\Accounts\Account>|null */
+	/** @var ORM\EntityRepository<Entities\Roles\Role>|null */
 	private ORM\EntityRepository|null $repository = null;
 
 	public function __construct(
@@ -52,24 +52,35 @@ final class AccountsRepository
 	/**
 	 * @throws Exceptions\InvalidState
 	 */
+	public function findOneByName(string $keyName): Entities\Roles\Role|null
+	{
+		$findQuery = new Queries\Entities\FindRoles();
+		$findQuery->byName($keyName);
+
+		return $this->findOneBy($findQuery);
+	}
+
+	/**
+	 * @throws Exceptions\InvalidState
+	 */
 	public function findOneBy(
-		Queries\FindAccounts $queryObject,
-	): Entities\Accounts\Account|null
+		Queries\Entities\FindRoles $queryObject,
+	): Entities\Roles\Role|null
 	{
 		return $this->database->query(
-			fn (): Entities\Accounts\Account|null => $queryObject->fetchOne($this->getRepository()),
+			fn (): Entities\Roles\Role|null => $queryObject->fetchOne($this->getRepository()),
 		);
 	}
 
 	/**
-	 * @return array<Entities\Accounts\Account>
+	 * @return array<Entities\Roles\Role>
 	 *
 	 * @throws Exceptions\InvalidState
 	 */
-	public function findAllBy(Queries\FindAccounts $queryObject): array
+	public function findAllBy(Queries\Entities\FindRoles $queryObject): array
 	{
 		try {
-			/** @var array<Entities\Accounts\Account> $result */
+			/** @var array<Entities\Roles\Role> $result */
 			$result = $this->getResultSet($queryObject)->toArray();
 
 			return $result;
@@ -79,12 +90,12 @@ final class AccountsRepository
 	}
 
 	/**
-	 * @return DoctrineOrmQuery\ResultSet<Entities\Accounts\Account>
+	 * @return DoctrineOrmQuery\ResultSet<Entities\Roles\Role>
 	 *
 	 * @throws Exceptions\InvalidState
 	 */
 	public function getResultSet(
-		Queries\FindAccounts $queryObject,
+		Queries\Entities\FindRoles $queryObject,
 	): DoctrineOrmQuery\ResultSet
 	{
 		$result = $this->database->query(
@@ -99,11 +110,11 @@ final class AccountsRepository
 	}
 
 	/**
-	 * @param class-string<Entities\Accounts\Account> $type
+	 * @param class-string<Entities\Roles\Role> $type
 	 *
-	 * @return ORM\EntityRepository<Entities\Accounts\Account>
+	 * @return ORM\EntityRepository<Entities\Roles\Role>
 	 */
-	private function getRepository(string $type = Entities\Accounts\Account::class): ORM\EntityRepository
+	private function getRepository(string $type = Entities\Roles\Role::class): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
 			$this->repository = $this->managerRegistry->getRepository($type);

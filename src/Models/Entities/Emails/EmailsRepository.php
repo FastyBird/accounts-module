@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * RolesRepository.php
+ * EmailsRepository.php
  *
  * @license        More in LICENSE.md
  * @copyright      https://www.fastybird.com
@@ -13,7 +13,7 @@
  * @date           30.03.20
  */
 
-namespace FastyBird\Module\Accounts\Models\Roles;
+namespace FastyBird\Module\Accounts\Models\Entities\Emails;
 
 use Doctrine\ORM;
 use Doctrine\Persistence;
@@ -27,19 +27,19 @@ use Throwable;
 use function is_array;
 
 /**
- * ACL role repository
+ * Account email address repository
  *
  * @package        FastyBird:AccountsModule!
  * @subpackage     Models
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-final class RolesRepository
+final class EmailsRepository
 {
 
 	use Nette\SmartObject;
 
-	/** @var ORM\EntityRepository<Entities\Roles\Role>|null */
+	/** @var ORM\EntityRepository<Entities\Emails\Email>|null */
 	private ORM\EntityRepository|null $repository = null;
 
 	public function __construct(
@@ -52,10 +52,10 @@ final class RolesRepository
 	/**
 	 * @throws Exceptions\InvalidState
 	 */
-	public function findOneByName(string $keyName): Entities\Roles\Role|null
+	public function findOneByAddress(string $address): Entities\Emails\Email|null
 	{
-		$findQuery = new Queries\FindRoles();
-		$findQuery->byName($keyName);
+		$findQuery = new Queries\Entities\FindEmails();
+		$findQuery->byAddress($address);
 
 		return $this->findOneBy($findQuery);
 	}
@@ -64,23 +64,23 @@ final class RolesRepository
 	 * @throws Exceptions\InvalidState
 	 */
 	public function findOneBy(
-		Queries\FindRoles $queryObject,
-	): Entities\Roles\Role|null
+		Queries\Entities\FindEmails $queryObject,
+	): Entities\Emails\Email|null
 	{
 		return $this->database->query(
-			fn (): Entities\Roles\Role|null => $queryObject->fetchOne($this->getRepository()),
+			fn (): Entities\Emails\Email|null => $queryObject->fetchOne($this->getRepository()),
 		);
 	}
 
 	/**
-	 * @return array<Entities\Roles\Role>
+	 * @return array<Entities\Emails\Email>
 	 *
 	 * @throws Exceptions\InvalidState
 	 */
-	public function findAllBy(Queries\FindRoles $queryObject): array
+	public function findAllBy(Queries\Entities\FindEmails $queryObject): array
 	{
 		try {
-			/** @var array<Entities\Roles\Role> $result */
+			/** @var array<Entities\Emails\Email> $result */
 			$result = $this->getResultSet($queryObject)->toArray();
 
 			return $result;
@@ -90,12 +90,12 @@ final class RolesRepository
 	}
 
 	/**
-	 * @return DoctrineOrmQuery\ResultSet<Entities\Roles\Role>
+	 * @return DoctrineOrmQuery\ResultSet<Entities\Emails\Email>
 	 *
 	 * @throws Exceptions\InvalidState
 	 */
 	public function getResultSet(
-		Queries\FindRoles $queryObject,
+		Queries\Entities\FindEmails $queryObject,
 	): DoctrineOrmQuery\ResultSet
 	{
 		$result = $this->database->query(
@@ -110,11 +110,11 @@ final class RolesRepository
 	}
 
 	/**
-	 * @param class-string<Entities\Roles\Role> $type
+	 * @param class-string<Entities\Emails\Email> $type
 	 *
-	 * @return ORM\EntityRepository<Entities\Roles\Role>
+	 * @return ORM\EntityRepository<Entities\Emails\Email>
 	 */
-	private function getRepository(string $type = Entities\Roles\Role::class): ORM\EntityRepository
+	private function getRepository(string $type = Entities\Emails\Email::class): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
 			$this->repository = $this->managerRegistry->getRepository($type);

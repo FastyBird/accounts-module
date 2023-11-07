@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * FindEmails.php
+ * FindRoles.php
  *
  * @license        More in LICENSE.md
  * @copyright      https://www.fastybird.com
@@ -10,10 +10,10 @@
  * @subpackage     Queries
  * @since          1.0.0
  *
- * @date           30.03.20
+ * @date           31.03.20
  */
 
-namespace FastyBird\Module\Accounts\Queries;
+namespace FastyBird\Module\Accounts\Queries\Entities;
 
 use Closure;
 use Doctrine\ORM;
@@ -22,15 +22,15 @@ use IPub\DoctrineOrmQuery;
 use Ramsey\Uuid;
 
 /**
- * Find accounts entities query
+ * Find roles entities query
  *
- * @extends  DoctrineOrmQuery\QueryObject<Entities\Emails\Email>
+ * @extends  DoctrineOrmQuery\QueryObject<Entities\Roles\Role>
  *
  * @package          FastyBird:AccountsModule!
  * @subpackage       Queries
  * @author           Adam Kadlec <adam.kadlec@fastybird.com>
  */
-class FindEmails extends DoctrineOrmQuery\QueryObject
+class FindRoles extends DoctrineOrmQuery\QueryObject
 {
 
 	/** @var array<Closure(ORM\QueryBuilder $qb): void> */
@@ -42,33 +42,33 @@ class FindEmails extends DoctrineOrmQuery\QueryObject
 	public function byId(Uuid\UuidInterface $id): void
 	{
 		$this->filter[] = static function (ORM\QueryBuilder $qb) use ($id): void {
-			$qb->andWhere('e.id = :id')
+			$qb->andWhere('r.id = :id')
 				->setParameter('id', $id->getBytes());
 		};
 	}
 
-	public function byAddress(string $address): void
+	public function byName(string $name): void
 	{
-		$this->filter[] = static function (ORM\QueryBuilder $qb) use ($address): void {
-			$qb->andWhere('e.address = :address')
-				->setParameter('address', $address);
+		$this->filter[] = static function (ORM\QueryBuilder $qb) use ($name): void {
+			$qb->andWhere('r.name = :name')
+				->setParameter('name', $name);
 		};
 	}
 
-	public function forAccount(Entities\Accounts\Account $account): void
+	public function forParent(Entities\Roles\Role $role): void
 	{
 		$this->select[] = static function (ORM\QueryBuilder $qb): void {
-			$qb->join('e.account', 'account');
+			$qb->join('r.parent', 'parent');
 		};
 
-		$this->filter[] = static function (ORM\QueryBuilder $qb) use ($account): void {
-			$qb->andWhere('account.id = :account')
-				->setParameter('account', $account->getId(), Uuid\Doctrine\UuidBinaryType::NAME);
+		$this->filter[] = static function (ORM\QueryBuilder $qb) use ($role): void {
+			$qb->andWhere('parent.id = :parent')
+				->setParameter('parent', $role->getId(), Uuid\Doctrine\UuidBinaryType::NAME);
 		};
 	}
 
 	/**
-	 * @phpstan-param ORM\EntityRepository<Entities\Emails\Email> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Roles\Role> $repository
 	 */
 	protected function doCreateQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
@@ -76,11 +76,11 @@ class FindEmails extends DoctrineOrmQuery\QueryObject
 	}
 
 	/**
-	 * @phpstan-param ORM\EntityRepository<Entities\Emails\Email> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Roles\Role> $repository
 	 */
 	private function createBasicDql(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
-		$qb = $repository->createQueryBuilder('e');
+		$qb = $repository->createQueryBuilder('r');
 
 		foreach ($this->select as $modifier) {
 			$modifier($qb);
@@ -94,12 +94,12 @@ class FindEmails extends DoctrineOrmQuery\QueryObject
 	}
 
 	/**
-	 * @phpstan-param ORM\EntityRepository<Entities\Emails\Email> $repository
+	 * @phpstan-param ORM\EntityRepository<Entities\Roles\Role> $repository
 	 */
 	protected function doCreateCountQuery(ORM\EntityRepository $repository): ORM\QueryBuilder
 	{
 		return $this->createBasicDql($repository)
-			->select('COUNT(e.id)');
+			->select('COUNT(r.id)');
 	}
 
 }
