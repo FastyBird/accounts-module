@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * EmailVisibility.php
+ * AccountState.php
  *
  * @license        More in LICENSE.md
  * @copyright      https://www.fastybird.com
@@ -16,18 +16,36 @@
 namespace FastyBird\Module\Accounts\Types;
 
 /**
- * Email visibility types
+ * Account state type
  *
  * @package        FastyBird:AccountsModule!
  * @subpackage     Types
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-enum EmailVisibility: string
+enum AccountState: string
 {
 
-	case PUBLIC = 'public';
+	case ACTIVE = 'active';
 
-	case PRIVATE = 'private';
+	case BLOCKED = 'blocked';
+
+	case DELETED = 'deleted';
+
+	case NOT_ACTIVATED = 'not_activated';
+
+	case APPROVAL_WAITING = 'approval_waiting';
+
+	/**
+	 * @return array<self>
+	 */
+	public static function getAllowed(): array
+	{
+		return [
+			self::ACTIVE,
+			self::BLOCKED,
+			self::DELETED,
+		];
+	}
 
 }
